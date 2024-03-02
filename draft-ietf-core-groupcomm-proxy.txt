@@ -184,7 +184,7 @@ Table of Contents
    server.  Also, the client signals for how long it is willing to wait
    for responses.  When relaying to the client a response to the group
    request, the proxy indicates the addressing information of the origin
-   server.  This enables the client to distinguish, multiple diffent
+   server.  This enables the client to distinguish multiple different
    responses by origin and to possibly contact one or more of the
    respective servers by sending individual unicast request(s) to the
    indicated address(es).  In doing these follow-up unicast requests,
@@ -586,8 +586,8 @@ Table of Contents
    Upon receiving the request from the client, the proxy proceeds
    according to the following steps.
 
-   1.  The proxy decrypts the request, according to the security
-       association it has with the client.
+   1.  The proxy decrypts and verifies the request, according to the
+       security association it has with the client.
 
    2.  The proxy identifies the client, and verifies that the client is
        in fact allowed-listed to have its requests proxied to CoAP group
@@ -728,12 +728,12 @@ Table of Contents
    *  The proxy frees up its Token value used for a group observation
       only if, after the timeout expiration, no 2.xx (Success) responses
       matching with the group request and also including an Observe
-      option have been received from any origin server.  After that, as
-      long as observations are active with servers in the group for the
-      target resource of the group request, notifications from those
-      servers are forwarded back to the client, as defined in
-      Section 5.4, and the Token value used for the group observation is
-      not freed during this time.
+      option have been received from any origin server.  Otherwise,
+      after the timeout expiration and as long as observations are
+      active with servers in the group for the target resource of the
+      group request, notifications from those servers are forwarded back
+      to the client, as defined in Section 5.4, and the Token value used
+      for the group observation is not freed during this time.
 
    Finally, the proxy SHOULD regularly verify that the client is still
    interested in receiving observe notifications for a group
@@ -756,8 +756,8 @@ Table of Contents
 
    1.  The client processes the response as defined in
        [I-D.ietf-core-groupcomm-bis].  When doing so, the client
-       decrypts the response according to the security association it
-       has with the proxy.
+       decrypts and verifies the response according to the security
+       association it has with the proxy.
 
    2.  If secure group communication is used end-to-end between the
        client and the servers, the client processes the response
@@ -797,19 +797,20 @@ Table of Contents
    possible that the client receives multiple responses to the same
    group request, i.e., with the same Token, from the same origin
    server.  The client normally processes at the CoAP layer each of
-   those responses from the same origin server, and decides how to
-   exactly handle them depending on its available context information
-   (see Section 3.1.6 of [I-D.ietf-core-groupcomm-bis]).
+   those responses from the same origin server, and decides at the
+   application layer how to exactly handle them depending on its
+   available context information (see Section 3.1.6 of
+   [I-D.ietf-core-groupcomm-bis]).
 
    Upon the timeout expiration, i.e., T seconds after having sent the
    original unicast request to the proxy, the client frees up its local
    Token value associated with that request.  Note that, upon this
    timeout expiration, the Token value is not eligible for possible
    reuse yet (see Section 5.1.1).  Thus, until the actual amount of time
-   before enabling Token reusage has elapsed, any following late
-   responses to the same request forwarded by the proxy will be
-   discarded, as these are not matching (by Token) with any active
-   request from the client.
+   before enabling Token reusage has elapsed, following late responses
+   to the same request forwarded by the proxy will be discarded, as
+   these are not matching (by Token) with any active request from the
+   client.
 
 5.5.2.  Supporting Observe
 
@@ -919,7 +920,7 @@ Table of Contents
       communicating with a reverse-proxy, and for how long it is willing
       to receive responses to a proxied group request.
 
-   This practically addresses the addional issues compared to the case
+   This practically addresses the additional issues compared to the case
    with a forward-proxy, as compiled in Section 3.5.2 of
    [I-D.ietf-core-groupcomm-bis].  A reverse-proxy may also operate
    without support of the Multicast-Timeout Option, as defined in that
@@ -1084,7 +1085,7 @@ Table of Contents
    The specific way that the proxy uses to determine the CoAP servers
    currently members of the target CoAP group is out of scope for this
    document.  As possible examples, the proxy can synchronize with a
-   group manager server; rely on well-known time patterns used in the
+   group manager server; rely on well-known time patterns used by the
    application or in the network for the addition of new CoAP group
    members; observe group join requests or IGMP/MLD multicast group join
    messages, e.g., if embedded in a multicast router.
@@ -1302,8 +1303,8 @@ Table of Contents
 
    The proxy MAY perform the following actions, in case the group
    request produces a hit to the cache entry of each CoAP server
-   currently member of the CoAP group, i.e., the set J associated with
-   the group request is "complete".
+   currently member of the CoAP group, i.e., in case the set J
+   associated with the group request is "complete".
 
    *  The proxy checks whether the current entity-tag value of the set J
       matches with one of the entity-tag values specified in the Group-
@@ -1327,7 +1328,7 @@ Table of Contents
    When using Group OSCORE [I-D.ietf-core-oscore-groupcomm] to protect
    communications end-to-end between a client and multiple servers in
    the group, it is normally not possible for an intermediary proxy to
-   cache protected responses.
+   effectively cache protected responses.
 
    In fact, when starting from the same plain CoAP message, different
    clients generate different protected requests to send on the wire.
@@ -1364,8 +1365,8 @@ Table of Contents
    in Section 3.2.2 of [I-D.ietf-core-groupcomm-bis].
 
    That is, even though the servers would produce the same plain CoAP
-   responses in reply to two different Deterministic Requests, those
-   will result in different protected responses to each respective
+   responses when replying to two different Deterministic Requests,
+   those will result in different protected responses to each respective
    Deterministic Request, hence in different cache entries at the proxy.
 
    Thus, given a plain group request, a client needs to reuse the same
@@ -1421,7 +1422,7 @@ Table of Contents
    That is, these proxies are configured into a chain, where each non-
    last proxy is configured to forward (group) requests to the next hop
    towards the origin servers.  Also, each non-first proxy is configured
-   to forward back responses to (the previous hop proxy towards) the
+   to forward back responses to the previous hop proxy towards the
    origin client.
 
    This section specifies how the signaling protocol defined in
@@ -1593,11 +1594,11 @@ Table of Contents
       only if, after the timeout expiration, no 2.xx (Success) responses
       matching with the group request and also including an Observe
       option have been received from the next hop towards the origin
-      servers.  After that, as long as the observation for the target
-      resource of the group request is active with the next hop towards
-      the origin servers in the group, notifications from that hop are
-      forwarded back to the (previous hop proxy closer to the) origin
-      client, as defined in Section 8.2.
+      servers.  Otherwise, after the timeout expiration and as long as
+      the observation for the target resource of the group request is
+      active with the next hop towards the origin servers in the group,
+      notifications from that hop are forwarded back to the (previous
+      hop proxy closer to the) origin client, as defined in Section 8.2.
 
    *  The proxy SHOULD regularly verify that the (previous hop proxy
       closer to the) origin client is still interested in receiving
@@ -1832,8 +1833,8 @@ Table of Contents
    When it receives an HTTP response as a reply to the original unicast
    group request, the client proceeds as follows.
 
-   1.  The client decrypts the response, according to the security
-       association it has with the proxy.
+   1.  The client decrypts and verifies the response, according to the
+       security association it has with the proxy.
 
    2.  From the resulting HTTP batch response, the client extracts the
        different batch parts.
@@ -1847,18 +1848,19 @@ Table of Contents
        *  If Group OSCORE is used end-to-end between the client and
           servers, the client translates the HTTP response RESP into a
           CoAP response, as per Section 11.3 of [RFC8613].  Then, the
-          client decrypts the resulting CoAP response by using Group
-          OSCORE, as defined in [I-D.ietf-core-oscore-groupcomm].
-          Finally, the decrypted CoAP response is mapped to HTTP as per
-          Section 10.2 of [RFC7252] as well as [RFC8075].  The
-          additional rules for HTTP messages with the HTTP Response-
-          Forwarding header field are defined in Section 9.2.
+          client decrypts and verifies the resulting CoAP response by
+          using Group OSCORE, as defined in
+          [I-D.ietf-core-oscore-groupcomm].  Finally, the decrypted CoAP
+          response is mapped to HTTP as per Section 10.2 of [RFC7252] as
+          well as [RFC8075].  The additional rules for HTTP messages
+          with the HTTP Response-Forwarding header field are defined in
+          Section 9.2.
 
        *  The client delivers to the application the individual HTTP
           response.
 
        Similarly to step 3 in Section 5.5.1, the client identifies the
-       origin server that originated the CoAP response correspoding to
+       origin server that originated the CoAP response corresponding to
        the HTTP response RESP, by means of its addressing information
        specified as value of the HTTP Response-Forwarding header field.
        This allows the client to distinguish different individual HTTP
@@ -1934,7 +1936,7 @@ Table of Contents
 9.10.  Reverse-Proxies
 
    In case an HTTP-to-CoAP proxy acts specifically as a reverse-proxy,
-   the same principles defined in Section 6 applies, as specified below.
+   the same principles defined in Section 6 apply, as specified below.
 
 9.10.1.  Processing on the Client Side
 
@@ -1997,11 +1999,13 @@ Table of Contents
    proxy can act as external signature checker (see Section 8.5 of
    [I-D.ietf-core-oscore-groupcomm]) and authenticate the client by
    successfully verifying the signature embedded in the group request.
-   However, this requires that, for each client to authenticate, the
-   proxy stores the authentication credential and public key included
-   therin used by that client in the OSCORE group.  This in turn would
-   require a form of active synchronization between the proxy and the
-   Group Manager for that group [I-D.ietf-core-oscore-groupcomm].
+   However, this requires the proxy to store, for each client to
+   authenticate, the authentication credential that the client uses in
+   the OSCORE group and the public key included therin, and to also
+   store the authentication credential of the Group Manager responsible
+   for the OSCORE group.  This in turn would require a form of active
+   synchronization between the proxy and the Group Manager for that
+   group [I-D.ietf-core-oscore-groupcomm].
 
    Nevertheless, the client and the proxy SHOULD still rely on a full-
    fledged pairwise secure association.  In addition to ensuring the
@@ -2042,8 +2046,8 @@ Table of Contents
    adversaries would be able to simply access the option content, and
    thus learn for how long the client is willing to receive responses
    from the servers in the group via the proxy.  This may in turn be
-   used to perform a more efficient, selective suppression of responses
-   from the servers.
+   used by an on-path active adversary to perform a more efficient,
+   selective suppression of responses from the servers.
 
    When the client protects the unicast request sent to the proxy using
    OSCORE (see [I-D.ietf-core-oscore-capable-proxies]) and/or (D)TLS,
