@@ -426,7 +426,7 @@ The communication between C and P is based on CoAP over UDP, as per {{RFC7252}}.
 
 Finally, 'bstr(X)' denotes a CBOR byte string where its value is the byte serialization of X.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ aasvg
 C                          P                      S1           S2
 |                          |                      |             |
 |------------------------->|                      |             |
@@ -1212,7 +1212,7 @@ In particular:
 
 Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it is well scalable to a large number of servers Sx. The type of reverse-proxy in the example in {{sec-reverse-proxies-examples-ex2}} requires an additional IP address for each server Sx and also for each CoAP group that it supports.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ aasvg
 
 C                              P                      S1           S2
 |                              |                      |             |
@@ -1306,7 +1306,7 @@ In particular:
 
 Note that this type of reverse-proxy implementation requires the proxy to use (potentially) a large number of distinct IP addresses, hence it is not very scalable. Instead, the type of reverse-proxy shown in the example in {{sec-reverse-proxies-examples-ex1}} uses only one IPv6 unicast address to provide access to all servers and all CoAP groups.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ aasvg
 
 C                              P                      S1           S2
 |                              |                      |             |
@@ -1407,7 +1407,7 @@ However, it considers a reverse-proxy that stands in for only the whole group of
 
 The final exchange between C and S1 occurs with CoAP over UDP.
 
-~~~~~~~~~~~
+~~~~~~~~~~~ aasvg
 C                              P                      S1           S2
 |                              |                      |             |
 |----------------------------->| /* C is not aware    |             |
