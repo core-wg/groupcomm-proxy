@@ -5,11 +5,6 @@ title: Proxy Operations for CoAP Group Communication
 abbrev: Proxy Operations for Group Communication
 docname: draft-ietf-core-groupcomm-proxy-latest
 
-
-# stand_alone: true
-
-ipr: trust200902
-area: Internet
 wg: CoRE Working Group
 kw: Internet-Draft
 cat: std
@@ -17,11 +12,6 @@ submissiontype: IETF
 updates: 7252
 
 coding: utf-8
-pi:    # can use array (if all yes) or hash here
-
-  toc: yes
-  sortrefs:   # defaults to yes
-  symrefs: yes
 
 author:
       -
@@ -37,7 +27,6 @@ author:
         ins: E. Dijk
         name: Esko Dijk
         org:    IoTconsultancy.nl
-        street: \________________\
         city: Utrecht
         country: The Netherlands
         email: esko.dijk@iotconsultancy.nl
@@ -66,8 +55,7 @@ informative:
   I-D.tiloca-core-oscore-discovery:
   I-D.amsuess-core-cachable-oscore:
   I-D.ietf-ace-key-groupcomm-oscore:
-  I-D.tiloca-core-oscore-capable-proxies:
-  RFC6347:
+  I-D.ietf-core-oscore-capable-proxies:
   RFC7515:
   RFC7967:
   RFC8446:
@@ -99,7 +87,7 @@ Finally, this document defines a caching model for proxies and specifies how the
 
 ## Terminology ## {#terminology}
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
+{::boilerplate bcp14-tagged}
 
 Readers are expected to be familiar with terms and concepts defined in CoAP {{RFC7252}}, Group Communication for CoAP {{I-D.ietf-core-groupcomm-bis}}, CBOR {{RFC8949}}, OSCORE {{RFC8613}} and Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
@@ -252,9 +240,9 @@ This document assumes that the following requirements are fulfilled.
 
 * REQ2. The proxy MUST identify a client sending a unicast group request to be proxied, in order to verify whether the client is allowed-listed to do so. For example, this can rely on one of the following security associations.
 
-    * A TLS {{RFC8446}} or DTLS {{RFC6347}}{{RFC9147}} channel between the client and the proxy, where the client has been authenticated during the secure channel establishment.
+    * A TLS {{RFC8446}} or DTLS {{RFC9147}} channel between the client and the proxy, where the client has been authenticated during the secure channel establishment.
 
-    * A pairwise OSCORE {{RFC8613}} Security Context between the client and the proxy, as defined in {{I-D.tiloca-core-oscore-capable-proxies}}.
+    * A pairwise OSCORE {{RFC8613}} Security Context between the client and the proxy, as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
 
 * REQ3. If secure, end-to-end communication is required between the client and the servers in the CoAP group, exchanged messages MUST be protected by using Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}, as discussed in {{Section 5 of I-D.ietf-core-groupcomm-bis}}. This requires the client and the servers to have previously joined the correct OSCORE group, for instance by using the approach described in {{I-D.ietf-ace-key-groupcomm-oscore}}. The correct OSCORE group to join can be pre-configured or alternatively discovered, for instance by using the approach described in {{I-D.tiloca-core-oscore-discovery}}.
 
@@ -622,7 +610,7 @@ Fundamentally, this requires to define the possible use of the ETag option also 
 
 Since validation of responses assumes that cacheability of responses is possible in the first place, it would be convenient to define the use of ETag as outer option in {{I-D.amsuess-core-cachable-oscore}}.
 
-In case OSCORE is also used between the proxy and an individual origin server as per {{I-D.tiloca-core-oscore-capable-proxies}}, then the outer ETag option would be seamlessly protected with the OSCORE Security Context shared between the proxy and the origin server.
+In case OSCORE is also used between the proxy and an individual origin server as per {{I-D.ietf-core-oscore-capable-proxies}}, then the outer ETag option would be seamlessly protected with the OSCORE Security Context shared between the proxy and the origin server.
 
 The following text can be used to replace the last paragraph above.
 
@@ -634,7 +622,7 @@ As discussed in {{sec-group-caching}}, the following applies when Group OSCORE {
 
 * If a cached response included an outer ETag option intended to the proxy, then the proxy can perform revalidatation of the cached response, by making a request to the unicast URI targeting the server, and including outer ETag Option(s).
 
-   This is possible also in case the proxy and the origin server use OSCORE to further protect the exchanged request and response, as defined in {{I-D.tiloca-core-oscore-capable-proxies}}. In such a case, the originally outer ETag option is protected with the OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
+   This is possible also in case the proxy and the origin server use OSCORE to further protect the exchanged request and response, as defined in {{I-D.ietf-core-oscore-capable-proxies}}. In such a case, the originally outer ETag option is protected with the OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
 
 \]
 
@@ -660,7 +648,7 @@ As discussed in {{sec-group-caching}}, the following applies when Group OSCORE {
 
 * If a cached response included an outer ETag option intended to the proxy, then the proxy can perform revalidatation of the cached response, by making a request to the group URI targeting the CoAP group, and including outer ETag Option(s).
 
-   This is possible also in case the proxy and the origin servers use Group OSCORE to further protect the exchanged request and response, as defined in {{I-D.tiloca-core-oscore-capable-proxies}}. In such a case, the originally outer ETag option is protected with the Group OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
+   This is possible also in case the proxy and the origin servers use Group OSCORE to further protect the exchanged request and response, as defined in {{I-D.ietf-core-oscore-capable-proxies}}. In such a case, the originally outer ETag option is protected with the Group OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
 
 \]
 
@@ -1070,7 +1058,7 @@ The security association between the client and the proxy MUST provide message i
 
 The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to simply access the option content, and thus learn for how long the client is willing to receive responses from the servers in the group via the proxy. This may in turn be used to perform a more efficient, selective suppression of responses from the servers.
 
-When the client protects the unicast request sent to the proxy using OSCORE (see {{I-D.tiloca-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
+When the client protects the unicast request sent to the proxy using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
 
 The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
 
@@ -1080,7 +1068,7 @@ The Response-Forwarding Option is of class U for OSCORE {{RFC8613}}. Hence, also
 
 Since the security association between the client and the proxy provides message integrity, any further intermediaries between the two as well as any on-path active adversaries are not able to undetectably remove the Response-Forwarding Option from a forwarded server response. This ensures that the client can correctly distinguish the different responses and identify their corresponding origin server.
 
-When the proxy protects the response forwarded back to the client using OSCORE (see {{I-D.tiloca-core-oscore-capable-proxies}}) and/or (D)TLS, message integrity is achieved in the leg between the client and the proxy.
+When the proxy protects the response forwarded back to the client using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, message integrity is achieved in the leg between the client and the proxy.
 
 The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
 
@@ -1094,7 +1082,7 @@ Altering the option content in a group request would result in the proxy replyin
 
 The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to simply access the option content, and thus learn the rate and pattern according to which the group resource in question changes over time, as inferable from the entity values read over time.
 
-When the client protects the unicast request sent to the proxy using OSCORE (see {{I-D.tiloca-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
+When the client protects the unicast request sent to the proxy using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
 
 The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
 
@@ -1102,7 +1090,7 @@ When caching of Group OSCORE secured responses is enabled at the proxy, the same
 
 ## HTTP-to-CoAP Proxies # {#sec-http-coap-proxies-sec-con}
 
-Consistently with what is discussed in {{sec-security-considerations-client-auth}}, an HTTP client has to authenticate to the HTTP-to-CoAP proxy, and they SHOULD rely on a full-fledged pairwise secure association. This can rely on a TLS {{RFC8446}} channel as also recommended in {{Section 12.1 of RFC8613}} for when OSCORE is used with HTTP, or on a pairwise OSCORE {{RFC8613}} Security Context between the client and the proxy as defined in {{I-D.tiloca-core-oscore-capable-proxies}}.
+Consistently with what is discussed in {{sec-security-considerations-client-auth}}, an HTTP client has to authenticate to the HTTP-to-CoAP proxy, and they SHOULD rely on a full-fledged pairwise secure association. This can rely on a TLS {{RFC8446}} channel as also recommended in {{Section 12.1 of RFC8613}} for when OSCORE is used with HTTP, or on a pairwise OSCORE {{RFC8613}} Security Context between the client and the proxy as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
 
 \[ TODO
 
@@ -1501,8 +1489,15 @@ C                              P                      S1           S2
 ~~~~~~~~~~~
 {: #workflow-example-reverse-3 title="Workflow example with reverse-proxy standing in for only the whole group of servers, but not for each individual server"}
 
+# Document Updates # {#sec-document-updates}
+{:removeinrfc}
+
+## Version -00 to -01 ## {#sec-00-01}
+
+* Editorial fixes and improvements.
+
 # Acknowledgments # {#acknowldegment}
-{: numbered="no"}
+{:unnumbered}
 
 The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Rikard Höglund}}}, {{{Jim Schaad}}}, and {{{Göran Selander}}} for their comments and feedback.
 
