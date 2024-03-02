@@ -140,6 +140,8 @@ Table of Contents
      A.1.  Example 1
      A.2.  Example 2
      A.3.  Example 3
+   Appendix B.  Document Updates
+     B.1.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -201,8 +203,8 @@ Table of Contents
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-   "OPTIONAL" in this document are to be interpreted as described in BCP
-   14 [RFC2119] [RFC8174] when, and only when, they appear in all
+   "OPTIONAL" in this document are to be interpreted as described in
+   BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
    Readers are expected to be familiar with terms and concepts defined
@@ -439,13 +441,13 @@ Table of Contents
       allowed-listed to do so.  For example, this can rely on one of the
       following security associations.
 
-      -  A TLS [RFC8446] or DTLS [RFC6347][RFC9147] channel between the
-         client and the proxy, where the client has been authenticated
-         during the secure channel establishment.
+      -  A TLS [RFC8446] or DTLS [RFC9147] channel between the client
+         and the proxy, where the client has been authenticated during
+         the secure channel establishment.
 
       -  A pairwise OSCORE [RFC8613] Security Context between the client
          and the proxy, as defined in
-         [I-D.tiloca-core-oscore-capable-proxies].
+         [I-D.ietf-core-oscore-capable-proxies].
 
    *  REQ3.  If secure, end-to-end communication is required between the
       client and the servers in the CoAP group, exchanged messages MUST
@@ -1162,8 +1164,8 @@ Table of Contents
    use of ETag as outer option in [I-D.amsuess-core-cachable-oscore].
 
    In case OSCORE is also used between the proxy and an individual
-   origin server as per [I-D.tiloca-core-oscore-capable-proxies], then
-   the outer ETag option would be seamlessly protected with the OSCORE
+   origin server as per [I-D.ietf-core-oscore-capable-proxies], then the
+   outer ETag option would be seamlessly protected with the OSCORE
    Security Context shared between the proxy and the origin server.
 
    The following text can be used to replace the last paragraph above.
@@ -1184,7 +1186,7 @@ Table of Contents
 
       This is possible also in case the proxy and the origin server use
       OSCORE to further protect the exchanged request and response, as
-      defined in [I-D.tiloca-core-oscore-capable-proxies].  In such a
+      defined in [I-D.ietf-core-oscore-capable-proxies].  In such a
       case, the originally outer ETag option is protected with the
       OSCORE Security Context shared between the proxy and the origin
       server, before transferring the message over the communication leg
@@ -1229,7 +1231,7 @@ Table of Contents
 
       This is possible also in case the proxy and the origin servers use
       Group OSCORE to further protect the exchanged request and
-      response, as defined in [I-D.tiloca-core-oscore-capable-proxies].
+      response, as defined in [I-D.ietf-core-oscore-capable-proxies].
       In such a case, the originally outer ETag option is protected with
       the Group OSCORE Security Context shared between the proxy and the
       origin server, before transferring the message over the
@@ -2044,7 +2046,7 @@ Table of Contents
    from the servers.
 
    When the client protects the unicast request sent to the proxy using
-   OSCORE (see [I-D.tiloca-core-oscore-capable-proxies]) and/or (D)TLS,
+   OSCORE (see [I-D.ietf-core-oscore-capable-proxies]) and/or (D)TLS,
    both message integrity and message confidentiality are achieved in
    the leg between the client and the proxy.
 
@@ -2071,7 +2073,7 @@ Table of Contents
    origin server.
 
    When the proxy protects the response forwarded back to the client
-   using OSCORE (see [I-D.tiloca-core-oscore-capable-proxies]) and/or
+   using OSCORE (see [I-D.ietf-core-oscore-capable-proxies]) and/or
    (D)TLS, message integrity is achieved in the leg between the client
    and the proxy.
 
@@ -2120,7 +2122,7 @@ Table of Contents
    read over time.
 
    When the client protects the unicast request sent to the proxy using
-   OSCORE (see [I-D.tiloca-core-oscore-capable-proxies]) and/or (D)TLS,
+   OSCORE (see [I-D.ietf-core-oscore-capable-proxies]) and/or (D)TLS,
    both message integrity and message confidentiality are achieved in
    the leg between the client and the proxy.
 
@@ -2141,7 +2143,7 @@ Table of Contents
    TLS [RFC8446] channel as also recommended in Section 12.1 of
    [RFC8613] for when OSCORE is used with HTTP, or on a pairwise OSCORE
    [RFC8613] Security Context between the client and the proxy as
-   defined in [I-D.tiloca-core-oscore-capable-proxies].
+   defined in [I-D.ietf-core-oscore-capable-proxies].
 
    [ TODO
 
@@ -2341,12 +2343,12 @@ Table of Contents
               2023, <https://datatracker.ietf.org/doc/html/draft-ietf-
               ace-key-groupcomm-oscore-16>.
 
-   [I-D.tiloca-core-oscore-capable-proxies]
+   [I-D.ietf-core-oscore-capable-proxies]
               Tiloca, M. and R. Höglund, "OSCORE-capable Proxies", Work
-              in Progress, Internet-Draft, draft-tiloca-core-oscore-
-              capable-proxies-07, 10 July 2023,
-              <https://datatracker.ietf.org/doc/html/draft-tiloca-core-
-              oscore-capable-proxies-07>.
+              in Progress, Internet-Draft, draft-ietf-core-oscore-
+              capable-proxies-00, 18 October 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
+              oscore-capable-proxies-00>.
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsüss, C., and P. Van der Stok, "Discovery of
@@ -2355,10 +2357,6 @@ Table of Contents
               discovery-14, 8 September 2023,
               <https://datatracker.ietf.org/doc/html/draft-tiloca-core-
               oscore-discovery-14>.
-
-   [RFC6347]  Rescorla, E. and N. Modadugu, "Datagram Transport Layer
-              Security Version 1.2", RFC 6347, DOI 10.17487/RFC6347,
-              January 2012, <https://www.rfc-editor.org/rfc/rfc6347>.
 
    [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
@@ -2738,6 +2736,14 @@ A.3.  Example 3
         only the whole group of servers, but not for each individual
                                    server
 
+Appendix B.  Document Updates
+
+   This section is to be removed before publishing as an RFC.
+
+B.1.  Version -00 to -01
+
+   *  Editorial fixes and improvements.
+
 Acknowledgments
 
    The authors sincerely thank Christian Amsüss, Carsten Bormann, Rikard
@@ -2760,6 +2766,5 @@ Authors' Addresses
 
    Esko Dijk
    IoTconsultancy.nl
-   \________________\
    Utrecht
    Email: esko.dijk@iotconsultancy.nl
