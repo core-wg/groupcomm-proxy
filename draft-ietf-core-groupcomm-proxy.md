@@ -523,25 +523,7 @@ The client processes the CoAP responses forwarded back by the proxy as defined i
 
 If the proxy receives a CoAP request and determines that it should be forwarded to a group of servers over IP multicast, then the proxy performs the steps defined in {{ssec-req-proc-proxy}}.
 
-In particular, when such a request does not include a Multicast-Timeout Option, the proxy SHOULD explicitly reveal itself as a reverse-proxy, by sending a 4.00 (Bad Request) response including a Multicast-Timeout Option with empty (zero-length) value.
-
-An exception is the case where the reverse-proxy has a pre-configured timeout value T\_PROXY, as default timeout value to use for when to stop accepting responses from the servers, after the reception of the original unicast request from the client. In this case, the proxy MAY replace the steps 3 and 4 in {{ssec-req-proc-proxy-steps}} with the following step.
-
-A.  The proxy verifies the presence of the Multicast-Timeout Option, as a confirmation that the client is willing to receive multiple CoAP responses matching with the same original request. Then, the proxy performs the following actions.
-
-   * If the Multicast-Timeout Option is present, the proxy retrieves the value T' from the Multicast-Timeout Option, and then removes the option from the client's request. That is, the timeout value indicated in the option overrides the pre-configured timeout value T\_PROXY.
-
-   * If the Multicast-Timeout option is not present, the proxy checks that, according to its local configuration, both the following conditions hold for the client (which, at this point, has been successfully authenticated).
-
-      - COND_1 : The client is aware of the default timeout value T\_PROXY pre-configured at the proxy.
-
-      - COND_2 : The client is able to process multiple responses to the same request.
-
-      These conditions are expected to hold for clients that are locally registered at the proxy, successfully authenticated and allowed-listed to have their requests proxied to CoAP group URIs.
-
-      If the proxy is able to successfully assert that both the two conditions hold, then the proxy considers the value T' as equal to T\_PROXY and proceeds to step 5.
-
-      If the proxy is not able to successfully assert that both the two conditions hold, the proxy MUST stop processing the request and MUST reply to the client with a 4.00 (Bad Request) response. The response MUST include a Multicast-Timeout Option with an empty (zero-length) value, indicating that the Multicast-Timeout Option was missing and has to be included in the request. As per {{Section 5.9.2 of RFC7252}} The response SHOULD include a diagnostic payload.
+In particular, when such a request does not include a Multicast-Timeout Option, the proxy explicitly reveals itself as a reverse-proxy, by sending a 4.00 (Bad Request) response including a Multicast-Timeout Option with empty (zero-length) value.
 
 The proxy processes the CoAP responses forwarded back to the client as defined in {{ssec-resp-proc-proxy}}.
 
@@ -1501,6 +1483,8 @@ C                              P                      S1           S2
 * UDP/IP multicast treated as the default transport protocol.
 
 * Response-Forwarding option added before possible response caching.
+
+* Always use the Multicast-Timeout Option, also with reverse-proxies.
 
 * Updated IANA considerations.
 
