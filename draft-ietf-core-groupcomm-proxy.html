@@ -2083,9 +2083,9 @@ A reverse-proxy may also operate without support of the Multicast-Timeout Option
 <li class="normal" id="section-6.2-4.1">
             <p id="section-6.2-4.1.1">As a first possible case, the proxy stands in both for the whole group of servers and for the individual origin servers in the group. That is, the origin client cannot reach the individual servers directly, but only through the proxy.<a href="#section-6.2-4.1.1" class="pilcrow">¶</a></p>
 <p id="section-6.2-4.1.2">
-In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information that is directly associated with the proxy, and that the proxy leverages in order to forward received unicast requests to the origin server that originated the response.<a href="#section-6.2-4.1.2" class="pilcrow">¶</a></p>
+In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information TARGET that is directly associated with the proxy. When receving a unicast request sent to TARGET, the proxy forwards the request to the origin server that originated the response.<a href="#section-6.2-4.1.2" class="pilcrow">¶</a></p>
 <p id="section-6.2-4.1.3">
-The client will be able to communicate individually with that server, by sending a follow-up unicast request to the proxy at the specified addressing information, according to which the proxy forwards the request to the server. An example is provided in <a href="#sec-reverse-proxies-examples-ex1" class="auto internal xref">Appendix A.1</a> and <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a>.<a href="#section-6.2-4.1.3" class="pilcrow">¶</a></p>
+The client will be able to communicate individually with that server, by sending a follow-up unicast request to the proxy at the specified addressing information TARGET, according to which the proxy forwards the request to the server. An example is provided in <a href="#sec-reverse-proxies-examples-ex1" class="auto internal xref">Appendix A.1</a> and <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a>.<a href="#section-6.2-4.1.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-6.2-4.2">
             <p id="section-6.2-4.2.1">As a second possible case, the proxy stands in only for the whole group of servers, but not for the individual servers in the group. That is, the origin client can reach the individual servers directly, without recourse to the proxy.<a href="#section-6.2-4.2.1" class="pilcrow">¶</a></p>
@@ -2421,14 +2421,31 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-response-processing-at-the-p" class="section-name selfRef">Response Processing at the Proxy</a>
         </h3>
 <p id="section-8.2-1">Upon receiving a response matching with the group request before the amount of time T' has elapsed, the proxy proceeds as follows.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.2-2">If the proxy is the last one in the chain, i.e., it is the last hop before the origin servers, the proxy performs the steps defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, with no modifications.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
+<p id="section-8.2-2">If the proxy is the last one in the chain, i.e., it is the last hop before the origin servers, the proxy performs the steps defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a> if it is a forward-proxy or in <a href="#sec-reverse-proxies-proxy-side" class="auto internal xref">Section 6.2</a> if it is a reverse-proxy, with no modifications.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
 <p id="section-8.2-3">Otherwise, the proxy performs the steps defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, with the following differences.<a href="#section-8.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.2-4.1">
-            <p id="section-8.2-4.1.1">The proxy skips step 1. In particular, the proxy <span class="bcp14">MUST NOT</span> remove, alter or replace the Response-Forwarding Option.<a href="#section-8.2-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-8.2-4.1.1">In any of the two following cases, the proxy skips step 1, hence the proxy <span class="bcp14">MUST NOT</span> remove, alter, or replace the Response-Forwarding Option.<a href="#section-8.2-4.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-8.2-4.1.2.1">
+                <p id="section-8.2-4.1.2.1.1">The chain is composed of forward-proxies.<a href="#section-8.2-4.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-8.2-4.1.2.2">
+                <p id="section-8.2-4.1.2.2.1">The chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in only for the whole group of servers, but not for the individual servers in the group (see <a href="#sec-reverse-proxies-proxy-side" class="auto internal xref">Section 6.2</a>).<a href="#section-8.2-4.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="section-8.2-4.1.3">
+This ensures that, when receiving a response to a group request and consuming the Response-Forwarding Option, the origin client can retrieve addressing information that is directly associated with the origin server that originated the response.<a href="#section-8.2-4.1.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.2-4.2">
-            <p id="section-8.2-4.2.1">At step 2, "client" refers to the origin client for the first proxy in the chain; or to the previous hop proxy closer to the origin client, otherwise.<a href="#section-8.2-4.2.1" class="pilcrow">¶</a></p>
+            <p id="section-8.2-4.2.1">At step 1, the following applies in case the chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in both for the whole group of servers and for the individual origin servers in the group (see <a href="#sec-reverse-proxies-proxy-side" class="auto internal xref">Section 6.2</a>).<a href="#section-8.2-4.2.1" class="pilcrow">¶</a></p>
+<p id="section-8.2-4.2.2">
+In the Response-Forwarding Option, the proxy <span class="bcp14">MUST</span> replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receving a unicast request sent to TARGET_NEW, the proxy forwards the request to TARGET_OLD, i.e., to the (next hop towards the) origin server that originated the response.<a href="#section-8.2-4.2.2" class="pilcrow">¶</a></p>
+<p id="section-8.2-4.2.3">
+This ensures that, when receiving a response to a group request and consuming the Response-Forwarding Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.<a href="#section-8.2-4.2.3" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-8.2-4.3">
+            <p id="section-8.2-4.3.1">At step 2, "client" refers to the origin client for the first proxy in the chain; or to the previous hop proxy closer to the origin client, otherwise.<a href="#section-8.2-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-8.2-5">As to the possible reception of multiple responses to the same group request from the same (next hop proxy towards the) origin server, the same as defined in <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a> applies. That is, as long as the proxy forwards responses to a group request back to the (previous hop proxy closer to the) origin client, the proxy <span class="bcp14">MUST</span> follow the steps above and forward also such multiple responses "as they come".<a href="#section-8.2-5" class="pilcrow">¶</a></p>
