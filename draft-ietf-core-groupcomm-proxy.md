@@ -66,7 +66,7 @@ entity:
 
 --- abstract
 
-This document specifies the operations performed by a proxy, when using the Constrained Application Protocol (CoAP) in group communication scenarios. Such a proxy processes a single request sent by a client over unicast, and distributes the request over IP multicast to a group of servers. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies.
+This document specifies the operations performed by a proxy, when using the Constrained Application Protocol (CoAP) in group communication scenarios. Such a proxy processes a single request sent by a client over unicast, and distributes the request to a group of servers, e.g., over UDP/IP multicast as the defined default transport protocol. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies.
 
 --- middle
 
@@ -76,13 +76,15 @@ The Constrained Application Protocol (CoAP) {{RFC7252}} allows the presence of p
 
 CoAP supports also group communication over IP multicast {{I-D.ietf-core-groupcomm-bis}}, where a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in {{Section 3.5 of I-D.ietf-core-groupcomm-bis}}, this group communication scenario poses a number of issues and limitations to proxy operations.
 
-In particular, the client sends to the proxy a single unicast request, which the proxy forwards to a group of servers over IP multicast. Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.
+In particular, the client sends to the proxy a single unicast request, which the proxy forwards to a group of CoAP servers, e.g., using UDP/IP multicast as the defined default transport protocol for CoAP group requests (see {{Section 1.1 of I-D.ietf-core-groupcomm-bis}}). Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.
 
 As per {{RFC7252}}, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation content-format, which is not available yet. Both these approaches have open issues.
 
 This document considers the former approach. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The described method addresses all the related issues raised in {{Section 3.5 of I-D.ietf-core-groupcomm-bis}}. To this end, a dedicated signaling protocol is defined, using two new CoAP options.
 
 Using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates the addressing information of the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast request(s) to the indicated address(es). In doing these follow-up unicast requests, the client may optionally bypass the proxy.
+
+Like {{I-D.ietf-core-groupcomm-bis}}, this document refers to UDP/IP multicast as the transport protocol that a proxy uses to forward a CoAP group request to a group of servers. While other transport protocols such as broadcast, non-IP multicast, and geocast can also be possible to employ, their use is not considered in this document.
 
 This document also defines how the proposed protocol is used between an HTTP client and an HTTP-CoAP cross-proxy, in order to forward an HTTP group request from the client to a group of CoAP servers, and relay back the individual CoAP responses as HTTP responses.
 
@@ -1493,6 +1495,8 @@ C                              P                      S1           S2
 ## Version -00 to -01 ## {#sec-00-01}
 
 * Definition of "individual request" in the terminology.
+
+* UDP/IP multicast treated as the default transport protocol.
 
 * Updated IANA considerations.
 
