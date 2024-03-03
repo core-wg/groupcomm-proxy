@@ -1972,10 +1972,7 @@ Table of Contents
    defined in Section 9.5 applies, with the following difference.
 
    Once translated the HTTP request into a CoAP request, the proxy
-   performs what is defined in Section 6.2.  Note that, in this case,
-   the condition COND_2 always holds, since the proxy is going to send
-   to the client at most one response, i.e., the HTTP batch response
-   (see Section 9.6).
+   performs what is defined in Section 6.2.
 
    The proxy processes the HTTP response sent to the client as defined
    in Section 9.6.
