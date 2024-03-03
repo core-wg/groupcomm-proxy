@@ -1031,7 +1031,7 @@ The client processes the HTTP response forwarded back by the proxy as defined in
 
 If the proxy receives a request and determines that it should be forwarded to a group of servers over IP multicast, then the same as defined in {{sec-cross-proxies-proxy-req}} applies, with the following difference.
 
-Once translated the HTTP request into a CoAP request, the proxy performs what is defined in {{sec-reverse-proxies-proxy-side}}. Note that, in this case, the condition COND\_2 always holds, since the proxy is going to send to the client at most one response, i.e., the HTTP batch response (see {{sec-cross-proxies-proxy-resp}}).
+Once translated the HTTP request into a CoAP request, the proxy performs what is defined in {{sec-reverse-proxies-proxy-side}}.
 
 The proxy processes the HTTP response sent to the client as defined in {{sec-cross-proxies-proxy-resp}}.
 
