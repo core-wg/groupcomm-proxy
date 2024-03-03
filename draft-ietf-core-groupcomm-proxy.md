@@ -93,6 +93,10 @@ Readers are expected to be familiar with terms and concepts defined in CoAP {{RF
 
 Unless specified otherwise, the term "proxy" refers to a CoAP-to-CoAP forward-proxy, as defined in {{Section 5.7.2 of RFC7252}}.
 
+This document also uses the following terminology.
+
+* Individual request: a request that an origin client sends to a single origin server within a group, either directly, or indirectly via a proxy.
+
 # The Multicast-Timeout Option # {#sec-multicast-timeout-option}
 
 The Multicast-Timeout Option defined in this section has the properties summarized in {{fig-multicast-timeout-option}}, which extends Table 4 of {{RFC7252}}.
@@ -1493,6 +1497,8 @@ C                              P                      S1           S2
 {:removeinrfc}
 
 ## Version -00 to -01 ## {#sec-00-01}
+
+* Definition of "individual request" in the terminology.
 
 * Editorial fixes and improvements.
 
