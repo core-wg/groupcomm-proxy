@@ -529,7 +529,7 @@ The proxy processes the CoAP responses forwarded back to the client as defined i
 
 * As a first possible case, the proxy stands in both for the whole group of servers and for the individual origin servers in the group. That is, the origin client cannot reach the individual servers directly, but only through the proxy.
 
-   In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information TARGET that is directly associated with the proxy. When receving a unicast request sent to TARGET, the proxy forwards the request to the origin server that originated the response.
+   In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information TARGET that is directly associated with the proxy. When receving a unicast request that is sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response.
 
    The client will be able to communicate individually with that server, by sending a follow-up unicast request to the proxy at the specified addressing information TARGET, according to which the proxy forwards the request to the server. An example is provided in {{sec-reverse-proxies-examples-ex1}} and {{sec-reverse-proxies-examples-ex2}}.
 
@@ -819,7 +819,7 @@ Otherwise, the proxy performs the steps defined in {{ssec-resp-proc-proxy}}, wit
 
 * At step 1, the following applies in case the chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in both for the whole group of servers and for the individual origin servers in the group (see {{sec-reverse-proxies-proxy-side}}).
 
-   In the Response-Forwarding Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receving a unicast request sent to TARGET_NEW, the proxy forwards the request to TARGET_OLD, i.e., to the (next hop towards the) origin server that originated the response.
+   In the Response-Forwarding Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receving a unicast request that is sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what is specified in TARGET_OLD, i.e., to the (next hop towards the) origin server that originated the response.
 
    This ensures that, when receiving a response to a group request and consuming the Response-Forwarding Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.
 
