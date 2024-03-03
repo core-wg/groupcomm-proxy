@@ -2078,7 +2078,23 @@ A reverse-proxy may also operate without support of the Multicast-Timeout Option
         </h3>
 <p id="section-6.2-1">If the proxy receives a CoAP request and determines that it should be forwarded to a group of servers over IP multicast, then the proxy performs the steps defined in <a href="#ssec-req-proc-proxy" class="auto internal xref">Section 5.2</a>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
 <p id="section-6.2-2">In particular, when such a request does not include a Multicast-Timeout Option, the proxy explicitly reveals itself as a reverse-proxy, by sending a 4.00 (Bad Request) response including a Multicast-Timeout Option with empty (zero-length) value.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
-<p id="section-6.2-3">The proxy processes the CoAP responses forwarded back to the client as defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.2-3">The proxy processes the CoAP responses forwarded back to the client as defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, with the following additions.<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-4.1">
+            <p id="section-6.2-4.1.1">As a first possible case, the proxy stands in both for the whole group of servers and for the individual origin servers in the group. That is, the origin client cannot reach the individual servers directly, but only through the proxy.<a href="#section-6.2-4.1.1" class="pilcrow">¶</a></p>
+<p id="section-6.2-4.1.2">
+In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information that is directly associated with the proxy, and that the proxy leverages in order to forward received unicast requests to the origin server that originated the response.<a href="#section-6.2-4.1.2" class="pilcrow">¶</a></p>
+<p id="section-6.2-4.1.3">
+The client will be able to communicate individually with that server, by sending a follow-up unicast request to the proxy at the specified addressing information, according to which the proxy forwards the request to the server. An example is provided in <a href="#sec-reverse-proxies-examples-ex1" class="auto internal xref">Appendix A.1</a> and <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a>.<a href="#section-6.2-4.1.3" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.2-4.2">
+            <p id="section-6.2-4.2.1">As a second possible case, the proxy stands in only for the whole group of servers, but not for the individual servers in the group. That is, the origin client can reach the individual servers directly, without recourse to the proxy.<a href="#section-6.2-4.2.1" class="pilcrow">¶</a></p>
+<p id="section-6.2-4.2.2">
+In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information that is directly associated with the origin server that originated the response.<a href="#section-6.2-4.2.2" class="pilcrow">¶</a></p>
+<p id="section-6.2-4.2.3">
+The client will be able to use that information for sending a follow-up unicast request directly to that server, i.e., bypassing the proxy. An example is provided in <a href="#sec-reverse-proxies-examples-ex3" class="auto internal xref">Appendix A.3</a>.<a href="#section-6.2-4.2.3" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 </section>
@@ -3713,10 +3729,13 @@ Body: More than done!
             <p id="appendix-B.1-1.4.1">Always use the Multicast-Timeout Option, also with reverse-proxies.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Updated IANA considerations.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.5.1">Clarified response processing at reverse-proxies.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.6.1">Updated IANA considerations.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.7">
+            <p id="appendix-B.1-1.7.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
