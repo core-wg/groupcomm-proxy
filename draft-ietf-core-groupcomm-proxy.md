@@ -373,6 +373,8 @@ Upon receiving a response matching with the group request before the amount of t
 
     * If present, the 'srv_port' element of the 'srv_info' array MUST specify the port number of the server as the source port number of the response. This element MUST be present if the source port number of the response differs from the default port number for the transport protocol specified in the 'tp_id' element.
 
+    If the proxy supports caching of responses (see {{sec-proxy-caching}}), the proxy MUST include the Response-Forwarding Option into the response before caching it. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.
+
 2. The proxy forwards the response back to the client. When doing so, the proxy protects the response according to the security association it has with the client.
 
 As discussed in {{Section 3.1.6 of I-D.ietf-core-groupcomm-bis}}, it is possible that a same server replies with multiple responses to the same group request, i.e., with the same Token. As long as the proxy forwards responses to a group request back to the origin client, the proxy MUST follow the steps defined above and forward also such multiple responses "as they come".
@@ -1497,6 +1499,8 @@ C                              P                      S1           S2
 * Definition of "individual request" in the terminology.
 
 * UDP/IP multicast treated as the default transport protocol.
+
+* Response-Forwarding option added before possible response caching.
 
 * Updated IANA considerations.
 
