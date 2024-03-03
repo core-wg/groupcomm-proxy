@@ -1113,24 +1113,20 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 ## CoAP Option Numbers Registry ## {#iana-coap-options}
 
-IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
+IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-~~~~~~~~~~~
-+--------+---------------------+-------------------+
-| Number |        Name         |     Reference     |
-+--------+---------------------+-------------------+
-|  TBD1  | Multicast-Timeout   | [[this document]] |
-+--------+---------------------+-------------------+
-|  TBD2  | Response-Forwarding | [[this document]] |
-+--------+---------------------+-------------------+
-|  TBD3  |     Group-ETag      | [[this document]] |
-+--------+---------------------+-------------------+
-~~~~~~~~~~~
-{: artwork-align="center"}
+| Number | Name                | Reference |
+|--------|---------------------|-----------|
+|  TBD1  | Multicast-Timeout   | {{&SELF}} |
+|--------|---------------------|-----------|
+|  TBD2  | Response-Forwarding | {{&SELF}} |
+|--------|---------------------|-----------|
+|  TBD3  |     Group-ETag      | {{&SELF}} |
+{: #tab-iana-coap-option-numbers title="New CoAP Option Numbers" align="center"}
 
 ## CoAP Transport Information Registry {#iana-transport-protocol-identifiers}
 
-IANA is asked to add the following entries to the "CoAP Transport Information" registry defined in {{Section 16.5 of I-D.ietf-core-observe-multicast-notifications}}.
+IANA is asked to add the following entries to the "CoAP Transport Information" registry defined in {{Section 16.5 of I-D.ietf-core-observe-multicast-notifications}}, within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
 ~~~~~~~~~~~
 +------------+-------------+-------+----------+-----------+-----------+
@@ -1165,23 +1161,16 @@ IANA is asked to add the following entries to the "CoAP Transport Information" r
 
 ## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
 
-IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name Registry" registry.
+IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" Registry registry.
 
-~~~~~~~~~~~
-+---------------------+-----------+-----------+
 | Field Name          | Status    | Reference |
-+---------------------+-----------+-----------+
-| Multicast-Timeout   | permanent | [This     |
-|                     |           | document] |
-+---------------------+-----------+-----------+
-| Response-Forwarding | permanent | [This     |
-|                     |           | document] |
-+---------------------+-----------+-----------+
-| Group-ETag          | permanent | [This     |
-|                     |           | document] |
-+---------------------+-----------+-----------+
-~~~~~~~~~~~
-{: artwork-align="center"}
+|---------------------|-----------|-----------|
+| Multicast-Timeout   | permanent | {{&SELF}} |
+|---------------------|-----------|-----------|
+| Response-Forwarding | permanent | {{&SELF}} |
+|---------------------|-----------|-----------|
+| Group-ETag          | permanent | {{&SELF}} |
+{: #tab-iana-http-field-names title="New HTTP Field Names" align="center"}
 
 --- back
 
