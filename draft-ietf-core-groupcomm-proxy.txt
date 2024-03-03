@@ -992,8 +992,9 @@ Table of Contents
       In such a case, within a response forwarded back to the client,
       the value of the Response-Forwarding Option specifies addressing
       information TARGET that is directly associated with the proxy.
-      When receving a unicast request sent to TARGET, the proxy forwards
-      the request to the origin server that originated the response.
+      When receving a unicast request that is sent according to what is
+      specified in TARGET, the proxy forwards the request to the origin
+      server that originated the response.
 
       The client will be able to communicate individually with that
       server, by sending a follow-up unicast request to the proxy at the
@@ -1588,9 +1589,10 @@ Table of Contents
       In the Response-Forwarding Option, the proxy MUST replace the old
       value TARGET_OLD.  The new value TARGET_NEW specifies addressing
       information directly associated with the proxy.  The new value is
-      such that, when receving a unicast request sent to TARGET_NEW, the
-      proxy forwards the request to TARGET_OLD, i.e., to the (next hop
-      towards the) origin server that originated the response.
+      such that, when receving a unicast request that is sent according
+      to what is specified in TARGET_NEW, the proxy forwards the request
+      according to what is specified in TARGET_OLD, i.e., to the (next
+      hop towards the) origin server that originated the response.
 
       This ensures that, when receiving a response to a group request
       and consuming the Response-Forwarding Option, the origin client
