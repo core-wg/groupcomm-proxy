@@ -34,10 +34,9 @@ author:
 normative:
   I-D.ietf-core-groupcomm-bis:
   I-D.ietf-core-oscore-groupcomm:
-  I-D.ietf-core-observe-multicast-notifications:
+  I-D.ietf-core-href:
   RFC2046:
   RFC2119:
-  RFC3986:
   RFC4648:
   RFC5234:
   RFC7252:
@@ -47,6 +46,7 @@ normative:
   RFC8323:
   RFC8610:
   RFC8613:
+  RFC8742:
   RFC8949:
   RFC9112:
 
@@ -94,7 +94,15 @@ Finally, this document defines a caching model for proxies and specifies how the
 
 {::boilerplate bcp14-tagged}
 
-Readers are expected to be familiar with terms and concepts defined in CoAP {{RFC7252}}, Group Communication for CoAP {{I-D.ietf-core-groupcomm-bis}}, CBOR {{RFC8949}}, OSCORE {{RFC8613}} and Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
+Readers are expected to be familiar with the terms and concepts from the following specifications:
+
+* CoAP {{RFC7252}} and Group Communication for CoAP {{I-D.ietf-core-groupcomm-bis}}.
+
+* OSCORE {{RFC8613}}, and Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
+
+* CDDL {{RFC8610}}, CBOR {{RFC8949}}, and CBOR sequences {{RFC8742}}
+
+* Constrained Resource Identifiers (CRIs) {{I-D.ietf-core-href}}.
 
 Unless specified otherwise, the term "proxy" refers to a CoAP-to-CoAP forward-proxy, as defined in {{Section 5.7.2 of RFC7252}}.
 
@@ -127,117 +135,41 @@ When sending a CoAP group request to a proxy via IP unicast, to be forwarded by 
 
 The Multicast-Timeout Option is of class U in terms of OSCORE processing (see {{Section 4.1 of RFC8613}}).
 
-# The Response-Forwarding Option # {#sec-response-forwarding-option}
+# The Reply-To Option # {#sec-reply-to-option}
 
-The Response-Forwarding Option defined in this section has the properties summarized in {{fig-response-forwarding-option}}, which extends Table 4 of {{RFC7252}}. The option is intended only for inclusion in CoAP responses, and builds on the Base-Uri option from {{Section 3 of I-D.bormann-coap-misc}}.
+The Reply-To Option defined in this section has the properties summarized in {{fig-reply-to-option}}, which extends Table 4 of {{RFC7252}}. The option is intended only for inclusion in CoAP responses, and builds on the Base-Uri Option from {{Section 3 of I-D.bormann-coap-misc}}.
 
 Since the option is intended only for responses, the column "N" indicates a dash for "not applicable".
 
 ~~~~~~~~~~~
-+------+---+---+---+---+------------+--------+--------+---------+
-| No.  | C | U | N | R | Name       | Format | Length | Default |
-+------+---+---+---+---+------------+--------+--------+---------+
-|      |   |   |   |   |            |        |        |         |
-| TBD2 |   |   | - |   | Response-  |  (*)   | 10-25  | (none)  |
-|      |   |   |   |   | Forwarding |        |        |         |
-|      |   |   |   |   |            |        |        |         |
-+------+---+---+---+---+------------+--------+--------+---------+
++------+---+---+---+---+----------+--------+--------+---------+
+| No.  | C | U | N | R | Name     | Format | Length | Default |
++------+---+---+---+---+----------+--------+--------+---------+
+|      |   |   |   |   |          |        |        |         |
+| TBD2 |   |   | - |   | Reply-To |  (*)   | 5-1034 | (none)  |
+|      |   |   |   |   |          |        |        |         |
++------+---+---+---+---+----------+--------+--------+---------+
            C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
 (*) See below.
 ~~~~~~~~~~~
-{: #fig-response-forwarding-option title="The Response-Forwarding Option." artwork-align="center"}
+{: #fig-reply-to-option title="The Reply-To Option." artwork-align="center"}
 
 This document specifically defines how this option is used by a proxy that can perform proxied CoAP group requests.
 
-Upon receiving a response to such request from a server, the proxy includes the Response-Forwarding Option into the response sent to the origin client (see {{sec-description}}). The proxy uses the option to indicate the addressing information where the client can send an individual request intended to that origin server.
+Upon receiving a response to such a request from an origin server, the proxy includes the Reply-To Option into the response sent to the origin client (see {{sec-description}}). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended to that server.
 
-In particular, the client can use the addressing information specified in the option to identify the response originator and possibly send it individual requests later on, either directly, or indirectly via the proxy, as unicast requests.
+In particular, the client can use the addressing information specified in the option in order to identify the response originator and to possibly send it individual requests later on, either directly, or indirectly via the proxy, as unicast requests.
 
-The option value is set to the byte serialization of the CBOR array 'tp_info' defined in {{Section 4.2.1 of I-D.ietf-core-observe-multicast-notifications}}, including only the set of elements 'srv_addr'. In turn, the set includes the integer 'tp_id' identifying the used transport protocol, and further elements whose number, format and encoding depend on the value of 'tp_id'.
+When used as defined in this document, the option value is set to the byte serialization of a CBOR sequence {{RFC8742}}, which is composed of at most two CBOR arrays.
 
-The value of 'tp_id' MUST be taken from the "Value" column of the "CoAP Transport Information" registry defined in {{Section 16.5 of I-D.ietf-core-observe-multicast-notifications}}. The elements of 'srv_addr' following 'tp_id' are specified in the corresponding entry of the Registry, under the "Server Addr" column.
+* The first CBOR array is REQUIRED and specifies a CRI (see {{I-D.ietf-core-href}}). In particular, both 'scheme' and 'authority' are given, while 'path', 'query', and 'fragment' are not given.
 
-If the server is reachable through CoAP transported over UDP, the 'tp_info' array includes the following elements, encoded as defined in {{Section 4.2.1.1 of I-D.ietf-core-observe-multicast-notifications}}.
+* The second CBOR array is OPTIONAL and specifies a CRI reference (see {{I-D.ietf-core-href}}). In particular, 'scheme' is set to `null` (0xf6), at least one of 'authority' and 'path' is given, and both 'query' and 'fragment' are not given. This CRI reference is relevant in some scenarios where the proxy is a reverse-proxy.
 
-* 'tp_id': the CBOR integer with value 1. This element MUST be present.
+The detailed use of this option is specified in {{ssec-resp-proc-proxy-steps}} and {{ssec-resp-proc-client-steps}} when the proxy is a forward-proxy, and in {{sec-reverse-proxies-client-side}} and {{sec-reverse-proxies-proxy-side}} when the proxy is a reverse-proxy.
 
-* 'srv_host': a CBOR byte string, encoding the unicast IP address of the server. This element is tagged and identified by the CBOR tag 260 "Network Address (IPv4 or IPv6 or MAC Address)". This element MUST be present.
-
-* 'srv_port': a CBOR unsigned integer or the CBOR simple value "null" (0xf6). This element MAY be present.
-
-   If present as a CBOR unsigned integer, it has as value the destination UDP port number to use for individual requests to the server.
-
-   If present as the CBOR simple value "null" (0xf6), the client MUST assume that the same port number specified in the group URI of the original unicast CoAP group request sent to the proxy (see {{ssec-req-send-steps}}) can be used for individual requests to the server.
-
-   If not present, the client MUST assume that the default port number 5683 defined in {{RFC7252}} can be used as the destination UDP port number for individual requests to the server.
-
-The CDDL notation {{RFC8610}} provided below describes the 'tp_info' CBOR array using the format defined above.
-
-~~~~~~~~~~~
-tp_info = [
-       tp_id : 1,             ; UDP as transport protocol
-    srv_host : #6.260(bstr),  ; IP address where to reach the server
-  ? srv_port : uint / null    ; Port number where to reach the server
-]
-~~~~~~~~~~~
-
-At present, 'tp_id' is expected to take only value 1 (UDP) when using forward proxies, UDP being the only currently available transport for CoAP to work over IP multicast. While additional multicast-friendly transports may be defined in the future, other current tranport protocols can still be useful in applications relying on a reverse-proxy (see {{sec-reverse-proxies}}).
-
-The rest of this section considers the new values of 'tp_id' registered by this document (see {{iana-transport-protocol-identifiers}}), and specifies:
-
-* The encoding for the elements of 'tp_info' following 'tp_id' (see {{encoding-server-addressing}}).
-
-* The port number assumed by the client if the element 'srv_port' of 'tp_info' is not present (see {{default-port-number}}).
-
-The Response-Forwarding Option is of class U in terms of OSCORE processing (see {{Section 4.1 of RFC8613}}).
-
-## Encoding of Server Address {#encoding-server-addressing}
-
-This document defines some values used as transport protocol identifiers, whose respective new entries are included in the "CoAP Transport Information" registry defined in {{Section 16.5 of I-D.ietf-core-observe-multicast-notifications}}.
-
-For each of these values, the following table summarizes the elements specified under the "Srv Addr" and "Req Info" columns of the registry, together with their CBOR encoding and short description.
-
-While not listed here for brevity, the element 'tp_id' is always present as a CBOR integer in the element set "Srv Addr".
-
-~~~~~~~~~~~
-+----------+-------------+----------+--------------+---------------+
-| 'tp_id'  | Element Set | Element  | CBOR Type    | Description   |
-| Values   |             |          |              |               |
-+----------+-------------+----------+--------------+---------------+
-| 2, 3, 4, | Srv Addr    | srv_host | #6.260(bstr) | Address of    |
-| 5, 6     |             |          |     (*)      | the server    |
-|          |             +----------+--------------+---------------+
-|          |             | srv_port | uint / null  | Port number   |
-|          |             |          |              | of the server |
-|          +-------------+----------+--------------+---------------+
-|          | Req Info    | cli_host | #6.260(bstr) | Address of    |
-|          |             |          |     (*)      | the client    |
-|          |             +----------+--------------+---------------+
-|          |             | cli_port | uint         | Port number   |
-|          |             |          |              | of the client |
-+----------+-------------+----------+--------------+---------------+
-
-* The CBOR byte string is tagged and identified by the
-  CBOR tag 260 "Network Address (IPv4 or IPv6 or MAC Address)".
-~~~~~~~~~~~
-{: artwork-align="center"}
-
-## Default Values of the Server Port Number {#default-port-number}
-
-If the 'srv_port' element of the 'tp_info' array is not present, the client MUST assume the following value as port number where to send individual requests intended to the server, based on the value of 'tp_id'.
-
-* If 'tp_id' is equal to 1, i.e., CoAP over UDP, the default port number 5683 as defined in {{RFC7252}}.
-
-* If 'tp_id' is equal to 2, i.e., CoAP over UDP secured with DTLS, the default port number 5684 as defined in {{RFC7252}}.
-
-* If 'tp_id' is equal to 3, i.e., CoAP over TCP, the default port number 5683 as defined in {{RFC8323}}.
-
-* If 'tp_id' is equal to 4, i.e., CoAP over TCP secured with TLS, the default port number 5684 as defined in {{RFC8323}}.
-
-* If 'tp_id' is equal to 5, i.e., CoAP over WebSockets, the default port number 80 as defined in {{RFC8323}}.
-
-* If 'tp_id' is equal to 6, i.e., CoAP over WebSockets secured with TLS, the default port number 443 as defined in {{RFC8323}}.
+The Reply-To Option is of class U in terms of OSCORE processing (see {{Section 4.1 of RFC8613}}).
 
 # Requirements and Objectives # {#sec-objectives}
 
@@ -279,7 +211,7 @@ This section defines the operations performed by the client, for sending a reque
 
 The client proceeds according to the following steps.
 
-1. The client prepares a unicast CoAP group request addressed to the proxy. The request specifies the group URI where the request has to be forwarded to, as a string in the Proxi-URI option or by using the Proxy-Scheme option with the group URI constructed from the URI-* options (see {{Section 3.5.1 of I-D.ietf-core-groupcomm-bis}}).
+1. The client prepares a unicast CoAP group request addressed to the proxy. The request specifies the group URI where the request has to be forwarded to, as a string in the Proxi-URI option or by using the Proxy-Scheme option with the group URI composed from the URI-* options (see {{Section 3.5.1 of I-D.ietf-core-groupcomm-bis}}).
 
 2. The client MUST retain the Token value used for this original unicast request beyond the reception of a first CoAP response matching with it. To this end, the client follows the same rules for Token retention defined for multicast CoAP requests in {{Section 3.1.5 of I-D.ietf-core-groupcomm-bis}}.
 
@@ -367,13 +299,11 @@ This section defines the operations performed by the proxy, when receiving a res
 
 Upon receiving a response matching with the group request before the amount of time T' has elapsed, the proxy proceeds according to the following steps.
 
-1. The proxy MUST include the Response-Forwarding Option defined in {{sec-response-forwarding-option}} into the response. The proxy specifies as option value the addressing information of the server generating the response, encoded as defined in {{sec-response-forwarding-option}}. In particular:
+1. The proxy MUST include the Reply-To Option defined in {{sec-reply-to-option}} into the response. The proxy sets the option value as follows.
 
-    * The 'srv_addr' element of the 'srv_info' array MUST specify the server IPv6 address if the multicast request was destined for an IPv6 multicast address, and MUST specify the server IPv4 address if the multicast request was destined for an IPv4 multicast address.
+   The CRI present as first element of the CBOR sequence specifies the addressing information of the server generating the response. The second element of the CBOR sequence MUST NOT be present.
 
-    * If present, the 'srv_port' element of the 'srv_info' array MUST specify the port number of the server as the source port number of the response. This element MUST be present if the source port number of the response differs from the default port number for the transport protocol specified in the 'tp_id' element.
-
-    If the proxy supports caching of responses (see {{sec-proxy-caching}}), the proxy MUST include the Response-Forwarding Option into the response before caching it. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.
+   If the proxy supports caching of responses (see {{sec-proxy-caching}}), the proxy MUST include the Reply-To Option into the response before caching it. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.
 
 2. The proxy forwards the response back to the client. When doing so, the proxy protects the response according to the security association it has with the client.
 
@@ -387,7 +317,7 @@ When using CoAP Observe {{RFC7641}}, the proxy acts as a client registered with 
 
 Furthermore, the proxy takes the role of a server when forwarding notifications from origin servers back to the client. To this end, the proxy follows what is specified in {{Section 3.7 of I-D.ietf-core-groupcomm-bis}} and {{Section 5 of RFC7641}}, with the following additions.
 
-* At step 1 in {{ssec-resp-proc-proxy}}, the proxy includes the Response-Forwarding Option in every notification, including non-2.xx notifications resulting in removing the proxy from the list of observers of the origin server.
+* At step 1 in {{ssec-resp-proc-proxy}}, the proxy includes the Reply-To Option in every notification, including non-2.xx notifications resulting in removing the proxy from the list of observers of the origin server.
 
 * The proxy frees up its Token value used for a group observation only if, after the timeout expiration, no 2.xx (Success) responses matching with the group request and also including an Observe option have been received from any origin server. Otherwise, after the timeout expiration and as long as observations are active with servers in the group for the target resource of the group request, notifications from those servers are forwarded back to the client, as defined in {{ssec-resp-proc-proxy}}, and the Token value used for the group observation is not freed during this time.
 
@@ -405,11 +335,13 @@ Upon receiving from the proxy a response matching with the original unicast requ
 
 2. If secure group communication is used end-to-end between the client and the servers, the client processes the response resulting at the end of step 1, as defined in {{I-D.ietf-core-oscore-groupcomm}}.
 
-3. The client identifies the origin server, whose addressing information is specified as value of the Response-Forwarding Option. If the 'srv_port' element of the 'tp_info' array in the Response-Forwarding Option is not present or specifies the CBOR simple value "null" (0xf6), then the client determines the port number where to send unicast requests to the server -- in case this is needed -- as defined in {{sec-response-forwarding-option}}. In the former case, the assumed default port number depends on the transport protocol specified by the 'tp_id' element of the 'tp_info' array (see {{default-port-number}}).
+3. The client retrieves the CRI from the value of the Reply-To Option, and identifies the origin server whose addressing information is specified by the CRI.
 
    In particular, the client is able to distinguish different responses as originated by different servers. Optionally, the client may contact one or more of those servers individually, i.e., directly (bypassing the proxy) or indirectly (via a proxied unicast request).
 
-   In order to individually reach an origin server again through the proxy, the client is not required to understand or support the transport protocol indicated in the Response-Forwarding Option, as used between the proxy and the origin server, in case it differs from "UDP" (1). That is, using the IPv4/IPv6 address value and optional port value from the Response-Forwarding Option, the client simply creates the correct URI for the individual request, by means of the Proxy-Uri or Uri-Scheme Option in the unicast request to the proxy. The client uses the transport protocol it knows, and has used before, to send the request to the proxy.
+   In order to individually reach the origin server again through the proxy, the client is not required to understand or support the transport protocol indicated by 'scheme' in the CRI and used between the proxy and the origin server, in case the protocol is not CoAP over UDP (CRI scheme number: -1).
+
+   That is, by using the information specified in the retrieved CRI, the client composes the correct URI for the individual request, and specifies it by means of the Proxy-Uri Option or Proxy-Scheme Option in the unicast request to the proxy. Alternatively, the client can rely on the analogous Proxy-Cri or Proxy-Scheme-Number Option defined in {{I-D.ietf-core-href}}. In either case, the client uses the transport protocol that it knows, and has used before, to send the request to the proxy.
 
 As discussed in {{Section 3.1.6 of I-D.ietf-core-groupcomm-bis}}, it is possible that the client receives multiple responses to the same group request, i.e., with the same Token, from the same origin server. The client normally processes at the CoAP layer each of those responses from the same origin server, and decides at the application layer how to exactly handle them depending on its available context information (see {{Section 3.1.6 of I-D.ietf-core-groupcomm-bis}}).
 
@@ -435,64 +367,59 @@ The origin servers are members of a CoAP group with IP multicast address G_ADDR 
 
 The communication between C and P is based on CoAP over UDP, as per {{RFC7252}}. The communication between P and the origin servers is based on CoAP over UDP and IP multicast, as per {{I-D.ietf-core-groupcomm-bis}}.
 
-Finally, 'bstr(X)' denotes a CBOR byte string where its value is the byte serialization of X.
+Finally, cri'X' denotes a CRI corresponding to the URI X.
 
 ~~~~~~~~~~~ aasvg
-C                          P                      S1           S2
-|                          |                      |             |
-|------------------------->|                      |             |
-| Src: C_ADDR:C_PORT       |                      |             |
-| Dst: P_ADDR:P_PORT       |                      |             |
-| Proxi-URI {              |                      |             |
-|  coap://G_ADDR:G_PORT/r  |                      |             |
-| }                        |                      |             |
-| Multicast-Timeout: 60    |                      |             |
-|                          |                      |             |
-|                          |                      |             |
-|                          | Src: P_ADDR:P_PORT   |             |
-|                          | Dst: G_ADDR:G_PORT   |             |
-|                          | Uri-Path: /r         |             |
-|                          |---------------+----->|             |
-|                          |                \     |             |
-|                          |                 +----------------->|
-|                          |                      |             |
-|                          | /* t = 0 : P starts  |             |
-|                          | accepting responses  |             |
-|                          | for this request */  |             |
-|                          |                      |             |
-|                          |                      |             |
-|                          |<---------------------|             |
-|                          | Src: S1_ADDR:G_PORT  |             |
-|                          | Dst: P_ADDR:P_PORT   |             |
-|                          |                      |             |
-|                          |                      |             |
-|<-------------------------|                      |             |
-| Src: P_ADDR:P_PORT       |                      |             |
-| Dst: C_ADDR:C_PORT       |                      |             |
-| Response-Forwarding {    |                      |             |
-|  [1, /*CoAP over UDP*/   |                      |             |
-|   #6.260(bstr(S1_ADDR)), |                      |             |
-|   null /* G_PORT */      |                      |             |
-|  ]                       |                      |             |
-| }                        |                      |             |
-|                          |<-----------------------------------|
-|                          |               Src: S2_ADDR:S2_PORT |
-|                          |               Dst: P_ADDR:P_PORT   |
-|                          |                      |             |
-|                          |                      |             |
-|                          |                      |             |
-|<-------------------------|                      |             |
-| Src: P_ADDR:P_PORT       |                      |             |
-| Dst: C_ADDR:C_PORT       |                      |             |
-| Response-Forwarding {    |                      |             |
-|  [1, /*CoAP over UDP*/   |                      |             |
-|   #6.260(bstr(S2_ADDR)), |                      |             |
-|   S2_PORT                |                      |             |
-|  ]                       |                      |             |
-| }                        |                      |             |
-|            /* At t = 60, P stops accepting      |             |
-|            responses for this request */        |             |
-|                          |                      |             |
+C                               P                      S1           S2
+|                               |                      |             |
+|------------------------------>|                      |             |
+| Src: C_ADDR:C_PORT            |                      |             |
+| Dst: P_ADDR:P_PORT            |                      |             |
+| Proxi-Uri:                    |                      |             |
+|   "coap://G_ADDR:G_PORT/r"    |                      |             |
+| Multicast-Timeout: 60         |                      |             |
+|                               |                      |             |
+|                               |                      |             |
+|                               | Src: P_ADDR:P_PORT   |             |
+|                               | Dst: G_ADDR:G_PORT   |             |
+|                               | Uri-Path: "r"        |             |
+|                               |---------------+----->|             |
+|                               |                \     |             |
+|                               |                 +----------------->|
+|                               |                      |             |
+|                               |                      |             |
+|                               | / t = 0 : P starts   |             |
+|                               | accepting responses  |             |
+|                               | for this request /   |             |
+|                               |                      |             |
+|                               |                      |             |
+|                               |<---------------------|             |
+|                               | Src: S1_ADDR:G_PORT  |             |
+|                               | Dst: P_ADDR:P_PORT   |             |
+|                               |                      |             |
+|                               |                      |             |
+|<------------------------------|                      |             |
+| Src: P_ADDR:P_PORT            |                      |             |
+| Dst: C_ADDR:C_PORT            |                      |             |
+| Reply-To:                     |                      |             |
+|   cri'coap://S1_ADDR:G_PORT'  |                      |             |
+|                               |                      |             |
+|                               |                      |             |
+|                               |<-----------------------------------|
+|                               |               Src: S2_ADDR:S2_PORT |
+|                               |               Dst: P_ADDR:P_PORT   |
+|                               |                      |             |
+|                               |                      |             |
+|<------------------------------|                      |             |
+| Src: P_ADDR:P_PORT            |                      |             |
+| Dst: C_ADDR:C_PORT            |                      |             |
+| Reply-To:                     |                      |             |
+|   cri'coap://S2_ADDR:S2_PORT' |                      |             |
+|                               |                      |             |
+|                               |                      |             |
+|              / At t = 60, P stops accepting          |             |
+|              responses for this request /            |             |
+|                               |                      |             |
 ~~~~~~~~~~~
 {: #workflow-example title="Workflow example with a forward-proxy"}
 
@@ -511,14 +438,6 @@ A reverse-proxy may also operate without support of the Multicast-Timeout Option
 
 {{sec-reverse-proxies-examples}} provides examples with a reverse-proxy.
 
-## Processing on the Client Side ## {#sec-reverse-proxies-client-side}
-
-If a client sends a CoAP request intended to a group of servers and is aware of actually communicating with a reverse-proxy, then the client SHOULD perform the steps defined in {{ssec-req-send-steps}}. In particular, this results in a request sent to the proxy including a Multicast-Timeout Option.
-
-An exception is the case where the reverse-proxy has a pre-configured timeout value T\_PROXY, as the default timeout value to use for when to stop accepting responses from the servers, after the reception of the original unicast request from the client. In this case, a client aware of such a configuration MAY omit the Multicast-Timeout Option in the request sent to the proxy.
-
-The client processes the CoAP responses forwarded back by the proxy as defined in {{ssec-resp-proc-client}}.
-
 ## Processing on the Proxy Side ## {#sec-reverse-proxies-proxy-side}
 
 If the proxy receives a CoAP request and determines that it should be forwarded to a group of servers over IP multicast, then the proxy performs the steps defined in {{ssec-req-proc-proxy}}.
@@ -529,15 +448,33 @@ The proxy processes the CoAP responses forwarded back to the client as defined i
 
 * As a first possible case, the proxy stands in both for the whole group of servers and for the individual origin servers in the group. That is, the origin client cannot reach the individual servers directly, but only through the proxy.
 
-   In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information TARGET that is directly associated with the proxy. When receving a unicast request that is sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response.
+   In such a case, within a response forwarded back to the client, the value of the Reply-To Option specifies an addressing information TARGET that is directly associated with the proxy. The addressing information is such that, when receving a unicast request that has been sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response. In particular, the proxy sets the option value as follows.
 
-   The client will be able to communicate individually with that server, by sending a follow-up unicast request to the proxy at the specified addressing information TARGET, according to which the proxy forwards the request to the server. An example is provided in {{sec-reverse-proxies-examples-ex1}} and {{sec-reverse-proxies-examples-ex2}}.
+   * The CRI present as first element of the CBOR sequence specifies an addressing information TARGET_1, such that a unicast request reaches the proxy if it is sent according to TARGET_1.
+
+   * A CRI reference MUST be present as second element of the CBOR sequence in case, upon receiving a unicast request that has been sent according to TARGET_1, the proxy forwards the request based on what is specified by the Uri-Host, Uri-Port, and Uri-Path Options included in the request. The CRI reference specifies the same information that the proxy expects to be specified in the Uri-Host, Uri-Port, and Uri-Path Options of such a unicast request.
+
+     Otherwise, the second element of the CBOR sequence MUST NOT be present, in which case the proxy forwards the unicast request solely based on the addressing information TARGET_1 according to which the request has been sent to.
+
+   The client will be able to communicate individually with the server that originated the response, by sending a follow-up unicast request to the proxy at the specified addressing information TARGET, according to which the proxy forwards the request to that server. This is further specified in {{sec-reverse-proxies-client-side}}. An example is provided in {{sec-reverse-proxies-examples-ex1}} and {{sec-reverse-proxies-examples-ex2}}.
 
 * As a second possible case, the proxy stands in only for the whole group of servers, but not for the individual servers in the group. That is, the origin client can reach the individual servers directly, without recourse to the proxy.
 
-   In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information that is directly associated with the origin server that originated the response.
+   In such a case, within a response forwarded back to the client, the value of the Reply-To Option specifies an addressing information TARGET that is directly associated with the origin server that originated the response. In particular, the proxy sets the option value as follows.
 
-   The client will be able to use that information for sending a follow-up unicast request directly to that server, i.e., bypassing the proxy. An example is provided in {{sec-reverse-proxies-examples-ex3}}.
+   * The CRI present as first element of the CBOR sequence specifies the addressing information TARGET, such that a unicast request reaches the origin server if sent according to TARGET. The second element of the CBOR sequence MUST NOT be present.
+
+   The client will be able to use that information for sending a follow-up unicast request directly to that server, i.e., bypassing the proxy. This is further specified in {{sec-reverse-proxies-client-side}}. An example is provided in {{sec-reverse-proxies-examples-ex3}}.
+
+## Processing on the Client Side ## {#sec-reverse-proxies-client-side}
+
+If a client sends a CoAP request intended to a group of servers and is aware of actually communicating with a reverse-proxy, then the client MUST perform the steps defined in {{ssec-req-send-steps}}. In particular, this results in a request sent to the proxy including a Multicast-Timeout Option.
+
+The client processes the CoAP responses forwarded back by the proxy as defined in {{ssec-resp-proc-client}}, with the following differences at step 3.
+
+* If the client wishes to send a follow-up unicast request intended only to the server that originated the response, then the client sends such a request according to the addressing information specified by the CRI retrieved from the value of the Reply-To Option. Effectively, the client sends the unicast request to the proxy.
+
+   In case the value of the Reply-To Option specifies also a CRI reference as second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. If the client wants to specify additional path segments that identify a specific resource at the origin server, then the correspoding Uri-Path options are included in the request after the Uri-Path options corresponding to the path component of the CRI reference.
 
 # Caching # {#sec-proxy-caching}
 
@@ -809,19 +746,19 @@ If the proxy is the last one in the chain, i.e., it is the last hop before the o
 
 Otherwise, the proxy performs the steps defined in {{ssec-resp-proc-proxy}}, with the following differences.
 
-* In any of the two following cases, the proxy skips step 1, hence the proxy MUST NOT remove, alter, or replace the Response-Forwarding Option.
+* In any of the two following cases, the proxy skips step 1, hence the proxy MUST NOT remove, alter, or replace the Reply-To Option.
 
    * The chain is composed of forward-proxies.
 
    * The chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in only for the whole group of servers, but not for the individual servers in the group (see {{sec-reverse-proxies-proxy-side}}).
 
-   This ensures that, when receiving a response to a group request and consuming the Response-Forwarding Option, the origin client can retrieve addressing information that is directly associated with the origin server that originated the response.
+   This ensures that, when receiving a response to a group request and consuming the Reply-To Option, the origin client can retrieve addressing information that is directly associated with the origin server that originated the response.
 
 * At step 1, the following applies in case the chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in both for the whole group of servers and for the individual origin servers in the group (see {{sec-reverse-proxies-proxy-side}}).
 
-   In the Response-Forwarding Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receving a unicast request that is sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what is specified in TARGET_OLD, i.e., to the (next hop towards the) origin server that originated the response.
+   In the Reply-To Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the (next hop towards the) origin server that originated the response.
 
-   This ensures that, when receiving a response to a group request and consuming the Response-Forwarding Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.
+   This ensures that, when receiving a response to a group request and consuming the Reply-To Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.
 
 * At step 2, "client" refers to the origin client for the first proxy in the chain; or to the previous hop proxy closer to the origin client, otherwise.
 
@@ -863,31 +800,19 @@ When translating a CoAP message into an HTTP message, the HTTP Multicast-Timeout
 
 The same applies in the opposite direction, when translating an HTTP message into a CoAP message.
 
-## The HTTP Response-Forwarding Header Field ## {#sec-response-forwarding-header}
+## The HTTP Reply-To Header Field ## {#sec-reply-to-header}
 
-The HTTP Response-Forwarding header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Response-Forwarding Option defined in {{sec-response-forwarding-option}}.
+The HTTP Reply-To header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Reply-To Option defined in {{sec-reply-to-option}}.
 
-Using the Uniform Resource Identifier (URI) syntax components defined in {{RFC3986}}, the HTTP Response-Forwarding header field value is as follows.
+Using the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} and including the following core ABNF syntax rules defined by that specification: ALPHA (letters) and DIGIT (decimal digits), the HTTP Reply-To header field value is as follows.
 
-scheme = <scheme, see {{Section 3.1 of RFC3986}}>
+reply-to-char = ALPHA / DIGIT / "-" / "_"
 
-authority = <authority, see {{Section 3.2 of RFC3986}}>
+Reply-To = 2*reply-to-char
 
-Response-Forwarding = scheme "://" authority
+When translating a CoAP message into an HTTP message, the HTTP Reply-To header field is set to the value of the CoAP Reply-To Option in base64url (see {{Section 5 of RFC4648}}) encoding without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
 
-In particular:
-
-* The scheme component indicates the URI scheme otherwise specified in the CoAP Response-Forwarding Option, as per the 'tp_id' element of the 'tp_info' array (see {{sec-response-forwarding-option}}). That is, the 'tp_id' element with integer value 1 results in the scheme "coap".
-
-* The authority component indicates the URI authority otherwise specified in the CoAP Response-Forwarding Option, as per the 'srv_host' and 'srv_port' elements of the 'tp_info' array (see {{sec-response-forwarding-option}}).
-
-When translating a CoAP message into an HTTP message, the HTTP Response-Forwarding header field is set to the URI specified in the CoAP Response-Forwarding Option, as per the rules defined above. In particular, consistently with what is defined in {{sec-response-forwarding-option}}:
-
-* If the 'srv_port' element of the 'tp_info' array is present and specifies the CBOR simple value "null" (0xf6), the URI authority of the header field includes the same port number that was specified in the group URI where the group request was forwarded.
-
-* If the 'srv_port' element of the 'tp_info' array is not present, the URI authority of the header field includes the default port number for the transport protocol specified by the 'tp_id' element of the 'tp_info' array, as per {{default-port-number}}.
-
-When translating an HTTP message into a CoAP message, the CoAP Response-Forwarding Option is set to the URI specified by the HTTP Response-Forwarding header field. In particular, the URI is encoded according to the format specified in {{sec-response-forwarding-option}}.
+When translating an HTTP message into a CoAP message, the CoAP Reply-To Option is set to the value of the HTTP Reply-To header field decoded from base64url (see {{Section 5 of RFC4648}}) without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
 
 ## The HTTP Group-ETag Header Field ## {#sec-group-etag-header}
 
@@ -929,7 +854,7 @@ In addition, in case the HTTP Multicast-Timeout header field had value 0, the pr
 
 ## Response Processing at the Proxy ## {#sec-cross-proxies-proxy-resp}
 
-Upon receiving a CoAP response matching with the group request before the amount of time T' > 0 has elapsed, the proxy includes the Response-Forwarding Option in the response, as per step 1 of {{ssec-resp-proc-proxy-steps}}. Then, the proxy translates the CoAP response to an HTTP response, as per {{Section 10.1 of RFC7252}} and {{RFC8075}}, as well as {{Section 11.2 of RFC8613}} if Group OSCORE is used end-to-end between the client and servers. The additional rules for CoAP messages specifying the Response-Forwarding Option are defined in {{sec-response-forwarding-header}}.
+Upon receiving a CoAP response matching with the group request before the amount of time T' > 0 has elapsed, the proxy includes the Reply-To Option in the response, as per step 1 of {{ssec-resp-proc-proxy-steps}}. Then, the proxy translates the CoAP response to an HTTP response, as per {{Section 10.1 of RFC7252}} and {{RFC8075}}, as well as {{Section 11.2 of RFC8613}} if Group OSCORE is used end-to-end between the client and servers. The additional rules for CoAP messages specifying the Reply-To Option are defined in {{sec-reply-to-header}}.
 
 After that, the proxy stores the resulting HTTP response until the timeout with original value T' > 0 expires. If, before then, the proxy receives another response to the same group request from the same CoAP server, the proxy performs the steps above, and stores the resulting HTTP response by superseding the currently stored one from that server.
 
@@ -961,11 +886,11 @@ When it receives an HTTP response as a reply to the original unicast group reque
 
 4. For each individual HTTP response RESP, the client performs the following steps.
 
-   -  If Group OSCORE is used end-to-end between the client and servers, the client translates the HTTP response RESP into a CoAP response, as per {{Section 11.3 of RFC8613}}. Then, the client decrypts and verifies the resulting CoAP response by using Group OSCORE, as defined in {{I-D.ietf-core-oscore-groupcomm}}. Finally, the decrypted CoAP response is mapped to HTTP as per {{Section 10.2 of RFC7252}} as well as {{RFC8075}}. The additional rules for HTTP messages with the HTTP Response-Forwarding header field are defined in {{sec-response-forwarding-header}}.
+   -  If Group OSCORE is used end-to-end between the client and servers, the client translates the HTTP response RESP into a CoAP response, as per {{Section 11.3 of RFC8613}}. Then, the client decrypts and verifies the resulting CoAP response by using Group OSCORE, as defined in {{I-D.ietf-core-oscore-groupcomm}}. Finally, the decrypted CoAP response is mapped to HTTP as per {{Section 10.2 of RFC7252}} as well as {{RFC8075}}. The additional rules for HTTP messages with the HTTP Reply-To header field are defined in {{sec-reply-to-header}}.
 
    - The client delivers to the application the individual HTTP response.
 
-   Similarly to step 3 in {{ssec-resp-proc-client-steps}}, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of its addressing information specified as value of the HTTP Response-Forwarding header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.
+   Similarly to step 3 in {{ssec-resp-proc-client-steps}}, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as value of the HTTP Reply-To header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.
 
 ## Example ## {#sec-cross-proxies-example}
 
@@ -985,7 +910,9 @@ Body: Do that!
 
 &nbsp;
 
-The following is an example of HTTP batch response sent by P to C, as a reply to the client's original unicast group request.
+The following is an example of HTTP batch response sent by P to C, as a reply to the client's original unicast group request
+
+For readability, 'base64url(X)' denotes the base64url encoding of X withouth padding (see {{Section 5 of RFC4648}}).
 
 ~~~~~~~~~~~
 HTTP/1.1 200 OK
@@ -998,7 +925,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: <INDIVIDUAL_RESPONSE_1_CONTENT_LENGTH>
-Response-Forwarding: coap://S1_ADDR:G_PORT
+Reply-To: base64url(coap://S1_ADDR:G_PORT)
 
 Body: Done!
 --batch_foo_bar
@@ -1007,7 +934,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: <INDIVIDUAL_RESPONSE_2_CONTENT_LENGTH>
-Response-Forwarding: coap://S2_ADDR:S2_PORT
+Reply-To: base64url(coap://S2_ADDR:S2_PORT)
 
 Body: More than done!
 --batch_foo_bar--
@@ -1033,11 +960,9 @@ In case an HTTP-to-CoAP proxy acts specifically as a reverse-proxy, the same pri
 
 ### Processing on the Client Side ## {#sec-reverse-proxies-client-side-http}
 
-If an HTTP client sends a request intended to a group of servers and is aware of actually communicating with a reverse-proxy, then the client SHOULD perform the steps defined in {{sec-cross-proxies-client-req}}. In particular, this results in a request sent to the proxy including a Multicast-Timeout header field.
+If an HTTP client sends a request intended to a group of servers and is aware of actually communicating with a reverse-proxy, then the client MUST perform the steps defined in {{sec-cross-proxies-client-req}}. In particular, this results in a request sent to the proxy including a Multicast-Timeout header field.
 
-An exception is the case where the reverse-proxy has a pre-configured timeout value T\_PROXY, as the default timeout value to use for when to stop accepting responses from the servers, after the reception of the original unicast request from the client. In this case, a client aware of such a configuration MAY omit the Multicast-Timeout header field in the request sent to the proxy.
-
-The client processes the HTTP response forwarded back by the proxy as defined in {{sec-cross-proxies-client-resp}}.
+The client processes the HTTP response forwarded back by the proxy as defined in {{sec-cross-proxies-client-resp}}. If the client wishes to send a follow-up unicast request intended only to one of the CoAP servers that originated the response, the same concepts defined in {{sec-reverse-proxies-client-side}} apply to the composition of HTTP requests.
 
 ### Processing on the Proxy Side ## {#sec-reverse-proxies-proxy-side-http}
 
@@ -1079,11 +1004,11 @@ When the client protects the unicast request sent to the proxy using OSCORE (see
 
 The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
 
-## Response-Forwarding Option ## {#sec-security-considerations-opt2}
+## Reply-To Option ## {#sec-security-considerations-opt2}
 
-The Response-Forwarding Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, the proxy that has forwarded the group request to the servers is able to include the option into a server response, before forwarding this response back to the (previous hop proxy closer to the) origin client.
+The Reply-To Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, the proxy that has forwarded the group request to the servers is able to include the option into a server response, before forwarding this response back to the (previous hop proxy closer to the) origin client.
 
-Since the security association between the client and the proxy provides message integrity, any further intermediaries between the two as well as any on-path active adversaries are not able to undetectably remove the Response-Forwarding Option from a forwarded server response. This ensures that the client can correctly distinguish the different responses and identify their corresponding origin server.
+Since the security association between the client and the proxy provides message integrity, any further intermediaries between the two as well as any on-path active adversaries are not able to undetectably remove the Reply-To Option from a forwarded server response. This ensures that the client can correctly distinguish the different responses and identify their corresponding origin server.
 
 When the proxy protects the response forwarded back to the client using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, message integrity is achieved in the leg between the client and the proxy.
 
@@ -1125,61 +1050,26 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-| Number | Name                | Reference |
-|--------|---------------------|-----------|
-|  TBD1  | Multicast-Timeout   | {{&SELF}} |
-|--------|---------------------|-----------|
-|  TBD2  | Response-Forwarding | {{&SELF}} |
-|--------|---------------------|-----------|
-|  TBD3  |     Group-ETag      | {{&SELF}} |
+| Number | Name              | Reference |
+|--------|-------------------|-----------|
+|  TBD1  | Multicast-Timeout | {{&SELF}} |
+|--------|-------------------|-----------|
+|  TBD2  | Reply-To          | {{&SELF}} |
+|--------|-------------------|-----------|
+|  TBD3  |     Group-ETag    | {{&SELF}} |
 {: #tab-iana-coap-option-numbers title="New CoAP Option Numbers" align="center"}
-
-## CoAP Transport Information Registry {#iana-transport-protocol-identifiers}
-
-IANA is asked to add the following entries to the "CoAP Transport Information" registry defined in {{Section 16.5 of I-D.ietf-core-observe-multicast-notifications}}, within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
-
-~~~~~~~~~~~
-+------------+-------------+-------+----------+-----------+-----------+
-| Transport  | Description | Value | Srv Addr | Req Info  | Reference |
-| Protocol   |             |       |          |           |           |
-+------------+-------------+-------+----------+-----------+-----------+
-| UDP        | UDP with    | 2     | tp_id    |  token    | [This     |
-| secured    | DTLS is     |       | srv_host |  cli_host | document] |
-| with DTLS  | used as per |       | srv_port | ?cli_port |           |
-|            | RFC8323     |       |          |           |           |
-+------------+-------------+-------+----------+-----------+-----------+
-| TCP        | TCP is used | 3     | tp_id    |  token    | [This     |
-|            | as per      |       | srv_host |  cli_host | document] |
-|            | RFC8323     |       | srv_port | ?cli_port |           |
-+------------+-------------+-------+----------+-----------+-----------+
-| TCP        | TCP with    | 4     | tp_id    |  token    | [This     |
-| secured    | TLS is      |       | srv_host |  cli_host | document] |
-| with TLS   | used as per |       | srv_port | ?cli_port |           |
-|            | RFC8323     |       |          |           |           |
-+------------+-------------+-------+----------+-----------+-----------+
-| WebSockets | WebSockets  | 5     | tp_id    |  token    | [This     |
-|            | are used as |       | srv_host |  cli_host | document] |
-|            | per RFC8323 |       | srv_port | ?cli_port |           |
-+------------+-------------+-------+----------+-----------+-----------+
-| WebSockets | WebSockets  | 6     | tp_id    |  token    | [This     |
-| secured    | with TLS    |       | srv_host |  cli_host | document] |
-| with TLS   | are used as |       | srv_port | ?cli_port |           |
-|            | per RFC8323 |       |          |           |           |
-+------------+-------------+-------+----------+-----------+-----------+
-~~~~~~~~~~~
-{: artwork-align="center"}
 
 ## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
 
 IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" Registry registry.
 
-| Field Name          | Status    | Reference |
-|---------------------|-----------|-----------|
-| Multicast-Timeout   | permanent | {{&SELF}} |
-|---------------------|-----------|-----------|
-| Response-Forwarding | permanent | {{&SELF}} |
-|---------------------|-----------|-----------|
-| Group-ETag          | permanent | {{&SELF}} |
+| Field Name        | Status    | Reference |
+|-------------------|-----------|-----------|
+| Multicast-Timeout | permanent | {{&SELF}} |
+|-------------------|-----------|-----------|
+| Reply-To          | permanent | {{&SELF}} |
+|-------------------|-----------|-----------|
+| Group-ETag        | permanent | {{&SELF}} |
 {: #tab-iana-http-field-names title="New HTTP Field Names" align="center"}
 
 --- back
@@ -1198,7 +1088,7 @@ The origin servers are members of a CoAP group with IP multicast address G_ADDR 
 
 The communication between C and P is based on CoAP over TCP, as per {{RFC8323}}. The group communication between P and the origin servers is based on CoAP over UDP and IP multicast, as per {{I-D.ietf-core-groupcomm-bis}}.
 
-Finally, 'bstr(X)' denotes a CBOR byte string where its value is the byte serialization of X.
+Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI reference X.
 
 ## Example 1  ## {#sec-reverse-proxies-examples-ex1}
 
@@ -1206,100 +1096,114 @@ The example shown in {{workflow-example-reverse-1}} considers a reverse-proxy P 
 
 In particular:
 
-* The client C encodes the group URI 'coap://group1.com/r' within the URI path of its request to P. This encoding follows the "default mapping" defined in {{Section 5.3 of RFC8075}} for HTTP-to-CoAP proxies, but now applied to a CoAP-to-CoAP proxy. The proxy P decodes the embedded group URI from the request.
-
-* The client's request URI path starts with '/cp', which is the resource on P that provides the CoAP proxy function. Since C in this example constructs the URI in its request including this resource '/cp', it is aware that is requesting to a proxy.
-
-* Because the embedded group URI omits the CoAP port, P infers G_PORT to be the default port 5683 for the 'coap' scheme.
-
 * The hostname 'p.example.com' resolves to the proxy's unicast IPv6 address P_ADDR.
 
-* The hostname 'group1.com' resolves to the IPv6 multicast address G_ADDR. The proxy P performs this resolution upon receiving the request from C. P constructs the group request and sends it to the CoAP group at G_ADDR:G_PORT.
+* In its group request to P, the client C includes the Uri-Host Option with value "group1.com" and the Uri-Path option with value "r".
 
-* Typically S1_PORT and S2_PORT will be equal to G_PORT, but a server Sx is allowed to reply to the multicast request from another port number not equal to G_PORT. For this reason, the notation Sx_PORT is used.
+* The hostname 'group1.com' resolves to the IPv6 multicast address G_ADDR. The proxy P performs this resolution upon receiving the group request from C.
 
-Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it is well scalable to a large number of servers Sx. The type of reverse-proxy in the example in {{sec-reverse-proxies-examples-ex2}} requires an additional IP address for each server Sx and also for each CoAP group that it supports.
+   Since such a request does not include the Uri-Port option, P infers G_PORT to be the default port number 5683 for the 'coap' scheme.
+
+   Based on this information, P composes the group request and sends it to the CoAP group at G_ADDR:G_PORT.
+
+* Typically, S1_PORT and S2_PORT will be equal to G_PORT, but a server Sx is allowed to reply to the multicast request from another port number not equal to G_PORT. For this reason, the notation Sx_PORT is used.
+
+Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it is well scalable to a large number of servers Sx. Instead, the type of reverse-proxy in the example in {{sec-reverse-proxies-examples-ex2}} requires an additional IP address for each server Sx and also for each CoAP group that it supports.
 
 ~~~~~~~~~~~ aasvg
-
-C                              P                      S1           S2
-|                              |                      |             |
-|----------------------------->| /* C embeds the      |             |
-| Src: C_ADDR:C_PORT           | group URI into its   |             |
-| Dst: p.example.com:P_PORT    | request to the       |             |
-| Uri-Path:                    | proxy */             |             |
-|     /cp/coap://group1.com/r  |                      |             |
-| Multicast-Timeout: 60        |                      |             |
-|                              |                      |             |
-|                              | Src: P_ADDR:P_PORT   |             |
-|                              | Dst: G_ADDR:G_PORT   |             |
-|                              | Uri-Path: /r         |             |
-|                              |---------------+----->|             |
-|                              |                \     |             |
-|                              |                 +----------------->|
-|                              |                      |             |
-|                              |                      |             |
-|                              | /* t = 0 : P starts  |             |
-|                              | accepting responses  |             |
-|                              | for this request */  |             |
-|                              |                      |             |
-|                              |                      |             |
-|                              |<---------------------|             |
-|                              | Src: S1_ADDR:S1_PORT |             |
-|                              | Dst: P_ADDR:P_PORT   |             |
-|                              |                      |             |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-| Src: p.example.com:P_PORT    |                      |             |
-| Dst: C_ADDR:C_PORT           |                      |             |
-| Response-Forwarding {        |                      |             |
-|  [3, /*CoAP over TCP*/       |                      |             |
-|   #6.260(bstr(S1_ADDR)),     |                      |             |
-|   S1_PORT                    |                      |             |
-|  ]                           |                      |             |
-| }                            |                      |             |
-|                              |                      |             |
-|                              |                      |             |
-|                              |<-----------------------------------|
-|                              |               Src: S2_ADDR:S2_PORT |
-|                              |               Dst: P_ADDR:P_PORT   |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-| Src: p.example.com:P_PORT    |                      |             |
-| Dst: C_ADDR:C_PORT           |                      |             |
-| Response-Forwarding {        |                      |             |
-|  [3, /*CoAP over TCP*/       |                      |             |
-|   #6.260(bstr(S2_ADDR)),     |                      |             |
-|   S2_PORT                    |                      |             |
-|  ]                           |                      |             |
-| }                            |                      |             |
-|                              |                      |             |
-|                /* At t = 60, P stops accepting      |             |
-|                responses for this request */        |             |
-|                              |                      |             |
-|                              |                      |             |
-|----------------------------->| /* Request intended  |             |
-| Src: C_ADDR:C_PORT           | only to S1, via      |             |
-| Dst: p.example.com:P_PORT    | proxy P */           |             |
-| Uri-Path: /cp/coap://        |                      |             |
-|         [S1_ADDR]:S1_PORT/r2 |                      |             |
-|                              |                      |             |
-|                              | Src: P_ADDR:P_PORT   |             |
-|                              | Dst: S1_ADDR:S1_PORT |             |
-|                              | Uri-Path: /r2        |             |
-|                              |--------------------->|             |
-|                              |                      |             |
-|                              |                      |             |
-|                              |<---------------------|             |
-|                              | Src: S1_ADDR:S1_PORT |             |
-|                              | Dst: P_ADDR:P_PORT   |             |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-|          Src: P_ADDR:P_PORT  |                      |             |
-|          Dst: C_ADDR:C_PORT  |                      |             |
-|                              |                      |             |
+C                                    P                      S1       S2
+|                                    |                      |         |
+|----------------------------------->| / C is not aware     |         |
+| Src: C_ADDR:C_PORT                 | that P is in fact    |         |
+| Dst: group1.com:P_PORT             | a reverse-proxy /    |         |
+| Uri-Path: "r"                      |                      |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|<-----------------------------------|                      |         |
+| Src: P_ADDR:P_PORT                 |                      |         |
+| Dst: C_ADDR:C_PORT                 |                      |         |
+| 4.00 Bad Request                   |                      |         |
+| Multicast-Timeout: (empty)         |                      |         |
+| Payload: "Please use               |                      |         |
+|   Multicast-Timeout"               |                      |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|----------------------------------->| / C embeds the       |         |
+| Src: C_ADDR:C_PORT                 | group URI into its   |         |
+| Dst: p.example.com:P_PORT          | request to the       |         |
+| Uri-Host: "group1.com"             | proxy P /            |         |
+| Uri-Path: "r"                      |                      |         |
+| Multicast-Timeout: 60              |                      |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|                                    | Src: P_ADDR:P_PORT   |         |
+|                                    | Dst: G_ADDR:G_PORT   |         |
+|                                    | Uri-Path: "r"        |         |
+|                                    |---------------+----->|         |
+|                                    |                \     |         |
+|                                    |                 +------------->|
+|                                    |                      |         |
+|                                    |                      |         |
+|                                    | / t = 0 : P starts   |         |
+|                                    | accepting responses  |         |
+|                                    | for this request /   |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|                                    |<---------------------|         |
+|                                    | Src: S1_ADDR:S1_PORT |         |
+|                                    | Dst: P_ADDR:P_PORT   |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|<-----------------------------------|                      |         |
+| Src: P_ADDR:P_PORT                 |                      |         |
+| Dst: C_ADDR:C_PORT                 |                      |         |
+| Reply-To:                          |                      |         |
+|   cri'coap+tcp://P_ADDR:P_PORT',   |                      |         |
+|   cri'//S1_ADDR:S1_PORT'           |                      |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|                                    |<-------------------------------|
+|                                    |           Src: S2_ADDR:S2_PORT |
+|                                    |           Dst: P_ADDR:P_PORT   |
+|                                    |                      |         |
+|                                    |                      |         |
+|<-----------------------------------|                      |         |
+| Src: P_ADDR:P_PORT                 |                      |         |
+| Dst: C_ADDR:C_PORT                 |                      |         |
+| Reply-To:                          |                      |         |
+|   cri'coap+tcp://P_ADDR:P_PORT',   |                      |         |
+|   cri'//S2_ADDR:S2_PORT'           |                      |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|                    / At t = 60, P stops accepting         |         |
+|                    responses for this request /           |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|----------------------------------->| / Request intended   |         |
+| Src: C_ADDR:C_PORT                 | only to S1, via the  |         |
+| Dst: p.example.com:P_PORT          | proxy P /            |         |
+| Uri-Host: "S1_ADDR"                |                      |         |
+| Uri-Port: S1_PORT                  |                      |         |
+| Uri-Path: "r1"                     |                      |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|                                    | Src: P_ADDR:P_PORT   |         |
+|                                    | Dst: S1_ADDR:S1_PORT |         |
+|                                    | Uri-Path: "r1"       |         |
+|                                    |--------------------->|         |
+|                                    |                      |         |
+|                                    |                      |         |
+|                                    |<---------------------|         |
+|                                    | Src: S1_ADDR:S1_PORT |         |
+|                                    | Dst: P_ADDR:P_PORT   |         |
+|                                    |                      |         |
+|                                    |                      |         |
+|<-----------------------------------|                      |         |
+|                 Src: P_ADDR:P_PORT |                      |         |
+|                 Dst: C_ADDR:C_PORT |                      |         |
+|                                    |                      |         |
 ~~~~~~~~~~~
-{: #workflow-example-reverse-1 title="Workflow example with reverse-proxy that processes an embedded group URI in a client's request"}
+{: #workflow-example-reverse-1 title="Workflow example with reverse-proxy standing in for both the whole group of servers and each individual server, and requiring only one unicast IP address."}
 
 
 ## Example 2  ## {#sec-reverse-proxies-examples-ex2}
@@ -1315,97 +1219,96 @@ In particular:
 Note that this type of reverse-proxy implementation requires the proxy to use (potentially) a large number of distinct IP addresses, hence it is not very scalable. Instead, the type of reverse-proxy shown in the example in {{sec-reverse-proxies-examples-ex1}} uses only one IPv6 unicast address to provide access to all servers and all CoAP groups.
 
 ~~~~~~~~~~~ aasvg
-
-C                              P                      S1           S2
-|                              |                      |             |
-|----------------------------->| /* C is not aware    |             |
-| Src: C_ADDR:C_PORT           | that P is in fact    |             |
-| Dst: group1.com:P_PORT       | a reverse-proxy */   |             |
-| Uri-Path: /r                 |                      |             |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-| Src: group1.com:P_PORT       |                      |             |
-| Dst: C_ADDR:C_PORT           |                      |             |
-| 4.00 Bad Request             |                      |             |
-| Multicast-Timeout: (empty)   |                      |             |
-| Payload: "Please use         |                      |             |
-|     Multicast-Timeout"       |                      |             |
-|                              |                      |             |
-|----------------------------->|                      |             |
-| Src: C_ADDR:C_PORT           |                      |             |
-| Dst: group1.com:P_PORT       |                      |             |
-| Multicast-Timeout: 60        |                      |             |
-| Uri-Path: /r                 |                      |             |
-|                              |                      |             |
-|                              |                      |             |
-|                              | Src: P_ADDR:P_PORT   |             |
-|                              | Dst: G_ADDR:G_PORT   |             |
-|                              | Uri-Path: /r         |             |
-|                              |---------------+----->|             |
-|                              |                \     |             |
-|                              |                 +----------------->|
-|                              |                      |             |
-|                              |                      |             |
-|                              | /* t = 0 : P starts  |             |
-|                              | accepting responses  |             |
-|                              | for this request */  |             |
-|                              |                      |             |
-|                              |                      |             |
-|                              |<---------------------|             |
-|                              | Src: S1_ADDR:S1_PORT |             |
-|                              | Dst: P_ADDR:P_PORT   |             |
-|                              |                      |             |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-| Src: group1.com:P_PORT       |                      |             |
-| Dst: C_ADDR:C_PORT           |                      |             |
-| Response-Forwarding {        |                      |             |
-|  [3, /*CoAP over TCP*/       |                      |             |
-|   #6.260(bstr(D1_ADDR)),     |                      |             |
-|   D1_PORT                    |                      |             |
-|  ]                           |                      |             |
-| }                            |                      |             |
-|                              |                      |             |
-|                              |<-----------------------------------|
-|                              |               Src: S2_ADDR:S2_PORT |
-|                              |               Dst: P_ADDR:P_PORT   |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-| Src: group1.com:P_PORT       |                      |             |
-| Dst: C_ADDR:C_PORT           |                      |             |
-| Response-Forwarding {        |                      |             |
-|  [3, /*CoAP over TCP*/       |                      |             |
-|   #6.260(bstr(D2_ADDR)),     |                      |             |
-|   D2_PORT                    |                      |             |
-|  ]                           |                      |             |
-| }                            |                      |             |
-|                              |                      |             |
-|                /* At t = 60, P stops accepting      |             |
-|                responses for this request */        |             |
-|                              |                      |             |
-...                           ... /* time passes */  ...          ...
-|                              |                      |             |
-|----------------------------->| /* Request intended  |             |
-| Src: C_ADDR:C_PORT           | only to S1 for same  |             |
-| Dst: D1_ADDR:D1_PORT         | resource /r */       |             |
-| Uri-Path: /r                 |                      |             |
-|                              |                      |             |
-|                              | Src: P_ADDR:P_PORT   |             |
-|                              | Dst: S1_ADDR:S1_PORT |             |
-|                              | Uri-Path: /r         |             |
-|                              |--------------------->|             |
-|                              |                      |             |
-|                              |                      |             |
-|                              |<---------------------|             |
-|                              | Src: S1_ADDR:S1_PORT |             |
-|                              | Dst: P_ADDR:P_PORT   |             |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-|         Src: D1_ADDR:D1_PORT |                      |             |
-|         Dst: C_ADDR:C_PORT   |                      |             |
-|                              |                      |             |
+C                                   P                      S1        S2
+|                                   |                      |          |
+|---------------------------------->| / C is not aware     |          |
+| Src: C_ADDR:C_PORT                | that P is in fact    |          |
+| Dst: group1.com:P_PORT            | a reverse-proxy /    |          |
+| Uri-Path: "r"                     |                      |          |
+|                                   |                      |          |
+|                                   |                      |          |
+|<----------------------------------|                      |          |
+| Src: P_ADDR:P_PORT                |                      |          |
+| Dst: C_ADDR:C_PORT                |                      |          |
+| 4.00 Bad Request                  |                      |          |
+| Multicast-Timeout: (empty)        |                      |          |
+| Payload: "Please use              |                      |          |
+|     Multicast-Timeout"            |                      |          |
+|                                   |                      |          |
+|                                   |                      |          |
+|---------------------------------->|                      |          |
+| Src: C_ADDR:C_PORT                |                      |          |
+| Dst: group1.com:P_PORT            |                      |          |
+| Multicast-Timeout: 60             |                      |          |
+| Uri-Path: "r"                     |                      |          |
+|                                   |                      |          |
+|                                   |                      |          |
+|                                   | Src: P_ADDR:P_PORT   |          |
+|                                   | Dst: G_ADDR:G_PORT   |          |
+|                                   | Uri-Path: "r"        |          |
+|                                   |---------------+----->|          |
+|                                   |                \     |          |
+|                                   |                 +-------------->|
+|                                   |                      |          |
+|                                   |                      |          |
+|                                   | / t = 0 : P starts   |          |
+|                                   | accepting responses  |          |
+|                                   | for this request /   |          |
+|                                   |                      |          |
+|                                   |                      |          |
+|                                   |<---------------------|          |
+|                                   | Src: S1_ADDR:S1_PORT |          |
+|                                   | Dst: P_ADDR:P_PORT   |          |
+|                                   |                      |          |
+|                                   |                      |          |
+|<----------------------------------|                      |          |
+| Src: P_ADDR:P_PORT                |                      |          |
+| Dst: C_ADDR:C_PORT                |                      |          |
+| Reply-To:                         |                      |          |
+|   cri'coap+tcp://D1_ADDR:D1_PORT' |                      |          |
+|                                   |                      |          |
+|                                   |                      |          |
+|                                   |<--------------------------------|
+|                                   |            Src: S2_ADDR:S2_PORT |
+|                                   |            Dst: P_ADDR:P_PORT   |
+|                                   |                      |          |
+|                                   |                      |          |
+|<----------------------------------|                      |          |
+| Src: P_ADDR:P_PORT                |                      |          |
+| Dst: C_ADDR:C_PORT                |                      |          |
+| Reply-To:                         |                      |          |
+|   cri'coap+tcp://D2_ADDR:D2_PORT' |                      |          |
+|                                   |                      |          |
+|                                   |                      |          |
+|                   / At t = 60, P stops accepting         |          |
+|                   responses for this request /           |          |
+|                                   |                      |          |
+|                                   |                      |          |
+...           ...            / Time passes /              ...       ...
+|                                   |                      |          |
+|                                   |                      |          |
+|---------------------------------->| / Request intended   |          |
+| Src: C_ADDR:C_PORT                | only to S1 for same  |          |
+| Dst: D1_ADDR:D1_PORT              | resource /r /        |          |
+| Uri-Path: "r"                     |                      |          |
+|                                   |                      |          |
+|                                   | Src: P_ADDR:P_PORT   |          |
+|                                   | Dst: S1_ADDR:S1_PORT |          |
+|                                   | Uri-Path: "r"        |          |
+|                                   |--------------------->|          |
+|                                   |                      |          |
+|                                   |                      |          |
+|                                   |<---------------------|          |
+|                                   | Src: S1_ADDR:S1_PORT |          |
+|                                   | Dst: P_ADDR:P_PORT   |          |
+|                                   |                      |          |
+|                                   |                      |          |
+|<----------------------------------|                      |          |
+|              Src: D1_ADDR:D1_PORT |                      |          |
+|              Dst: C_ADDR:C_PORT   |                      |          |
+|                                   |                      |          |
 ~~~~~~~~~~~
-{: #workflow-example-reverse-2 title="Workflow example with reverse-proxy standing in for both the whole group of servers and each individual server"}
+{: #workflow-example-reverse-2 title="Workflow example with reverse-proxy standing in for both the whole group of servers and each individual server, and requiring one pair (IP address, port number) for each origin server."}
 
 ## Example 3  ## {#sec-reverse-proxies-examples-ex3}
 
@@ -1416,84 +1319,83 @@ However, it considers a reverse-proxy that stands in for only the whole group of
 The final exchange between C and S1 occurs with CoAP over UDP.
 
 ~~~~~~~~~~~ aasvg
-C                              P                      S1           S2
-|                              |                      |             |
-|----------------------------->| /* C is not aware    |             |
-| Src: C_ADDR:C_PORT           | that P is in fact    |             |
-| Dst: group1.com:P_PORT       | a reverse-proxy */   |             |
-| Uri-Path: /r                 |                      |             |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-| Src: group1.com:P_PORT       |                      |             |
-| Dst: C_ADDR:C_PORT           |                      |             |
-| 4.00 Bad Request             |                      |             |
-| Multicast-Timeout: (empty)   |                      |             |
-| Payload: "Please use         |                      |             |
-|     Multicast-Timeout"       |                      |             |
-|                              |                      |             |
-|                              |                      |             |
-|----------------------------->|                      |             |
-| Src: C_ADDR:C_PORT           |                      |             |
-| Dst: group1.com:P_PORT       |                      |             |
-| Multicast-Timeout: 60        |                      |             |
-| Uri-Path: /r                 |                      |             |
-|                              |                      |             |
-|                              | Src: P_ADDR:P_PORT   |             |
-|                              | Dst: G_ADDR:G_PORT   |             |
-|                              | Uri-Path: /r         |             |
-|                              |---------------+----->|             |
-|                              |                \     |             |
-|                              |                 +----------------->|
-|                              |                      |             |
-|                              |                      |             |
-|                              | /* t = 0 : P starts  |             |
-|                              | accepting responses  |             |
-|                              | for this request */  |             |
-|                              |                      |             |
-|                              |                      |             |
-|                              |<---------------------|             |
-|                              | Src: S1_ADDR:S1_PORT |             |
-|                              | Dst: P_ADDR:P_PORT   |             |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-| Dst: group1.com:P_PORT       |                      |             |
-| Dst: C_ADDR:C_PORT           |                      |             |
-| Response-Forwarding {        |                      |             |
-|  [1, /*CoAP over UDP*/       |                      |             |
-|   #6.260(bstr(S1_ADDR)),     |                      |             |
-|   S1_PORT                    |                      |             |
-|  ]                           |                      |             |
-| }                            |                      |             |
-|                              |                      |             |
-|                              |<-----------------------------------|
-|                              |               Src: S2_ADDR:S2_PORT |
-|                              |               Dst: P_ADDR:P_PORT   |
-|                              |                      |             |
-|<-----------------------------|                      |             |
-| Dst: group1.com:P_PORT       |                      |             |
-| Dst: C_ADDR:C_PORT           |                      |             |
-| Response-Forwarding {        |                      |             |
-|  [1, /*CoAP over UDP*/       |                      |             |
-|   #6.260(bstr(S2_ADDR)),     |                      |             |
-|   S2_PORT                    |                      |             |
-|  ]                           |                      |             |
-| }                            |                      |             |
-|                              |                      |             |
-|                              |                      |             |
-|                /* At t = 60, P stops accepting      |             |
-|                responses for this request */        |             |
-|                              |                      |             |
-...         ...        /* time passes */             ...          ...
-|                              |                      |             |
-|---------------------------------------------------->|             |
-| Src: C_ADDR:C_PORT           | /* Request intended  |             |
-| Dst: S1.ADDR:S1_PORT         | only to S1 for same  |             |
-| Uri-Path: /r                 | resource /r */       |             |
-|                              |                      |             |
-|<----------------------------------------------------|             |
-|         Src: S1.ADDR:S1_PORT |                      |             |
-|         Dst: C_ADDR:C_PORT   |                      |             |
-|                              |                      |             |
+C                               P                      S1           S2
+|                               |                      |             |
+|------------------------------>| / C is not aware     |             |
+| Src: C_ADDR:C_PORT            | that P is in fact    |             |
+| Dst: group1.com:P_PORT        | a reverse-proxy /    |             |
+| Uri-Path: "r"                 |                      |             |
+|                               |                      |             |
+|<------------------------------|                      |             |
+| Src: P_ADDR:P_PORT            |                      |             |
+| Dst: C_ADDR:C_PORT            |                      |             |
+| 4.00 Bad Request              |                      |             |
+| Multicast-Timeout: (empty)    |                      |             |
+| Payload: "Please use          |                      |             |
+|     Multicast-Timeout"        |                      |             |
+|                               |                      |             |
+|                               |                      |             |
+|------------------------------>|                      |             |
+| Src: C_ADDR:C_PORT            |                      |             |
+| Dst: group1.com:P_PORT        |                      |             |
+| Multicast-Timeout: 60         |                      |             |
+| Uri-Path: "r"                 |                      |             |
+|                               |                      |             |
+|                               |                      |             |
+|                               | Src: P_ADDR:P_PORT   |             |
+|                               | Dst: G_ADDR:G_PORT   |             |
+|                               | Uri-Path: "r"        |             |
+|                               |---------------+----->|             |
+|                               |                \     |             |
+|                               |                 +----------------->|
+|                               |                      |             |
+|                               |                      |             |
+|                               | / t = 0 : P starts   |             |
+|                               | accepting responses  |             |
+|                               | for this request /   |             |
+|                               |                      |             |
+|                               |                      |             |
+|                               |<---------------------|             |
+|                               | Src: S1_ADDR:S1_PORT |             |
+|                               | Dst: P_ADDR:P_PORT   |             |
+|                               |                      |             |
+|                               |                      |             |
+|<------------------------------|                      |             |
+| Dst: P_ADDR:P_PORT            |                      |             |
+| Dst: C_ADDR:C_PORT            |                      |             |
+| Reply-To:                     |                      |             |
+|   cri'coap://S1_ADDR:S1_PORT' |                      |             |
+|                               |                      |             |
+|                               |                      |             |
+|                               |<-----------------------------------|
+|                               |               Src: S2_ADDR:S2_PORT |
+|                               |               Dst: P_ADDR:P_PORT   |
+|                               |                      |             |
+|                               |                      |             |
+|<------------------------------|                      |             |
+| Dst: P_ADDR:P_PORT            |                      |             |
+| Dst: C_ADDR:C_PORT            |                      |             |
+| Reply-To:                     |                      |             |
+|   cri'coap://S2_ADDR:S2_PORT' |                      |             |
+|                               |                      |             |
+|                               |                      |             |
+|               / At t = 60, P stops accepting         |             |
+|               responses for this request /           |             |
+|                               |                      |             |
+|                               |                      |             |
+...           ...        / Time passes /              ...          ...
+|                               |                      |             |
+|                               |                      |             |
+|----------------------------------------------------->|             |
+| Src: C_ADDR:C_PORT            | / Request intended   |             |
+| Dst: S1.ADDR:S1_PORT          | only to S1 for same  |             |
+| Uri-Path: "r"                 | resource /r /        |             |
+|                               |                      |             |
+|                               |                      |             |
+|<-----------------------------------------------------|             |
+|                               | Src: S1.ADDR:S1_PORT |             |
+|                               | Dst: C_ADDR:C_PORT   |             |
+|                               |                      |             |
 ~~~~~~~~~~~
 {: #workflow-example-reverse-3 title="Workflow example with reverse-proxy standing in for only the whole group of servers, but not for each individual server"}
 
@@ -1506,9 +1408,17 @@ C                              P                      S1           S2
 
 * UDP/IP multicast treated as the default transport protocol.
 
-* Response-Forwarding option added before possible response caching.
-
 * Always use the Multicast-Timeout Option, also with reverse-proxies.
+
+* Response-Forwarding option:
+
+   - Renames as "Reply-To".
+
+   - Revised encoding to use CRIs.
+
+   - Revised semantics to better address setups with reverse-proxies.
+
+   - Added before possible response caching.
 
 * Clarified response processing at reverse-proxies.
 
