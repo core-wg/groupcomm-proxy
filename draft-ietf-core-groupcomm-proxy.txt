@@ -709,6 +709,13 @@ Table of Contents
           port number for the transport protocol specified in the
           'tp_id' element.
 
+       If the proxy supports caching of responses (see Section 7), the
+       proxy MUST include the Response-Forwarding Option into the
+       response before caching it.  This ensures that a response to a
+       group request conveys the addressing information of the origin
+       server that generated the response, also when the response is
+       forwarded to a client as retrieved from the proxy's cache.
+
    2.  The proxy forwards the response back to the client.  When doing
        so, the proxy protects the response according to the security
        association it has with the client.
@@ -2772,6 +2779,8 @@ B.1.  Version -00 to -01
    *  Definition of "individual request" in the terminology.
 
    *  UDP/IP multicast treated as the default transport protocol.
+
+   *  Response-Forwarding option added before possible response caching.
 
    *  Updated IANA considerations.
 

@@ -1822,6 +1822,8 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
                   <p id="section-5.4.1-2.1.2.2.1">If present, the 'srv_port' element of the 'srv_info' array <span class="bcp14">MUST</span> specify the port number of the server as the source port number of the response. This element <span class="bcp14">MUST</span> be present if the source port number of the response differs from the default port number for the transport protocol specified in the 'tp_id' element.<a href="#section-5.4.1-2.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
+<p id="section-5.4.1-2.1.3">
+If the proxy supports caching of responses (see <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a>), the proxy <span class="bcp14">MUST</span> include the Response-Forwarding Option into the response before caching it. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.<a href="#section-5.4.1-2.1.3" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.1-2.2">
               <p id="section-5.4.1-2.2.1">The proxy forwards the response back to the client. When doing so, the proxy protects the response according to the security association it has with the client.<a href="#section-5.4.1-2.2.1" class="pilcrow">¶</a></p>
@@ -3729,10 +3731,13 @@ Body: More than done!
             <p id="appendix-B.1-1.2.1">UDP/IP multicast treated as the default transport protocol.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Updated IANA considerations.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Response-Forwarding option added before possible response caching.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Updated IANA considerations.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
