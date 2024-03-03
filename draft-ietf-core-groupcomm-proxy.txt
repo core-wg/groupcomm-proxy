@@ -179,8 +179,9 @@ Table of Contents
    servers, the proxy relays the individual responses back to the client
    as separate CoAP messages.  The described method addresses all the
    related issues raised in Section 3.5 of
-   [I-D.ietf-core-groupcomm-bis].  To this end, a dedicated signaling
-   protocol is defined, using two new CoAP options.
+   [I-D.ietf-core-groupcomm-bis].  To this end, this document defines a
+   dedicated signaling protocol based on two new CoAP options and used
+   by the client and the proxy.
 
    Using this protocol, the client explicitly confirms its intent to
    perform a proxied group request and its support for receiving
