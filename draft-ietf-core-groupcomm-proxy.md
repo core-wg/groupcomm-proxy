@@ -61,6 +61,9 @@ informative:
   RFC8446:
   RFC9147:
 
+entity:
+  SELF: "[RFC-XXXX]"
+
 --- abstract
 
 This document specifies the operations performed by a proxy, when using the Constrained Application Protocol (CoAP) in group communication scenarios. Such a proxy processes a single request sent by a client over unicast, and distributes the request over IP multicast to a group of servers. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies.
@@ -1106,6 +1109,8 @@ Revisit security considerations from {{RFC8075}}
 
 This document has the following actions for IANA.
 
+Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC number of this specification and delete this paragraph.
+
 ## CoAP Option Numbers Registry ## {#iana-coap-options}
 
 IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry within the "CoRE Parameters" registry group.
@@ -1158,23 +1163,23 @@ IANA is asked to add the following entries to the "CoAP Transport Information" r
 ~~~~~~~~~~~
 {: artwork-align="center"}
 
-## Header Field Registrations {#iana-message-headers}
+## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
 
-IANA is asked to enter the following HTTP header fields to the "Message Headers" registry.
+IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name Registry" registry.
 
 ~~~~~~~~~~~
-+---------------------+----------+----------+-----------+
-| Header Field Name   | Protocol | Status   | Reference |
-+---------------------+----------+----------+-----------+
-| Multicast-Timeout   | http     | standard | [This     |
-|                     |          |          | document] |
-+---------------------+----------+----------+-----------+
-| Response-Forwarding | http     | standard | [This     |
-|                     |          |          | document] |
-+---------------------+----------+----------+-----------+
-| Group-ETag          | http     | standard | [This     |
-|                     |          |          | document] |
-+---------------------+----------+----------+-----------+
++---------------------+-----------+-----------+
+| Field Name          | Status    | Reference |
++---------------------+-----------+-----------+
+| Multicast-Timeout   | permanent | [This     |
+|                     |           | document] |
++---------------------+-----------+-----------+
+| Response-Forwarding | permanent | [This     |
+|                     |           | document] |
++---------------------+-----------+-----------+
+| Group-ETag          | permanent | [This     |
+|                     |           | document] |
++---------------------+-----------+-----------+
 ~~~~~~~~~~~
 {: artwork-align="center"}
 
@@ -1499,6 +1504,8 @@ C                              P                      S1           S2
 ## Version -00 to -01 ## {#sec-00-01}
 
 * Definition of "individual request" in the terminology.
+
+* Updated IANA considerations.
 
 * Editorial fixes and improvements.
 
