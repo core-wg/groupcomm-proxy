@@ -132,7 +132,7 @@ Table of Contents
    11. IANA Considerations
      11.1.  CoAP Option Numbers Registry
      11.2.  CoAP Transport Information Registry
-     11.3.  Header Field Registrations
+     11.3.  Hypertext Transfer Protocol (HTTP) Field Name Registry
    12. References
      12.1.  Normative References
      12.2.  Informative References
@@ -2165,6 +2165,9 @@ Table of Contents
 
    This document has the following actions for IANA.
 
+   Note to RFC Editor: Please replace all occurrences of "[RFC-XXXX]"
+   with the RFC number of this specification and delete this paragraph.
+
 11.1.  CoAP Option Numbers Registry
 
    IANA is asked to enter the following option numbers to the "CoAP
@@ -2214,23 +2217,23 @@ Table of Contents
  |            | per RFC8323 |       |          |           |           |
  +------------+-------------+-------+----------+-----------+-----------+
 
-11.3.  Header Field Registrations
+11.3.  Hypertext Transfer Protocol (HTTP) Field Name Registry
 
    IANA is asked to enter the following HTTP header fields to the
-   "Message Headers" registry.
+   "Hypertext Transfer Protocol (HTTP) Field Name Registry" registry.
 
-         +---------------------+----------+----------+-----------+
-         | Header Field Name   | Protocol | Status   | Reference |
-         +---------------------+----------+----------+-----------+
-         | Multicast-Timeout   | http     | standard | [This     |
-         |                     |          |          | document] |
-         +---------------------+----------+----------+-----------+
-         | Response-Forwarding | http     | standard | [This     |
-         |                     |          |          | document] |
-         +---------------------+----------+----------+-----------+
-         | Group-ETag          | http     | standard | [This     |
-         |                     |          |          | document] |
-         +---------------------+----------+----------+-----------+
+              +---------------------+-----------+-----------+
+              | Field Name          | Status    | Reference |
+              +---------------------+-----------+-----------+
+              | Multicast-Timeout   | permanent | [This     |
+              |                     |           | document] |
+              +---------------------+-----------+-----------+
+              | Response-Forwarding | permanent | [This     |
+              |                     |           | document] |
+              +---------------------+-----------+-----------+
+              | Group-ETag          | permanent | [This     |
+              |                     |           | document] |
+              +---------------------+-----------+-----------+
 
 12.  References
 
@@ -2753,6 +2756,8 @@ Appendix B.  Document Updates
 B.1.  Version -00 to -01
 
    *  Definition of "individual request" in the terminology.
+
+   *  Updated IANA considerations.
 
    *  Editorial fixes and improvements.
 
