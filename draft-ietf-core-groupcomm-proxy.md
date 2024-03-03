@@ -525,7 +525,19 @@ If the proxy receives a CoAP request and determines that it should be forwarded 
 
 In particular, when such a request does not include a Multicast-Timeout Option, the proxy explicitly reveals itself as a reverse-proxy, by sending a 4.00 (Bad Request) response including a Multicast-Timeout Option with empty (zero-length) value.
 
-The proxy processes the CoAP responses forwarded back to the client as defined in {{ssec-resp-proc-proxy}}.
+The proxy processes the CoAP responses forwarded back to the client as defined in {{ssec-resp-proc-proxy}}, with the following additions.
+
+* As a first possible case, the proxy stands in both for the whole group of servers and for the individual origin servers in the group. That is, the origin client cannot reach the individual servers directly, but only through the proxy.
+
+   In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information that is directly associated with the proxy, and that the proxy leverages in order to forward received unicast requests to the origin server that originated the response.
+
+   The client will be able to communicate individually with that server, by sending a follow-up unicast request to the proxy at the specified addressing information, according to which the proxy forwards the request to the server. An example is provided in {{sec-reverse-proxies-examples-ex1}} and {{sec-reverse-proxies-examples-ex2}}.
+
+* As a second possible case, the proxy stands in only for the whole group of servers, but not for the individual servers in the group. That is, the origin client can reach the individual servers directly, without recourse to the proxy.
+
+   In such a case, within a response forwarded back to the client, the value of the Response-Forwarding Option specifies addressing information that is directly associated with the origin server that originated the response.
+
+   The client will be able to use that information for sending a follow-up unicast request directly to that server, i.e., bypassing the proxy. An example is provided in {{sec-reverse-proxies-examples-ex3}}.
 
 # Caching # {#sec-proxy-caching}
 
@@ -1485,6 +1497,8 @@ C                              P                      S1           S2
 * Response-Forwarding option added before possible response caching.
 
 * Always use the Multicast-Timeout Option, also with reverse-proxies.
+
+* Clarified response processing at reverse-proxies.
 
 * Updated IANA considerations.
 
