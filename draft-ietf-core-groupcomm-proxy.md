@@ -1181,7 +1181,7 @@ C                                    P                      S1       S2
 |                                    |                      |         |
 |----------------------------------->| / Request intended   |         |
 | Src: C_ADDR:C_PORT                 | only to S1, via the  |         |
-| Dst: p.example.com:P_PORT          | proxy P /            |         |
+| Dst: P_ADDR:P_PORT                 | proxy P /            |         |
 | Uri-Host: "S1_ADDR"                |                      |         |
 | Uri-Port: S1_PORT                  |                      |         |
 | Uri-Path: "r1"                     |                      |         |
