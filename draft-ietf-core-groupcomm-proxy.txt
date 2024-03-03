@@ -2171,23 +2171,27 @@ Table of Contents
 11.1.  CoAP Option Numbers Registry
 
    IANA is asked to enter the following option numbers to the "CoAP
-   Option Numbers" registry within the "CoRE Parameters" registry group.
+   Option Numbers" registry within the "Constrained RESTful Environments
+   (CoRE) Parameters" registry group.
 
-           +--------+---------------------+-------------------+
-           | Number |        Name         |     Reference     |
-           +--------+---------------------+-------------------+
-           |  TBD1  | Multicast-Timeout   | [[this document]] |
-           +--------+---------------------+-------------------+
-           |  TBD2  | Response-Forwarding | [[this document]] |
-           +--------+---------------------+-------------------+
-           |  TBD3  |     Group-ETag      | [[this document]] |
-           +--------+---------------------+-------------------+
+               +========+=====================+============+
+               | Number | Name                | Reference  |
+               +========+=====================+============+
+               | TBD1   | Multicast-Timeout   | [RFC-XXXX] |
+               +--------+---------------------+------------+
+               | TBD2   | Response-Forwarding | [RFC-XXXX] |
+               +--------+---------------------+------------+
+               | TBD3   | Group-ETag          | [RFC-XXXX] |
+               +--------+---------------------+------------+
+
+                      Table 1: New CoAP Option Numbers
 
 11.2.  CoAP Transport Information Registry
 
    IANA is asked to add the following entries to the "CoAP Transport
    Information" registry defined in Section 16.5 of
-   [I-D.ietf-core-observe-multicast-notifications].
+   [I-D.ietf-core-observe-multicast-notifications], within the
+   "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
  +------------+-------------+-------+----------+-----------+-----------+
  | Transport  | Description | Value | Srv Addr | Req Info  | Reference |
@@ -2220,20 +2224,19 @@ Table of Contents
 11.3.  Hypertext Transfer Protocol (HTTP) Field Name Registry
 
    IANA is asked to enter the following HTTP header fields to the
-   "Hypertext Transfer Protocol (HTTP) Field Name Registry" registry.
+   "Hypertext Transfer Protocol (HTTP) Field Name" Registry registry.
 
-              +---------------------+-----------+-----------+
-              | Field Name          | Status    | Reference |
-              +---------------------+-----------+-----------+
-              | Multicast-Timeout   | permanent | [This     |
-              |                     |           | document] |
-              +---------------------+-----------+-----------+
-              | Response-Forwarding | permanent | [This     |
-              |                     |           | document] |
-              +---------------------+-----------+-----------+
-              | Group-ETag          | permanent | [This     |
-              |                     |           | document] |
-              +---------------------+-----------+-----------+
+             +=====================+===========+============+
+             | Field Name          | Status    | Reference  |
+             +=====================+===========+============+
+             | Multicast-Timeout   | permanent | [RFC-XXXX] |
+             +---------------------+-----------+------------+
+             | Response-Forwarding | permanent | [RFC-XXXX] |
+             +---------------------+-----------+------------+
+             | Group-ETag          | permanent | [RFC-XXXX] |
+             +---------------------+-----------+------------+
+
+                      Table 2: New HTTP Field Names
 
 12.  References
 
