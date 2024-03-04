@@ -813,7 +813,7 @@ Table of Contents
    This section clarifies how the Multicast-Timeout Option is effective
    also in such a context, in order for:
 
-   *  The proxy to explictly reveal itself as a reverse-proxy to the
+   *  The proxy to explicitly reveal itself as a reverse-proxy to the
       client.
 
    *  The client to indicate to the proxy of being aware that it is
@@ -850,7 +850,7 @@ Table of Contents
       In such a case, within a response forwarded back to the client,
       the value of the Reply-To Option specifies an addressing
       information TARGET that is directly associated with the proxy.
-      The addressing information is such that, when receving a unicast
+      The addressing information is such that, when receiving a unicast
       request that has been sent according to what is specified in
       TARGET, the proxy forwards the request to the origin server that
       originated the response.  In particular, the proxy sets the option
@@ -926,7 +926,7 @@ Table of Contents
       unicast request, according to what is specified by the
       corresponding elements of the CRI reference.  If the client wants
       to specify additional path segments that identify a specific
-      resource at the origin server, then the correspoding Uri-Path
+      resource at the origin server, then the corresponding Uri-Path
       options are included in the request after the Uri-Path options
       corresponding to the path component of the CRI reference.
 
@@ -1105,7 +1105,7 @@ Table of Contents
       at the proxy (see Section 7.4.1).
 
    *  If a cached response included an outer ETag option intended to the
-      proxy, then the proxy can perform revalidatation of the cached
+      proxy, then the proxy can perform revalidation of the cached
       response, by making a request to the unicast URI targeting the
       server, and including outer ETag Option(s).
 
@@ -1150,7 +1150,7 @@ Table of Contents
       at the proxy (see Section 7.4.1).
 
    *  If a cached response included an outer ETag option intended to the
-      proxy, then the proxy can perform revalidatation of the cached
+      proxy, then the proxy can perform revalidation of the cached
       response, by making a request to the group URI targeting the CoAP
       group, and including outer ETag Option(s).
 
@@ -1240,12 +1240,12 @@ Table of Contents
       the set J.
 
    That is, the 2.03 (Valid) response from the proxy indicates to the
-   client that the stored responses idenfied by the entity-tag given in
-   the response's Group-ETag Option can be reused, after updating each
-   of them as described in Section 5.9.1.3 of [RFC7252].  In effect, the
-   client can determine if any of the stored representations from the
-   respective cache entries at the proxy is current, without needing to
-   transfer any of them again.
+   client that the stored responses identified by the entity-tag given
+   in the response's Group-ETag Option can be reused, after updating
+   each of them as described in Section 5.9.1.3 of [RFC7252].  In
+   effect, the client can determine if any of the stored representations
+   from the respective cache entries at the proxy is current, without
+   needing to transfer any of them again.
 
 7.4.  Caching of End-To-End Protected Responses at Proxies
 
@@ -1331,7 +1331,7 @@ Table of Contents
    refresh its cache entries, the proxy also remains able to perform
    response revalidation.  That is, if a cached response included an
    outer ETag option intended to the proxy, then the proxy can perform
-   revalidatation of the cached response, by making a request to the
+   revalidation of the cached response, by making a request to the
    unicast URI addressed to a single server and sent to the related
    unicast URI (see Section 7.2.1) or a group request addressed to the
    CoAP group and sent to the related group URI (see Section 7.2.2).
@@ -1502,7 +1502,7 @@ Table of Contents
       In the Reply-To Option, the proxy MUST replace the old value
       TARGET_OLD.  The new value TARGET_NEW specifies addressing
       information directly associated with the proxy.  The new value is
-      such that, when receving a unicast request that has been sent
+      such that, when receiving a unicast request that has been sent
       according to what is specified in TARGET_NEW, the proxy forwards
       the request according to what was specified in TARGET_OLD, i.e.,
       to the (next hop towards the) origin server that originated the
@@ -1825,7 +1825,7 @@ Table of Contents
    a reply to the client's original unicast group request
 
    For readability, 'base64url(cri'X')' denotes the base64url encoding
-   of cri'X' withouth padding (see Section 5 of [RFC4648]), and cri'X'
+   of cri'X' without padding (see Section 5 of [RFC4648]), and cri'X'
    denotes the byte serialization of a CRI corresponding to the URI X.
 
    HTTP/1.1 200 OK
@@ -1933,7 +1933,7 @@ Table of Contents
    successfully verifying the signature embedded in the group request.
    However, this requires the proxy to store, for each client to
    authenticate, the authentication credential that the client uses in
-   the OSCORE group and the public key included therin, and to also
+   the OSCORE group and the public key included therein, and to also
    store the authentication credential of the Group Manager responsible
    for the OSCORE group.  This in turn would require a form of active
    synchronization between the proxy and the Group Manager for that
