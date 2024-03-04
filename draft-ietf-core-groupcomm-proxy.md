@@ -98,7 +98,7 @@ Readers are expected to be familiar with the terms and concepts from the followi
 
 * CoAP {{RFC7252}} and Group Communication for CoAP {{I-D.ietf-core-groupcomm-bis}}.
 
-* OSCORE {{RFC8613}}, and Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
+* OSCORE {{RFC8613}} and Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
 
 * CDDL {{RFC8610}}, CBOR {{RFC8949}}, and CBOR sequences {{RFC8742}}
 
@@ -912,7 +912,7 @@ Body: Do that!
 
 The following is an example of HTTP batch response sent by P to C, as a reply to the client's original unicast group request
 
-For readability, 'base64url(X)' denotes the base64url encoding of X withouth padding (see {{Section 5 of RFC4648}}).
+For readability, 'base64url(cri'X')' denotes the base64url encoding of cri'X' withouth padding (see {{Section 5 of RFC4648}}), and cri'X' denotes the byte serialization of a CRI corresponding to the URI X.
 
 ~~~~~~~~~~~
 HTTP/1.1 200 OK
@@ -925,7 +925,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: <INDIVIDUAL_RESPONSE_1_CONTENT_LENGTH>
-Reply-To: base64url(coap://S1_ADDR:G_PORT)
+Reply-To: base64url(cri'coap://S1_ADDR:G_PORT')
 
 Body: Done!
 --batch_foo_bar
@@ -934,7 +934,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: <INDIVIDUAL_RESPONSE_2_CONTENT_LENGTH>
-Reply-To: base64url(coap://S2_ADDR:S2_PORT)
+Reply-To: base64url(cri'coap://S2_ADDR:S2_PORT')
 
 Body: More than done!
 --batch_foo_bar--
@@ -1056,7 +1056,7 @@ IANA is asked to enter the following option numbers to the "CoAP Option Numbers"
 |--------|-------------------|-----------|
 |  TBD2  | Reply-To          | {{&SELF}} |
 |--------|-------------------|-----------|
-|  TBD3  |     Group-ETag    | {{&SELF}} |
+|  TBD3  | Group-ETag        | {{&SELF}} |
 {: #tab-iana-coap-option-numbers title="New CoAP Option Numbers" align="center"}
 
 ## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
@@ -1128,10 +1128,10 @@ C                                    P                      S1       S2
 |   Multicast-Timeout"               |                      |         |
 |                                    |                      |         |
 |                                    |                      |         |
-|----------------------------------->| / C embeds the       |         |
-| Src: C_ADDR:C_PORT                 | group URI into its   |         |
-| Dst: p.example.com:P_PORT          | request to the       |         |
-| Uri-Host: "group1.com"             | proxy P /            |         |
+|----------------------------------->|                      |         |
+| Src: C_ADDR:C_PORT                 |                      |         |
+| Dst: p.example.com:P_PORT          |                      |         |
+| Uri-Host: "group1.com"             |                      |         |
 | Uri-Path: "r"                      |                      |         |
 | Multicast-Timeout: 60              |                      |         |
 |                                    |                      |         |
@@ -1288,8 +1288,8 @@ C                                   P                      S1        S2
 |                                   |                      |          |
 |                                   |                      |          |
 |---------------------------------->| / Request intended   |          |
-| Src: C_ADDR:C_PORT                | only to S1 for same  |          |
-| Dst: D1_ADDR:D1_PORT              | resource /r /        |          |
+| Src: C_ADDR:C_PORT                | only to S1 for the   |          |
+| Dst: D1_ADDR:D1_PORT              | same resource /r /   |          |
 | Uri-Path: "r"                     |                      |          |
 |                                   |                      |          |
 |                                   | Src: P_ADDR:P_PORT   |          |
@@ -1388,8 +1388,8 @@ C                               P                      S1           S2
 |                               |                      |             |
 |----------------------------------------------------->|             |
 | Src: C_ADDR:C_PORT            | / Request intended   |             |
-| Dst: S1.ADDR:S1_PORT          | only to S1 for same  |             |
-| Uri-Path: "r"                 | resource /r /        |             |
+| Dst: S1.ADDR:S1_PORT          | only to S1 for the   |             |
+| Uri-Path: "r"                 | same resource /r /   |             |
 |                               |                      |             |
 |                               |                      |             |
 |<-----------------------------------------------------|             |
@@ -1412,7 +1412,7 @@ C                               P                      S1           S2
 
 * Response-Forwarding option:
 
-   - Renames as "Reply-To".
+   - Renamed as "Reply-To".
 
    - Revised encoding to use CRIs.
 
