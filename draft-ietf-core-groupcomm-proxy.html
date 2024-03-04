@@ -1030,7 +1030,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Dijk</td>
-<td class="center">Expires 4 September 2024</td>
+<td class="center">Expires 5 September 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1046,12 +1046,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-03-03" class="published">3 March 2024</time>
+<time datetime="2024-03-04" class="published">4 March 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-09-04">4 September 2024</time></dd>
+<dd class="expires"><time datetime="2024-09-05">5 September 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1100,7 +1100,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 4 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 September 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1420,7 +1420,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
             <p id="section-1.1-3.1.1">CoAP <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> and Group Communication for CoAP <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-1.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-3.2">
-            <p id="section-1.1-3.2.1">OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>, and Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-1.1-3.2.1" class="pilcrow">¶</a></p>
+            <p id="section-1.1-3.2.1">OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> and Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-1.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-1.1-3.3">
             <p id="section-1.1-3.3.1">CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span>, CBOR <span>[<a href="#RFC8949" class="cite xref">RFC8949</a>]</span>, and CBOR sequences <span>[<a href="#RFC8742" class="cite xref">RFC8742</a>]</span><a href="#section-1.1-3.3.1" class="pilcrow">¶</a></p>
@@ -2549,7 +2549,7 @@ Body: Do that!
 </div>
 <p id="section-9.8-4"></p>
 <p id="section-9.8-5">The following is an example of HTTP batch response sent by P to C, as a reply to the client's original unicast group request<a href="#section-9.8-5" class="pilcrow">¶</a></p>
-<p id="section-9.8-6">For readability, 'base64url(X)' denotes the base64url encoding of X withouth padding (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>).<a href="#section-9.8-6" class="pilcrow">¶</a></p>
+<p id="section-9.8-6">For readability, 'base64url(cri'X')' denotes the base64url encoding of cri'X' withouth padding (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>), and cri'X' denotes the byte serialization of a CRI corresponding to the URI X.<a href="#section-9.8-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.8-7">
 <pre>
 HTTP/1.1 200 OK
@@ -2562,7 +2562,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: &lt;INDIVIDUAL_RESPONSE_1_CONTENT_LENGTH&gt;
-Reply-To: base64url(coap://S1_ADDR:G_PORT)
+Reply-To: base64url(cri'coap://S1_ADDR:G_PORT')
 
 Body: Done!
 --batch_foo_bar
@@ -2571,7 +2571,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: &lt;INDIVIDUAL_RESPONSE_2_CONTENT_LENGTH&gt;
-Reply-To: base64url(coap://S2_ADDR:S2_PORT)
+Reply-To: base64url(cri'coap://S2_ADDR:S2_PORT')
 
 Body: More than done!
 --batch_foo_bar--
@@ -2979,7 +2979,6 @@ Based on this information, P composes the group request and sends it to the CoAP
                 <path d="M 312,1344 L 480,1344" fill="none" stroke="black"></path>
                 <path d="M 16,1424 L 296,1424" fill="none" stroke="black"></path>
                 <path d="M 432,480 L 448,512" fill="none" stroke="black"></path>
-                <path d="M 384,352 L 392,336" fill="none" stroke="black"></path>
                 <polygon class="arrowhead" points="568,512 556,506.4 556,517.6" fill="black" transform="rotate(0,560,512)"></polygon>
                 <polygon class="arrowhead" points="488,1296 476,1290.4 476,1301.6" fill="black" transform="rotate(0,480,1296)"></polygon>
                 <polygon class="arrowhead" points="488,480 476,474.4 476,485.6" fill="black" transform="rotate(0,480,480)"></polygon>
@@ -3030,25 +3029,12 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="120" y="244">"Please</text>
                   <text x="168" y="244">use</text>
                   <text x="108" y="260">Multicast-Timeout"</text>
-                  <text x="320" y="308">/</text>
-                  <text x="336" y="308">C</text>
-                  <text x="372" y="308">embeds</text>
-                  <text x="416" y="308">the</text>
                   <text x="36" y="324">Src:</text>
                   <text x="112" y="324">C_ADDR:C_PORT</text>
-                  <text x="336" y="324">group</text>
-                  <text x="376" y="324">URI</text>
-                  <text x="412" y="324">into</text>
-                  <text x="448" y="324">its</text>
                   <text x="36" y="340">Dst:</text>
                   <text x="140" y="340">p.example.com:P_PORT</text>
-                  <text x="344" y="340">request</text>
-                  <text x="384" y="340">t</text>
-                  <text x="416" y="340">the</text>
                   <text x="56" y="356">Uri-Host:</text>
                   <text x="148" y="356">"group1.com"</text>
-                  <text x="336" y="356">proxy</text>
-                  <text x="368" y="356">P</text>
                   <text x="56" y="372">Uri-Path:</text>
                   <text x="112" y="372">"r"</text>
                   <text x="92" y="388">Multicast-Timeout:</text>
@@ -3323,12 +3309,13 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="356" y="1140">to</text>
                   <text x="380" y="1140">S1</text>
                   <text x="408" y="1140">for</text>
-                  <text x="444" y="1140">same</text>
+                  <text x="440" y="1140">the</text>
                   <text x="36" y="1156">Dst:</text>
                   <text x="120" y="1156">D1_ADDR:D1_PORT</text>
-                  <text x="340" y="1156">resource</text>
-                  <text x="388" y="1156">/r</text>
-                  <text x="408" y="1156">/</text>
+                  <text x="324" y="1156">same</text>
+                  <text x="380" y="1156">resource</text>
+                  <text x="428" y="1156">/r</text>
+                  <text x="448" y="1156">/</text>
                   <text x="56" y="1172">Uri-Path:</text>
                   <text x="112" y="1172">"r"</text>
                   <text x="324" y="1204">Src:</text>
@@ -3518,12 +3505,13 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="324" y="1140">to</text>
                   <text x="348" y="1140">S1</text>
                   <text x="376" y="1140">for</text>
-                  <text x="412" y="1140">same</text>
+                  <text x="408" y="1140">the</text>
                   <text x="56" y="1156">Uri-Path:</text>
                   <text x="112" y="1156">"r"</text>
-                  <text x="308" y="1156">resource</text>
-                  <text x="356" y="1156">/r</text>
-                  <text x="376" y="1156">/</text>
+                  <text x="292" y="1156">same</text>
+                  <text x="348" y="1156">resource</text>
+                  <text x="396" y="1156">/r</text>
+                  <text x="416" y="1156">/</text>
                   <text x="292" y="1220">Src:</text>
                   <text x="376" y="1220">S1.ADDR:S1_PORT</text>
                   <text x="292" y="1236">Dst:</text>
@@ -3565,7 +3553,7 @@ Based on this information, P composes the group request and sends it to the CoAP
             <p id="appendix-B.1-1.4.1">Response-Forwarding option:<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.4.2.1">
-                <p id="appendix-B.1-1.4.2.1.1">Renames as "Reply-To".<a href="#appendix-B.1-1.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="appendix-B.1-1.4.2.1.1">Renamed as "Reply-To".<a href="#appendix-B.1-1.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="appendix-B.1-1.4.2.2">
                 <p id="appendix-B.1-1.4.2.2.1">Revised encoding to use CRIs.<a href="#appendix-B.1-1.4.2.2.1" class="pilcrow">¶</a></p>

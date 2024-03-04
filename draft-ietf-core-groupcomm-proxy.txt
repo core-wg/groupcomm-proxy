@@ -6,7 +6,7 @@ CoRE Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Updates: 7252 (if approved)                                      E. Dijk
 Intended status: Standards Track                       IoTconsultancy.nl
-Expires: 4 September 2024                                   3 March 2024
+Expires: 5 September 2024                                   4 March 2024
 
 
              Proxy Operations for CoAP Group Communication
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 September 2024.
+   This Internet-Draft will expire on 5 September 2024.
 
 Copyright Notice
 
@@ -221,7 +221,7 @@ Table of Contents
    *  CoAP [RFC7252] and Group Communication for CoAP
       [I-D.ietf-core-groupcomm-bis].
 
-   *  OSCORE [RFC8613], and Group OSCORE
+   *  OSCORE [RFC8613] and Group OSCORE
       [I-D.ietf-core-oscore-groupcomm].
 
    *  CDDL [RFC8610], CBOR [RFC8949], and CBOR sequences [RFC8742]
@@ -1824,8 +1824,9 @@ Table of Contents
    The following is an example of HTTP batch response sent by P to C, as
    a reply to the client's original unicast group request
 
-   For readability, 'base64url(X)' denotes the base64url encoding of X
-   withouth padding (see Section 5 of [RFC4648]).
+   For readability, 'base64url(cri'X')' denotes the base64url encoding
+   of cri'X' withouth padding (see Section 5 of [RFC4648]), and cri'X'
+   denotes the byte serialization of a CRI corresponding to the URI X.
 
    HTTP/1.1 200 OK
    Content-Length: <BATCH_RESPONSE_TOTAL_CONTENT_LENGTH>
@@ -1837,7 +1838,7 @@ Table of Contents
    HTTP/1.1 200 OK
    Content-Type: text/plain
    Content-Length: <INDIVIDUAL_RESPONSE_1_CONTENT_LENGTH>
-   Reply-To: base64url(coap://S1_ADDR:G_PORT)
+   Reply-To: base64url(cri'coap://S1_ADDR:G_PORT')
 
    Body: Done!
    --batch_foo_bar
@@ -1846,7 +1847,7 @@ Table of Contents
    HTTP/1.1 200 OK
    Content-Type: text/plain
    Content-Length: <INDIVIDUAL_RESPONSE_2_CONTENT_LENGTH>
-   Reply-To: base64url(coap://S2_ADDR:S2_PORT)
+   Reply-To: base64url(cri'coap://S2_ADDR:S2_PORT')
 
    Body: More than done!
    --batch_foo_bar--
@@ -2360,10 +2361,10 @@ A.1.  Example 1
  |   Multicast-Timeout"               |                      |         |
  |                                    |                      |         |
  |                                    |                      |         |
- |----------------------------------->| / C embeds the       |         |
- | Src: C_ADDR:C_PORT                 | group URI into its   |         |
- | Dst: p.example.com:P_PORT          | request to the       |         |
- | Uri-Host: "group1.com"             | proxy P /            |         |
+ |----------------------------------->|                      |         |
+ | Src: C_ADDR:C_PORT                 |                      |         |
+ | Dst: p.example.com:P_PORT          |                      |         |
+ | Uri-Host: "group1.com"             |                      |         |
  | Uri-Path: "r"                      |                      |         |
  | Multicast-Timeout: 60              |                      |         |
  |                                    |                      |         |
@@ -2536,8 +2537,8 @@ A.2.  Example 2
  |                                   |                      |          |
  |                                   |                      |          |
  |---------------------------------->| / Request intended   |          |
- | Src: C_ADDR:C_PORT                | only to S1 for same  |          |
- | Dst: D1_ADDR:D1_PORT              | resource /r /        |          |
+ | Src: C_ADDR:C_PORT                | only to S1 for the   |          |
+ | Dst: D1_ADDR:D1_PORT              | same resource /r /   |          |
  | Uri-Path: "r"                     |                      |          |
  |                                   |                      |          |
  |                                   | Src: P_ADDR:P_PORT   |          |
@@ -2639,8 +2640,8 @@ A.3.  Example 3
   |                               |                      |             |
   |----------------------------------------------------->|             |
   | Src: C_ADDR:C_PORT            | / Request intended   |             |
-  | Dst: S1.ADDR:S1_PORT          | only to S1 for same  |             |
-  | Uri-Path: "r"                 | resource /r /        |             |
+  | Dst: S1.ADDR:S1_PORT          | only to S1 for the   |             |
+  | Uri-Path: "r"                 | same resource /r /   |             |
   |                               |                      |             |
   |                               |                      |             |
   |<-----------------------------------------------------|             |
@@ -2667,7 +2668,7 @@ B.1.  Version -00 to -01
 
    *  Response-Forwarding option:
 
-      -  Renames as "Reply-To".
+      -  Renamed as "Reply-To".
 
       -  Revised encoding to use CRIs.
 
