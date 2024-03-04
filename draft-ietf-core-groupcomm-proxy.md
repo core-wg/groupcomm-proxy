@@ -429,7 +429,7 @@ The use of reverse-proxies in group communication scenarios is defined in {{Sect
 
 This section clarifies how the Multicast-Timeout Option is effective also in such a context, in order for:
 
-* The proxy to explictly reveal itself as a reverse-proxy to the client.
+* The proxy to explicitly reveal itself as a reverse-proxy to the client.
 
 * The client to indicate to the proxy of being aware that it is communicating with a reverse-proxy, and for how long it is willing to receive responses to a proxied group request.
 
@@ -448,7 +448,7 @@ The proxy processes the CoAP responses forwarded back to the client as defined i
 
 * As a first possible case, the proxy stands in both for the whole group of servers and for the individual origin servers in the group. That is, the origin client cannot reach the individual servers directly, but only through the proxy.
 
-   In such a case, within a response forwarded back to the client, the value of the Reply-To Option specifies an addressing information TARGET that is directly associated with the proxy. The addressing information is such that, when receving a unicast request that has been sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response. In particular, the proxy sets the option value as follows.
+   In such a case, within a response forwarded back to the client, the value of the Reply-To Option specifies an addressing information TARGET that is directly associated with the proxy. The addressing information is such that, when receiving a unicast request that has been sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response. In particular, the proxy sets the option value as follows.
 
    * The CRI present as first element of the CBOR sequence specifies an addressing information TARGET_1, such that a unicast request reaches the proxy if it is sent according to TARGET_1.
 
@@ -474,7 +474,7 @@ The client processes the CoAP responses forwarded back by the proxy as defined i
 
 * If the client wishes to send a follow-up unicast request intended only to the server that originated the response, then the client sends such a request according to the addressing information specified by the CRI retrieved from the value of the Reply-To Option. Effectively, the client sends the unicast request to the proxy.
 
-   In case the value of the Reply-To Option specifies also a CRI reference as second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. If the client wants to specify additional path segments that identify a specific resource at the origin server, then the correspoding Uri-Path options are included in the request after the Uri-Path options corresponding to the path component of the CRI reference.
+   In case the value of the Reply-To Option specifies also a CRI reference as second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. If the client wants to specify additional path segments that identify a specific resource at the origin server, then the corresponding Uri-Path options are included in the request after the Uri-Path options corresponding to the path component of the CRI reference.
 
 # Caching # {#sec-proxy-caching}
 
@@ -562,7 +562,7 @@ As discussed in {{sec-group-caching}}, the following applies when Group OSCORE {
 
 * Additional means are required to enable cacheability of responses at the proxy (see {{sec-det-req}}).
 
-* If a cached response included an outer ETag option intended to the proxy, then the proxy can perform revalidatation of the cached response, by making a request to the unicast URI targeting the server, and including outer ETag Option(s).
+* If a cached response included an outer ETag option intended to the proxy, then the proxy can perform revalidation of the cached response, by making a request to the unicast URI targeting the server, and including outer ETag Option(s).
 
    This is possible also in case the proxy and the origin server use OSCORE to further protect the exchanged request and response, as defined in {{I-D.ietf-core-oscore-capable-proxies}}. In such a case, the originally outer ETag option is protected with the OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
 
@@ -588,7 +588,7 @@ As discussed in {{sec-group-caching}}, the following applies when Group OSCORE {
 
 * Additional means are required to enable cacheability of responses at the proxy (see {{sec-det-req}}).
 
-* If a cached response included an outer ETag option intended to the proxy, then the proxy can perform revalidatation of the cached response, by making a request to the group URI targeting the CoAP group, and including outer ETag Option(s).
+* If a cached response included an outer ETag option intended to the proxy, then the proxy can perform revalidation of the cached response, by making a request to the group URI targeting the CoAP group, and including outer ETag Option(s).
 
    This is possible also in case the proxy and the origin servers use Group OSCORE to further protect the exchanged request and response, as defined in {{I-D.ietf-core-oscore-capable-proxies}}. In such a case, the originally outer ETag option is protected with the Group OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
 
@@ -636,7 +636,7 @@ The proxy MAY perform the following actions, in case the group request produces 
 
 * In case of positive match, the proxy replies with a single 2.03 (Valid) response. This response has no payload and MUST include one Group-ETag Option, specifying the current entity-tag value of the set J.
 
-That is, the 2.03 (Valid) response from the proxy indicates to the client that the stored responses idenfied by the entity-tag given in the response's Group-ETag Option can be reused, after updating each of them as described in {{Section 5.9.1.3 of RFC7252}}. In effect, the client can determine if any of the stored representations from the respective cache entries at the proxy is current, without needing to transfer any of them again.
+That is, the 2.03 (Valid) response from the proxy indicates to the client that the stored responses identified by the entity-tag given in the response's Group-ETag Option can be reused, after updating each of them as described in {{Section 5.9.1.3 of RFC7252}}. In effect, the client can determine if any of the stored representations from the respective cache entries at the proxy is current, without needing to transfer any of them again.
 
 ## Caching of End-To-End Protected Responses at Proxies # {#sec-group-caching}
 
@@ -675,7 +675,7 @@ The following text can be used to replace the last paragraph above.
 
 &nbsp;
 
-When directly interacting with the servers in the CoAP group to refresh its cache entries, the proxy also remains able to perform response revalidation. That is, if a cached response included an outer ETag option intended to the proxy, then the proxy can perform revalidatation of the cached response, by making a request to the unicast URI addressed to a single server and sent to the related unicast URI (see {{sec-proxy-caching-validation-p-s-unicast}}) or a group request addressed to the CoAP group and sent to the related group URI (see {{sec-proxy-caching-validation-p-s}}).
+When directly interacting with the servers in the CoAP group to refresh its cache entries, the proxy also remains able to perform response revalidation. That is, if a cached response included an outer ETag option intended to the proxy, then the proxy can perform revalidation of the cached response, by making a request to the unicast URI addressed to a single server and sent to the related unicast URI (see {{sec-proxy-caching-validation-p-s-unicast}}) or a group request addressed to the CoAP group and sent to the related group URI (see {{sec-proxy-caching-validation-p-s}}).
 
 \]
 
@@ -756,7 +756,7 @@ Otherwise, the proxy performs the steps defined in {{ssec-resp-proc-proxy}}, wit
 
 * At step 1, the following applies in case the chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in both for the whole group of servers and for the individual origin servers in the group (see {{sec-reverse-proxies-proxy-side}}).
 
-   In the Reply-To Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the (next hop towards the) origin server that originated the response.
+   In the Reply-To Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receiving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the (next hop towards the) origin server that originated the response.
 
    This ensures that, when receiving a response to a group request and consuming the Reply-To Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.
 
@@ -912,7 +912,7 @@ Body: Do that!
 
 The following is an example of HTTP batch response sent by P to C, as a reply to the client's original unicast group request
 
-For readability, 'base64url(cri'X')' denotes the base64url encoding of cri'X' withouth padding (see {{Section 5 of RFC4648}}), and cri'X' denotes the byte serialization of a CRI corresponding to the URI X.
+For readability, 'base64url(cri'X')' denotes the base64url encoding of cri'X' without padding (see {{Section 5 of RFC4648}}), and cri'X' denotes the byte serialization of a CRI corresponding to the URI X.
 
 ~~~~~~~~~~~
 HTTP/1.1 200 OK
@@ -986,7 +986,7 @@ Furthermore, the following additional considerations hold.
 
 As per the requirement REQ2 (see {{sec-objectives}}), the client has to authenticate to the proxy when sending a group request to forward. This leverages an established security association between the client and the proxy, that the client uses to protect the group request, before sending it to the proxy.
 
-If the group request is (also) protected end-to-end between the client and the servers using the group mode of Group OSCORE, the proxy can act as external signature checker (see {{Section 8.5 of I-D.ietf-core-oscore-groupcomm}}) and authenticate the client by successfully verifying the signature embedded in the group request. However, this requires the proxy to store, for each client to authenticate, the authentication credential that the client uses in the OSCORE group and the public key included therin, and to also store the authentication credential of the Group Manager responsible for the OSCORE group. This in turn would require a form of active synchronization between the proxy and the Group Manager for that group {{I-D.ietf-core-oscore-groupcomm}}.
+If the group request is (also) protected end-to-end between the client and the servers using the group mode of Group OSCORE, the proxy can act as external signature checker (see {{Section 8.5 of I-D.ietf-core-oscore-groupcomm}}) and authenticate the client by successfully verifying the signature embedded in the group request. However, this requires the proxy to store, for each client to authenticate, the authentication credential that the client uses in the OSCORE group and the public key included therein, and to also store the authentication credential of the Group Manager responsible for the OSCORE group. This in turn would require a form of active synchronization between the proxy and the Group Manager for that group {{I-D.ietf-core-oscore-groupcomm}}.
 
 Nevertheless, the client and the proxy SHOULD still rely on a full-fledged pairwise secure association. In addition to ensuring the integrity of group requests sent to the proxy (see {{sec-security-considerations-opt1}}, {{sec-security-considerations-opt2}} and {{sec-security-considerations-opt3}}), this prevents the proxy from forwarding replayed group requests with a valid signature, as possibly injected by an active, on-path adversary.
 
