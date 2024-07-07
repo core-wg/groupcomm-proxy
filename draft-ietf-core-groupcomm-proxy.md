@@ -77,15 +77,15 @@ CoAP supports also group communication over IP multicast {{I-D.ietf-core-groupco
 
 In particular, the client sends to the proxy a single unicast request, which the proxy forwards to a group of CoAP servers, e.g., using UDP/IP multicast as the defined default transport protocol for CoAP group requests (see {{Section 1.1 of I-D.ietf-core-groupcomm-bis}}). Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.
 
-As per {{RFC7252}}, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation content-format, which is not available yet. Both these approaches have open issues.
+As per {{RFC7252}}, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation Content-Format, which is not available yet. Both these approaches have open issues.
 
 This document considers the former approach. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The described method addresses all the related issues raised in {{Section 3.5 of I-D.ietf-core-groupcomm-bis}}. To this end, this document defines a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.
 
-Using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates the addressing information of the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast request(s) to the indicated address(es). In doing these follow-up unicast requests, the client may optionally bypass the proxy.
+By using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates the addressing information of the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast request(s) to the indicated address(es). In doing these follow-up unicast requests, the client may optionally bypass the proxy.
 
 Like {{I-D.ietf-core-groupcomm-bis}}, this document refers to UDP/IP multicast as the transport protocol that a proxy uses to forward a CoAP group request to a group of servers. While other transport protocols such as broadcast, non-IP multicast, and geocast can also be possible to employ, their use is not considered in this document.
 
-This document also defines how the proposed protocol is used between an HTTP client and an HTTP-CoAP cross-proxy, in order to forward an HTTP group request from the client to a group of CoAP servers, and relay back the individual CoAP responses as HTTP responses.
+This document also defines how the proposed protocol is used between an HTTP client and an HTTP-to-CoAP cross-proxy, in order to forward an HTTP group request from the client to a group of CoAP servers, and relay back the individual CoAP responses as HTTP responses.
 
 Finally, this document defines a caching model for proxies and specifies how they can serve a group request by using cached responses. Therefore, this document updates {{RFC7252}}.
 
@@ -779,11 +779,11 @@ As to any other proxy in the chain, the following applies.
 
 * The proxy SHOULD regularly verify that the (previous hop proxy closer to the) origin client is still interested in receiving observe notifications for a group observation. To this end, the proxy can rely on the same approach defined in {{Section 4.5 of RFC7641}}.
 
-# HTTP-CoAP Proxies # {#sec-http-coap-proxies}
+# HTTP-to-CoAP Proxies # {#sec-http-to-coap-proxies}
 
-This section defines the components needed to use the signaling protocol specified in this document, when an HTTP client wishes to send a group request to the servers of a CoAP group, via an HTTP-CoAP cross-proxy.
+This section defines the components needed to use the signaling protocol specified in this document, when an HTTP client wishes to send a group request to the servers of a CoAP group, via an HTTP-to-CoAP cross-proxy.
 
-The following builds on the mapping of the CoAP request/response model to HTTP and vice versa as defined in {{Section 10 of RFC7252}}, as well as on the additional details about the HTTP-CoAP mapping defined in {{RFC8075}}.
+The following builds on the mapping of the CoAP request/response model to HTTP and vice versa as defined in {{Section 10 of RFC7252}}, as well as on the additional details about the HTTP-to-CoAP mapping defined in {{RFC8075}}.
 
 Furthermore, the components defined in {{Section 11 of RFC8613}} are also used to map and transport OSCORE-protected messages over HTTP. This allows an HTTP client to use Group OSCORE end-to-end with the servers in the CoAP group.
 
@@ -893,7 +893,7 @@ When it receives an HTTP response as a reply to the original unicast group reque
 
 ## Example ## {#sec-cross-proxies-example}
 
-The examples in this section build on {{sec-workflow-example}}, with the difference that the origin client C is an HTTP client and the proxy P is an HTTP-CoAP cross-proxy. The examples are simply illustrative and are not to be intended as a test vector.
+The examples in this section build on {{sec-workflow-example}}, with the difference that the origin client C is an HTTP client and the proxy P is an HTTP-to-CoAP cross-proxy. The examples are simply illustrative and are not to be intended as a test vector.
 
 
 The following is an example of unicast group request sent by C to P. The URI mapping and notation are based on the "Simple Form" defined in {{Section 5.4.1 of RFC8075}}.
@@ -1029,7 +1029,7 @@ The same considerations above about security associations apply when a chain of 
 
 When caching of Group OSCORE secured responses is enabled at the proxy, the same as defined in {{sec-proxy-caching}} applies, with respect to cache entries and the way they are maintained.
 
-## HTTP-to-CoAP Proxies # {#sec-http-coap-proxies-sec-con}
+## HTTP-to-CoAP Proxies # {#sec-http-to-coap-proxies-sec-con}
 
 Consistently with what is discussed in {{sec-security-considerations-client-auth}}, an HTTP client has to authenticate to the HTTP-to-CoAP proxy, and they SHOULD rely on a full-fledged pairwise secure association. This can rely on a TLS {{RFC8446}} channel as also recommended in {{Section 12.1 of RFC8613}} for when OSCORE is used with HTTP, or on a pairwise OSCORE {{RFC8613}} Security Context between the client and the proxy as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
 
