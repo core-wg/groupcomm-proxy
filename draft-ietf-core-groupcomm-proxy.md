@@ -258,7 +258,7 @@ Upon receiving the request from the client, the proxy proceeds according to the 
 
 3. The proxy verifies the presence of the Multicast-Timeout Option, as a confirmation that the client is fine to receive multiple CoAP responses matching with the same original request.
 
-   If the Multicast-Timeout Option is not present, the proxy MUST stop processing the request and MUST reply to the client with a 4.00 (Bad Request) response. The response MUST include a Multicast-Timeout Option with an empty (zero-length) value, indicating that the Multicast-Timeout Option was missing and has to be included in the request. As per {{Section 5.9.2 of RFC7252}} The response SHOULD include a diagnostic payload.
+   If the Multicast-Timeout Option is not present, the proxy MUST stop processing the request and MUST reply to the client with a 4.00 (Bad Request) response. The response MUST include a Multicast-Timeout Option, whose value MUST be set to 0. As per {{Section 3.2 of RFC7252}}, this is represented with an empty option value (a zero-length sequence of bytes). By doing so, the proxy indicates that the Multicast-Timeout Option was missing and has to be included in the request. As per {{Section 5.9.2 of RFC7252}} The response SHOULD include a diagnostic payload.
 
 4. The proxy retrieves the value T' from the Multicast-Timeout Option, and then removes the option from the client's request.
 
@@ -432,7 +432,7 @@ The use of reverse-proxies in group communication scenarios is defined in {{Sect
 
 This section clarifies how the Multicast-Timeout Option is effective also in such a context, in order for:
 
-* The proxy to explicitly reveal itself as a reverse-proxy to the client.
+* The proxy to effectively reveal itself as a reverse-proxy to the client.
 
 * The client to indicate to the proxy of being aware that it is communicating with a reverse-proxy, and for how long it is willing to receive responses to a proxied group request.
 
@@ -445,7 +445,7 @@ A reverse-proxy may also operate without support of the Multicast-Timeout Option
 
 If the proxy receives a CoAP request and determines that it should be forwarded to a group of servers over IP multicast, then the proxy performs the steps defined in {{ssec-req-proc-proxy}}.
 
-In particular, when such a request does not include a Multicast-Timeout Option, the proxy explicitly reveals itself as a reverse-proxy, by sending a 4.00 (Bad Request) response including a Multicast-Timeout Option with empty (zero-length) value.
+In particular, when such a request does not include a Multicast-Timeout Option, the proxy effectively reveals itself as a reverse-proxy, by sending a 4.00 (Bad Request) response including a Multicast-Timeout Option with value 0 (which is ultimately represented with an empty option value).
 
 The proxy processes the CoAP responses forwarded back to the client as defined in {{ssec-resp-proc-proxy}}, with the following additions.
 
@@ -799,9 +799,11 @@ Using the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} and includin
 
 Multicast-Timeout = *DIGIT
 
+The empty header field is equivalent to the header field conveying the value 0.
+
 When translating a CoAP message into an HTTP message, the HTTP Multicast-Timeout header field is set with the content of the CoAP Multicast-Timeout Option, or is left empty in case the option is empty.
 
-The same applies in the opposite direction, when translating an HTTP message into a CoAP message.
+When translating an HTTP message into a CoAP message, the CoAP Multicast-Timeout Option is set with the content of the HTTP Multicast-Timeout header field, or is left empty in case the header field is empty.
 
 ## The HTTP Reply-To Header Field ## {#sec-reply-to-header}
 
@@ -1413,6 +1415,8 @@ C                               P                      S1           S2
 {:removeinrfc}
 
 ## Version -01 to -02 ## {#sec-01-02}
+
+* Multicast-Timeout Option set to 0 ultimately yields an empty value.
 
 * Improved description on using Proxy-Cri and Proxy-Scheme-Number.
 
