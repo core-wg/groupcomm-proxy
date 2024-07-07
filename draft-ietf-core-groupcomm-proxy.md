@@ -1056,7 +1056,7 @@ IANA is asked to enter the following option numbers to the "CoAP Option Numbers"
 |  TBD2  | Reply-To          | {{&SELF}} |
 |--------|-------------------|-----------|
 |  TBD3  | Group-ETag        | {{&SELF}} |
-{: #tab-iana-coap-option-numbers title="New CoAP Option Numbers" align="center"}
+{: #tab-iana-coap-option-numbers title="Registrations in the CoAP Option Numbers Registry" align="center"}
 
 ## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
 
@@ -1069,7 +1069,7 @@ IANA is asked to enter the following HTTP header fields to the "Hypertext Transf
 | Reply-To          |          | permanent |                 | {{&SELF}} |
 |-------------------|----------|-----------|-----------------|-----------|
 | Group-ETag        |          | permanent |                 | {{&SELF}} |
-{: #tab-iana-http-field-names title="New HTTP Field Names" align="center"}
+{: #tab-iana-http-field-names title="Registrations in the Hypertext Transfer Protocol (HTTP) Field Name Registry" align="center"}
 
 --- back
 
