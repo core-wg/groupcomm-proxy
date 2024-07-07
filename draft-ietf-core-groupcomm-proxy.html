@@ -1274,7 +1274,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-http-coap-proxies" class="internal xref">HTTP-CoAP Proxies</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-http-to-coap-proxies" class="internal xref">HTTP-to-CoAP Proxies</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-the-http-multicast-timeout-" class="internal xref">The HTTP Multicast-Timeout Header Field</a></p>
@@ -1332,7 +1332,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.10.2.4.1"><a href="#section-10.4" class="auto internal xref">10.4</a>.  <a href="#name-group-etag-option" class="internal xref">Group-ETag Option</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.5">
-                <p id="section-toc.1-1.10.2.5.1"><a href="#section-10.5" class="auto internal xref">10.5</a>.  <a href="#name-http-to-coap-proxies" class="internal xref">HTTP-to-CoAP Proxies</a></p>
+                <p id="section-toc.1-1.10.2.5.1"><a href="#section-10.5" class="auto internal xref">10.5</a>.  <a href="#name-http-to-coap-proxies-2" class="internal xref">HTTP-to-CoAP Proxies</a></p>
 </li>
             </ul>
 </li>
@@ -1401,11 +1401,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-1-1">The Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> allows the presence of proxies, as intermediary entities supporting clients by performing requests on their behalf and relaying back responses.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">CoAP supports also group communication over IP multicast <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, where a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-11#section-3.5" class="relref">Section 3.5</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, this group communication scenario poses a number of issues and limitations to proxy operations.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">In particular, the client sends to the proxy a single unicast request, which the proxy forwards to a group of CoAP servers, e.g., using UDP/IP multicast as the defined default transport protocol for CoAP group requests (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-11#section-1.1" class="relref">Section 1.1</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>). Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">As per <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation content-format, which is not available yet. Both these approaches have open issues.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-4">As per <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation Content-Format, which is not available yet. Both these approaches have open issues.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">This document considers the former approach. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The described method addresses all the related issues raised in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-11#section-3.5" class="relref">Section 3.5</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>. To this end, this document defines a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.<a href="#section-1-5" class="pilcrow">¶</a></p>
-<p id="section-1-6">Using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates the addressing information of the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast request(s) to the indicated address(es). In doing these follow-up unicast requests, the client may optionally bypass the proxy.<a href="#section-1-6" class="pilcrow">¶</a></p>
+<p id="section-1-6">By using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates the addressing information of the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast request(s) to the indicated address(es). In doing these follow-up unicast requests, the client may optionally bypass the proxy.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">Like <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, this document refers to UDP/IP multicast as the transport protocol that a proxy uses to forward a CoAP group request to a group of servers. While other transport protocols such as broadcast, non-IP multicast, and geocast can also be possible to employ, their use is not considered in this document.<a href="#section-1-7" class="pilcrow">¶</a></p>
-<p id="section-1-8">This document also defines how the proposed protocol is used between an HTTP client and an HTTP-CoAP cross-proxy, in order to forward an HTTP group request from the client to a group of CoAP servers, and relay back the individual CoAP responses as HTTP responses.<a href="#section-1-8" class="pilcrow">¶</a></p>
+<p id="section-1-8">This document also defines how the proposed protocol is used between an HTTP client and an HTTP-to-CoAP cross-proxy, in order to forward an HTTP group request from the client to a group of CoAP servers, and relay back the individual CoAP responses as HTTP responses.<a href="#section-1-8" class="pilcrow">¶</a></p>
 <p id="section-1-9">Finally, this document defines a caching model for proxies and specifies how they can serve a group request by using cached responses. Therefore, this document updates <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-1-9" class="pilcrow">¶</a></p>
 <div id="terminology">
 <section id="section-1.1">
@@ -2383,13 +2383,13 @@ This ensures that, when receiving a response to a group request and consuming th
 </div>
 </section>
 </div>
-<div id="sec-http-coap-proxies">
+<div id="sec-http-to-coap-proxies">
 <section id="section-9">
-      <h2 id="name-http-coap-proxies">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-http-coap-proxies" class="section-name selfRef">HTTP-CoAP Proxies</a>
+      <h2 id="name-http-to-coap-proxies">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-http-to-coap-proxies" class="section-name selfRef">HTTP-to-CoAP Proxies</a>
       </h2>
-<p id="section-9-1">This section defines the components needed to use the signaling protocol specified in this document, when an HTTP client wishes to send a group request to the servers of a CoAP group, via an HTTP-CoAP cross-proxy.<a href="#section-9-1" class="pilcrow">¶</a></p>
-<p id="section-9-2">The following builds on the mapping of the CoAP request/response model to HTTP and vice versa as defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-10" class="relref">Section 10</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, as well as on the additional details about the HTTP-CoAP mapping defined in <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-1">This section defines the components needed to use the signaling protocol specified in this document, when an HTTP client wishes to send a group request to the servers of a CoAP group, via an HTTP-to-CoAP cross-proxy.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">The following builds on the mapping of the CoAP request/response model to HTTP and vice versa as defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-10" class="relref">Section 10</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, as well as on the additional details about the HTTP-to-CoAP mapping defined in <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>.<a href="#section-9-2" class="pilcrow">¶</a></p>
 <p id="section-9-3">Furthermore, the components defined in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-11" class="relref">Section 11</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> are also used to map and transport OSCORE-protected messages over HTTP. This allows an HTTP client to use Group OSCORE end-to-end with the servers in the CoAP group.<a href="#section-9-3" class="pilcrow">¶</a></p>
 <div id="sec-multicast-timeout-header">
 <section id="section-9.1">
@@ -2537,7 +2537,7 @@ Similarly to step 3 in <a href="#ssec-resp-proc-client-steps" class="auto intern
         <h3 id="name-example-2">
 <a href="#section-9.8" class="section-number selfRef">9.8. </a><a href="#name-example-2" class="section-name selfRef">Example</a>
         </h3>
-<p id="section-9.8-1">The examples in this section build on <a href="#sec-workflow-example" class="auto internal xref">Section 5.6</a>, with the difference that the origin client C is an HTTP client and the proxy P is an HTTP-CoAP cross-proxy. The examples are simply illustrative and are not to be intended as a test vector.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
+<p id="section-9.8-1">The examples in this section build on <a href="#sec-workflow-example" class="auto internal xref">Section 5.6</a>, with the difference that the origin client C is an HTTP client and the proxy P is an HTTP-to-CoAP cross-proxy. The examples are simply illustrative and are not to be intended as a test vector.<a href="#section-9.8-1" class="pilcrow">¶</a></p>
 <p id="section-9.8-2">The following is an example of unicast group request sent by C to P. The URI mapping and notation are based on the "Simple Form" defined in <span><a href="https://rfc-editor.org/rfc/rfc8075#section-5.4.1" class="relref">Section 5.4.1</a> of [<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>.<a href="#section-9.8-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.8-3">
 <pre>
@@ -2680,10 +2680,10 @@ Body: More than done!
 <p id="section-10.4-7">When caching of Group OSCORE secured responses is enabled at the proxy, the same as defined in <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a> applies, with respect to cache entries and the way they are maintained.<a href="#section-10.4-7" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="sec-http-coap-proxies-sec-con">
+<div id="sec-http-to-coap-proxies-sec-con">
 <section id="section-10.5">
-        <h3 id="name-http-to-coap-proxies">
-<a href="#section-10.5" class="section-number selfRef">10.5. </a><a href="#name-http-to-coap-proxies" class="section-name selfRef">HTTP-to-CoAP Proxies</a>
+        <h3 id="name-http-to-coap-proxies-2">
+<a href="#section-10.5" class="section-number selfRef">10.5. </a><a href="#name-http-to-coap-proxies-2" class="section-name selfRef">HTTP-to-CoAP Proxies</a>
         </h3>
 <p id="section-10.5-1">Consistently with what is discussed in <a href="#sec-security-considerations-client-auth" class="auto internal xref">Section 10.1</a>, an HTTP client has to authenticate to the HTTP-to-CoAP proxy, and they <span class="bcp14">SHOULD</span> rely on a full-fledged pairwise secure association. This can rely on a TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> channel as also recommended in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-12.1" class="relref">Section 12.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> for when OSCORE is used with HTTP, or on a pairwise OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> Security Context between the client and the proxy as defined in <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>.<a href="#section-10.5-1" class="pilcrow">¶</a></p>
 <p id="section-10.5-2">[ TODO<a href="#section-10.5-2" class="pilcrow">¶</a></p>
