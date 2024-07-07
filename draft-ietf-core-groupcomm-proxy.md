@@ -371,7 +371,7 @@ Finally, cri'X' denotes a CRI corresponding to the URI X.
 ~~~~~~~~~~~ aasvg
 C                               P                      S1           S2
 |                               |                      |             |
-|------------------------------>|                      |             |
++------------------------------>|                      |             |
 | Src: C_ADDR:C_PORT            |                      |             |
 | Dst: P_ADDR:P_PORT            |                      |             |
 | Proxi-Uri:                    |                      |             |
@@ -382,9 +382,9 @@ C                               P                      S1           S2
 |                               | Src: P_ADDR:P_PORT   |             |
 |                               | Dst: G_ADDR:G_PORT   |             |
 |                               | Uri-Path: "r"        |             |
-|                               |---------------+----->|             |
+|                               +---------------+----->|             |
 |                               |                \     |             |
-|                               |                 +----------------->|
+|                               |                 `----------------->|
 |                               |                      |             |
 |                               |                      |             |
 |                               | / t = 0 : P starts   |             |
@@ -392,32 +392,32 @@ C                               P                      S1           S2
 |                               | for this request /   |             |
 |                               |                      |             |
 |                               |                      |             |
-|                               |<---------------------|             |
+|                               |<---------------------+             |
 |                               | Src: S1_ADDR:G_PORT  |             |
 |                               | Dst: P_ADDR:P_PORT   |             |
 |                               |                      |             |
 |                               |                      |             |
-|<------------------------------|                      |             |
+|<------------------------------+                      |             |
 | Src: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
 | Reply-To:                     |                      |             |
 |   cri'coap://S1_ADDR:G_PORT'  |                      |             |
 |                               |                      |             |
 |                               |                      |             |
-|                               |<-----------------------------------|
+|                               |<-----------------------------------+
 |                               |               Src: S2_ADDR:S2_PORT |
 |                               |               Dst: P_ADDR:P_PORT   |
 |                               |                      |             |
 |                               |                      |             |
-|<------------------------------|                      |             |
+|<------------------------------+                      |             |
 | Src: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
 | Reply-To:                     |                      |             |
 |   cri'coap://S2_ADDR:S2_PORT' |                      |             |
 |                               |                      |             |
 |                               |                      |             |
-|              / At t = 60, P stops accepting          |             |
-|              responses for this request /            |             |
+|               / At t = 60, P stops accepting         |             |
+|               responses for this request /           |             |
 |                               |                      |             |
 ~~~~~~~~~~~
 {: #workflow-example title="Workflow example with a forward-proxy"}
@@ -1091,11 +1091,11 @@ Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI r
 
 ## Example 1  ## {#sec-reverse-proxies-examples-ex1}
 
-The example shown in {{workflow-example-reverse-1}} considers a reverse-proxy P that provides access to both the whole group of servers {S1,S2} and also to each of those servers individually. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall). After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests another resource from it in unicast, again via the proxy.
+The example shown in {{workflow-example-reverse-1}} considers a reverse-proxy P that provides access to both the whole group of servers {S1,S2} and also to each of those servers individually. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).
+
+After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests another resource from it in unicast, again via the proxy.
 
 In particular:
-
-* The hostname 'p.example.com' resolves to the proxy's unicast IPv6 address P_ADDR.
 
 * In its group request to P, the client C includes the Uri-Host Option with value "group1.com" and the Uri-Path option with value "r".
 
@@ -1107,29 +1107,30 @@ In particular:
 
 * Typically, S1_PORT and S2_PORT will be equal to G_PORT, but a server Sx is allowed to reply to the multicast request from another port number not equal to G_PORT. For this reason, the notation Sx_PORT is used.
 
-Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it is well scalable to a large number of servers Sx. Instead, the type of reverse-proxy in the example in {{sec-reverse-proxies-examples-ex2}} requires an additional IP address for each server Sx and also for each CoAP group that it supports.
+Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it is well scalable to a large number of servers Sx. Instead, the type of reverse-proxy in the example in {{sec-reverse-proxies-examples-ex2}} requires an additional IP address for each server Sx and also for each CoAP group that the proxy supports.
 
 ~~~~~~~~~~~ aasvg
 C                                    P                      S1       S2
 |                                    |                      |         |
-|----------------------------------->| / C is not aware     |         |
++----------------------------------->| / C is not aware     |         |
 | Src: C_ADDR:C_PORT                 | that P is in fact    |         |
-| Dst: group1.com:P_PORT             | a reverse-proxy /    |         |
+| Dst: P_ADDR:P_PORT                 | a reverse-proxy /    |         |
+| Uri-Host: "group1.com"             |                      |         |
 | Uri-Path: "r"                      |                      |         |
 |                                    |                      |         |
 |                                    |                      |         |
-|<-----------------------------------|                      |         |
+|<-----------------------------------+                      |         |
 | Src: P_ADDR:P_PORT                 |                      |         |
 | Dst: C_ADDR:C_PORT                 |                      |         |
 | 4.00 Bad Request                   |                      |         |
-| Multicast-Timeout: (empty)         |                      |         |
+| Multicast-Timeout: - (empty)       |                      |         |
 | Payload: "Please use               |                      |         |
 |   Multicast-Timeout"               |                      |         |
 |                                    |                      |         |
 |                                    |                      |         |
-|----------------------------------->|                      |         |
++----------------------------------->|                      |         |
 | Src: C_ADDR:C_PORT                 |                      |         |
-| Dst: p.example.com:P_PORT          |                      |         |
+| Dst: P_ADDR:P_PORT                 |                      |         |
 | Uri-Host: "group1.com"             |                      |         |
 | Uri-Path: "r"                      |                      |         |
 | Multicast-Timeout: 60              |                      |         |
@@ -1138,9 +1139,9 @@ C                                    P                      S1       S2
 |                                    | Src: P_ADDR:P_PORT   |         |
 |                                    | Dst: G_ADDR:G_PORT   |         |
 |                                    | Uri-Path: "r"        |         |
-|                                    |---------------+----->|         |
+|                                    +---------------+----->|         |
 |                                    |                \     |         |
-|                                    |                 +------------->|
+|                                    |                 `------------->|
 |                                    |                      |         |
 |                                    |                      |         |
 |                                    | / t = 0 : P starts   |         |
@@ -1148,12 +1149,12 @@ C                                    P                      S1       S2
 |                                    | for this request /   |         |
 |                                    |                      |         |
 |                                    |                      |         |
-|                                    |<---------------------|         |
+|                                    |<---------------------+         |
 |                                    | Src: S1_ADDR:S1_PORT |         |
 |                                    | Dst: P_ADDR:P_PORT   |         |
 |                                    |                      |         |
 |                                    |                      |         |
-|<-----------------------------------|                      |         |
+|<-----------------------------------+                      |         |
 | Src: P_ADDR:P_PORT                 |                      |         |
 | Dst: C_ADDR:C_PORT                 |                      |         |
 | Reply-To:                          |                      |         |
@@ -1161,12 +1162,12 @@ C                                    P                      S1       S2
 |   cri'//S1_ADDR:S1_PORT'           |                      |         |
 |                                    |                      |         |
 |                                    |                      |         |
-|                                    |<-------------------------------|
+|                                    |<-------------------------------+
 |                                    |           Src: S2_ADDR:S2_PORT |
 |                                    |           Dst: P_ADDR:P_PORT   |
 |                                    |                      |         |
 |                                    |                      |         |
-|<-----------------------------------|                      |         |
+|<-----------------------------------+                      |         |
 | Src: P_ADDR:P_PORT                 |                      |         |
 | Dst: C_ADDR:C_PORT                 |                      |         |
 | Reply-To:                          |                      |         |
@@ -1178,7 +1179,7 @@ C                                    P                      S1       S2
 |                    responses for this request /           |         |
 |                                    |                      |         |
 |                                    |                      |         |
-|----------------------------------->| / Request intended   |         |
++----------------------------------->| / Request intended   |         |
 | Src: C_ADDR:C_PORT                 | only to S1, via the  |         |
 | Dst: P_ADDR:P_PORT                 | proxy P /            |         |
 | Uri-Host: "S1_ADDR"                |                      |         |
@@ -1189,65 +1190,67 @@ C                                    P                      S1       S2
 |                                    | Src: P_ADDR:P_PORT   |         |
 |                                    | Dst: S1_ADDR:S1_PORT |         |
 |                                    | Uri-Path: "r1"       |         |
-|                                    |--------------------->|         |
+|                                    +--------------------->|         |
 |                                    |                      |         |
 |                                    |                      |         |
-|                                    |<---------------------|         |
+|                                    |<---------------------+         |
 |                                    | Src: S1_ADDR:S1_PORT |         |
 |                                    | Dst: P_ADDR:P_PORT   |         |
 |                                    |                      |         |
 |                                    |                      |         |
-|<-----------------------------------|                      |         |
+|<-----------------------------------+                      |         |
 |                 Src: P_ADDR:P_PORT |                      |         |
 |                 Dst: C_ADDR:C_PORT |                      |         |
 |                                    |                      |         |
 ~~~~~~~~~~~
-{: #workflow-example-reverse-1 title="Workflow example with reverse-proxy standing in for both the whole group of servers and each individual server, and requiring only one unicast IP address."}
+{: #workflow-example-reverse-1 title="Workflow example with a reverse-proxy standing in for both the whole group of servers and each individual server. This requires the proxy to have only one pair (IP address, port number)."}
 
 
 ## Example 2  ## {#sec-reverse-proxies-examples-ex2}
 
-The example shown in {{workflow-example-reverse-2}} considers a reverse-proxy that stands in for both the whole group of servers {S1,S2} and for each of those servers Sx. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall). After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests at a later time the same resource from it in unicast, again via the proxy.
+The example shown in {{workflow-example-reverse-2}} considers a reverse-proxy that stands in for both the whole group of servers {S1,S2} and for each of those servers Sx. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).
+
+After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests at a later time the same resource from it in unicast, again via the proxy.
 
 In particular:
 
-* The hostname 'group1.com' resolves to the unicast address P_ADDR. The proxy forwards an incoming request to that address, for any resource i.e., URI path, towards the CoAP group at G_ADDR:G_PORT leaving the URI path unchanged.
+* When receiving a request addressed to the unicast address P_ADDR and port number P_PORT, the proxy forwards the request towards the CoAP group at G_ADDR:G_PORT leaving the URI path unchanged.
 
-* The address Dx_ADDR and port number Dx_PORT are used by the proxy, which forwards an incoming request to that address towards the server at Sx_ADDR:Sx_PORT. The different Dx_ADDR are effectively 'proxy IP addresses' used to provide access to the servers.
+* The address Dx_ADDR and port number Dx_PORT are also used by the proxy, which forwards an incoming request to that address towards the server at Sx_ADDR:Sx_PORT. The different Dx_ADDR are effectively 'proxy IP addresses' used to provide access to the servers.
 
 Note that this type of reverse-proxy implementation requires the proxy to use (potentially) a large number of distinct IP addresses, hence it is not very scalable. Instead, the type of reverse-proxy shown in the example in {{sec-reverse-proxies-examples-ex1}} uses only one IPv6 unicast address to provide access to all servers and all CoAP groups.
 
 ~~~~~~~~~~~ aasvg
 C                                   P                      S1        S2
 |                                   |                      |          |
-|---------------------------------->| / C is not aware     |          |
++---------------------------------->| / C is not aware     |          |
 | Src: C_ADDR:C_PORT                | that P is in fact    |          |
-| Dst: group1.com:P_PORT            | a reverse-proxy /    |          |
+| Dst: P_ADDR:P_PORT                | a reverse-proxy /    |          |
 | Uri-Path: "r"                     |                      |          |
 |                                   |                      |          |
 |                                   |                      |          |
-|<----------------------------------|                      |          |
+|<----------------------------------+                      |          |
 | Src: P_ADDR:P_PORT                |                      |          |
 | Dst: C_ADDR:C_PORT                |                      |          |
 | 4.00 Bad Request                  |                      |          |
-| Multicast-Timeout: (empty)        |                      |          |
+| Multicast-Timeout: - (empty)      |                      |          |
 | Payload: "Please use              |                      |          |
-|     Multicast-Timeout"            |                      |          |
+|   Multicast-Timeout"              |                      |          |
 |                                   |                      |          |
 |                                   |                      |          |
-|---------------------------------->|                      |          |
++---------------------------------->|                      |          |
 | Src: C_ADDR:C_PORT                |                      |          |
-| Dst: group1.com:P_PORT            |                      |          |
-| Multicast-Timeout: 60             |                      |          |
+| Dst: P_ADDR:P_PORT                |                      |          |
 | Uri-Path: "r"                     |                      |          |
+| Multicast-Timeout: 60             |                      |          |
 |                                   |                      |          |
 |                                   |                      |          |
 |                                   | Src: P_ADDR:P_PORT   |          |
 |                                   | Dst: G_ADDR:G_PORT   |          |
 |                                   | Uri-Path: "r"        |          |
-|                                   |---------------+----->|          |
+|                                   +---------------+----->|          |
 |                                   |                \     |          |
-|                                   |                 +-------------->|
+|                                   |                 `-------------->|
 |                                   |                      |          |
 |                                   |                      |          |
 |                                   | / t = 0 : P starts   |          |
@@ -1255,24 +1258,24 @@ C                                   P                      S1        S2
 |                                   | for this request /   |          |
 |                                   |                      |          |
 |                                   |                      |          |
-|                                   |<---------------------|          |
+|                                   |<---------------------+          |
 |                                   | Src: S1_ADDR:S1_PORT |          |
 |                                   | Dst: P_ADDR:P_PORT   |          |
 |                                   |                      |          |
 |                                   |                      |          |
-|<----------------------------------|                      |          |
+|<----------------------------------+                      |          |
 | Src: P_ADDR:P_PORT                |                      |          |
 | Dst: C_ADDR:C_PORT                |                      |          |
 | Reply-To:                         |                      |          |
 |   cri'coap+tcp://D1_ADDR:D1_PORT' |                      |          |
 |                                   |                      |          |
 |                                   |                      |          |
-|                                   |<--------------------------------|
+|                                   |<--------------------------------+
 |                                   |            Src: S2_ADDR:S2_PORT |
 |                                   |            Dst: P_ADDR:P_PORT   |
 |                                   |                      |          |
 |                                   |                      |          |
-|<----------------------------------|                      |          |
+|<----------------------------------+                      |          |
 | Src: P_ADDR:P_PORT                |                      |          |
 | Dst: C_ADDR:C_PORT                |                      |          |
 | Reply-To:                         |                      |          |
@@ -1283,10 +1286,12 @@ C                                   P                      S1        S2
 |                   responses for this request /           |          |
 |                                   |                      |          |
 |                                   |                      |          |
+
 ...           ...            / Time passes /              ...       ...
+
 |                                   |                      |          |
 |                                   |                      |          |
-|---------------------------------->| / Request intended   |          |
++---------------------------------->| / Request intended   |          |
 | Src: C_ADDR:C_PORT                | only to S1 for the   |          |
 | Dst: D1_ADDR:D1_PORT              | same resource /r /   |          |
 | Uri-Path: "r"                     |                      |          |
@@ -1294,20 +1299,20 @@ C                                   P                      S1        S2
 |                                   | Src: P_ADDR:P_PORT   |          |
 |                                   | Dst: S1_ADDR:S1_PORT |          |
 |                                   | Uri-Path: "r"        |          |
-|                                   |--------------------->|          |
+|                                   +--------------------->|          |
 |                                   |                      |          |
 |                                   |                      |          |
-|                                   |<---------------------|          |
+|                                   |<---------------------+          |
 |                                   | Src: S1_ADDR:S1_PORT |          |
 |                                   | Dst: P_ADDR:P_PORT   |          |
 |                                   |                      |          |
 |                                   |                      |          |
-|<----------------------------------|                      |          |
+|<----------------------------------+                      |          |
 |              Src: D1_ADDR:D1_PORT |                      |          |
 |              Dst: C_ADDR:C_PORT   |                      |          |
 |                                   |                      |          |
 ~~~~~~~~~~~
-{: #workflow-example-reverse-2 title="Workflow example with reverse-proxy standing in for both the whole group of servers and each individual server, and requiring one pair (IP address, port number) for each origin server."}
+{: #workflow-example-reverse-2 title="Workflow example with a reverse-proxy standing in for both the whole group of servers and each individual server. This requires the proxy to have one pair (IP address, port number) for each group and one for each origin server."}
 
 ## Example 3  ## {#sec-reverse-proxies-examples-ex3}
 
@@ -1320,33 +1325,33 @@ The final exchange between C and S1 occurs with CoAP over UDP.
 ~~~~~~~~~~~ aasvg
 C                               P                      S1           S2
 |                               |                      |             |
-|------------------------------>| / C is not aware     |             |
++------------------------------>| / C is not aware     |             |
 | Src: C_ADDR:C_PORT            | that P is in fact    |             |
-| Dst: group1.com:P_PORT        | a reverse-proxy /    |             |
+| Dst: P_ADDR:P_PORT            | a reverse-proxy /    |             |
 | Uri-Path: "r"                 |                      |             |
 |                               |                      |             |
-|<------------------------------|                      |             |
+|<------------------------------+                      |             |
 | Src: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
 | 4.00 Bad Request              |                      |             |
-| Multicast-Timeout: (empty)    |                      |             |
+| Multicast-Timeout: - (empty)  |                      |             |
 | Payload: "Please use          |                      |             |
-|     Multicast-Timeout"        |                      |             |
+|   Multicast-Timeout"          |                      |             |
 |                               |                      |             |
 |                               |                      |             |
-|------------------------------>|                      |             |
++------------------------------>|                      |             |
 | Src: C_ADDR:C_PORT            |                      |             |
-| Dst: group1.com:P_PORT        |                      |             |
-| Multicast-Timeout: 60         |                      |             |
+| Dst: P_ADDR:P_PORT            |                      |             |
 | Uri-Path: "r"                 |                      |             |
+| Multicast-Timeout: 60         |                      |             |
 |                               |                      |             |
 |                               |                      |             |
 |                               | Src: P_ADDR:P_PORT   |             |
 |                               | Dst: G_ADDR:G_PORT   |             |
 |                               | Uri-Path: "r"        |             |
-|                               |---------------+----->|             |
+|                               +---------------+----->|             |
 |                               |                \     |             |
-|                               |                 +----------------->|
+|                               |                 `----------------->|
 |                               |                      |             |
 |                               |                      |             |
 |                               | / t = 0 : P starts   |             |
@@ -1354,24 +1359,24 @@ C                               P                      S1           S2
 |                               | for this request /   |             |
 |                               |                      |             |
 |                               |                      |             |
-|                               |<---------------------|             |
+|                               |<---------------------+             |
 |                               | Src: S1_ADDR:S1_PORT |             |
 |                               | Dst: P_ADDR:P_PORT   |             |
 |                               |                      |             |
 |                               |                      |             |
-|<------------------------------|                      |             |
+|<------------------------------+                      |             |
 | Dst: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
 | Reply-To:                     |                      |             |
 |   cri'coap://S1_ADDR:S1_PORT' |                      |             |
 |                               |                      |             |
 |                               |                      |             |
-|                               |<-----------------------------------|
+|                               |<-----------------------------------+
 |                               |               Src: S2_ADDR:S2_PORT |
 |                               |               Dst: P_ADDR:P_PORT   |
 |                               |                      |             |
 |                               |                      |             |
-|<------------------------------|                      |             |
+|<------------------------------+                      |             |
 | Dst: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
 | Reply-To:                     |                      |             |
@@ -1382,21 +1387,23 @@ C                               P                      S1           S2
 |               responses for this request /           |             |
 |                               |                      |             |
 |                               |                      |             |
+
 ...           ...        / Time passes /              ...          ...
+
 |                               |                      |             |
 |                               |                      |             |
-|----------------------------------------------------->|             |
++----------------------------------------------------->|             |
 | Src: C_ADDR:C_PORT            | / Request intended   |             |
 | Dst: S1.ADDR:S1_PORT          | only to S1 for the   |             |
 | Uri-Path: "r"                 | same resource /r /   |             |
 |                               |                      |             |
 |                               |                      |             |
-|<-----------------------------------------------------|             |
+|<-----------------------------------------------------+             |
 |                               | Src: S1.ADDR:S1_PORT |             |
 |                               | Dst: C_ADDR:C_PORT   |             |
 |                               |                      |             |
 ~~~~~~~~~~~
-{: #workflow-example-reverse-3 title="Workflow example with reverse-proxy standing in for only the whole group of servers, but not for each individual server"}
+{: #workflow-example-reverse-3 title="Workflow example with a reverse-proxy standing in for only the whole group of servers, but not for each individual server. This requires the proxy to have one pair (IP address, port number) for each group."}
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
@@ -1404,6 +1411,8 @@ C                               P                      S1           S2
 ## Version -01 to -02 ## {#sec-01-02}
 
 * Fixes in the IANA considerations.
+
+* Revised the examples of message exchange with a reverse-proxy.
 
 * Editorial fixes and improvements.
 
