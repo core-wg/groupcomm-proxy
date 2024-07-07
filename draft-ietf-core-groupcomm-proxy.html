@@ -2183,25 +2183,41 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-client-proxy-revalidation-w" class="section-name selfRef">Client-Proxy Revalidation with Group Requests</a>
         </h3>
 <p id="section-7.3-1">A client <span class="bcp14">MAY</span> revalidate the full set of responses to a group request by leveraging the corresponding cache entries at the proxy. To this end, this document defines the new Group-ETag Option.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2">The Group-ETag Option has the properties summarized in <a href="#fig-response-group-etag-option" class="auto internal xref">Figure 2</a>, which extends Table 4 of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. The Group-ETag Option is elective, safe to forward, part of the cache key, and repeatable.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">The Group-ETag Option has the properties summarized in <a href="#_table-response-group-etag-option" class="auto internal xref">Table 3</a>, which extends Table 4 of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. The Group-ETag Option is elective, safe to forward, part of the cache key, and repeatable.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 <p id="section-7.3-3">The option is intended for group requests sent to a proxy to be forwarded to the servers in a CoAP group, as well as for the associated responses.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
-<span id="name-the-group-etag-option"></span><div id="fig-response-group-etag-option">
-<figure id="figure-2">
-          <div class="alignCenter art-text artwork" id="section-7.3-4.1">
-<pre>
-+------+---+---+---+---+------------+--------+--------+---------+
-| No.  | C | U | N | R | Name       | Format | Length | Default |
-+------+---+---+---+---+------------+--------+--------+---------+
-|      |   |   |   |   |            |        |        |         |
-| TBD3 |   |   |   | x | Group-ETag | opaque |  1-8   | (none)  |
-|      |   |   |   |   |            |        |        |         |
-+------+---+---+---+---+------------+--------+--------+---------+
-           C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
-</pre>
-</div>
-<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
-<a href="#name-the-group-etag-option" class="selfRef">The Group-ETag Option.</a>
-          </figcaption></figure>
+<span id="name-the-group-etag-option-ccrit"></span><div id="_table-response-group-etag-option">
+<table class="center" id="table-3">
+          <caption>
+<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#name-the-group-etag-option-ccrit" class="selfRef">The Group-ETag Option.                                                             C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">No.</th>
+              <th class="text-left" rowspan="1" colspan="1">C</th>
+              <th class="text-left" rowspan="1" colspan="1">U</th>
+              <th class="text-left" rowspan="1" colspan="1">N</th>
+              <th class="text-left" rowspan="1" colspan="1">R</th>
+              <th class="text-left" rowspan="1" colspan="1">Name</th>
+              <th class="text-left" rowspan="1" colspan="1">Format</th>
+              <th class="text-left" rowspan="1" colspan="1">Length</th>
+              <th class="text-left" rowspan="1" colspan="1">Default</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">TBD3</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">x</td>
+              <td class="text-left" rowspan="1" colspan="1">Group-ETag</td>
+              <td class="text-left" rowspan="1" colspan="1">opaque</td>
+              <td class="text-left" rowspan="1" colspan="1">1-8</td>
+              <td class="text-left" rowspan="1" colspan="1">(none)</td>
+            </tr>
+          </tbody>
+        </table>
 </div>
 <p id="section-7.3-5">The Group-ETag Option has the same properties of the ETag Option defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.10.6" class="relref">Section 5.10.6</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
 <p id="section-7.3-6">The Group-ETag Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-7.3-6" class="pilcrow">¶</a></p>
@@ -2746,9 +2762,9 @@ Body: More than done!
         </h3>
 <p id="section-11.1-1">IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <span id="name-registrations-in-the-coap-o"></span><div id="tab-iana-coap-option-numbers">
-<table class="center" id="table-3">
+<table class="center" id="table-4">
           <caption>
-<a href="#table-3" class="selfRef">Table 3</a>:
+<a href="#table-4" class="selfRef">Table 4</a>:
 <a href="#name-registrations-in-the-coap-o" class="selfRef">Registrations in the CoAP Option Numbers Registry</a>
           </caption>
 <thead>
@@ -2786,9 +2802,9 @@ Body: More than done!
         </h3>
 <p id="section-11.2-1">IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" registry.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
 <span id="name-registrations-in-the-hypert"></span><div id="tab-iana-http-field-names">
-<table class="center" id="table-4">
+<table class="center" id="table-5">
           <caption>
-<a href="#table-4" class="selfRef">Table 4</a>:
+<a href="#table-5" class="selfRef">Table 5</a>:
 <a href="#name-registrations-in-the-hypert" class="selfRef">Registrations in the Hypertext Transfer Protocol (HTTP) Field Name Registry</a>
           </caption>
 <thead>
@@ -2981,7 +2997,7 @@ Body: More than done!
         <h3 id="name-example-1">
 <a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-example-1" class="section-name selfRef">Example 1</a>
         </h3>
-<p id="appendix-A.1-1">The example shown in <a href="#workflow-example-reverse-1" class="auto internal xref">Figure 3</a> considers a reverse-proxy P that provides access to both the whole group of servers {S1,S2} and also to each of those servers individually. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-1">The example shown in <a href="#workflow-example-reverse-1" class="auto internal xref">Figure 2</a> considers a reverse-proxy P that provides access to both the whole group of servers {S1,S2} and also to each of those servers individually. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
 <p id="appendix-A.1-2">After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests another resource from it in unicast, again via the proxy.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
 <p id="appendix-A.1-3">In particular:<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -3001,7 +3017,7 @@ Based on this information, P composes the group request and sends it to the CoAP
         </ul>
 <p id="appendix-A.1-5">Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it is well scalable to a large number of servers Sx. Instead, the type of reverse-proxy in the example in <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a> requires an additional IP address for each server Sx and also for each CoAP group that the proxy supports.<a href="#appendix-A.1-5" class="pilcrow">¶</a></p>
 <span id="name-workflow-example-with-a-rev"></span><div id="workflow-example-reverse-1">
-<figure id="figure-3">
+<figure id="figure-2">
           <div id="appendix-A.1-6.1">
             <div class="alignLeft art-svg artwork" id="appendix-A.1-6.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1504" width="576" viewBox="0 0 576 1504" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3182,7 +3198,7 @@ Based on this information, P composes the group request and sends it to the CoAP
               </svg><a href="#appendix-A.1-6.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
 <a href="#name-workflow-example-with-a-rev" class="selfRef">Workflow example with a reverse-proxy standing in for both the whole group of servers and each individual server. This requires the proxy to have only one pair (IP address, port number).</a>
           </figcaption></figure>
 </div>
@@ -3193,7 +3209,7 @@ Based on this information, P composes the group request and sends it to the CoAP
         <h3 id="name-example-2-2">
 <a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-example-2-2" class="section-name selfRef">Example 2</a>
         </h3>
-<p id="appendix-A.2-1">The example shown in <a href="#workflow-example-reverse-2" class="auto internal xref">Figure 4</a> considers a reverse-proxy that stands in for both the whole group of servers {S1,S2} and for each of those servers Sx. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-1">The example shown in <a href="#workflow-example-reverse-2" class="auto internal xref">Figure 3</a> considers a reverse-proxy that stands in for both the whole group of servers {S1,S2} and for each of those servers Sx. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
 <p id="appendix-A.2-2">After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests at a later time the same resource from it in unicast, again via the proxy.<a href="#appendix-A.2-2" class="pilcrow">¶</a></p>
 <p id="appendix-A.2-3">In particular:<a href="#appendix-A.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -3206,7 +3222,7 @@ Based on this information, P composes the group request and sends it to the CoAP
         </ul>
 <p id="appendix-A.2-5">Note that this type of reverse-proxy implementation requires the proxy to use (potentially) a large number of distinct IP addresses, hence it is not very scalable. Instead, the type of reverse-proxy shown in the example in <a href="#sec-reverse-proxies-examples-ex1" class="auto internal xref">Appendix A.1</a> uses only one IPv6 unicast address to provide access to all servers and all CoAP groups.<a href="#appendix-A.2-5" class="pilcrow">¶</a></p>
 <span id="name-workflow-example-with-a-reve"></span><div id="workflow-example-reverse-2">
-<figure id="figure-4">
+<figure id="figure-3">
           <div id="appendix-A.2-6.1">
             <div class="alignLeft art-svg artwork" id="appendix-A.2-6.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1472" width="576" viewBox="0 0 576 1472" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3390,7 +3406,7 @@ Based on this information, P composes the group request and sends it to the CoAP
               </svg><a href="#appendix-A.2-6.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
+<figcaption><a href="#figure-3" class="selfRef">Figure 3</a>:
 <a href="#name-workflow-example-with-a-reve" class="selfRef">Workflow example with a reverse-proxy standing in for both the whole group of servers and each individual server. This requires the proxy to have one pair (IP address, port number) for each group and one for each origin server.</a>
           </figcaption></figure>
 </div>
@@ -3401,11 +3417,11 @@ Based on this information, P composes the group request and sends it to the CoAP
         <h3 id="name-example-3">
 <a href="#appendix-A.3" class="section-number selfRef">A.3. </a><a href="#name-example-3" class="section-name selfRef">Example 3</a>
         </h3>
-<p id="appendix-A.3-1">The example shown in <a href="#workflow-example-reverse-3" class="auto internal xref">Figure 5</a> builds on the example in <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a>.<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.3-1">The example shown in <a href="#workflow-example-reverse-3" class="auto internal xref">Figure 4</a> builds on the example in <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a>.<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
 <p id="appendix-A.3-2">However, it considers a reverse-proxy that stands in for only the whole group of servers, but not for each individual server Sx.<a href="#appendix-A.3-2" class="pilcrow">¶</a></p>
 <p id="appendix-A.3-3">The final exchange between C and S1 occurs with CoAP over UDP.<a href="#appendix-A.3-3" class="pilcrow">¶</a></p>
 <span id="name-workflow-example-with-a-rever"></span><div id="workflow-example-reverse-3">
-<figure id="figure-5">
+<figure id="figure-4">
           <div id="appendix-A.3-4.1">
             <div class="alignLeft art-svg artwork" id="appendix-A.3-4.1.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1296" width="568" viewBox="0 0 568 1296" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
@@ -3577,7 +3593,7 @@ Based on this information, P composes the group request and sends it to the CoAP
               </svg><a href="#appendix-A.3-4.1.1" class="pilcrow">¶</a>
 </div>
 </div>
-<figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
+<figcaption><a href="#figure-4" class="selfRef">Figure 4</a>:
 <a href="#name-workflow-example-with-a-rever" class="selfRef">Workflow example with a reverse-proxy standing in for only the whole group of servers, but not for each individual server. This requires the proxy to have one pair (IP address, port number) for each group.</a>
           </figcaption></figure>
 </div>

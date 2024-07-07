@@ -1178,24 +1178,22 @@ Table of Contents
    by leveraging the corresponding cache entries at the proxy.  To this
    end, this document defines the new Group-ETag Option.
 
-   The Group-ETag Option has the properties summarized in Figure 2,
-   which extends Table 4 of [RFC7252].  The Group-ETag Option is
-   elective, safe to forward, part of the cache key, and repeatable.
+   The Group-ETag Option has the properties summarized in Table 3, which
+   extends Table 4 of [RFC7252].  The Group-ETag Option is elective,
+   safe to forward, part of the cache key, and repeatable.
 
    The option is intended for group requests sent to a proxy to be
    forwarded to the servers in a CoAP group, as well as for the
    associated responses.
 
-     +------+---+---+---+---+------------+--------+--------+---------+
+     +======+===+===+===+===+============+========+========+=========+
      | No.  | C | U | N | R | Name       | Format | Length | Default |
+     +======+===+===+===+===+============+========+========+=========+
+     | TBD3 |   |   |   | x | Group-ETag | opaque | 1-8    | (none)  |
      +------+---+---+---+---+------------+--------+--------+---------+
-     |      |   |   |   |   |            |        |        |         |
-     | TBD3 |   |   |   | x | Group-ETag | opaque |  1-8   | (none)  |
-     |      |   |   |   |   |            |        |        |         |
-     +------+---+---+---+---+------------+--------+--------+---------+
-                C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
-                      Figure 2: The Group-ETag Option.
+                      Table 3: The Group-ETag Option.
+              C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
    The Group-ETag Option has the same properties of the ETag Option
    defined in Section 5.10.6 of [RFC7252].
@@ -2139,7 +2137,7 @@ Table of Contents
                 | TBD3   | Group-ETag        | [RFC-XXXX] |
                 +--------+-------------------+------------+
 
-                     Table 3: Registrations in the CoAP
+                     Table 4: Registrations in the CoAP
                           Option Numbers Registry
 
 11.2.  Hypertext Transfer Protocol (HTTP) Field Name Registry
@@ -2158,7 +2156,7 @@ Table of Contents
    | Group-ETag        |        | permanent |            | [RFC-XXXX] |
    +-------------------+--------+-----------+------------+------------+
 
-     Table 4: Registrations in the Hypertext Transfer Protocol (HTTP)
+     Table 5: Registrations in the Hypertext Transfer Protocol (HTTP)
                            Field Name Registry
 
 12.  References
@@ -2337,7 +2335,7 @@ Appendix A.  Examples with Reverse-Proxy
 
 A.1.  Example 1
 
-   The example shown in Figure 3 considers a reverse-proxy P that
+   The example shown in Figure 2 considers a reverse-proxy P that
    provides access to both the whole group of servers {S1,S2} and also
    to each of those servers individually.  The client C may not have a
    way to reach the servers directly (e.g., P is acting as a firewall).
@@ -2467,14 +2465,14 @@ A.1.  Example 1
  |                 Dst: C_ADDR:C_PORT |                      |         |
  |                                    |                      |         |
 
-    Figure 3: Workflow example with a reverse-proxy standing in for
+    Figure 2: Workflow example with a reverse-proxy standing in for
    both the whole group of servers and each individual server.  This
        requires the proxy to have only one pair (IP address, port
                                 number).
 
 A.2.  Example 2
 
-   The example shown in Figure 4 considers a reverse-proxy that stands
+   The example shown in Figure 3 considers a reverse-proxy that stands
    in for both the whole group of servers {S1,S2} and for each of those
    servers Sx.  The client C may not have a way to reach the servers
    directly (e.g., P is acting as a firewall).
@@ -2592,14 +2590,14 @@ A.2.  Example 2
  |              Dst: C_ADDR:C_PORT   |                      |          |
  |                                   |                      |          |
 
-    Figure 4: Workflow example with a reverse-proxy standing in for
+    Figure 3: Workflow example with a reverse-proxy standing in for
    both the whole group of servers and each individual server.  This
    requires the proxy to have one pair (IP address, port number) for
                each group and one for each origin server.
 
 A.3.  Example 3
 
-   The example shown in Figure 5 builds on the example in Appendix A.2.
+   The example shown in Figure 4 builds on the example in Appendix A.2.
 
    However, it considers a reverse-proxy that stands in for only the
    whole group of servers, but not for each individual server Sx.
@@ -2686,7 +2684,7 @@ A.3.  Example 3
   |                               | Dst: C_ADDR:C_PORT   |             |
   |                               |                      |             |
 
-     Figure 5: Workflow example with a reverse-proxy standing in for
+     Figure 4: Workflow example with a reverse-proxy standing in for
        only the whole group of servers, but not for each individual
       server.  This requires the proxy to have one pair (IP address,
                        port number) for each group.
