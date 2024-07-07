@@ -723,7 +723,9 @@ Otherwise, the proxy performs the steps defined in {{ssec-req-proc-proxy}}, with
 
       If the proxy is not able to determine a value T'' that fulfills both the requirements above, the proxy MUST stop processing the request and MUST respond with a 5.05 (Proxying Not Supported) error response to the (previous hop proxy closer to the) origin client. The proxy SHOULD include a Multicast-Timeout Option, set to the minimum value T' that would be acceptable in the Multicast-Timeout Option of a group request to forward.
 
-      Upon receiving such an error response, any proxy in the chain MAY send an updated group request to the next hop towards the origin servers, specifying in the Multicast-Timeout Option a value T' greater than in the previous request. If this does not happen, the proxy receiving the error response MUST also send a 5.05 (Proxying Not Supported) error response to the previous hop proxy closer to the origin client. Like the received one, also this error response SHOULD include a Multicast-Timeout Option, set to the minimum value T' acceptable by the proxy sending the error response.
+      If the proxy is the first one in the chain, then the error response is sent to the origin client. Upon receiving the error response, the origin client MAY send an updated group request to the same first proxy in the chain. In the updated request, the Multicast-Timeout Option SHOULD specify a value T' such that: it is greater than the one specified in the original group request; and it is greater than or equal to the one specified in the error response (if present therein).
+
+      Otherwise, upon receiving the error response, any other proxy in the chain MAY send an updated group request to the next hop towards the origin servers. In the updated group request, the Multicast-Timeout Option MUST specify a value T' such that: it is greater than the one specified in the previous forwarded request; and it is greater than or equal to the one specified in the error response (if present therein). If the proxy does not send an updated group request, the proxy MUST also send a 5.05 (Proxying Not Supported) error response to the previous hop proxy closer to the origin client. Like the received one, also this error response SHOULD include a Multicast-Timeout Option, set to the minimum value T' acceptable by the proxy sending the error response.
 
 * At step 5, the proxy forwards the request to the next hop towards the origin servers.
 
@@ -1420,6 +1422,8 @@ C                               P                      S1           S2
 * Removed moot text on reverse-proxies that might use default timeouts.
 
 * Improved description on using Proxy-Cri and Proxy-Scheme-Number.
+
+* Improved error handling for inadequate timeouts with proxy chains.
 
 * Revised the examples of message exchange with a reverse-proxy.
 
