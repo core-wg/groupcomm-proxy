@@ -241,25 +241,22 @@ Table of Contents
 2.  The Multicast-Timeout Option
 
    The Multicast-Timeout Option defined in this section has the
-   properties summarized in Figure 1, which extends Table 4 of
-   [RFC7252].
+   properties summarized in Table 1, which extends Table 4 of [RFC7252].
 
    Since the option is not Safe-to-Forward, the column "N" indicates a
    dash for "not applicable".  The value of the Multicast-Timeout Option
    specifies a timeout value in seconds, encoded as an unsigned integer
    (see Section 3.2 of [RFC7252]).
 
-     +------+---+---+---+---+------------+--------+--------+---------+
-     | No.  | C | U | N | R | Name       | Format | Length | Default |
-     +------+---+---+---+---+------------+--------+--------+---------+
-     |      |   |   |   |   |            |        |        |         |
-     | TBD1 |   | x | - |   | Multicast- |  uint  |  0-4   | (none)  |
-     |      |   |   |   |   | Timeout    |        |        |         |
-     |      |   |   |   |   |            |        |        |         |
-     +------+---+---+---+---+------------+--------+--------+---------+
-                C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
+   +======+=+=+===+===+===================+========+========+=========+
+   | No.  |C|U| N | R | Name              | Format | Length | Default |
+   +======+=+=+===+===+===================+========+========+=========+
+   | TBD1 | |x| - |   | Multicast-Timeout | uint   | 0-4    | (none)  |
+   +------+-+-+---+---+-------------------+--------+--------+---------+
 
-                  Figure 1: The Multicast-Timeout Option.
+                      Table 1: The Multicast-Timeout
+   Option.                                                            
+             C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
    This document specifically defines how this option is used by a
    client in a CoAP request, to indicate to a proxy its support for and
@@ -284,25 +281,22 @@ Table of Contents
 3.  The Reply-From Option
 
    The Reply-From Option defined in this section has the properties
-   summarized in Figure 2, which extends Table 4 of [RFC7252].  The
+   summarized in Table 2, which extends Table 4 of [RFC7252].  The
    option is intended only for inclusion in CoAP responses, and builds
    on the Base-Uri Option from Section 3 of [I-D.bormann-coap-misc].
 
    Since the option is intended only for responses, the column "N"
    indicates a dash for "not applicable".
 
-     +------+---+---+---+---+------------+--------+--------+---------+
+     +======+===+===+===+===+============+========+========+=========+
      | No.  | C | U | N | R | Name       | Format | Length | Default |
+     +======+===+===+===+===+============+========+========+=========+
+     | TBD2 |   |   | - |   | Reply-From | (*)    | 5-1034 | (none)  |
      +------+---+---+---+---+------------+--------+--------+---------+
-     |      |   |   |   |   |            |        |        |         |
-     | TBD2 |   |   | - |   | Reply-From |  (*)   | 5-1034 | (none)  |
-     |      |   |   |   |   |            |        |        |         |
-     +------+---+---+---+---+------------+--------+--------+---------+
-                C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
-     (*) See below.
-
-                      Figure 2: The Reply-From Option.
+                      Table 2: The Reply-From Option.
+                     C=Critical, U=Unsafe, N=NoCacheKey,
+            R=Repeatable                          (*) See below.
 
    This document specifically defines how this option is used by a proxy
    that can perform proxied CoAP group requests.
@@ -818,7 +812,7 @@ Table of Contents
   |               responses for this request /           |             |
   |                               |                      |             |
 
-             Figure 3: Workflow example with a forward-proxy
+             Figure 1: Workflow example with a forward-proxy
 
 6.  Reverse-Proxies
 
@@ -1184,7 +1178,7 @@ Table of Contents
    by leveraging the corresponding cache entries at the proxy.  To this
    end, this document defines the new Group-ETag Option.
 
-   The Group-ETag Option has the properties summarized in Figure 4,
+   The Group-ETag Option has the properties summarized in Figure 2,
    which extends Table 4 of [RFC7252].  The Group-ETag Option is
    elective, safe to forward, part of the cache key, and repeatable.
 
@@ -1201,7 +1195,7 @@ Table of Contents
      +------+---+---+---+---+------------+--------+--------+---------+
                 C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
-                      Figure 4: The Group-ETag Option.
+                      Figure 2: The Group-ETag Option.
 
    The Group-ETag Option has the same properties of the ETag Option
    defined in Section 5.10.6 of [RFC7252].
@@ -2145,7 +2139,7 @@ Table of Contents
                 | TBD3   | Group-ETag        | [RFC-XXXX] |
                 +--------+-------------------+------------+
 
-                     Table 1: Registrations in the CoAP
+                     Table 3: Registrations in the CoAP
                           Option Numbers Registry
 
 11.2.  Hypertext Transfer Protocol (HTTP) Field Name Registry
@@ -2164,7 +2158,7 @@ Table of Contents
    | Group-ETag        |        | permanent |            | [RFC-XXXX] |
    +-------------------+--------+-----------+------------+------------+
 
-     Table 2: Registrations in the Hypertext Transfer Protocol (HTTP)
+     Table 4: Registrations in the Hypertext Transfer Protocol (HTTP)
                            Field Name Registry
 
 12.  References
@@ -2343,7 +2337,7 @@ Appendix A.  Examples with Reverse-Proxy
 
 A.1.  Example 1
 
-   The example shown in Figure 5 considers a reverse-proxy P that
+   The example shown in Figure 3 considers a reverse-proxy P that
    provides access to both the whole group of servers {S1,S2} and also
    to each of those servers individually.  The client C may not have a
    way to reach the servers directly (e.g., P is acting as a firewall).
@@ -2473,14 +2467,14 @@ A.1.  Example 1
  |                 Dst: C_ADDR:C_PORT |                      |         |
  |                                    |                      |         |
 
-    Figure 5: Workflow example with a reverse-proxy standing in for
+    Figure 3: Workflow example with a reverse-proxy standing in for
    both the whole group of servers and each individual server.  This
        requires the proxy to have only one pair (IP address, port
                                 number).
 
 A.2.  Example 2
 
-   The example shown in Figure 6 considers a reverse-proxy that stands
+   The example shown in Figure 4 considers a reverse-proxy that stands
    in for both the whole group of servers {S1,S2} and for each of those
    servers Sx.  The client C may not have a way to reach the servers
    directly (e.g., P is acting as a firewall).
@@ -2598,14 +2592,14 @@ A.2.  Example 2
  |              Dst: C_ADDR:C_PORT   |                      |          |
  |                                   |                      |          |
 
-    Figure 6: Workflow example with a reverse-proxy standing in for
+    Figure 4: Workflow example with a reverse-proxy standing in for
    both the whole group of servers and each individual server.  This
    requires the proxy to have one pair (IP address, port number) for
                each group and one for each origin server.
 
 A.3.  Example 3
 
-   The example shown in Figure 7 builds on the example in Appendix A.2.
+   The example shown in Figure 5 builds on the example in Appendix A.2.
 
    However, it considers a reverse-proxy that stands in for only the
    whole group of servers, but not for each individual server Sx.
@@ -2692,7 +2686,7 @@ A.3.  Example 3
   |                               | Dst: C_ADDR:C_PORT   |             |
   |                               |                      |             |
 
-     Figure 7: Workflow example with a reverse-proxy standing in for
+     Figure 5: Workflow example with a reverse-proxy standing in for
        only the whole group of servers, but not for each individual
       server.  This requires the proxy to have one pair (IP address,
                        port number) for each group.
