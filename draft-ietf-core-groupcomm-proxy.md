@@ -855,7 +855,7 @@ Upon receiving a CoAP response matching with the group request before the amount
 
 After that, the proxy stores the resulting HTTP response until the timeout with original value T' > 0 expires. If, before then, the proxy receives another response to the same group request from the same CoAP server, the proxy performs the steps above, and stores the resulting HTTP response by superseding the currently stored one from that server.
 
-When the timout expires, if no responses have been received from the servers, the proxy replies to the client's original unicast group request with an HTTP response with status code 204 (No Content).
+When the timeout expires, if no responses have been received from the servers, the proxy replies to the client's original unicast group request with an HTTP response with status code 204 (No Content).
 
 Otherwise, the proxy relays to the client all the collected and stored HTTP responses to the group request, according to the following steps.
 
