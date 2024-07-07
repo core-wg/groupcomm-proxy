@@ -2121,15 +2121,16 @@ Table of Contents
    IANA is asked to enter the following HTTP header fields to the
    "Hypertext Transfer Protocol (HTTP) Field Name" registry.
 
-              +===================+===========+============+
-              | Field Name        | Status    | Reference  |
-              +===================+===========+============+
-              | Multicast-Timeout | permanent | [RFC-XXXX] |
-              +-------------------+-----------+------------+
-              | Reply-To          | permanent | [RFC-XXXX] |
-              +-------------------+-----------+------------+
-              | Group-ETag        | permanent | [RFC-XXXX] |
-              +-------------------+-----------+------------+
+   +===================+========+===========+============+============+
+   | Field Name        |Template| Status    | Structured | Reference  |
+   |                   |        |           | Type       |            |
+   +===================+========+===========+============+============+
+   | Multicast-Timeout |        | permanent |            | [RFC-XXXX] |
+   +-------------------+--------+-----------+------------+------------+
+   | Reply-To          |        | permanent |            | [RFC-XXXX] |
+   +-------------------+--------+-----------+------------+------------+
+   | Group-ETag        |        | permanent |            | [RFC-XXXX] |
+   +-------------------+--------+-----------+------------+------------+
 
                       Table 2: New HTTP Field Names
 
@@ -2662,6 +2663,8 @@ Appendix B.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 B.1.  Version -01 to -02
+
+   *  Fixes in the IANA considerations.
 
    *  Editorial fixes and improvements.
 
