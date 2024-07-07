@@ -139,7 +139,8 @@ Table of Contents
      A.2.  Example 2
      A.3.  Example 3
    Appendix B.  Document Updates
-     B.1.  Version -00 to -01
+     B.1.  Version -01 to -02
+     B.2.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -2656,7 +2657,11 @@ Appendix B.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-B.1.  Version -00 to -01
+B.1.  Version -01 to -02
+
+   *  Editorial fixes and improvements.
+
+B.2.  Version -00 to -01
 
    *  Definition of "individual request" in the terminology.
 
