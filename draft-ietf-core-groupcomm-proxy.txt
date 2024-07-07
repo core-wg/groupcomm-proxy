@@ -2114,7 +2114,8 @@ Table of Contents
                 | TBD3   | Group-ETag        | [RFC-XXXX] |
                 +--------+-------------------+------------+
 
-                      Table 1: New CoAP Option Numbers
+                     Table 1: Registrations in the CoAP
+                          Option Numbers Registry
 
 11.2.  Hypertext Transfer Protocol (HTTP) Field Name Registry
 
@@ -2132,7 +2133,8 @@ Table of Contents
    | Group-ETag        |        | permanent |            | [RFC-XXXX] |
    +-------------------+--------+-----------+------------+------------+
 
-                      Table 2: New HTTP Field Names
+     Table 2: Registrations in the Hypertext Transfer Protocol (HTTP)
+                           Field Name Registry
 
 12.  References
 
