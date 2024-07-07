@@ -111,22 +111,18 @@ This document also uses the following terminology.
 
 # The Multicast-Timeout Option # {#sec-multicast-timeout-option}
 
-The Multicast-Timeout Option defined in this section has the properties summarized in {{fig-multicast-timeout-option}}, which extends Table 4 of {{RFC7252}}.
+The Multicast-Timeout Option defined in this section has the properties summarized in {{table-multicast-timeout-option}}, which extends Table 4 of {{RFC7252}}.
 
 Since the option is not Safe-to-Forward, the column "N" indicates a dash for "not applicable". The value of the Multicast-Timeout Option specifies a timeout value in seconds, encoded as an unsigned integer (see {{Section 3.2 of RFC7252}}).
 
-~~~~~~~~~~~
-+------+---+---+---+---+------------+--------+--------+---------+
-| No.  | C | U | N | R | Name       | Format | Length | Default |
-+------+---+---+---+---+------------+--------+--------+---------+
-|      |   |   |   |   |            |        |        |         |
-| TBD1 |   | x | - |   | Multicast- |  uint  |  0-4   | (none)  |
-|      |   |   |   |   | Timeout    |        |        |         |
-|      |   |   |   |   |            |        |        |         |
-+------+---+---+---+---+------------+--------+--------+---------+
-           C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
-~~~~~~~~~~~
-{: #fig-multicast-timeout-option title="The Multicast-Timeout Option." artwork-align="center"}
+| No.   | C | U | N | R | Name              | Format | Length | Default |
+| TBD1  |   | x | - |   | Multicast-Timeout | uint   | 0-4    | (none)  |
+{: #table-multicast-timeout-option title="The Multicast-Timeout Option.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
 This document specifically defines how this option is used by a client in a CoAP request, to indicate to a proxy its support for and interest in receiving multiple responses to a proxied CoAP group request, i.e., one or more from each origin server, and for how long it is willing to wait for receiving responses via that proxy (see {{ssec-req-send-steps}} and {{ssec-req-proc-proxy-steps}}).
 
@@ -136,23 +132,21 @@ The Multicast-Timeout Option is of class U in terms of OSCORE processing (see {{
 
 # The Reply-From Option # {#sec-reply-from-option}
 
-The Reply-From Option defined in this section has the properties summarized in {{fig-reply-from-option}}, which extends Table 4 of {{RFC7252}}. The option is intended only for inclusion in CoAP responses, and builds on the Base-Uri Option from {{Section 3 of I-D.bormann-coap-misc}}.
+The Reply-From Option defined in this section has the properties summarized in {{table-reply-from-option}}, which extends Table 4 of {{RFC7252}}. The option is intended only for inclusion in CoAP responses, and builds on the Base-Uri Option from {{Section 3 of I-D.bormann-coap-misc}}.
 
 Since the option is intended only for responses, the column "N" indicates a dash for "not applicable".
 
-~~~~~~~~~~~
-+------+---+---+---+---+------------+--------+--------+---------+
-| No.  | C | U | N | R | Name       | Format | Length | Default |
-+------+---+---+---+---+------------+--------+--------+---------+
-|      |   |   |   |   |            |        |        |         |
-| TBD2 |   |   | - |   | Reply-From |  (*)   | 5-1034 | (none)  |
-|      |   |   |   |   |            |        |        |         |
-+------+---+---+---+---+------------+--------+--------+---------+
-           C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
-(*) See below.
-~~~~~~~~~~~
-{: #fig-reply-from-option title="The Reply-From Option." artwork-align="center"}
+| No.   | C | U | N | R | Name       | Format | Length | Default |
+| TBD2  |   |   | - |   | Reply-From | (*)    | 5-1034 | (none)  |
+{: #table-reply-from-option title="The Reply-From Option.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(*) See below." align="center"}
 
 This document specifically defines how this option is used by a proxy that can perform proxied CoAP group requests.
 
