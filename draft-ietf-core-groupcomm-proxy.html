@@ -1835,13 +1835,13 @@ That is, by using the information specified in the retrieved CRI, the client com
                 <path d="M 448,280 L 448,584" fill="none" stroke="black"></path>
                 <path d="M 448,632 L 448,816" fill="none" stroke="black"></path>
                 <path d="M 560,48 L 560,816" fill="none" stroke="black"></path>
-                <path d="M 16,64 L 256,64" fill="none" stroke="black"></path>
-                <path d="M 272,240 L 440,240" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 256,64" fill="none" stroke="black"></path>
+                <path d="M 264,240 L 440,240" fill="none" stroke="black"></path>
                 <path d="M 408,272 L 552,272" fill="none" stroke="black"></path>
-                <path d="M 272,400 L 440,400" fill="none" stroke="black"></path>
-                <path d="M 16,480 L 256,480" fill="none" stroke="black"></path>
-                <path d="M 272,592 L 552,592" fill="none" stroke="black"></path>
-                <path d="M 16,672 L 256,672" fill="none" stroke="black"></path>
+                <path d="M 272,400 L 448,400" fill="none" stroke="black"></path>
+                <path d="M 16,480 L 264,480" fill="none" stroke="black"></path>
+                <path d="M 272,592 L 560,592" fill="none" stroke="black"></path>
+                <path d="M 16,672 L 264,672" fill="none" stroke="black"></path>
                 <path d="M 392,240 L 408,272" fill="none" stroke="black"></path>
                 <polygon class="arrowhead" points="560,272 548,266.4 548,277.6" fill="black" transform="rotate(0,552,272)"></polygon>
                 <polygon class="arrowhead" points="448,240 436,234.4 436,245.6" fill="black" transform="rotate(0,440,240)"></polygon>
@@ -1902,19 +1902,19 @@ That is, by using the information specified in the retrieved CRI, the client com
                   <text x="112" y="708">C_ADDR:C_PORT</text>
                   <text x="56" y="724">Reply-To:</text>
                   <text x="144" y="740">cri'coap://S2_ADDR:S2_PORT'</text>
-                  <text x="128" y="788">/</text>
-                  <text x="148" y="788">At</text>
-                  <text x="168" y="788">t</text>
-                  <text x="184" y="788">=</text>
-                  <text x="208" y="788">60,</text>
-                  <text x="232" y="788">P</text>
-                  <text x="264" y="788">stops</text>
-                  <text x="328" y="788">accepting</text>
-                  <text x="160" y="804">responses</text>
-                  <text x="216" y="804">for</text>
-                  <text x="252" y="804">this</text>
-                  <text x="304" y="804">request</text>
-                  <text x="344" y="804">/</text>
+                  <text x="136" y="788">/</text>
+                  <text x="156" y="788">At</text>
+                  <text x="176" y="788">t</text>
+                  <text x="192" y="788">=</text>
+                  <text x="216" y="788">60,</text>
+                  <text x="240" y="788">P</text>
+                  <text x="272" y="788">stops</text>
+                  <text x="336" y="788">accepting</text>
+                  <text x="168" y="804">responses</text>
+                  <text x="224" y="804">for</text>
+                  <text x="260" y="804">this</text>
+                  <text x="312" y="804">request</text>
+                  <text x="352" y="804">/</text>
                   <text x="264" y="820">|</text>
                 </g>
               </svg><a href="#section-5.6-6.1.1" class="pilcrow">¶</a>
@@ -2946,66 +2946,64 @@ Body: More than done!
         <h3 id="name-example-1">
 <a href="#appendix-A.1" class="section-number selfRef">A.1. </a><a href="#name-example-1" class="section-name selfRef">Example 1</a>
         </h3>
-<p id="appendix-A.1-1">The example shown in <a href="#workflow-example-reverse-1" class="auto internal xref">Figure 5</a> considers a reverse-proxy P that provides access to both the whole group of servers {S1,S2} and also to each of those servers individually. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall). After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests another resource from it in unicast, again via the proxy.<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.1-2">In particular:<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-1">The example shown in <a href="#workflow-example-reverse-1" class="auto internal xref">Figure 5</a> considers a reverse-proxy P that provides access to both the whole group of servers {S1,S2} and also to each of those servers individually. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).<a href="#appendix-A.1-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-2">After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests another resource from it in unicast, again via the proxy.<a href="#appendix-A.1-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-3">In particular:<a href="#appendix-A.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-A.1-3.1">
-            <p id="appendix-A.1-3.1.1">The hostname 'p.example.com' resolves to the proxy's unicast IPv6 address P_ADDR.<a href="#appendix-A.1-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.1-4.1">
+            <p id="appendix-A.1-4.1.1">In its group request to P, the client C includes the Uri-Host Option with value "group1.com" and the Uri-Path option with value "r".<a href="#appendix-A.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.1-3.2">
-            <p id="appendix-A.1-3.2.1">In its group request to P, the client C includes the Uri-Host Option with value "group1.com" and the Uri-Path option with value "r".<a href="#appendix-A.1-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.1-4.2">
+            <p id="appendix-A.1-4.2.1">The hostname 'group1.com' resolves to the IPv6 multicast address G_ADDR. The proxy P performs this resolution upon receiving the group request from C.<a href="#appendix-A.1-4.2.1" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-4.2.2">
+Since such a request does not include the Uri-Port option, P infers G_PORT to be the default port number 5683 for the 'coap' scheme.<a href="#appendix-A.1-4.2.2" class="pilcrow">¶</a></p>
+<p id="appendix-A.1-4.2.3">
+Based on this information, P composes the group request and sends it to the CoAP group at G_ADDR:G_PORT.<a href="#appendix-A.1-4.2.3" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.1-3.3">
-            <p id="appendix-A.1-3.3.1">The hostname 'group1.com' resolves to the IPv6 multicast address G_ADDR. The proxy P performs this resolution upon receiving the group request from C.<a href="#appendix-A.1-3.3.1" class="pilcrow">¶</a></p>
-<p id="appendix-A.1-3.3.2">
-Since such a request does not include the Uri-Port option, P infers G_PORT to be the default port number 5683 for the 'coap' scheme.<a href="#appendix-A.1-3.3.2" class="pilcrow">¶</a></p>
-<p id="appendix-A.1-3.3.3">
-Based on this information, P composes the group request and sends it to the CoAP group at G_ADDR:G_PORT.<a href="#appendix-A.1-3.3.3" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="appendix-A.1-3.4">
-            <p id="appendix-A.1-3.4.1">Typically, S1_PORT and S2_PORT will be equal to G_PORT, but a server Sx is allowed to reply to the multicast request from another port number not equal to G_PORT. For this reason, the notation Sx_PORT is used.<a href="#appendix-A.1-3.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.1-4.3">
+            <p id="appendix-A.1-4.3.1">Typically, S1_PORT and S2_PORT will be equal to G_PORT, but a server Sx is allowed to reply to the multicast request from another port number not equal to G_PORT. For this reason, the notation Sx_PORT is used.<a href="#appendix-A.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="appendix-A.1-4">Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it is well scalable to a large number of servers Sx. Instead, the type of reverse-proxy in the example in <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a> requires an additional IP address for each server Sx and also for each CoAP group that it supports.<a href="#appendix-A.1-4" class="pilcrow">¶</a></p>
-<span id="name-workflow-example-with-rever"></span><div id="workflow-example-reverse-1">
+<p id="appendix-A.1-5">Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it is well scalable to a large number of servers Sx. Instead, the type of reverse-proxy in the example in <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a> requires an additional IP address for each server Sx and also for each CoAP group that the proxy supports.<a href="#appendix-A.1-5" class="pilcrow">¶</a></p>
+<span id="name-workflow-example-with-a-rev"></span><div id="workflow-example-reverse-1">
 <figure id="figure-5">
-          <div id="appendix-A.1-5.1">
-            <div class="alignLeft art-svg artwork" id="appendix-A.1-5.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1488" width="576" viewBox="0 0 576 1488" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,48 L 8,1472" fill="none" stroke="black"></path>
-                <path d="M 304,48 L 304,1040" fill="none" stroke="black"></path>
-                <path d="M 304,1088 L 304,1472" fill="none" stroke="black"></path>
-                <path d="M 488,48 L 488,504" fill="none" stroke="black"></path>
-                <path d="M 488,520 L 488,840" fill="none" stroke="black"></path>
-                <path d="M 488,896 L 488,1472" fill="none" stroke="black"></path>
-                <path d="M 568,48 L 568,1472" fill="none" stroke="black"></path>
-                <path d="M 16,64 L 296,64" fill="none" stroke="black"></path>
-                <path d="M 16,160 L 296,160" fill="none" stroke="black"></path>
-                <path d="M 16,304 L 296,304" fill="none" stroke="black"></path>
-                <path d="M 312,480 L 480,480" fill="none" stroke="black"></path>
-                <path d="M 448,512 L 560,512" fill="none" stroke="black"></path>
-                <path d="M 312,640 L 480,640" fill="none" stroke="black"></path>
-                <path d="M 16,720 L 296,720" fill="none" stroke="black"></path>
-                <path d="M 312,848 L 560,848" fill="none" stroke="black"></path>
-                <path d="M 16,928 L 296,928" fill="none" stroke="black"></path>
-                <path d="M 16,1120 L 296,1120" fill="none" stroke="black"></path>
-                <path d="M 312,1296 L 480,1296" fill="none" stroke="black"></path>
-                <path d="M 312,1344 L 480,1344" fill="none" stroke="black"></path>
-                <path d="M 16,1424 L 296,1424" fill="none" stroke="black"></path>
-                <path d="M 432,480 L 448,512" fill="none" stroke="black"></path>
-                <polygon class="arrowhead" points="568,512 556,506.4 556,517.6" fill="black" transform="rotate(0,560,512)"></polygon>
-                <polygon class="arrowhead" points="488,1296 476,1290.4 476,1301.6" fill="black" transform="rotate(0,480,1296)"></polygon>
-                <polygon class="arrowhead" points="488,480 476,474.4 476,485.6" fill="black" transform="rotate(0,480,480)"></polygon>
-                <polygon class="arrowhead" points="320,1344 308,1338.4 308,1349.6" fill="black" transform="rotate(180,312,1344)"></polygon>
-                <polygon class="arrowhead" points="320,848 308,842.4 308,853.6" fill="black" transform="rotate(180,312,848)"></polygon>
-                <polygon class="arrowhead" points="320,640 308,634.4 308,645.6" fill="black" transform="rotate(180,312,640)"></polygon>
-                <polygon class="arrowhead" points="304,1120 292,1114.4 292,1125.6" fill="black" transform="rotate(0,296,1120)"></polygon>
-                <polygon class="arrowhead" points="304,304 292,298.4 292,309.6" fill="black" transform="rotate(0,296,304)"></polygon>
+          <div id="appendix-A.1-6.1">
+            <div class="alignLeft art-svg artwork" id="appendix-A.1-6.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1504" width="576" viewBox="0 0 576 1504" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,48 L 8,1488" fill="none" stroke="black"></path>
+                <path d="M 304,48 L 304,1056" fill="none" stroke="black"></path>
+                <path d="M 304,1104 L 304,1488" fill="none" stroke="black"></path>
+                <path d="M 488,48 L 488,520" fill="none" stroke="black"></path>
+                <path d="M 488,536 L 488,856" fill="none" stroke="black"></path>
+                <path d="M 488,912 L 488,1488" fill="none" stroke="black"></path>
+                <path d="M 568,48 L 568,1488" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 296,64" fill="none" stroke="black"></path>
+                <path d="M 16,176 L 304,176" fill="none" stroke="black"></path>
+                <path d="M 8,320 L 296,320" fill="none" stroke="black"></path>
+                <path d="M 304,496 L 480,496" fill="none" stroke="black"></path>
+                <path d="M 448,528 L 560,528" fill="none" stroke="black"></path>
+                <path d="M 312,656 L 488,656" fill="none" stroke="black"></path>
+                <path d="M 16,736 L 304,736" fill="none" stroke="black"></path>
+                <path d="M 312,864 L 568,864" fill="none" stroke="black"></path>
+                <path d="M 16,944 L 304,944" fill="none" stroke="black"></path>
+                <path d="M 8,1136 L 296,1136" fill="none" stroke="black"></path>
+                <path d="M 304,1312 L 480,1312" fill="none" stroke="black"></path>
+                <path d="M 312,1360 L 488,1360" fill="none" stroke="black"></path>
+                <path d="M 16,1440 L 304,1440" fill="none" stroke="black"></path>
+                <path d="M 432,496 L 448,528" fill="none" stroke="black"></path>
+                <polygon class="arrowhead" points="568,528 556,522.4 556,533.6" fill="black" transform="rotate(0,560,528)"></polygon>
+                <polygon class="arrowhead" points="488,1312 476,1306.4 476,1317.6" fill="black" transform="rotate(0,480,1312)"></polygon>
+                <polygon class="arrowhead" points="488,496 476,490.4 476,501.6" fill="black" transform="rotate(0,480,496)"></polygon>
+                <polygon class="arrowhead" points="320,1360 308,1354.4 308,1365.6" fill="black" transform="rotate(180,312,1360)"></polygon>
+                <polygon class="arrowhead" points="320,864 308,858.4 308,869.6" fill="black" transform="rotate(180,312,864)"></polygon>
+                <polygon class="arrowhead" points="320,656 308,650.4 308,661.6" fill="black" transform="rotate(180,312,656)"></polygon>
+                <polygon class="arrowhead" points="304,1136 292,1130.4 292,1141.6" fill="black" transform="rotate(0,296,1136)"></polygon>
+                <polygon class="arrowhead" points="304,320 292,314.4 292,325.6" fill="black" transform="rotate(0,296,320)"></polygon>
                 <polygon class="arrowhead" points="304,64 292,58.4 292,69.6" fill="black" transform="rotate(0,296,64)"></polygon>
-                <polygon class="arrowhead" points="24,1424 12,1418.4 12,1429.6" fill="black" transform="rotate(180,16,1424)"></polygon>
-                <polygon class="arrowhead" points="24,928 12,922.4 12,933.6" fill="black" transform="rotate(180,16,928)"></polygon>
-                <polygon class="arrowhead" points="24,720 12,714.4 12,725.6" fill="black" transform="rotate(180,16,720)"></polygon>
-                <polygon class="arrowhead" points="24,160 12,154.4 12,165.6" fill="black" transform="rotate(180,16,160)"></polygon>
+                <polygon class="arrowhead" points="24,1440 12,1434.4 12,1445.6" fill="black" transform="rotate(180,16,1440)"></polygon>
+                <polygon class="arrowhead" points="24,944 12,938.4 12,949.6" fill="black" transform="rotate(180,16,944)"></polygon>
+                <polygon class="arrowhead" points="24,736 12,730.4 12,741.6" fill="black" transform="rotate(180,16,736)"></polygon>
+                <polygon class="arrowhead" points="24,176 12,170.4 12,181.6" fill="black" transform="rotate(180,16,176)"></polygon>
                 <g class="text">
                   <text x="8" y="36">C</text>
                   <text x="304" y="36">P</text>
@@ -3024,130 +3022,133 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="404" y="84">in</text>
                   <text x="436" y="84">fact</text>
                   <text x="36" y="100">Dst:</text>
-                  <text x="128" y="100">group1.com:P_PORT</text>
+                  <text x="112" y="100">P_ADDR:P_PORT</text>
                   <text x="320" y="100">a</text>
                   <text x="384" y="100">reverse-proxy</text>
                   <text x="448" y="100">/</text>
-                  <text x="56" y="116">Uri-Path:</text>
-                  <text x="112" y="116">"r"</text>
-                  <text x="36" y="180">Src:</text>
-                  <text x="112" y="180">P_ADDR:P_PORT</text>
-                  <text x="36" y="196">Dst:</text>
-                  <text x="112" y="196">C_ADDR:C_PORT</text>
-                  <text x="36" y="212">4.00</text>
-                  <text x="72" y="212">Bad</text>
-                  <text x="120" y="212">Request</text>
-                  <text x="92" y="228">Multicast-Timeout:</text>
-                  <text x="200" y="228">(empty)</text>
-                  <text x="52" y="244">Payload:</text>
-                  <text x="120" y="244">"Please</text>
-                  <text x="168" y="244">use</text>
-                  <text x="108" y="260">Multicast-Timeout"</text>
-                  <text x="36" y="324">Src:</text>
-                  <text x="112" y="324">C_ADDR:C_PORT</text>
-                  <text x="36" y="340">Dst:</text>
-                  <text x="140" y="340">p.example.com:P_PORT</text>
-                  <text x="56" y="356">Uri-Host:</text>
-                  <text x="148" y="356">"group1.com"</text>
-                  <text x="56" y="372">Uri-Path:</text>
-                  <text x="112" y="372">"r"</text>
-                  <text x="92" y="388">Multicast-Timeout:</text>
-                  <text x="180" y="388">60</text>
-                  <text x="332" y="436">Src:</text>
-                  <text x="408" y="436">P_ADDR:P_PORT</text>
-                  <text x="332" y="452">Dst:</text>
-                  <text x="408" y="452">G_ADDR:G_PORT</text>
-                  <text x="352" y="468">Uri-Path:</text>
-                  <text x="408" y="468">"r"</text>
-                  <text x="320" y="564">/</text>
-                  <text x="336" y="564">t</text>
-                  <text x="352" y="564">=</text>
-                  <text x="368" y="564">0</text>
-                  <text x="384" y="564">:</text>
-                  <text x="400" y="564">P</text>
-                  <text x="436" y="564">starts</text>
-                  <text x="352" y="580">accepting</text>
-                  <text x="432" y="580">responses</text>
-                  <text x="328" y="596">for</text>
-                  <text x="364" y="596">this</text>
-                  <text x="416" y="596">request</text>
-                  <text x="456" y="596">/</text>
-                  <text x="332" y="660">Src:</text>
-                  <text x="416" y="660">S1_ADDR:S1_PORT</text>
-                  <text x="332" y="676">Dst:</text>
-                  <text x="408" y="676">P_ADDR:P_PORT</text>
-                  <text x="36" y="740">Src:</text>
-                  <text x="112" y="740">P_ADDR:P_PORT</text>
-                  <text x="36" y="756">Dst:</text>
-                  <text x="112" y="756">C_ADDR:C_PORT</text>
-                  <text x="56" y="772">Reply-To:</text>
-                  <text x="156" y="788">cri'coap+tcp://P_ADDR:P_PORT',</text>
-                  <text x="124" y="804">cri'//S1_ADDR:S1_PORT'</text>
-                  <text x="412" y="868">Src:</text>
-                  <text x="496" y="868">S2_ADDR:S2_PORT</text>
-                  <text x="412" y="884">Dst:</text>
-                  <text x="488" y="884">P_ADDR:P_PORT</text>
-                  <text x="36" y="948">Src:</text>
-                  <text x="112" y="948">P_ADDR:P_PORT</text>
-                  <text x="36" y="964">Dst:</text>
-                  <text x="112" y="964">C_ADDR:C_PORT</text>
-                  <text x="56" y="980">Reply-To:</text>
-                  <text x="156" y="996">cri'coap+tcp://P_ADDR:P_PORT',</text>
-                  <text x="124" y="1012">cri'//S2_ADDR:S2_PORT'</text>
-                  <text x="176" y="1060">/</text>
-                  <text x="196" y="1060">At</text>
-                  <text x="216" y="1060">t</text>
-                  <text x="232" y="1060">=</text>
-                  <text x="256" y="1060">60,</text>
-                  <text x="280" y="1060">P</text>
-                  <text x="312" y="1060">stops</text>
-                  <text x="376" y="1060">accepting</text>
-                  <text x="208" y="1076">responses</text>
-                  <text x="264" y="1076">for</text>
-                  <text x="300" y="1076">this</text>
-                  <text x="352" y="1076">request</text>
-                  <text x="392" y="1076">/</text>
-                  <text x="320" y="1124">/</text>
-                  <text x="360" y="1124">Request</text>
-                  <text x="428" y="1124">intended</text>
-                  <text x="36" y="1140">Src:</text>
-                  <text x="112" y="1140">C_ADDR:C_PORT</text>
-                  <text x="332" y="1140">only</text>
-                  <text x="364" y="1140">to</text>
-                  <text x="392" y="1140">S1,</text>
-                  <text x="424" y="1140">via</text>
-                  <text x="456" y="1140">the</text>
-                  <text x="36" y="1156">Dst:</text>
-                  <text x="112" y="1156">P_ADDR:P_PORT</text>
-                  <text x="336" y="1156">proxy</text>
-                  <text x="368" y="1156">P</text>
-                  <text x="384" y="1156">/</text>
-                  <text x="56" y="1172">Uri-Host:</text>
-                  <text x="136" y="1172">"S1_ADDR"</text>
-                  <text x="56" y="1188">Uri-Port:</text>
-                  <text x="128" y="1188">S1_PORT</text>
-                  <text x="56" y="1204">Uri-Path:</text>
-                  <text x="116" y="1204">"r1"</text>
-                  <text x="332" y="1252">Src:</text>
-                  <text x="408" y="1252">P_ADDR:P_PORT</text>
-                  <text x="332" y="1268">Dst:</text>
-                  <text x="416" y="1268">S1_ADDR:S1_PORT</text>
-                  <text x="352" y="1284">Uri-Path:</text>
-                  <text x="412" y="1284">"r1"</text>
-                  <text x="332" y="1364">Src:</text>
-                  <text x="416" y="1364">S1_ADDR:S1_PORT</text>
-                  <text x="332" y="1380">Dst:</text>
-                  <text x="408" y="1380">P_ADDR:P_PORT</text>
-                  <text x="164" y="1444">Src:</text>
-                  <text x="240" y="1444">P_ADDR:P_PORT</text>
-                  <text x="164" y="1460">Dst:</text>
-                  <text x="240" y="1460">C_ADDR:C_PORT</text>
+                  <text x="56" y="116">Uri-Host:</text>
+                  <text x="148" y="116">"group1.com"</text>
+                  <text x="56" y="132">Uri-Path:</text>
+                  <text x="112" y="132">"r"</text>
+                  <text x="36" y="196">Src:</text>
+                  <text x="112" y="196">P_ADDR:P_PORT</text>
+                  <text x="36" y="212">Dst:</text>
+                  <text x="112" y="212">C_ADDR:C_PORT</text>
+                  <text x="36" y="228">4.00</text>
+                  <text x="72" y="228">Bad</text>
+                  <text x="120" y="228">Request</text>
+                  <text x="92" y="244">Multicast-Timeout:</text>
+                  <text x="176" y="244">-</text>
+                  <text x="216" y="244">(empty)</text>
+                  <text x="52" y="260">Payload:</text>
+                  <text x="120" y="260">"Please</text>
+                  <text x="168" y="260">use</text>
+                  <text x="108" y="276">Multicast-Timeout"</text>
+                  <text x="36" y="340">Src:</text>
+                  <text x="112" y="340">C_ADDR:C_PORT</text>
+                  <text x="36" y="356">Dst:</text>
+                  <text x="112" y="356">P_ADDR:P_PORT</text>
+                  <text x="56" y="372">Uri-Host:</text>
+                  <text x="148" y="372">"group1.com"</text>
+                  <text x="56" y="388">Uri-Path:</text>
+                  <text x="112" y="388">"r"</text>
+                  <text x="92" y="404">Multicast-Timeout:</text>
+                  <text x="180" y="404">60</text>
+                  <text x="332" y="452">Src:</text>
+                  <text x="408" y="452">P_ADDR:P_PORT</text>
+                  <text x="332" y="468">Dst:</text>
+                  <text x="408" y="468">G_ADDR:G_PORT</text>
+                  <text x="352" y="484">Uri-Path:</text>
+                  <text x="408" y="484">"r"</text>
+                  <text x="320" y="580">/</text>
+                  <text x="336" y="580">t</text>
+                  <text x="352" y="580">=</text>
+                  <text x="368" y="580">0</text>
+                  <text x="384" y="580">:</text>
+                  <text x="400" y="580">P</text>
+                  <text x="436" y="580">starts</text>
+                  <text x="352" y="596">accepting</text>
+                  <text x="432" y="596">responses</text>
+                  <text x="328" y="612">for</text>
+                  <text x="364" y="612">this</text>
+                  <text x="416" y="612">request</text>
+                  <text x="456" y="612">/</text>
+                  <text x="332" y="676">Src:</text>
+                  <text x="416" y="676">S1_ADDR:S1_PORT</text>
+                  <text x="332" y="692">Dst:</text>
+                  <text x="408" y="692">P_ADDR:P_PORT</text>
+                  <text x="36" y="756">Src:</text>
+                  <text x="112" y="756">P_ADDR:P_PORT</text>
+                  <text x="36" y="772">Dst:</text>
+                  <text x="112" y="772">C_ADDR:C_PORT</text>
+                  <text x="56" y="788">Reply-To:</text>
+                  <text x="156" y="804">cri'coap+tcp://P_ADDR:P_PORT',</text>
+                  <text x="124" y="820">cri'//S1_ADDR:S1_PORT'</text>
+                  <text x="412" y="884">Src:</text>
+                  <text x="496" y="884">S2_ADDR:S2_PORT</text>
+                  <text x="412" y="900">Dst:</text>
+                  <text x="488" y="900">P_ADDR:P_PORT</text>
+                  <text x="36" y="964">Src:</text>
+                  <text x="112" y="964">P_ADDR:P_PORT</text>
+                  <text x="36" y="980">Dst:</text>
+                  <text x="112" y="980">C_ADDR:C_PORT</text>
+                  <text x="56" y="996">Reply-To:</text>
+                  <text x="156" y="1012">cri'coap+tcp://P_ADDR:P_PORT',</text>
+                  <text x="124" y="1028">cri'//S2_ADDR:S2_PORT'</text>
+                  <text x="176" y="1076">/</text>
+                  <text x="196" y="1076">At</text>
+                  <text x="216" y="1076">t</text>
+                  <text x="232" y="1076">=</text>
+                  <text x="256" y="1076">60,</text>
+                  <text x="280" y="1076">P</text>
+                  <text x="312" y="1076">stops</text>
+                  <text x="376" y="1076">accepting</text>
+                  <text x="208" y="1092">responses</text>
+                  <text x="264" y="1092">for</text>
+                  <text x="300" y="1092">this</text>
+                  <text x="352" y="1092">request</text>
+                  <text x="392" y="1092">/</text>
+                  <text x="320" y="1140">/</text>
+                  <text x="360" y="1140">Request</text>
+                  <text x="428" y="1140">intended</text>
+                  <text x="36" y="1156">Src:</text>
+                  <text x="112" y="1156">C_ADDR:C_PORT</text>
+                  <text x="332" y="1156">only</text>
+                  <text x="364" y="1156">to</text>
+                  <text x="392" y="1156">S1,</text>
+                  <text x="424" y="1156">via</text>
+                  <text x="456" y="1156">the</text>
+                  <text x="36" y="1172">Dst:</text>
+                  <text x="112" y="1172">P_ADDR:P_PORT</text>
+                  <text x="336" y="1172">proxy</text>
+                  <text x="368" y="1172">P</text>
+                  <text x="384" y="1172">/</text>
+                  <text x="56" y="1188">Uri-Host:</text>
+                  <text x="136" y="1188">"S1_ADDR"</text>
+                  <text x="56" y="1204">Uri-Port:</text>
+                  <text x="128" y="1204">S1_PORT</text>
+                  <text x="56" y="1220">Uri-Path:</text>
+                  <text x="116" y="1220">"r1"</text>
+                  <text x="332" y="1268">Src:</text>
+                  <text x="408" y="1268">P_ADDR:P_PORT</text>
+                  <text x="332" y="1284">Dst:</text>
+                  <text x="416" y="1284">S1_ADDR:S1_PORT</text>
+                  <text x="352" y="1300">Uri-Path:</text>
+                  <text x="412" y="1300">"r1"</text>
+                  <text x="332" y="1380">Src:</text>
+                  <text x="416" y="1380">S1_ADDR:S1_PORT</text>
+                  <text x="332" y="1396">Dst:</text>
+                  <text x="408" y="1396">P_ADDR:P_PORT</text>
+                  <text x="164" y="1460">Src:</text>
+                  <text x="240" y="1460">P_ADDR:P_PORT</text>
+                  <text x="164" y="1476">Dst:</text>
+                  <text x="240" y="1476">C_ADDR:C_PORT</text>
                 </g>
-              </svg><a href="#appendix-A.1-5.1.1" class="pilcrow">¶</a>
+              </svg><a href="#appendix-A.1-6.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-5" class="selfRef">Figure 5</a>:
-<a href="#name-workflow-example-with-rever" class="selfRef">Workflow example with reverse-proxy standing in for both the whole group of servers and each individual server, and requiring only one unicast IP address.</a>
+<a href="#name-workflow-example-with-a-rev" class="selfRef">Workflow example with a reverse-proxy standing in for both the whole group of servers and each individual server. This requires the proxy to have only one pair (IP address, port number).</a>
           </figcaption></figure>
 </div>
 </section>
@@ -3157,54 +3158,58 @@ Based on this information, P composes the group request and sends it to the CoAP
         <h3 id="name-example-2-2">
 <a href="#appendix-A.2" class="section-number selfRef">A.2. </a><a href="#name-example-2-2" class="section-name selfRef">Example 2</a>
         </h3>
-<p id="appendix-A.2-1">The example shown in <a href="#workflow-example-reverse-2" class="auto internal xref">Figure 6</a> considers a reverse-proxy that stands in for both the whole group of servers {S1,S2} and for each of those servers Sx. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall). After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests at a later time the same resource from it in unicast, again via the proxy.<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
-<p id="appendix-A.2-2">In particular:<a href="#appendix-A.2-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-1">The example shown in <a href="#workflow-example-reverse-2" class="auto internal xref">Figure 6</a> considers a reverse-proxy that stands in for both the whole group of servers {S1,S2} and for each of those servers Sx. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).<a href="#appendix-A.2-1" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-2">After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and requests at a later time the same resource from it in unicast, again via the proxy.<a href="#appendix-A.2-2" class="pilcrow">¶</a></p>
+<p id="appendix-A.2-3">In particular:<a href="#appendix-A.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-A.2-3.1">
-            <p id="appendix-A.2-3.1.1">The hostname 'group1.com' resolves to the unicast address P_ADDR. The proxy forwards an incoming request to that address, for any resource i.e., URI path, towards the CoAP group at G_ADDR:G_PORT leaving the URI path unchanged.<a href="#appendix-A.2-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-A.2-4.1">
+            <p id="appendix-A.2-4.1.1">When receiving a request addressed to the unicast address P_ADDR and port number P_PORT, the proxy forwards the request towards the CoAP group at G_ADDR:G_PORT leaving the URI path unchanged.<a href="#appendix-A.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-A.2-3.2">
-            <p id="appendix-A.2-3.2.1">The address Dx_ADDR and port number Dx_PORT are used by the proxy, which forwards an incoming request to that address towards the server at Sx_ADDR:Sx_PORT. The different Dx_ADDR are effectively 'proxy IP addresses' used to provide access to the servers.<a href="#appendix-A.2-3.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-A.2-4.2">
+            <p id="appendix-A.2-4.2.1">The address Dx_ADDR and port number Dx_PORT are also used by the proxy, which forwards an incoming request to that address towards the server at Sx_ADDR:Sx_PORT. The different Dx_ADDR are effectively 'proxy IP addresses' used to provide access to the servers.<a href="#appendix-A.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="appendix-A.2-4">Note that this type of reverse-proxy implementation requires the proxy to use (potentially) a large number of distinct IP addresses, hence it is not very scalable. Instead, the type of reverse-proxy shown in the example in <a href="#sec-reverse-proxies-examples-ex1" class="auto internal xref">Appendix A.1</a> uses only one IPv6 unicast address to provide access to all servers and all CoAP groups.<a href="#appendix-A.2-4" class="pilcrow">¶</a></p>
-<span id="name-workflow-example-with-revers"></span><div id="workflow-example-reverse-2">
+<p id="appendix-A.2-5">Note that this type of reverse-proxy implementation requires the proxy to use (potentially) a large number of distinct IP addresses, hence it is not very scalable. Instead, the type of reverse-proxy shown in the example in <a href="#sec-reverse-proxies-examples-ex1" class="auto internal xref">Appendix A.1</a> uses only one IPv6 unicast address to provide access to all servers and all CoAP groups.<a href="#appendix-A.2-5" class="pilcrow">¶</a></p>
+<span id="name-workflow-example-with-a-reve"></span><div id="workflow-example-reverse-2">
 <figure id="figure-6">
-          <div id="appendix-A.2-5.1">
-            <div class="alignLeft art-svg artwork" id="appendix-A.2-5.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1440" width="576" viewBox="0 0 576 1440" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,48 L 8,1424" fill="none" stroke="black"></path>
+          <div id="appendix-A.2-6.1">
+            <div class="alignLeft art-svg artwork" id="appendix-A.2-6.1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1472" width="576" viewBox="0 0 576 1472" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,48 L 8,1056" fill="none" stroke="black"></path>
+                <path d="M 8,1120 L 8,1456" fill="none" stroke="black"></path>
                 <path d="M 296,48 L 296,992" fill="none" stroke="black"></path>
                 <path d="M 296,1040 L 296,1056" fill="none" stroke="black"></path>
-                <path d="M 296,1088 L 296,1424" fill="none" stroke="black"></path>
+                <path d="M 296,1120 L 296,1456" fill="none" stroke="black"></path>
                 <path d="M 480,48 L 480,488" fill="none" stroke="black"></path>
                 <path d="M 480,504 L 480,808" fill="none" stroke="black"></path>
-                <path d="M 480,864 L 480,1424" fill="none" stroke="black"></path>
-                <path d="M 568,48 L 568,1424" fill="none" stroke="black"></path>
-                <path d="M 16,64 L 288,64" fill="none" stroke="black"></path>
-                <path d="M 16,160 L 288,160" fill="none" stroke="black"></path>
-                <path d="M 16,304 L 288,304" fill="none" stroke="black"></path>
-                <path d="M 304,464 L 472,464" fill="none" stroke="black"></path>
+                <path d="M 480,864 L 480,1056" fill="none" stroke="black"></path>
+                <path d="M 480,1120 L 480,1456" fill="none" stroke="black"></path>
+                <path d="M 568,48 L 568,1056" fill="none" stroke="black"></path>
+                <path d="M 568,1120 L 568,1456" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 288,64" fill="none" stroke="black"></path>
+                <path d="M 16,160 L 296,160" fill="none" stroke="black"></path>
+                <path d="M 8,304 L 288,304" fill="none" stroke="black"></path>
+                <path d="M 296,464 L 472,464" fill="none" stroke="black"></path>
                 <path d="M 440,496 L 560,496" fill="none" stroke="black"></path>
-                <path d="M 304,624 L 472,624" fill="none" stroke="black"></path>
-                <path d="M 16,704 L 288,704" fill="none" stroke="black"></path>
-                <path d="M 304,816 L 560,816" fill="none" stroke="black"></path>
-                <path d="M 16,896 L 288,896" fill="none" stroke="black"></path>
-                <path d="M 16,1120 L 288,1120" fill="none" stroke="black"></path>
-                <path d="M 304,1248 L 472,1248" fill="none" stroke="black"></path>
-                <path d="M 304,1296 L 472,1296" fill="none" stroke="black"></path>
-                <path d="M 16,1376 L 288,1376" fill="none" stroke="black"></path>
+                <path d="M 304,624 L 480,624" fill="none" stroke="black"></path>
+                <path d="M 16,704 L 296,704" fill="none" stroke="black"></path>
+                <path d="M 304,816 L 568,816" fill="none" stroke="black"></path>
+                <path d="M 16,896 L 296,896" fill="none" stroke="black"></path>
+                <path d="M 8,1152 L 288,1152" fill="none" stroke="black"></path>
+                <path d="M 296,1280 L 472,1280" fill="none" stroke="black"></path>
+                <path d="M 304,1328 L 480,1328" fill="none" stroke="black"></path>
+                <path d="M 16,1408 L 296,1408" fill="none" stroke="black"></path>
                 <path d="M 424,464 L 440,496" fill="none" stroke="black"></path>
                 <polygon class="arrowhead" points="568,496 556,490.4 556,501.6" fill="black" transform="rotate(0,560,496)"></polygon>
-                <polygon class="arrowhead" points="480,1248 468,1242.4 468,1253.6" fill="black" transform="rotate(0,472,1248)"></polygon>
+                <polygon class="arrowhead" points="480,1280 468,1274.4 468,1285.6" fill="black" transform="rotate(0,472,1280)"></polygon>
                 <polygon class="arrowhead" points="480,464 468,458.4 468,469.6" fill="black" transform="rotate(0,472,464)"></polygon>
-                <polygon class="arrowhead" points="312,1296 300,1290.4 300,1301.6" fill="black" transform="rotate(180,304,1296)"></polygon>
+                <polygon class="arrowhead" points="312,1328 300,1322.4 300,1333.6" fill="black" transform="rotate(180,304,1328)"></polygon>
                 <polygon class="arrowhead" points="312,816 300,810.4 300,821.6" fill="black" transform="rotate(180,304,816)"></polygon>
                 <polygon class="arrowhead" points="312,624 300,618.4 300,629.6" fill="black" transform="rotate(180,304,624)"></polygon>
-                <polygon class="arrowhead" points="296,1120 284,1114.4 284,1125.6" fill="black" transform="rotate(0,288,1120)"></polygon>
+                <polygon class="arrowhead" points="296,1152 284,1146.4 284,1157.6" fill="black" transform="rotate(0,288,1152)"></polygon>
                 <polygon class="arrowhead" points="296,304 284,298.4 284,309.6" fill="black" transform="rotate(0,288,304)"></polygon>
                 <polygon class="arrowhead" points="296,64 284,58.4 284,69.6" fill="black" transform="rotate(0,288,64)"></polygon>
-                <polygon class="arrowhead" points="24,1376 12,1370.4 12,1381.6" fill="black" transform="rotate(180,16,1376)"></polygon>
+                <polygon class="arrowhead" points="24,1408 12,1402.4 12,1413.6" fill="black" transform="rotate(180,16,1408)"></polygon>
                 <polygon class="arrowhead" points="24,896 12,890.4 12,901.6" fill="black" transform="rotate(180,16,896)"></polygon>
                 <polygon class="arrowhead" points="24,704 12,698.4 12,709.6" fill="black" transform="rotate(180,16,704)"></polygon>
                 <polygon class="arrowhead" points="24,160 12,154.4 12,165.6" fill="black" transform="rotate(180,16,160)"></polygon>
@@ -3226,7 +3231,7 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="396" y="84">in</text>
                   <text x="428" y="84">fact</text>
                   <text x="36" y="100">Dst:</text>
-                  <text x="128" y="100">group1.com:P_PORT</text>
+                  <text x="112" y="100">P_ADDR:P_PORT</text>
                   <text x="312" y="100">a</text>
                   <text x="376" y="100">reverse-proxy</text>
                   <text x="440" y="100">/</text>
@@ -3240,19 +3245,20 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="72" y="212">Bad</text>
                   <text x="120" y="212">Request</text>
                   <text x="92" y="228">Multicast-Timeout:</text>
-                  <text x="200" y="228">(empty)</text>
+                  <text x="176" y="228">-</text>
+                  <text x="216" y="228">(empty)</text>
                   <text x="52" y="244">Payload:</text>
                   <text x="120" y="244">"Please</text>
                   <text x="168" y="244">use</text>
-                  <text x="124" y="260">Multicast-Timeout"</text>
+                  <text x="108" y="260">Multicast-Timeout"</text>
                   <text x="36" y="324">Src:</text>
                   <text x="112" y="324">C_ADDR:C_PORT</text>
                   <text x="36" y="340">Dst:</text>
-                  <text x="128" y="340">group1.com:P_PORT</text>
-                  <text x="92" y="356">Multicast-Timeout:</text>
-                  <text x="180" y="356">60</text>
-                  <text x="56" y="372">Uri-Path:</text>
-                  <text x="112" y="372">"r"</text>
+                  <text x="112" y="340">P_ADDR:P_PORT</text>
+                  <text x="56" y="356">Uri-Path:</text>
+                  <text x="112" y="356">"r"</text>
+                  <text x="92" y="372">Multicast-Timeout:</text>
+                  <text x="180" y="372">60</text>
                   <text x="324" y="420">Src:</text>
                   <text x="400" y="420">P_ADDR:P_PORT</text>
                   <text x="324" y="436">Dst:</text>
@@ -3305,53 +3311,52 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="292" y="1028">this</text>
                   <text x="344" y="1028">request</text>
                   <text x="384" y="1028">/</text>
-                  <text x="20" y="1076">..</text>
-                  <text x="128" y="1076">...</text>
-                  <text x="240" y="1076">/</text>
-                  <text x="268" y="1076">Time</text>
-                  <text x="316" y="1076">passes</text>
-                  <text x="352" y="1076">/</text>
-                  <text x="472" y="1076">.</text>
-                  <text x="488" y="1076">.</text>
-                  <text x="556" y="1076">..</text>
-                  <text x="312" y="1124">/</text>
-                  <text x="352" y="1124">Request</text>
-                  <text x="420" y="1124">intended</text>
-                  <text x="36" y="1140">Src:</text>
-                  <text x="112" y="1140">C_ADDR:C_PORT</text>
-                  <text x="324" y="1140">only</text>
-                  <text x="356" y="1140">to</text>
-                  <text x="380" y="1140">S1</text>
-                  <text x="408" y="1140">for</text>
-                  <text x="440" y="1140">the</text>
-                  <text x="36" y="1156">Dst:</text>
-                  <text x="120" y="1156">D1_ADDR:D1_PORT</text>
-                  <text x="324" y="1156">same</text>
-                  <text x="380" y="1156">resource</text>
-                  <text x="428" y="1156">/r</text>
-                  <text x="448" y="1156">/</text>
-                  <text x="56" y="1172">Uri-Path:</text>
-                  <text x="112" y="1172">"r"</text>
-                  <text x="324" y="1204">Src:</text>
-                  <text x="400" y="1204">P_ADDR:P_PORT</text>
-                  <text x="324" y="1220">Dst:</text>
-                  <text x="408" y="1220">S1_ADDR:S1_PORT</text>
-                  <text x="344" y="1236">Uri-Path:</text>
-                  <text x="400" y="1236">"r"</text>
-                  <text x="324" y="1316">Src:</text>
-                  <text x="408" y="1316">S1_ADDR:S1_PORT</text>
-                  <text x="324" y="1332">Dst:</text>
-                  <text x="400" y="1332">P_ADDR:P_PORT</text>
-                  <text x="140" y="1396">Src:</text>
-                  <text x="224" y="1396">D1_ADDR:D1_PORT</text>
-                  <text x="140" y="1412">Dst:</text>
-                  <text x="216" y="1412">C_ADDR:C_PORT</text>
+                  <text x="16" y="1092">...</text>
+                  <text x="128" y="1092">...</text>
+                  <text x="240" y="1092">/</text>
+                  <text x="268" y="1092">Time</text>
+                  <text x="316" y="1092">passes</text>
+                  <text x="352" y="1092">/</text>
+                  <text x="480" y="1092">...</text>
+                  <text x="560" y="1092">...</text>
+                  <text x="312" y="1156">/</text>
+                  <text x="352" y="1156">Request</text>
+                  <text x="420" y="1156">intended</text>
+                  <text x="36" y="1172">Src:</text>
+                  <text x="112" y="1172">C_ADDR:C_PORT</text>
+                  <text x="324" y="1172">only</text>
+                  <text x="356" y="1172">to</text>
+                  <text x="380" y="1172">S1</text>
+                  <text x="408" y="1172">for</text>
+                  <text x="440" y="1172">the</text>
+                  <text x="36" y="1188">Dst:</text>
+                  <text x="120" y="1188">D1_ADDR:D1_PORT</text>
+                  <text x="324" y="1188">same</text>
+                  <text x="380" y="1188">resource</text>
+                  <text x="428" y="1188">/r</text>
+                  <text x="448" y="1188">/</text>
+                  <text x="56" y="1204">Uri-Path:</text>
+                  <text x="112" y="1204">"r"</text>
+                  <text x="324" y="1236">Src:</text>
+                  <text x="400" y="1236">P_ADDR:P_PORT</text>
+                  <text x="324" y="1252">Dst:</text>
+                  <text x="408" y="1252">S1_ADDR:S1_PORT</text>
+                  <text x="344" y="1268">Uri-Path:</text>
+                  <text x="400" y="1268">"r"</text>
+                  <text x="324" y="1348">Src:</text>
+                  <text x="408" y="1348">S1_ADDR:S1_PORT</text>
+                  <text x="324" y="1364">Dst:</text>
+                  <text x="400" y="1364">P_ADDR:P_PORT</text>
+                  <text x="140" y="1428">Src:</text>
+                  <text x="224" y="1428">D1_ADDR:D1_PORT</text>
+                  <text x="140" y="1444">Dst:</text>
+                  <text x="216" y="1444">C_ADDR:C_PORT</text>
                 </g>
-              </svg><a href="#appendix-A.2-5.1.1" class="pilcrow">¶</a>
+              </svg><a href="#appendix-A.2-6.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-6" class="selfRef">Figure 6</a>:
-<a href="#name-workflow-example-with-revers" class="selfRef">Workflow example with reverse-proxy standing in for both the whole group of servers and each individual server, and requiring one pair (IP address, port number) for each origin server.</a>
+<a href="#name-workflow-example-with-a-reve" class="selfRef">Workflow example with a reverse-proxy standing in for both the whole group of servers and each individual server. This requires the proxy to have one pair (IP address, port number) for each group and one for each origin server.</a>
           </figcaption></figure>
 </div>
 </section>
@@ -3364,41 +3369,44 @@ Based on this information, P composes the group request and sends it to the CoAP
 <p id="appendix-A.3-1">The example shown in <a href="#workflow-example-reverse-3" class="auto internal xref">Figure 7</a> builds on the example in <a href="#sec-reverse-proxies-examples-ex2" class="auto internal xref">Appendix A.2</a>.<a href="#appendix-A.3-1" class="pilcrow">¶</a></p>
 <p id="appendix-A.3-2">However, it considers a reverse-proxy that stands in for only the whole group of servers, but not for each individual server Sx.<a href="#appendix-A.3-2" class="pilcrow">¶</a></p>
 <p id="appendix-A.3-3">The final exchange between C and S1 occurs with CoAP over UDP.<a href="#appendix-A.3-3" class="pilcrow">¶</a></p>
-<span id="name-workflow-example-with-reverse"></span><div id="workflow-example-reverse-3">
+<span id="name-workflow-example-with-a-rever"></span><div id="workflow-example-reverse-3">
 <figure id="figure-7">
           <div id="appendix-A.3-4.1">
             <div class="alignLeft art-svg artwork" id="appendix-A.3-4.1.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1264" width="568" viewBox="0 0 568 1264" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
-                <path d="M 8,48 L 8,1248" fill="none" stroke="black"></path>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="1296" width="568" viewBox="0 0 568 1296" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                <path d="M 8,48 L 8,1040" fill="none" stroke="black"></path>
+                <path d="M 8,1104 L 8,1280" fill="none" stroke="black"></path>
                 <path d="M 264,48 L 264,976" fill="none" stroke="black"></path>
                 <path d="M 264,1024 L 264,1040" fill="none" stroke="black"></path>
-                <path d="M 264,1072 L 264,1096" fill="none" stroke="black"></path>
-                <path d="M 264,1112 L 264,1192" fill="none" stroke="black"></path>
-                <path d="M 264,1208 L 264,1248" fill="none" stroke="black"></path>
+                <path d="M 264,1104 L 264,1128" fill="none" stroke="black"></path>
+                <path d="M 264,1144 L 264,1224" fill="none" stroke="black"></path>
+                <path d="M 264,1240 L 264,1280" fill="none" stroke="black"></path>
                 <path d="M 448,48 L 448,472" fill="none" stroke="black"></path>
                 <path d="M 448,488 L 448,792" fill="none" stroke="black"></path>
-                <path d="M 448,840 L 448,1248" fill="none" stroke="black"></path>
-                <path d="M 560,48 L 560,1248" fill="none" stroke="black"></path>
-                <path d="M 16,64 L 256,64" fill="none" stroke="black"></path>
-                <path d="M 16,144 L 256,144" fill="none" stroke="black"></path>
-                <path d="M 16,288 L 256,288" fill="none" stroke="black"></path>
-                <path d="M 272,448 L 440,448" fill="none" stroke="black"></path>
+                <path d="M 448,840 L 448,1040" fill="none" stroke="black"></path>
+                <path d="M 448,1104 L 448,1280" fill="none" stroke="black"></path>
+                <path d="M 560,48 L 560,1040" fill="none" stroke="black"></path>
+                <path d="M 560,1104 L 560,1280" fill="none" stroke="black"></path>
+                <path d="M 8,64 L 256,64" fill="none" stroke="black"></path>
+                <path d="M 16,144 L 264,144" fill="none" stroke="black"></path>
+                <path d="M 8,288 L 256,288" fill="none" stroke="black"></path>
+                <path d="M 264,448 L 440,448" fill="none" stroke="black"></path>
                 <path d="M 408,480 L 552,480" fill="none" stroke="black"></path>
-                <path d="M 272,608 L 440,608" fill="none" stroke="black"></path>
-                <path d="M 16,688 L 256,688" fill="none" stroke="black"></path>
-                <path d="M 272,800 L 552,800" fill="none" stroke="black"></path>
-                <path d="M 16,880 L 256,880" fill="none" stroke="black"></path>
-                <path d="M 16,1104 L 440,1104" fill="none" stroke="black"></path>
-                <path d="M 16,1200 L 440,1200" fill="none" stroke="black"></path>
+                <path d="M 272,608 L 448,608" fill="none" stroke="black"></path>
+                <path d="M 16,688 L 264,688" fill="none" stroke="black"></path>
+                <path d="M 272,800 L 560,800" fill="none" stroke="black"></path>
+                <path d="M 16,880 L 264,880" fill="none" stroke="black"></path>
+                <path d="M 8,1136 L 440,1136" fill="none" stroke="black"></path>
+                <path d="M 16,1232 L 448,1232" fill="none" stroke="black"></path>
                 <path d="M 392,448 L 408,480" fill="none" stroke="black"></path>
                 <polygon class="arrowhead" points="560,480 548,474.4 548,485.6" fill="black" transform="rotate(0,552,480)"></polygon>
-                <polygon class="arrowhead" points="448,1104 436,1098.4 436,1109.6" fill="black" transform="rotate(0,440,1104)"></polygon>
+                <polygon class="arrowhead" points="448,1136 436,1130.4 436,1141.6" fill="black" transform="rotate(0,440,1136)"></polygon>
                 <polygon class="arrowhead" points="448,448 436,442.4 436,453.6" fill="black" transform="rotate(0,440,448)"></polygon>
                 <polygon class="arrowhead" points="280,800 268,794.4 268,805.6" fill="black" transform="rotate(180,272,800)"></polygon>
                 <polygon class="arrowhead" points="280,608 268,602.4 268,613.6" fill="black" transform="rotate(180,272,608)"></polygon>
                 <polygon class="arrowhead" points="264,288 252,282.4 252,293.6" fill="black" transform="rotate(0,256,288)"></polygon>
                 <polygon class="arrowhead" points="264,64 252,58.4 252,69.6" fill="black" transform="rotate(0,256,64)"></polygon>
-                <polygon class="arrowhead" points="24,1200 12,1194.4 12,1205.6" fill="black" transform="rotate(180,16,1200)"></polygon>
+                <polygon class="arrowhead" points="24,1232 12,1226.4 12,1237.6" fill="black" transform="rotate(180,16,1232)"></polygon>
                 <polygon class="arrowhead" points="24,880 12,874.4 12,885.6" fill="black" transform="rotate(180,16,880)"></polygon>
                 <polygon class="arrowhead" points="24,688 12,682.4 12,693.6" fill="black" transform="rotate(180,16,688)"></polygon>
                 <polygon class="arrowhead" points="24,144 12,138.4 12,149.6" fill="black" transform="rotate(180,16,144)"></polygon>
@@ -3420,7 +3428,7 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="364" y="84">in</text>
                   <text x="396" y="84">fact</text>
                   <text x="36" y="100">Dst:</text>
-                  <text x="128" y="100">group1.com:P_PORT</text>
+                  <text x="112" y="100">P_ADDR:P_PORT</text>
                   <text x="280" y="100">a</text>
                   <text x="344" y="100">reverse-proxy</text>
                   <text x="408" y="100">/</text>
@@ -3434,19 +3442,20 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="72" y="196">Bad</text>
                   <text x="120" y="196">Request</text>
                   <text x="92" y="212">Multicast-Timeout:</text>
-                  <text x="200" y="212">(empty)</text>
+                  <text x="176" y="212">-</text>
+                  <text x="216" y="212">(empty)</text>
                   <text x="52" y="228">Payload:</text>
                   <text x="120" y="228">"Please</text>
                   <text x="168" y="228">use</text>
-                  <text x="124" y="244">Multicast-Timeout"</text>
+                  <text x="108" y="244">Multicast-Timeout"</text>
                   <text x="36" y="308">Src:</text>
                   <text x="112" y="308">C_ADDR:C_PORT</text>
                   <text x="36" y="324">Dst:</text>
-                  <text x="128" y="324">group1.com:P_PORT</text>
-                  <text x="92" y="340">Multicast-Timeout:</text>
-                  <text x="180" y="340">60</text>
-                  <text x="56" y="356">Uri-Path:</text>
-                  <text x="112" y="356">"r"</text>
+                  <text x="112" y="324">P_ADDR:P_PORT</text>
+                  <text x="56" y="340">Uri-Path:</text>
+                  <text x="112" y="340">"r"</text>
+                  <text x="92" y="356">Multicast-Timeout:</text>
+                  <text x="180" y="356">60</text>
                   <text x="292" y="404">Src:</text>
                   <text x="368" y="404">P_ADDR:P_PORT</text>
                   <text x="292" y="420">Dst:</text>
@@ -3499,43 +3508,42 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="260" y="1012">this</text>
                   <text x="312" y="1012">request</text>
                   <text x="352" y="1012">/</text>
-                  <text x="20" y="1060">..</text>
-                  <text x="128" y="1060">...</text>
-                  <text x="208" y="1060">/</text>
-                  <text x="236" y="1060">Time</text>
-                  <text x="284" y="1060">passes</text>
-                  <text x="320" y="1060">/</text>
-                  <text x="440" y="1060">.</text>
-                  <text x="456" y="1060">.</text>
-                  <text x="548" y="1060">..</text>
-                  <text x="36" y="1124">Src:</text>
-                  <text x="112" y="1124">C_ADDR:C_PORT</text>
-                  <text x="280" y="1124">/</text>
-                  <text x="320" y="1124">Request</text>
-                  <text x="388" y="1124">intended</text>
-                  <text x="36" y="1140">Dst:</text>
-                  <text x="120" y="1140">S1.ADDR:S1_PORT</text>
-                  <text x="292" y="1140">only</text>
-                  <text x="324" y="1140">to</text>
-                  <text x="348" y="1140">S1</text>
-                  <text x="376" y="1140">for</text>
-                  <text x="408" y="1140">the</text>
-                  <text x="56" y="1156">Uri-Path:</text>
-                  <text x="112" y="1156">"r"</text>
-                  <text x="292" y="1156">same</text>
-                  <text x="348" y="1156">resource</text>
-                  <text x="396" y="1156">/r</text>
-                  <text x="416" y="1156">/</text>
-                  <text x="292" y="1220">Src:</text>
-                  <text x="376" y="1220">S1.ADDR:S1_PORT</text>
-                  <text x="292" y="1236">Dst:</text>
-                  <text x="368" y="1236">C_ADDR:C_PORT</text>
+                  <text x="16" y="1076">...</text>
+                  <text x="128" y="1076">...</text>
+                  <text x="208" y="1076">/</text>
+                  <text x="236" y="1076">Time</text>
+                  <text x="284" y="1076">passes</text>
+                  <text x="320" y="1076">/</text>
+                  <text x="448" y="1076">...</text>
+                  <text x="552" y="1076">...</text>
+                  <text x="36" y="1156">Src:</text>
+                  <text x="112" y="1156">C_ADDR:C_PORT</text>
+                  <text x="280" y="1156">/</text>
+                  <text x="320" y="1156">Request</text>
+                  <text x="388" y="1156">intended</text>
+                  <text x="36" y="1172">Dst:</text>
+                  <text x="120" y="1172">S1.ADDR:S1_PORT</text>
+                  <text x="292" y="1172">only</text>
+                  <text x="324" y="1172">to</text>
+                  <text x="348" y="1172">S1</text>
+                  <text x="376" y="1172">for</text>
+                  <text x="408" y="1172">the</text>
+                  <text x="56" y="1188">Uri-Path:</text>
+                  <text x="112" y="1188">"r"</text>
+                  <text x="292" y="1188">same</text>
+                  <text x="348" y="1188">resource</text>
+                  <text x="396" y="1188">/r</text>
+                  <text x="416" y="1188">/</text>
+                  <text x="292" y="1252">Src:</text>
+                  <text x="376" y="1252">S1.ADDR:S1_PORT</text>
+                  <text x="292" y="1268">Dst:</text>
+                  <text x="368" y="1268">C_ADDR:C_PORT</text>
                 </g>
               </svg><a href="#appendix-A.3-4.1.1" class="pilcrow">¶</a>
 </div>
 </div>
 <figcaption><a href="#figure-7" class="selfRef">Figure 7</a>:
-<a href="#name-workflow-example-with-reverse" class="selfRef">Workflow example with reverse-proxy standing in for only the whole group of servers, but not for each individual server</a>
+<a href="#name-workflow-example-with-a-rever" class="selfRef">Workflow example with a reverse-proxy standing in for only the whole group of servers, but not for each individual server. This requires the proxy to have one pair (IP address, port number) for each group.</a>
           </figcaption></figure>
 </div>
 </section>
@@ -3558,7 +3566,10 @@ Based on this information, P composes the group request and sends it to the CoAP
             <p id="appendix-B.1-1.1.1">Fixes in the IANA considerations.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Revised the examples of message exchange with a reverse-proxy.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.3">
+            <p id="appendix-B.1-1.3.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
