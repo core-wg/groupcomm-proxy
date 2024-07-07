@@ -1062,13 +1062,13 @@ IANA is asked to enter the following option numbers to the "CoAP Option Numbers"
 
 IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" registry.
 
-| Field Name        | Status    | Reference |
-|-------------------|-----------|-----------|
-| Multicast-Timeout | permanent | {{&SELF}} |
-|-------------------|-----------|-----------|
-| Reply-To          | permanent | {{&SELF}} |
-|-------------------|-----------|-----------|
-| Group-ETag        | permanent | {{&SELF}} |
+| Field Name        | Template | Status    | Structured Type | Reference |
+|-------------------|----------|-----------|-----------------|-----------|
+| Multicast-Timeout |          | permanent |                 | {{&SELF}} |
+|-------------------|----------|-----------|-----------------|-----------|
+| Reply-To          |          | permanent |                 | {{&SELF}} |
+|-------------------|----------|-----------|-----------------|-----------|
+| Group-ETag        |          | permanent |                 | {{&SELF}} |
 {: #tab-iana-http-field-names title="New HTTP Field Names" align="center"}
 
 --- back
@@ -1402,6 +1402,8 @@ C                               P                      S1           S2
 {:removeinrfc}
 
 ## Version -01 to -02 ## {#sec-01-02}
+
+* Fixes in the IANA considerations.
 
 * Editorial fixes and improvements.
 
