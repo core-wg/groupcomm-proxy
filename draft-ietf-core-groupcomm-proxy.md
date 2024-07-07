@@ -594,21 +594,18 @@ As discussed in {{sec-group-caching}}, the following applies when Group OSCORE {
 
 A client MAY revalidate the full set of responses to a group request by leveraging the corresponding cache entries at the proxy. To this end, this document defines the new Group-ETag Option.
 
-The Group-ETag Option has the properties summarized in {{fig-response-group-etag-option}}, which extends Table 4 of {{RFC7252}}. The Group-ETag Option is elective, safe to forward, part of the cache key, and repeatable.
+The Group-ETag Option has the properties summarized in {{table-response-group-etag-option}}, which extends Table 4 of {{RFC7252}}. The Group-ETag Option is elective, safe to forward, part of the cache key, and repeatable.
 
 The option is intended for group requests sent to a proxy to be forwarded to the servers in a CoAP group, as well as for the associated responses.
 
-~~~~~~~~~~~
-+------+---+---+---+---+------------+--------+--------+---------+
-| No.  | C | U | N | R | Name       | Format | Length | Default |
-+------+---+---+---+---+------------+--------+--------+---------+
-|      |   |   |   |   |            |        |        |         |
-| TBD3 |   |   |   | x | Group-ETag | opaque |  1-8   | (none)  |
-|      |   |   |   |   |            |        |        |         |
-+------+---+---+---+---+------------+--------+--------+---------+
-           C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
-~~~~~~~~~~~
-{: #fig-response-group-etag-option title="The Group-ETag Option." artwork-align="center"}
+| No.   | C | U | N | R | Name       | Format | Length | Default |
+| TBD3  |   |   |   | x | Group-ETag | opaque | 1-8    | (none)  |
+{: #table-response-group-etag-option title="The Group-ETag Option.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
 The Group-ETag Option has the same properties of the ETag Option defined in {{Section 5.10.6 of RFC7252}}.
 
