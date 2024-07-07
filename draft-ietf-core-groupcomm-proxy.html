@@ -1140,7 +1140,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-the-multicast-timeout-optio" class="internal xref">The Multicast-Timeout Option</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-the-reply-to-option" class="internal xref">The Reply-To Option</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-the-reply-from-option" class="internal xref">The Reply-From Option</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
             <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-requirements-and-objectives" class="internal xref">Requirements and Objectives</a></p>
@@ -1280,7 +1280,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-the-http-multicast-timeout-" class="internal xref">The HTTP Multicast-Timeout Header Field</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-the-http-reply-to-header-fi" class="internal xref">The HTTP Reply-To Header Field</a></p>
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-the-http-reply-from-header-" class="internal xref">The HTTP Reply-From Header Field</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.3">
                 <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="auto internal xref">9.3</a>.  <a href="#name-the-http-group-etag-header-" class="internal xref">The HTTP Group-ETag Header Field</a></p>
@@ -1326,7 +1326,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
                 <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-multicast-timeout-option" class="internal xref">Multicast-Timeout Option</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
-                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="auto internal xref">10.3</a>.  <a href="#name-reply-to-option" class="internal xref">Reply-To Option</a></p>
+                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="auto internal xref">10.3</a>.  <a href="#name-reply-from-option" class="internal xref">Reply-From Option</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.4">
                 <p id="section-toc.1-1.10.2.4.1"><a href="#section-10.4" class="auto internal xref">10.4</a>.  <a href="#name-group-etag-option" class="internal xref">Group-ETag Option</a></p>
@@ -1473,35 +1473,35 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 <p id="section-2-6">The Multicast-Timeout Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="sec-reply-to-option">
+<div id="sec-reply-from-option">
 <section id="section-3">
-      <h2 id="name-the-reply-to-option">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-the-reply-to-option" class="section-name selfRef">The Reply-To Option</a>
+      <h2 id="name-the-reply-from-option">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-the-reply-from-option" class="section-name selfRef">The Reply-From Option</a>
       </h2>
-<p id="section-3-1">The Reply-To Option defined in this section has the properties summarized in <a href="#fig-reply-to-option" class="auto internal xref">Figure 2</a>, which extends Table 4 of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. The option is intended only for inclusion in CoAP responses, and builds on the Base-Uri Option from <span><a href="https://datatracker.ietf.org/doc/html/draft-bormann-coap-misc-27#section-3" class="relref">Section 3</a> of [<a href="#I-D.bormann-coap-misc" class="cite xref">I-D.bormann-coap-misc</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1">The Reply-From Option defined in this section has the properties summarized in <a href="#fig-reply-from-option" class="auto internal xref">Figure 2</a>, which extends Table 4 of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. The option is intended only for inclusion in CoAP responses, and builds on the Base-Uri Option from <span><a href="https://datatracker.ietf.org/doc/html/draft-bormann-coap-misc-27#section-3" class="relref">Section 3</a> of [<a href="#I-D.bormann-coap-misc" class="cite xref">I-D.bormann-coap-misc</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <p id="section-3-2">Since the option is intended only for responses, the column "N" indicates a dash for "not applicable".<a href="#section-3-2" class="pilcrow">¶</a></p>
-<span id="name-the-reply-to-option-2"></span><div id="fig-reply-to-option">
+<span id="name-the-reply-from-option-2"></span><div id="fig-reply-from-option">
 <figure id="figure-2">
         <div class="alignCenter art-text artwork" id="section-3-3.1">
 <pre>
-+------+---+---+---+---+----------+--------+--------+---------+
-| No.  | C | U | N | R | Name     | Format | Length | Default |
-+------+---+---+---+---+----------+--------+--------+---------+
-|      |   |   |   |   |          |        |        |         |
-| TBD2 |   |   | - |   | Reply-To |  (*)   | 5-1034 | (none)  |
-|      |   |   |   |   |          |        |        |         |
-+------+---+---+---+---+----------+--------+--------+---------+
++------+---+---+---+---+------------+--------+--------+---------+
+| No.  | C | U | N | R | Name       | Format | Length | Default |
++------+---+---+---+---+------------+--------+--------+---------+
+|      |   |   |   |   |            |        |        |         |
+| TBD2 |   |   | - |   | Reply-From |  (*)   | 5-1034 | (none)  |
+|      |   |   |   |   |            |        |        |         |
++------+---+---+---+---+------------+--------+--------+---------+
            C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
 (*) See below.
 </pre>
 </div>
 <figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
-<a href="#name-the-reply-to-option-2" class="selfRef">The Reply-To Option.</a>
+<a href="#name-the-reply-from-option-2" class="selfRef">The Reply-From Option.</a>
         </figcaption></figure>
 </div>
 <p id="section-3-4">This document specifically defines how this option is used by a proxy that can perform proxied CoAP group requests.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">Upon receiving a response to such a request from an origin server, the proxy includes the Reply-To Option into the response sent to the origin client (see <a href="#sec-description" class="auto internal xref">Section 5</a>). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended to that server.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-5">Upon receiving a response to such a request from an origin server, the proxy includes the Reply-From Option into the response sent to the origin client (see <a href="#sec-description" class="auto internal xref">Section 5</a>). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended to that server.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <p id="section-3-6">In particular, the client can use the addressing information specified in the option in order to identify the response originator and to possibly send it individual requests later on, either directly, or indirectly via the proxy, as unicast requests.<a href="#section-3-6" class="pilcrow">¶</a></p>
 <p id="section-3-7">When used as defined in this document, the option value is set to the byte serialization of a CBOR sequence <span>[<a href="#RFC8742" class="cite xref">RFC8742</a>]</span>, which is composed of at most two CBOR arrays.<a href="#section-3-7" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -1513,7 +1513,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
 </li>
       </ul>
 <p id="section-3-9">The detailed use of this option is specified in <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a> and <a href="#ssec-resp-proc-client-steps" class="auto internal xref">Section 5.5.1</a> when the proxy is a forward-proxy, and in <a href="#sec-reverse-proxies-proxy-side" class="auto internal xref">Section 6.1</a> and <a href="#sec-reverse-proxies-client-side" class="auto internal xref">Section 6.2</a> when the proxy is a reverse-proxy.<a href="#section-3-9" class="pilcrow">¶</a></p>
-<p id="section-3-10">The Reply-To Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-3-10" class="pilcrow">¶</a></p>
+<p id="section-3-10">The Reply-From Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-3-10" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-objectives">
@@ -1730,11 +1730,11 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
 <p id="section-5.4.1-1">Upon receiving a response matching with the group request before the amount of time T' has elapsed, the proxy proceeds according to the following steps.<a href="#section-5.4.1-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.4.1-2">
 <li id="section-5.4.1-2.1">
-              <p id="section-5.4.1-2.1.1">The proxy <span class="bcp14">MUST</span> include the Reply-To Option defined in <a href="#sec-reply-to-option" class="auto internal xref">Section 3</a> into the response. The proxy sets the option value as follows.<a href="#section-5.4.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.1-2.1.1">The proxy <span class="bcp14">MUST</span> include the Reply-From Option defined in <a href="#sec-reply-from-option" class="auto internal xref">Section 3</a> into the response. The proxy sets the option value as follows.<a href="#section-5.4.1-2.1.1" class="pilcrow">¶</a></p>
 <p id="section-5.4.1-2.1.2">
 The CRI present as first element of the CBOR sequence specifies the addressing information of the server generating the response. The second element of the CBOR sequence <span class="bcp14">MUST NOT</span> be present.<a href="#section-5.4.1-2.1.2" class="pilcrow">¶</a></p>
 <p id="section-5.4.1-2.1.3">
-If the proxy supports caching of responses (see <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a>), the proxy <span class="bcp14">MUST</span> include the Reply-To Option into the response before caching it. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.<a href="#section-5.4.1-2.1.3" class="pilcrow">¶</a></p>
+If the proxy supports caching of responses (see <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a>), the proxy <span class="bcp14">MUST</span> include the Reply-From Option into the response before caching it. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.<a href="#section-5.4.1-2.1.3" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.1-2.2">
               <p id="section-5.4.1-2.2.1">The proxy forwards the response back to the client. When doing so, the proxy protects the response according to the security association it has with the client.<a href="#section-5.4.1-2.2.1" class="pilcrow">¶</a></p>
@@ -1753,7 +1753,7 @@ If the proxy supports caching of responses (see <a href="#sec-proxy-caching" cla
 <p id="section-5.4.2-2">Furthermore, the proxy takes the role of a server when forwarding notifications from origin servers back to the client. To this end, the proxy follows what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-11#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, with the following additions.<a href="#section-5.4.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.2-3.1">
-              <p id="section-5.4.2-3.1.1">At step 1 in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, the proxy includes the Reply-To Option in every notification, including non-2.xx notifications resulting in removing the proxy from the list of observers of the origin server.<a href="#section-5.4.2-3.1.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.2-3.1.1">At step 1 in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, the proxy includes the Reply-From Option in every notification, including non-2.xx notifications resulting in removing the proxy from the list of observers of the origin server.<a href="#section-5.4.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.4.2-3.2">
               <p id="section-5.4.2-3.2.1">The proxy frees up its Token value used for a group observation only if, after the timeout expiration, no 2.xx (Success) responses matching with the group request and also including an Observe Option have been received from any origin server. Otherwise, after the timeout expiration and as long as observations are active with servers in the group for the target resource of the group request, notifications from those servers are forwarded back to the client, as defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, and the Token value used for the group observation is not freed during this time.<a href="#section-5.4.2-3.2.1" class="pilcrow">¶</a></p>
@@ -1784,9 +1784,9 @@ If the proxy supports caching of responses (see <a href="#sec-proxy-caching" cla
               <p id="section-5.5.1-2.2.1">If secure group communication is used end-to-end between the client and the servers, the client processes the response resulting at the end of step 1, as defined in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-5.5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.5.1-2.3">
-              <p id="section-5.5.1-2.3.1">The client retrieves the CRI from the value of the Reply-To Option, and identifies the origin server whose addressing information is specified by the CRI. This allows the client to distinguish different responses as originated by different servers.<a href="#section-5.5.1-2.3.1" class="pilcrow">¶</a></p>
+              <p id="section-5.5.1-2.3.1">The client retrieves the CRI from the value of the Reply-From Option, and identifies the origin server whose addressing information is specified by the CRI. This allows the client to distinguish different responses as originated by different servers.<a href="#section-5.5.1-2.3.1" class="pilcrow">¶</a></p>
 <p id="section-5.5.1-2.3.2">
-Optionally, the client may contact one or more of those servers individually, i.e., directly (bypassing the proxy) or indirectly (via a proxied unicast request). To this end, the client composes the correct URI for the individual request to the origin server, by using the information specified in the CRI retrieved from the Reply-To Option.<a href="#section-5.5.1-2.3.2" class="pilcrow">¶</a></p>
+Optionally, the client may contact one or more of those servers individually, i.e., directly (bypassing the proxy) or indirectly (via a proxied unicast request). To this end, the client composes the correct URI for the individual request to the origin server, by using the information specified in the CRI retrieved from the Reply-From Option.<a href="#section-5.5.1-2.3.2" class="pilcrow">¶</a></p>
 <p id="section-5.5.1-2.3.3">
 In order to individually reach the origin server again through the proxy, the client is not required to support the transport protocol indicated by 'scheme' in the CRI and used between the proxy and the origin server, in case the protocol is not CoAP over UDP (CRI scheme number: -1).<a href="#section-5.5.1-2.3.3" class="pilcrow">¶</a></p>
 <p id="section-5.5.1-2.3.4">
@@ -1894,7 +1894,7 @@ That is, the client simply specifies the URI for the individual request in the u
                   <text x="112" y="500">P_ADDR:P_PORT</text>
                   <text x="36" y="516">Dst:</text>
                   <text x="112" y="516">C_ADDR:C_PORT</text>
-                  <text x="56" y="532">Reply-To:</text>
+                  <text x="64" y="532">Reply-From:</text>
                   <text x="140" y="548">cri'coap://S1_ADDR:G_PORT'</text>
                   <text x="404" y="612">Src:</text>
                   <text x="488" y="612">S2_ADDR:S2_PORT</text>
@@ -1904,7 +1904,7 @@ That is, the client simply specifies the URI for the individual request in the u
                   <text x="112" y="692">P_ADDR:P_PORT</text>
                   <text x="36" y="708">Dst:</text>
                   <text x="112" y="708">C_ADDR:C_PORT</text>
-                  <text x="56" y="724">Reply-To:</text>
+                  <text x="64" y="724">Reply-From:</text>
                   <text x="144" y="740">cri'coap://S2_ADDR:S2_PORT'</text>
                   <text x="136" y="788">/</text>
                   <text x="156" y="788">At</text>
@@ -1961,7 +1961,7 @@ That is, the client simply specifies the URI for the individual request in the u
 <li class="normal" id="section-6.1-4.1">
             <p id="section-6.1-4.1.1">As a first possible case, the proxy stands in both for the whole group of servers and for the individual origin servers in the group. That is, the origin client cannot reach the individual servers directly, but only through the proxy.<a href="#section-6.1-4.1.1" class="pilcrow">¶</a></p>
 <p id="section-6.1-4.1.2">
-In such a case, within a response forwarded back to the client, the value of the Reply-To Option specifies an addressing information TARGET that is directly associated with the proxy. The addressing information is such that, when receiving a unicast request that has been sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response. In particular, the proxy sets the option value as follows.<a href="#section-6.1-4.1.2" class="pilcrow">¶</a></p>
+In such a case, within a response forwarded back to the client, the value of the Reply-From Option specifies an addressing information TARGET that is directly associated with the proxy. The addressing information is such that, when receiving a unicast request that has been sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response. In particular, the proxy sets the option value as follows.<a href="#section-6.1-4.1.2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.1-4.1.3.1">
                 <p id="section-6.1-4.1.3.1.1">The CRI present as first element of the CBOR sequence specifies an addressing information TARGET_1, such that a unicast request reaches the proxy if it is sent according to TARGET_1.<a href="#section-6.1-4.1.3.1.1" class="pilcrow">¶</a></p>
@@ -1978,7 +1978,7 @@ The client will be able to communicate individually with the server that origina
           <li class="normal" id="section-6.1-4.2">
             <p id="section-6.1-4.2.1">As a second possible case, the proxy stands in only for the whole group of servers, but not for the individual servers in the group. That is, the origin client can reach the individual servers directly, without recourse to the proxy.<a href="#section-6.1-4.2.1" class="pilcrow">¶</a></p>
 <p id="section-6.1-4.2.2">
-In such a case, within a response forwarded back to the client, the value of the Reply-To Option specifies an addressing information TARGET that is directly associated with the origin server that originated the response. In particular, the proxy sets the option value as follows.<a href="#section-6.1-4.2.2" class="pilcrow">¶</a></p>
+In such a case, within a response forwarded back to the client, the value of the Reply-From Option specifies an addressing information TARGET that is directly associated with the origin server that originated the response. In particular, the proxy sets the option value as follows.<a href="#section-6.1-4.2.2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.1-4.2.3.1">
                 <p id="section-6.1-4.2.3.1.1">The CRI present as first element of the CBOR sequence specifies the addressing information TARGET, such that a unicast request reaches the origin server if sent according to TARGET. The second element of the CBOR sequence <span class="bcp14">MUST NOT</span> be present.<a href="#section-6.1-4.2.3.1.1" class="pilcrow">¶</a></p>
@@ -1999,9 +1999,9 @@ The client will be able to use that information for sending a follow-up unicast 
 <p id="section-6.2-2">The client processes the CoAP responses forwarded back by the proxy as defined in <a href="#ssec-resp-proc-client" class="auto internal xref">Section 5.5</a>, with the following differences at step 3.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.2-3.1">
-            <p id="section-6.2-3.1.1">If the client wishes to send a follow-up unicast request intended only to the server that originated the response, then the client sends such a request according to the addressing information specified by the CRI retrieved from the value of the Reply-To Option. Effectively, the client sends the unicast request to the proxy.<a href="#section-6.2-3.1.1" class="pilcrow">¶</a></p>
+            <p id="section-6.2-3.1.1">If the client wishes to send a follow-up unicast request intended only to the server that originated the response, then the client sends such a request according to the addressing information specified by the CRI retrieved from the value of the Reply-From Option. Effectively, the client sends the unicast request to the proxy.<a href="#section-6.2-3.1.1" class="pilcrow">¶</a></p>
 <p id="section-6.2-3.1.2">
-In case the value of the Reply-To Option specifies also a CRI reference as second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. If the client wants to specify additional path segments that identify a specific resource at the origin server, then the corresponding Uri-Path Options are included in the request after the Uri-Path options corresponding to the path component of the CRI reference.<a href="#section-6.2-3.1.2" class="pilcrow">¶</a></p>
+In case the value of the Reply-From Option specifies also a CRI reference as second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. If the client wants to specify additional path segments that identify a specific resource at the origin server, then the corresponding Uri-Path Options are included in the request after the Uri-Path options corresponding to the path component of the CRI reference.<a href="#section-6.2-3.1.2" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2336,7 +2336,7 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
 <p id="section-8.2-3">Otherwise, the proxy performs the steps defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, with the following differences.<a href="#section-8.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.2-4.1">
-            <p id="section-8.2-4.1.1">In any of the two following cases, the proxy skips step 1, hence the proxy <span class="bcp14">MUST NOT</span> remove, alter, or replace the Reply-To Option.<a href="#section-8.2-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-8.2-4.1.1">In any of the two following cases, the proxy skips step 1, hence the proxy <span class="bcp14">MUST NOT</span> remove, alter, or replace the Reply-From Option.<a href="#section-8.2-4.1.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-8.2-4.1.2.1">
                 <p id="section-8.2-4.1.2.1.1">The chain is composed of forward-proxies.<a href="#section-8.2-4.1.2.1.1" class="pilcrow">¶</a></p>
@@ -2346,14 +2346,14 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
 </li>
             </ul>
 <p id="section-8.2-4.1.3">
-This ensures that, when receiving a response to a group request and consuming the Reply-To Option, the origin client can retrieve addressing information that is directly associated with the origin server that originated the response.<a href="#section-8.2-4.1.3" class="pilcrow">¶</a></p>
+This ensures that, when receiving a response to a group request and consuming the Reply-From Option, the origin client can retrieve addressing information that is directly associated with the origin server that originated the response.<a href="#section-8.2-4.1.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.2-4.2">
             <p id="section-8.2-4.2.1">At step 1, the following applies in case the chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in both for the whole group of servers and for the individual origin servers in the group (see <a href="#sec-reverse-proxies-proxy-side" class="auto internal xref">Section 6.1</a>).<a href="#section-8.2-4.2.1" class="pilcrow">¶</a></p>
 <p id="section-8.2-4.2.2">
-In the Reply-To Option, the proxy <span class="bcp14">MUST</span> replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receiving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the next hop towards the origin server that originated the response.<a href="#section-8.2-4.2.2" class="pilcrow">¶</a></p>
+In the Reply-From Option, the proxy <span class="bcp14">MUST</span> replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receiving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the next hop towards the origin server that originated the response.<a href="#section-8.2-4.2.2" class="pilcrow">¶</a></p>
 <p id="section-8.2-4.2.3">
-This ensures that, when receiving a response to a group request and consuming the Reply-To Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.<a href="#section-8.2-4.2.3" class="pilcrow">¶</a></p>
+This ensures that, when receiving a response to a group request and consuming the Reply-From Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.<a href="#section-8.2-4.2.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-8.2-4.3">
             <p id="section-8.2-4.3.1">At step 2, "client" refers to the origin client for the first proxy in the chain; or to the previous hop proxy closer to the origin client, otherwise.<a href="#section-8.2-4.3.1" class="pilcrow">¶</a></p>
@@ -2409,17 +2409,17 @@ This ensures that, when receiving a response to a group request and consuming th
 <p id="section-9.1-6">When translating an HTTP message into a CoAP message, the CoAP Multicast-Timeout Option is set with the content of the HTTP Multicast-Timeout header field, or is left empty in case the header field is empty.<a href="#section-9.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="sec-reply-to-header">
+<div id="sec-reply-from-header">
 <section id="section-9.2">
-        <h3 id="name-the-http-reply-to-header-fi">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-the-http-reply-to-header-fi" class="section-name selfRef">The HTTP Reply-To Header Field</a>
+        <h3 id="name-the-http-reply-from-header-">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-the-http-reply-from-header-" class="section-name selfRef">The HTTP Reply-From Header Field</a>
         </h3>
-<p id="section-9.2-1">The HTTP Reply-To header field (see <a href="#iana-message-headers" class="auto internal xref">Section 11.2</a>) is used for carrying the content otherwise specified in the CoAP Reply-To Option defined in <a href="#sec-reply-to-option" class="auto internal xref">Section 3</a>.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
-<p id="section-9.2-2">Using the Augmented Backus-Naur Form (ABNF) notation of <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span> and including the following core ABNF syntax rules defined by that specification: ALPHA (letters) and DIGIT (decimal digits), the HTTP Reply-To header field value is as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
-<p id="section-9.2-3">reply-to-char = ALPHA / DIGIT / "-" / "_"<a href="#section-9.2-3" class="pilcrow">¶</a></p>
-<p id="section-9.2-4">Reply-To = 2*reply-to-char<a href="#section-9.2-4" class="pilcrow">¶</a></p>
-<p id="section-9.2-5">When translating a CoAP message into an HTTP message, the HTTP Reply-To header field is set to the value of the CoAP Reply-To Option in base64url (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>) encoding without padding. Implementation notes for this encoding are given in <span><a href="https://rfc-editor.org/rfc/rfc7515#appendix-C" class="relref">Appendix C</a> of [<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
-<p id="section-9.2-6">When translating an HTTP message into a CoAP message, the CoAP Reply-To Option is set to the value of the HTTP Reply-To header field decoded from base64url (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>) without padding. Implementation notes for this encoding are given in <span><a href="https://rfc-editor.org/rfc/rfc7515#appendix-C" class="relref">Appendix C</a> of [<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-9.2-6" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">The HTTP Reply-From header field (see <a href="#iana-message-headers" class="auto internal xref">Section 11.2</a>) is used for carrying the content otherwise specified in the CoAP Reply-From Option defined in <a href="#sec-reply-from-option" class="auto internal xref">Section 3</a>.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-2">Using the Augmented Backus-Naur Form (ABNF) notation of <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span> and including the following core ABNF syntax rules defined by that specification: ALPHA (letters) and DIGIT (decimal digits), the HTTP Reply-From header field value is as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
+<p id="section-9.2-3">reply-from-char = ALPHA / DIGIT / "-" / "_"<a href="#section-9.2-3" class="pilcrow">¶</a></p>
+<p id="section-9.2-4">Reply-From = 2*reply-from-char<a href="#section-9.2-4" class="pilcrow">¶</a></p>
+<p id="section-9.2-5">When translating a CoAP message into an HTTP message, the HTTP Reply-From header field is set to the value of the CoAP Reply-From Option in base64url (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>) encoding without padding. Implementation notes for this encoding are given in <span><a href="https://rfc-editor.org/rfc/rfc7515#appendix-C" class="relref">Appendix C</a> of [<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
+<p id="section-9.2-6">When translating an HTTP message into a CoAP message, the CoAP Reply-From Option is set to the value of the HTTP Reply-From header field decoded from base64url (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>) without padding. Implementation notes for this encoding are given in <span><a href="https://rfc-editor.org/rfc/rfc7515#appendix-C" class="relref">Appendix C</a> of [<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-9.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-group-etag-header">
@@ -2478,7 +2478,7 @@ This ensures that, when receiving a response to a group request and consuming th
         <h3 id="name-response-processing-at-the-pr">
 <a href="#section-9.6" class="section-number selfRef">9.6. </a><a href="#name-response-processing-at-the-pr" class="section-name selfRef">Response Processing at the Proxy</a>
         </h3>
-<p id="section-9.6-1">Upon receiving a CoAP response matching with the group request before the amount of time T' &gt; 0 has elapsed, the proxy includes the Reply-To Option in the response, as per step 1 of <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a>. Then, the proxy translates the CoAP response to an HTTP response, as per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-10.1" class="relref">Section 10.1</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> and <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>, as well as <span><a href="https://rfc-editor.org/rfc/rfc8613#section-11.2" class="relref">Section 11.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> if Group OSCORE is used end-to-end between the client and servers. The additional rules for CoAP messages specifying the Reply-To Option are defined in <a href="#sec-reply-to-header" class="auto internal xref">Section 9.2</a>.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
+<p id="section-9.6-1">Upon receiving a CoAP response matching with the group request before the amount of time T' &gt; 0 has elapsed, the proxy includes the Reply-From Option in the response, as per step 1 of <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a>. Then, the proxy translates the CoAP response to an HTTP response, as per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-10.1" class="relref">Section 10.1</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> and <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>, as well as <span><a href="https://rfc-editor.org/rfc/rfc8613#section-11.2" class="relref">Section 11.2</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> if Group OSCORE is used end-to-end between the client and servers. The additional rules for CoAP messages specifying the Reply-From Option are defined in <a href="#sec-reply-from-header" class="auto internal xref">Section 9.2</a>.<a href="#section-9.6-1" class="pilcrow">¶</a></p>
 <p id="section-9.6-2">After that, the proxy stores the resulting HTTP response until the timeout with original value T' &gt; 0 expires. If, before then, the proxy receives another response to the same group request from the same CoAP server, the proxy performs the steps above, and stores the resulting HTTP response by superseding the currently stored one from that server.<a href="#section-9.6-2" class="pilcrow">¶</a></p>
 <p id="section-9.6-3">When the timout expires, if no responses have been received from the servers, the proxy replies to the client's original unicast group request with an HTTP response with status code 204 (No Content).<a href="#section-9.6-3" class="pilcrow">¶</a></p>
 <p id="section-9.6-4">Otherwise, the proxy relays to the client all the collected and stored HTTP responses to the group request, according to the following steps.<a href="#section-9.6-4" class="pilcrow">¶</a></p>
@@ -2526,14 +2526,14 @@ This ensures that, when receiving a response to a group request and consuming th
             <p id="section-9.7-2.4.1">For each individual HTTP response RESP, the client performs the following steps.<a href="#section-9.7-2.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.7-2.4.2.1">
-                <p id="section-9.7-2.4.2.1.1">If Group OSCORE is used end-to-end between the client and servers, the client translates the HTTP response RESP into a CoAP response, as per <span><a href="https://rfc-editor.org/rfc/rfc8613#section-11.3" class="relref">Section 11.3</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. Then, the client decrypts and verifies the resulting CoAP response by using Group OSCORE, as defined in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. Finally, the decrypted CoAP response is mapped to HTTP as per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-10.2" class="relref">Section 10.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> as well as <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>. The additional rules for HTTP messages with the HTTP Reply-To header field are defined in <a href="#sec-reply-to-header" class="auto internal xref">Section 9.2</a>.<a href="#section-9.7-2.4.2.1.1" class="pilcrow">¶</a></p>
+                <p id="section-9.7-2.4.2.1.1">If Group OSCORE is used end-to-end between the client and servers, the client translates the HTTP response RESP into a CoAP response, as per <span><a href="https://rfc-editor.org/rfc/rfc8613#section-11.3" class="relref">Section 11.3</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. Then, the client decrypts and verifies the resulting CoAP response by using Group OSCORE, as defined in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. Finally, the decrypted CoAP response is mapped to HTTP as per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-10.2" class="relref">Section 10.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> as well as <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>. The additional rules for HTTP messages with the HTTP Reply-From header field are defined in <a href="#sec-reply-from-header" class="auto internal xref">Section 9.2</a>.<a href="#section-9.7-2.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-9.7-2.4.2.2">
                 <p id="section-9.7-2.4.2.2.1">The client delivers to the application the individual HTTP response.<a href="#section-9.7-2.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-9.7-2.4.3">
-Similarly to step 3 in <a href="#ssec-resp-proc-client-steps" class="auto internal xref">Section 5.5.1</a>, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as value of the HTTP Reply-To header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.<a href="#section-9.7-2.4.3" class="pilcrow">¶</a></p>
+Similarly to step 3 in <a href="#ssec-resp-proc-client-steps" class="auto internal xref">Section 5.5.1</a>, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as value of the HTTP Reply-From header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.<a href="#section-9.7-2.4.3" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -2570,7 +2570,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: &lt;INDIVIDUAL_RESPONSE_1_CONTENT_LENGTH&gt;
-Reply-To: base64url(cri'coap://S1_ADDR:G_PORT')
+Reply-From: base64url(cri'coap://S1_ADDR:G_PORT')
 
 Body: Done!
 --batch_foo_bar
@@ -2579,7 +2579,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: &lt;INDIVIDUAL_RESPONSE_2_CONTENT_LENGTH&gt;
-Reply-To: base64url(cri'coap://S2_ADDR:S2_PORT')
+Reply-From: base64url(cri'coap://S2_ADDR:S2_PORT')
 
 Body: More than done!
 --batch_foo_bar--
@@ -2667,11 +2667,11 @@ Body: More than done!
 </div>
 <div id="sec-security-considerations-opt2">
 <section id="section-10.3">
-        <h3 id="name-reply-to-option">
-<a href="#section-10.3" class="section-number selfRef">10.3. </a><a href="#name-reply-to-option" class="section-name selfRef">Reply-To Option</a>
+        <h3 id="name-reply-from-option">
+<a href="#section-10.3" class="section-number selfRef">10.3. </a><a href="#name-reply-from-option" class="section-name selfRef">Reply-From Option</a>
         </h3>
-<p id="section-10.3-1">The Reply-To Option is of class U for OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. Hence, also when Group OSCORE is used between the client and the servers <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the proxy that has forwarded the group request to the servers is able to include the option into a server response, before forwarding this response back to the (previous hop proxy closer to the) origin client.<a href="#section-10.3-1" class="pilcrow">¶</a></p>
-<p id="section-10.3-2">Since the security association between the client and the proxy provides message integrity, any further intermediaries between the two as well as any on-path active adversaries are not able to undetectably remove the Reply-To Option from a forwarded server response. This ensures that the client can correctly distinguish the different responses and identify their corresponding origin server.<a href="#section-10.3-2" class="pilcrow">¶</a></p>
+<p id="section-10.3-1">The Reply-From Option is of class U for OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. Hence, also when Group OSCORE is used between the client and the servers <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, the proxy that has forwarded the group request to the servers is able to include the option into a server response, before forwarding this response back to the (previous hop proxy closer to the) origin client.<a href="#section-10.3-1" class="pilcrow">¶</a></p>
+<p id="section-10.3-2">Since the security association between the client and the proxy provides message integrity, any further intermediaries between the two as well as any on-path active adversaries are not able to undetectably remove the Reply-From Option from a forwarded server response. This ensures that the client can correctly distinguish the different responses and identify their corresponding origin server.<a href="#section-10.3-2" class="pilcrow">¶</a></p>
 <p id="section-10.3-3">When the proxy protects the response forwarded back to the client using OSCORE (see <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>) and/or (D)TLS, message integrity is achieved in the leg between the client and the proxy.<a href="#section-10.3-3" class="pilcrow">¶</a></p>
 <p id="section-10.3-4">The same considerations above about security associations apply when a chain of proxies is used (see <a href="#sec-proxy-chain" class="auto internal xref">Section 8</a>), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.<a href="#section-10.3-4" class="pilcrow">¶</a></p>
 </section>
@@ -2737,7 +2737,7 @@ Body: More than done!
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">TBD2</td>
-              <td class="text-left" rowspan="1" colspan="1">Reply-To</td>
+              <td class="text-left" rowspan="1" colspan="1">Reply-From</td>
               <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
             </tr>
             <tr>
@@ -2780,7 +2780,7 @@ Body: More than done!
               <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">Reply-To</td>
+              <td class="text-left" rowspan="1" colspan="1">Reply-From</td>
               <td class="text-left" rowspan="1" colspan="1"> </td>
               <td class="text-left" rowspan="1" colspan="1">permanent</td>
               <td class="text-left" rowspan="1" colspan="1"> </td>
@@ -3087,7 +3087,7 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="112" y="756">P_ADDR:P_PORT</text>
                   <text x="36" y="772">Dst:</text>
                   <text x="112" y="772">C_ADDR:C_PORT</text>
-                  <text x="56" y="788">Reply-To:</text>
+                  <text x="64" y="788">Reply-From:</text>
                   <text x="156" y="804">cri'coap+tcp://P_ADDR:P_PORT',</text>
                   <text x="124" y="820">cri'//S1_ADDR:S1_PORT'</text>
                   <text x="412" y="884">Src:</text>
@@ -3098,7 +3098,7 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="112" y="964">P_ADDR:P_PORT</text>
                   <text x="36" y="980">Dst:</text>
                   <text x="112" y="980">C_ADDR:C_PORT</text>
-                  <text x="56" y="996">Reply-To:</text>
+                  <text x="64" y="996">Reply-From:</text>
                   <text x="156" y="1012">cri'coap+tcp://P_ADDR:P_PORT',</text>
                   <text x="124" y="1028">cri'//S2_ADDR:S2_PORT'</text>
                   <text x="176" y="1076">/</text>
@@ -3292,7 +3292,7 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="112" y="724">P_ADDR:P_PORT</text>
                   <text x="36" y="740">Dst:</text>
                   <text x="112" y="740">C_ADDR:C_PORT</text>
-                  <text x="56" y="756">Reply-To:</text>
+                  <text x="64" y="756">Reply-From:</text>
                   <text x="160" y="772">cri'coap+tcp://D1_ADDR:D1_PORT'</text>
                   <text x="412" y="836">Src:</text>
                   <text x="496" y="836">S2_ADDR:S2_PORT</text>
@@ -3302,7 +3302,7 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="112" y="916">P_ADDR:P_PORT</text>
                   <text x="36" y="932">Dst:</text>
                   <text x="112" y="932">C_ADDR:C_PORT</text>
-                  <text x="56" y="948">Reply-To:</text>
+                  <text x="64" y="948">Reply-From:</text>
                   <text x="160" y="964">cri'coap+tcp://D2_ADDR:D2_PORT'</text>
                   <text x="168" y="1012">/</text>
                   <text x="188" y="1012">At</text>
@@ -3489,7 +3489,7 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="112" y="708">P_ADDR:P_PORT</text>
                   <text x="36" y="724">Dst:</text>
                   <text x="112" y="724">C_ADDR:C_PORT</text>
-                  <text x="56" y="740">Reply-To:</text>
+                  <text x="64" y="740">Reply-From:</text>
                   <text x="144" y="756">cri'coap://S1_ADDR:S1_PORT'</text>
                   <text x="404" y="820">Src:</text>
                   <text x="488" y="820">S2_ADDR:S2_PORT</text>
@@ -3499,7 +3499,7 @@ Based on this information, P composes the group request and sends it to the CoAP
                   <text x="112" y="900">P_ADDR:P_PORT</text>
                   <text x="36" y="916">Dst:</text>
                   <text x="112" y="916">C_ADDR:C_PORT</text>
-                  <text x="56" y="932">Reply-To:</text>
+                  <text x="64" y="932">Reply-From:</text>
                   <text x="144" y="948">cri'coap://S2_ADDR:S2_PORT'</text>
                   <text x="136" y="996">/</text>
                   <text x="156" y="996">At</text>
@@ -3569,25 +3569,28 @@ Based on this information, P composes the group request and sends it to the CoAP
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1">
-            <p id="appendix-B.1-1.1.1">Multicast-Timeout Option set to 0 ultimately yields an empty value.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.1.1">Reply-To Option renamed as Reply-From.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Removed moot text on reverse-proxies that might use default timeouts.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Multicast-Timeout Option set to 0 ultimately yields an empty value.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Improved description on using Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Removed moot text on reverse-proxies that might use default timeouts.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Improved error handling for inadequate timeouts with proxy chains.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Improved description on using Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Revised the examples of message exchange with a reverse-proxy.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.5.1">Improved error handling for inadequate timeouts with proxy chains.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.6">
-            <p id="appendix-B.1-1.6.1">Fixes in the IANA considerations.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.6.1">Revised the examples of message exchange with a reverse-proxy.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.7">
-            <p id="appendix-B.1-1.7.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.7.1">Fixes in the IANA considerations.<a href="#appendix-B.1-1.7.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.8">
+            <p id="appendix-B.1-1.8.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
