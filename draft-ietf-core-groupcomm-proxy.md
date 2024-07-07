@@ -134,29 +134,29 @@ When sending a CoAP group request to a proxy via IP unicast, to be forwarded by 
 
 The Multicast-Timeout Option is of class U in terms of OSCORE processing (see {{Section 4.1 of RFC8613}}).
 
-# The Reply-To Option # {#sec-reply-to-option}
+# The Reply-From Option # {#sec-reply-from-option}
 
-The Reply-To Option defined in this section has the properties summarized in {{fig-reply-to-option}}, which extends Table 4 of {{RFC7252}}. The option is intended only for inclusion in CoAP responses, and builds on the Base-Uri Option from {{Section 3 of I-D.bormann-coap-misc}}.
+The Reply-From Option defined in this section has the properties summarized in {{fig-reply-from-option}}, which extends Table 4 of {{RFC7252}}. The option is intended only for inclusion in CoAP responses, and builds on the Base-Uri Option from {{Section 3 of I-D.bormann-coap-misc}}.
 
 Since the option is intended only for responses, the column "N" indicates a dash for "not applicable".
 
 ~~~~~~~~~~~
-+------+---+---+---+---+----------+--------+--------+---------+
-| No.  | C | U | N | R | Name     | Format | Length | Default |
-+------+---+---+---+---+----------+--------+--------+---------+
-|      |   |   |   |   |          |        |        |         |
-| TBD2 |   |   | - |   | Reply-To |  (*)   | 5-1034 | (none)  |
-|      |   |   |   |   |          |        |        |         |
-+------+---+---+---+---+----------+--------+--------+---------+
++------+---+---+---+---+------------+--------+--------+---------+
+| No.  | C | U | N | R | Name       | Format | Length | Default |
++------+---+---+---+---+------------+--------+--------+---------+
+|      |   |   |   |   |            |        |        |         |
+| TBD2 |   |   | - |   | Reply-From |  (*)   | 5-1034 | (none)  |
+|      |   |   |   |   |            |        |        |         |
++------+---+---+---+---+------------+--------+--------+---------+
            C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable
 
 (*) See below.
 ~~~~~~~~~~~
-{: #fig-reply-to-option title="The Reply-To Option." artwork-align="center"}
+{: #fig-reply-from-option title="The Reply-From Option." artwork-align="center"}
 
 This document specifically defines how this option is used by a proxy that can perform proxied CoAP group requests.
 
-Upon receiving a response to such a request from an origin server, the proxy includes the Reply-To Option into the response sent to the origin client (see {{sec-description}}). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended to that server.
+Upon receiving a response to such a request from an origin server, the proxy includes the Reply-From Option into the response sent to the origin client (see {{sec-description}}). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended to that server.
 
 In particular, the client can use the addressing information specified in the option in order to identify the response originator and to possibly send it individual requests later on, either directly, or indirectly via the proxy, as unicast requests.
 
@@ -168,7 +168,7 @@ When used as defined in this document, the option value is set to the byte seria
 
 The detailed use of this option is specified in {{ssec-resp-proc-proxy-steps}} and {{ssec-resp-proc-client-steps}} when the proxy is a forward-proxy, and in {{sec-reverse-proxies-proxy-side}} and {{sec-reverse-proxies-client-side}} when the proxy is a reverse-proxy.
 
-The Reply-To Option is of class U in terms of OSCORE processing (see {{Section 4.1 of RFC8613}}).
+The Reply-From Option is of class U in terms of OSCORE processing (see {{Section 4.1 of RFC8613}}).
 
 # Requirements and Objectives # {#sec-objectives}
 
@@ -302,11 +302,11 @@ This section defines the operations performed by the proxy, when receiving a res
 
 Upon receiving a response matching with the group request before the amount of time T' has elapsed, the proxy proceeds according to the following steps.
 
-1. The proxy MUST include the Reply-To Option defined in {{sec-reply-to-option}} into the response. The proxy sets the option value as follows.
+1. The proxy MUST include the Reply-From Option defined in {{sec-reply-from-option}} into the response. The proxy sets the option value as follows.
 
    The CRI present as first element of the CBOR sequence specifies the addressing information of the server generating the response. The second element of the CBOR sequence MUST NOT be present.
 
-   If the proxy supports caching of responses (see {{sec-proxy-caching}}), the proxy MUST include the Reply-To Option into the response before caching it. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.
+   If the proxy supports caching of responses (see {{sec-proxy-caching}}), the proxy MUST include the Reply-From Option into the response before caching it. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.
 
 2. The proxy forwards the response back to the client. When doing so, the proxy protects the response according to the security association it has with the client.
 
@@ -320,7 +320,7 @@ When using CoAP Observe {{RFC7641}}, the proxy acts as a client registered with 
 
 Furthermore, the proxy takes the role of a server when forwarding notifications from origin servers back to the client. To this end, the proxy follows what is specified in {{Section 3.7 of I-D.ietf-core-groupcomm-bis}} and {{Section 5 of RFC7641}}, with the following additions.
 
-* At step 1 in {{ssec-resp-proc-proxy}}, the proxy includes the Reply-To Option in every notification, including non-2.xx notifications resulting in removing the proxy from the list of observers of the origin server.
+* At step 1 in {{ssec-resp-proc-proxy}}, the proxy includes the Reply-From Option in every notification, including non-2.xx notifications resulting in removing the proxy from the list of observers of the origin server.
 
 * The proxy frees up its Token value used for a group observation only if, after the timeout expiration, no 2.xx (Success) responses matching with the group request and also including an Observe Option have been received from any origin server. Otherwise, after the timeout expiration and as long as observations are active with servers in the group for the target resource of the group request, notifications from those servers are forwarded back to the client, as defined in {{ssec-resp-proc-proxy}}, and the Token value used for the group observation is not freed during this time.
 
@@ -338,9 +338,9 @@ Upon receiving from the proxy a response matching with the original unicast requ
 
 2. If secure group communication is used end-to-end between the client and the servers, the client processes the response resulting at the end of step 1, as defined in {{I-D.ietf-core-oscore-groupcomm}}.
 
-3. The client retrieves the CRI from the value of the Reply-To Option, and identifies the origin server whose addressing information is specified by the CRI. This allows the client to distinguish different responses as originated by different servers.
+3. The client retrieves the CRI from the value of the Reply-From Option, and identifies the origin server whose addressing information is specified by the CRI. This allows the client to distinguish different responses as originated by different servers.
 
-   Optionally, the client may contact one or more of those servers individually, i.e., directly (bypassing the proxy) or indirectly (via a proxied unicast request). To this end, the client composes the correct URI for the individual request to the origin server, by using the information specified in the CRI retrieved from the Reply-To Option.
+   Optionally, the client may contact one or more of those servers individually, i.e., directly (bypassing the proxy) or indirectly (via a proxied unicast request). To this end, the client composes the correct URI for the individual request to the origin server, by using the information specified in the CRI retrieved from the Reply-From Option.
 
    In order to individually reach the origin server again through the proxy, the client is not required to support the transport protocol indicated by 'scheme' in the CRI and used between the proxy and the origin server, in case the protocol is not CoAP over UDP (CRI scheme number: -1).
 
@@ -404,7 +404,7 @@ C                               P                      S1           S2
 |<------------------------------+                      |             |
 | Src: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
-| Reply-To:                     |                      |             |
+| Reply-From:                   |                      |             |
 |   cri'coap://S1_ADDR:G_PORT'  |                      |             |
 |                               |                      |             |
 |                               |                      |             |
@@ -416,7 +416,7 @@ C                               P                      S1           S2
 |<------------------------------+                      |             |
 | Src: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
-| Reply-To:                     |                      |             |
+| Reply-From:                   |                      |             |
 |   cri'coap://S2_ADDR:S2_PORT' |                      |             |
 |                               |                      |             |
 |                               |                      |             |
@@ -450,7 +450,7 @@ The proxy processes the CoAP responses forwarded back to the client as defined i
 
 * As a first possible case, the proxy stands in both for the whole group of servers and for the individual origin servers in the group. That is, the origin client cannot reach the individual servers directly, but only through the proxy.
 
-   In such a case, within a response forwarded back to the client, the value of the Reply-To Option specifies an addressing information TARGET that is directly associated with the proxy. The addressing information is such that, when receiving a unicast request that has been sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response. In particular, the proxy sets the option value as follows.
+   In such a case, within a response forwarded back to the client, the value of the Reply-From Option specifies an addressing information TARGET that is directly associated with the proxy. The addressing information is such that, when receiving a unicast request that has been sent according to what is specified in TARGET, the proxy forwards the request to the origin server that originated the response. In particular, the proxy sets the option value as follows.
 
    * The CRI present as first element of the CBOR sequence specifies an addressing information TARGET_1, such that a unicast request reaches the proxy if it is sent according to TARGET_1.
 
@@ -462,7 +462,7 @@ The proxy processes the CoAP responses forwarded back to the client as defined i
 
 * As a second possible case, the proxy stands in only for the whole group of servers, but not for the individual servers in the group. That is, the origin client can reach the individual servers directly, without recourse to the proxy.
 
-   In such a case, within a response forwarded back to the client, the value of the Reply-To Option specifies an addressing information TARGET that is directly associated with the origin server that originated the response. In particular, the proxy sets the option value as follows.
+   In such a case, within a response forwarded back to the client, the value of the Reply-From Option specifies an addressing information TARGET that is directly associated with the origin server that originated the response. In particular, the proxy sets the option value as follows.
 
    * The CRI present as first element of the CBOR sequence specifies the addressing information TARGET, such that a unicast request reaches the origin server if sent according to TARGET. The second element of the CBOR sequence MUST NOT be present.
 
@@ -474,9 +474,9 @@ If a client sends a CoAP request intended to a group of servers and is aware of 
 
 The client processes the CoAP responses forwarded back by the proxy as defined in {{ssec-resp-proc-client}}, with the following differences at step 3.
 
-* If the client wishes to send a follow-up unicast request intended only to the server that originated the response, then the client sends such a request according to the addressing information specified by the CRI retrieved from the value of the Reply-To Option. Effectively, the client sends the unicast request to the proxy.
+* If the client wishes to send a follow-up unicast request intended only to the server that originated the response, then the client sends such a request according to the addressing information specified by the CRI retrieved from the value of the Reply-From Option. Effectively, the client sends the unicast request to the proxy.
 
-   In case the value of the Reply-To Option specifies also a CRI reference as second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. If the client wants to specify additional path segments that identify a specific resource at the origin server, then the corresponding Uri-Path Options are included in the request after the Uri-Path options corresponding to the path component of the CRI reference.
+   In case the value of the Reply-From Option specifies also a CRI reference as second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. If the client wants to specify additional path segments that identify a specific resource at the origin server, then the corresponding Uri-Path Options are included in the request after the Uri-Path options corresponding to the path component of the CRI reference.
 
 # Caching # {#sec-proxy-caching}
 
@@ -750,19 +750,19 @@ If the proxy is the last one in the chain, i.e., it is the last hop before the o
 
 Otherwise, the proxy performs the steps defined in {{ssec-resp-proc-proxy}}, with the following differences.
 
-* In any of the two following cases, the proxy skips step 1, hence the proxy MUST NOT remove, alter, or replace the Reply-To Option.
+* In any of the two following cases, the proxy skips step 1, hence the proxy MUST NOT remove, alter, or replace the Reply-From Option.
 
    * The chain is composed of forward-proxies.
 
    * The chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in only for the whole group of servers, but not for the individual servers in the group (see {{sec-reverse-proxies-proxy-side}}).
 
-   This ensures that, when receiving a response to a group request and consuming the Reply-To Option, the origin client can retrieve addressing information that is directly associated with the origin server that originated the response.
+   This ensures that, when receiving a response to a group request and consuming the Reply-From Option, the origin client can retrieve addressing information that is directly associated with the origin server that originated the response.
 
 * At step 1, the following applies in case the chain is composed of reverse-proxies, and the last reverse-proxy (in fact, the whole chain) stands in both for the whole group of servers and for the individual origin servers in the group (see {{sec-reverse-proxies-proxy-side}}).
 
-   In the Reply-To Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receiving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the next hop towards the origin server that originated the response.
+   In the Reply-From Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receiving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the next hop towards the origin server that originated the response.
 
-   This ensures that, when receiving a response to a group request and consuming the Reply-To Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.
+   This ensures that, when receiving a response to a group request and consuming the Reply-From Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that originated the response.
 
 * At step 2, "client" refers to the origin client for the first proxy in the chain; or to the previous hop proxy closer to the origin client, otherwise.
 
@@ -806,19 +806,19 @@ When translating a CoAP message into an HTTP message, the HTTP Multicast-Timeout
 
 When translating an HTTP message into a CoAP message, the CoAP Multicast-Timeout Option is set with the content of the HTTP Multicast-Timeout header field, or is left empty in case the header field is empty.
 
-## The HTTP Reply-To Header Field ## {#sec-reply-to-header}
+## The HTTP Reply-From Header Field ## {#sec-reply-from-header}
 
-The HTTP Reply-To header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Reply-To Option defined in {{sec-reply-to-option}}.
+The HTTP Reply-From header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Reply-From Option defined in {{sec-reply-from-option}}.
 
-Using the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} and including the following core ABNF syntax rules defined by that specification: ALPHA (letters) and DIGIT (decimal digits), the HTTP Reply-To header field value is as follows.
+Using the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} and including the following core ABNF syntax rules defined by that specification: ALPHA (letters) and DIGIT (decimal digits), the HTTP Reply-From header field value is as follows.
 
-reply-to-char = ALPHA / DIGIT / "-" / "_"
+reply-from-char = ALPHA / DIGIT / "-" / "_"
 
-Reply-To = 2*reply-to-char
+Reply-From = 2*reply-from-char
 
-When translating a CoAP message into an HTTP message, the HTTP Reply-To header field is set to the value of the CoAP Reply-To Option in base64url (see {{Section 5 of RFC4648}}) encoding without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
+When translating a CoAP message into an HTTP message, the HTTP Reply-From header field is set to the value of the CoAP Reply-From Option in base64url (see {{Section 5 of RFC4648}}) encoding without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
 
-When translating an HTTP message into a CoAP message, the CoAP Reply-To Option is set to the value of the HTTP Reply-To header field decoded from base64url (see {{Section 5 of RFC4648}}) without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
+When translating an HTTP message into a CoAP message, the CoAP Reply-From Option is set to the value of the HTTP Reply-From header field decoded from base64url (see {{Section 5 of RFC4648}}) without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
 
 ## The HTTP Group-ETag Header Field ## {#sec-group-etag-header}
 
@@ -860,7 +860,7 @@ In addition, in case the HTTP Multicast-Timeout header field had value 0, the pr
 
 ## Response Processing at the Proxy ## {#sec-cross-proxies-proxy-resp}
 
-Upon receiving a CoAP response matching with the group request before the amount of time T' > 0 has elapsed, the proxy includes the Reply-To Option in the response, as per step 1 of {{ssec-resp-proc-proxy-steps}}. Then, the proxy translates the CoAP response to an HTTP response, as per {{Section 10.1 of RFC7252}} and {{RFC8075}}, as well as {{Section 11.2 of RFC8613}} if Group OSCORE is used end-to-end between the client and servers. The additional rules for CoAP messages specifying the Reply-To Option are defined in {{sec-reply-to-header}}.
+Upon receiving a CoAP response matching with the group request before the amount of time T' > 0 has elapsed, the proxy includes the Reply-From Option in the response, as per step 1 of {{ssec-resp-proc-proxy-steps}}. Then, the proxy translates the CoAP response to an HTTP response, as per {{Section 10.1 of RFC7252}} and {{RFC8075}}, as well as {{Section 11.2 of RFC8613}} if Group OSCORE is used end-to-end between the client and servers. The additional rules for CoAP messages specifying the Reply-From Option are defined in {{sec-reply-from-header}}.
 
 After that, the proxy stores the resulting HTTP response until the timeout with original value T' > 0 expires. If, before then, the proxy receives another response to the same group request from the same CoAP server, the proxy performs the steps above, and stores the resulting HTTP response by superseding the currently stored one from that server.
 
@@ -892,11 +892,11 @@ When it receives an HTTP response as a reply to the original unicast group reque
 
 4. For each individual HTTP response RESP, the client performs the following steps.
 
-   -  If Group OSCORE is used end-to-end between the client and servers, the client translates the HTTP response RESP into a CoAP response, as per {{Section 11.3 of RFC8613}}. Then, the client decrypts and verifies the resulting CoAP response by using Group OSCORE, as defined in {{I-D.ietf-core-oscore-groupcomm}}. Finally, the decrypted CoAP response is mapped to HTTP as per {{Section 10.2 of RFC7252}} as well as {{RFC8075}}. The additional rules for HTTP messages with the HTTP Reply-To header field are defined in {{sec-reply-to-header}}.
+   -  If Group OSCORE is used end-to-end between the client and servers, the client translates the HTTP response RESP into a CoAP response, as per {{Section 11.3 of RFC8613}}. Then, the client decrypts and verifies the resulting CoAP response by using Group OSCORE, as defined in {{I-D.ietf-core-oscore-groupcomm}}. Finally, the decrypted CoAP response is mapped to HTTP as per {{Section 10.2 of RFC7252}} as well as {{RFC8075}}. The additional rules for HTTP messages with the HTTP Reply-From header field are defined in {{sec-reply-from-header}}.
 
    - The client delivers to the application the individual HTTP response.
 
-   Similarly to step 3 in {{ssec-resp-proc-client-steps}}, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as value of the HTTP Reply-To header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.
+   Similarly to step 3 in {{ssec-resp-proc-client-steps}}, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as value of the HTTP Reply-From header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.
 
 ## Example ## {#sec-cross-proxies-example}
 
@@ -931,7 +931,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: <INDIVIDUAL_RESPONSE_1_CONTENT_LENGTH>
-Reply-To: base64url(cri'coap://S1_ADDR:G_PORT')
+Reply-From: base64url(cri'coap://S1_ADDR:G_PORT')
 
 Body: Done!
 --batch_foo_bar
@@ -940,7 +940,7 @@ Content-Type: application/http
 HTTP/1.1 200 OK
 Content-Type: text/plain
 Content-Length: <INDIVIDUAL_RESPONSE_2_CONTENT_LENGTH>
-Reply-To: base64url(cri'coap://S2_ADDR:S2_PORT')
+Reply-From: base64url(cri'coap://S2_ADDR:S2_PORT')
 
 Body: More than done!
 --batch_foo_bar--
@@ -1010,11 +1010,11 @@ When the client protects the unicast request sent to the proxy using OSCORE (see
 
 The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
 
-## Reply-To Option ## {#sec-security-considerations-opt2}
+## Reply-From Option ## {#sec-security-considerations-opt2}
 
-The Reply-To Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, the proxy that has forwarded the group request to the servers is able to include the option into a server response, before forwarding this response back to the (previous hop proxy closer to the) origin client.
+The Reply-From Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, the proxy that has forwarded the group request to the servers is able to include the option into a server response, before forwarding this response back to the (previous hop proxy closer to the) origin client.
 
-Since the security association between the client and the proxy provides message integrity, any further intermediaries between the two as well as any on-path active adversaries are not able to undetectably remove the Reply-To Option from a forwarded server response. This ensures that the client can correctly distinguish the different responses and identify their corresponding origin server.
+Since the security association between the client and the proxy provides message integrity, any further intermediaries between the two as well as any on-path active adversaries are not able to undetectably remove the Reply-From Option from a forwarded server response. This ensures that the client can correctly distinguish the different responses and identify their corresponding origin server.
 
 When the proxy protects the response forwarded back to the client using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, message integrity is achieved in the leg between the client and the proxy.
 
@@ -1060,7 +1060,7 @@ IANA is asked to enter the following option numbers to the "CoAP Option Numbers"
 |--------|-------------------|-----------|
 |  TBD1  | Multicast-Timeout | {{&SELF}} |
 |--------|-------------------|-----------|
-|  TBD2  | Reply-To          | {{&SELF}} |
+|  TBD2  | Reply-From        | {{&SELF}} |
 |--------|-------------------|-----------|
 |  TBD3  | Group-ETag        | {{&SELF}} |
 {: #tab-iana-coap-option-numbers title="Registrations in the CoAP Option Numbers Registry" align="center"}
@@ -1073,7 +1073,7 @@ IANA is asked to enter the following HTTP header fields to the "Hypertext Transf
 |-------------------|----------|-----------|-----------------|-----------|
 | Multicast-Timeout |          | permanent |                 | {{&SELF}} |
 |-------------------|----------|-----------|-----------------|-----------|
-| Reply-To          |          | permanent |                 | {{&SELF}} |
+| Reply-From        |          | permanent |                 | {{&SELF}} |
 |-------------------|----------|-----------|-----------------|-----------|
 | Group-ETag        |          | permanent |                 | {{&SELF}} |
 {: #tab-iana-http-field-names title="Registrations in the Hypertext Transfer Protocol (HTTP) Field Name Registry" align="center"}
@@ -1164,7 +1164,7 @@ C                                    P                      S1       S2
 |<-----------------------------------+                      |         |
 | Src: P_ADDR:P_PORT                 |                      |         |
 | Dst: C_ADDR:C_PORT                 |                      |         |
-| Reply-To:                          |                      |         |
+| Reply-From:                        |                      |         |
 |   cri'coap+tcp://P_ADDR:P_PORT',   |                      |         |
 |   cri'//S1_ADDR:S1_PORT'           |                      |         |
 |                                    |                      |         |
@@ -1177,7 +1177,7 @@ C                                    P                      S1       S2
 |<-----------------------------------+                      |         |
 | Src: P_ADDR:P_PORT                 |                      |         |
 | Dst: C_ADDR:C_PORT                 |                      |         |
-| Reply-To:                          |                      |         |
+| Reply-From:                        |                      |         |
 |   cri'coap+tcp://P_ADDR:P_PORT',   |                      |         |
 |   cri'//S2_ADDR:S2_PORT'           |                      |         |
 |                                    |                      |         |
@@ -1273,7 +1273,7 @@ C                                   P                      S1        S2
 |<----------------------------------+                      |          |
 | Src: P_ADDR:P_PORT                |                      |          |
 | Dst: C_ADDR:C_PORT                |                      |          |
-| Reply-To:                         |                      |          |
+| Reply-From:                       |                      |          |
 |   cri'coap+tcp://D1_ADDR:D1_PORT' |                      |          |
 |                                   |                      |          |
 |                                   |                      |          |
@@ -1285,7 +1285,7 @@ C                                   P                      S1        S2
 |<----------------------------------+                      |          |
 | Src: P_ADDR:P_PORT                |                      |          |
 | Dst: C_ADDR:C_PORT                |                      |          |
-| Reply-To:                         |                      |          |
+| Reply-From:                       |                      |          |
 |   cri'coap+tcp://D2_ADDR:D2_PORT' |                      |          |
 |                                   |                      |          |
 |                                   |                      |          |
@@ -1374,7 +1374,7 @@ C                               P                      S1           S2
 |<------------------------------+                      |             |
 | Dst: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
-| Reply-To:                     |                      |             |
+| Reply-From:                   |                      |             |
 |   cri'coap://S1_ADDR:S1_PORT' |                      |             |
 |                               |                      |             |
 |                               |                      |             |
@@ -1386,7 +1386,7 @@ C                               P                      S1           S2
 |<------------------------------+                      |             |
 | Dst: P_ADDR:P_PORT            |                      |             |
 | Dst: C_ADDR:C_PORT            |                      |             |
-| Reply-To:                     |                      |             |
+| Reply-From:                   |                      |             |
 |   cri'coap://S2_ADDR:S2_PORT' |                      |             |
 |                               |                      |             |
 |                               |                      |             |
@@ -1416,6 +1416,8 @@ C                               P                      S1           S2
 {:removeinrfc}
 
 ## Version -01 to -02 ## {#sec-01-02}
+
+* Reply-To Option renamed as Reply-From.
 
 * Multicast-Timeout Option set to 0 ultimately yields an empty value.
 
