@@ -1654,7 +1654,7 @@ Consistently, if the unicast request to send to the proxy already included a No-
             <li id="section-5.2.1-2.3">
               <p id="section-5.2.1-2.3.1">The proxy verifies the presence of the Multicast-Timeout Option, as a confirmation that the client is fine to receive multiple CoAP responses matching with the same original request.<a href="#section-5.2.1-2.3.1" class="pilcrow">¶</a></p>
 <p id="section-5.2.1-2.3.2">
-If the Multicast-Timeout Option is not present, the proxy <span class="bcp14">MUST</span> stop processing the request and <span class="bcp14">MUST</span> reply to the client with a 4.00 (Bad Request) response. The response <span class="bcp14">MUST</span> include a Multicast-Timeout Option with an empty (zero-length) value, indicating that the Multicast-Timeout Option was missing and has to be included in the request. As per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.9.2" class="relref">Section 5.9.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> The response <span class="bcp14">SHOULD</span> include a diagnostic payload.<a href="#section-5.2.1-2.3.2" class="pilcrow">¶</a></p>
+If the Multicast-Timeout Option is not present, the proxy <span class="bcp14">MUST</span> stop processing the request and <span class="bcp14">MUST</span> reply to the client with a 4.00 (Bad Request) response. The response <span class="bcp14">MUST</span> include a Multicast-Timeout Option, whose value <span class="bcp14">MUST</span> be set to 0. As per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, this is represented with an empty option value (a zero-length sequence of bytes). By doing so, the proxy indicates that the Multicast-Timeout Option was missing and has to be included in the request. As per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.9.2" class="relref">Section 5.9.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> The response <span class="bcp14">SHOULD</span> include a diagnostic payload.<a href="#section-5.2.1-2.3.2" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.2.1-2.4">
               <p id="section-5.2.1-2.4.1">The proxy retrieves the value T' from the Multicast-Timeout Option, and then removes the option from the client's request.<a href="#section-5.2.1-2.4.1" class="pilcrow">¶</a></p>
@@ -1941,7 +1941,7 @@ That is, the client simply specifies the URI for the individual request in the u
 <p id="section-6-2">This section clarifies how the Multicast-Timeout Option is effective also in such a context, in order for:<a href="#section-6-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6-3.1">
-          <p id="section-6-3.1.1">The proxy to explicitly reveal itself as a reverse-proxy to the client.<a href="#section-6-3.1.1" class="pilcrow">¶</a></p>
+          <p id="section-6-3.1.1">The proxy to effectively reveal itself as a reverse-proxy to the client.<a href="#section-6-3.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="section-6-3.2">
           <p id="section-6-3.2.1">The client to indicate to the proxy of being aware that it is communicating with a reverse-proxy, and for how long it is willing to receive responses to a proxied group request.<a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
@@ -1956,7 +1956,7 @@ A reverse-proxy may also operate without support of the Multicast-Timeout Option
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-processing-on-the-proxy-sid" class="section-name selfRef">Processing on the Proxy Side</a>
         </h3>
 <p id="section-6.1-1">If the proxy receives a CoAP request and determines that it should be forwarded to a group of servers over IP multicast, then the proxy performs the steps defined in <a href="#ssec-req-proc-proxy" class="auto internal xref">Section 5.2</a>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
-<p id="section-6.1-2">In particular, when such a request does not include a Multicast-Timeout Option, the proxy explicitly reveals itself as a reverse-proxy, by sending a 4.00 (Bad Request) response including a Multicast-Timeout Option with empty (zero-length) value.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">In particular, when such a request does not include a Multicast-Timeout Option, the proxy effectively reveals itself as a reverse-proxy, by sending a 4.00 (Bad Request) response including a Multicast-Timeout Option with value 0 (which is ultimately represented with an empty option value).<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <p id="section-6.1-3">The proxy processes the CoAP responses forwarded back to the client as defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, with the following additions.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6.1-4.1">
@@ -2403,8 +2403,9 @@ This ensures that, when receiving a response to a group request and consuming th
 <p id="section-9.1-1">The HTTP Multicast-Timeout header field (see <a href="#iana-message-headers" class="auto internal xref">Section 11.2</a>) is used for carrying the content otherwise specified in the CoAP Multicast-Timeout Option defined in <a href="#sec-multicast-timeout-option" class="auto internal xref">Section 2</a>.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <p id="section-9.1-2">Using the Augmented Backus-Naur Form (ABNF) notation of <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span> and including the core ABNF syntax rule DIGIT (decimal digits) defined by that specification, the HTTP Multicast-Timeout header field value is as follows.<a href="#section-9.1-2" class="pilcrow">¶</a></p>
 <p id="section-9.1-3">Multicast-Timeout = *DIGIT<a href="#section-9.1-3" class="pilcrow">¶</a></p>
-<p id="section-9.1-4">When translating a CoAP message into an HTTP message, the HTTP Multicast-Timeout header field is set with the content of the CoAP Multicast-Timeout Option, or is left empty in case the option is empty.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
-<p id="section-9.1-5">The same applies in the opposite direction, when translating an HTTP message into a CoAP message.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
+<p id="section-9.1-4">The empty header field is equivalent to the header field conveying the value 0.<a href="#section-9.1-4" class="pilcrow">¶</a></p>
+<p id="section-9.1-5">When translating a CoAP message into an HTTP message, the HTTP Multicast-Timeout header field is set with the content of the CoAP Multicast-Timeout Option, or is left empty in case the option is empty.<a href="#section-9.1-5" class="pilcrow">¶</a></p>
+<p id="section-9.1-6">When translating an HTTP message into a CoAP message, the CoAP Multicast-Timeout Option is set with the content of the HTTP Multicast-Timeout header field, or is left empty in case the header field is empty.<a href="#section-9.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-reply-to-header">
@@ -3567,16 +3568,19 @@ Based on this information, P composes the group request and sends it to the CoAP
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1">
-            <p id="appendix-B.1-1.1.1">Improved description on using Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.1.1">Multicast-Timeout Option set to 0 ultimately yields an empty value.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Revised the examples of message exchange with a reverse-proxy.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Improved description on using Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Fixes in the IANA considerations.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Revised the examples of message exchange with a reverse-proxy.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Fixes in the IANA considerations.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">Editorial fixes and improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
