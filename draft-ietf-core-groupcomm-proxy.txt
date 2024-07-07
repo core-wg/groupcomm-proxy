@@ -6,7 +6,7 @@ CoRE Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Updates: 7252 (if approved)                                      E. Dijk
 Intended status: Standards Track                       IoTconsultancy.nl
-Expires: 5 September 2024                                   4 March 2024
+Expires: 8 January 2025                                      7 July 2024
 
 
              Proxy Operations for CoAP Group Communication
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 September 2024.
+   This Internet-Draft will expire on 8 January 2025.
 
 Copyright Notice
 
@@ -2136,24 +2136,23 @@ Table of Contents
               Dijk, E., Wang, C., and M. Tiloca, "Group Communication
               for the Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              10, 23 October 2023,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              groupcomm-bis-10>.
+              11, 24 April 2024, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-core-groupcomm-bis-11>.
 
    [I-D.ietf-core-href]
               Bormann, C. and H. Birkholz, "Constrained Resource
               Identifiers", Work in Progress, Internet-Draft, draft-
-              ietf-core-href-14, 9 January 2024,
+              ietf-core-href-15, 21 April 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              href-14>.
+              href-15>.
 
    [I-D.ietf-core-oscore-groupcomm]
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
-              and J. Park, "Group Object Security for Constrained
+              and R. Höglund, "Group Object Security for Constrained
               RESTful Environments (Group OSCORE)", Work in Progress,
-              Internet-Draft, draft-ietf-core-oscore-groupcomm-20, 2
-              September 2023, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-oscore-groupcomm-20>.
+              Internet-Draft, draft-ietf-core-oscore-groupcomm-21, 4
+              March 2024, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-core-oscore-groupcomm-21>.
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
               Extensions (MIME) Part Two: Media Types", RFC 2046,
@@ -2250,17 +2249,17 @@ Table of Contents
    [I-D.ietf-core-oscore-capable-proxies]
               Tiloca, M. and R. Höglund, "OSCORE-capable Proxies", Work
               in Progress, Internet-Draft, draft-ietf-core-oscore-
-              capable-proxies-00, 18 October 2023,
+              capable-proxies-01, 4 March 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-capable-proxies-00>.
+              oscore-capable-proxies-01>.
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsüss, C., and P. Van der Stok, "Discovery of
               OSCORE Groups with the CoRE Resource Directory", Work in
               Progress, Internet-Draft, draft-tiloca-core-oscore-
-              discovery-14, 8 September 2023,
+              discovery-15, 4 March 2024,
               <https://datatracker.ietf.org/doc/html/draft-tiloca-core-
-              oscore-discovery-14>.
+              oscore-discovery-15>.
 
    [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
@@ -2689,9 +2688,10 @@ Acknowledgments
    Höglund, Jim Schaad, and Göran Selander for their comments and
    feedback.
 
-   The work on this document has been partly supported by VINNOVA and
-   the Celtic-Next project CRITISEC; and by the H2020 project SIFIS-Home
-   (Grant agreement 952652).
+   The work on this document has been partly supported by the Sweden's
+   Innovation Agency VINNOVA and the Celtic-Next projects CRITISEC and
+   CYPRESS; and by the H2020 project SIFIS-Home (Grant agreement
+   952652).
 
 Authors' Addresses
 
