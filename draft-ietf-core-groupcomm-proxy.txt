@@ -419,11 +419,18 @@ Table of Contents
    The client proceeds according to the following steps.
 
    1.  The client prepares a unicast CoAP group request addressed to the
-       proxy.  The request specifies the group URI where the request has
-       to be forwarded to, as a string in the Proxi-URI option or by
-       using the Proxy-Scheme option with the group URI composed from
-       the URI-* options (see Section 3.5.1 of
+       proxy, and specifies the group URI where the request has to be
+       forwarded to.
+
+       The client can specify the group URI as a string in the Proxy-Uri
+       Option, or by using the Proxy-Scheme Option together with the
+       Uri-* options (see Section 3.5.1 of
        [I-D.ietf-core-groupcomm-bis]).
+
+       Alternatively, the client can rely on the analogous options
+       defined in [I-D.ietf-core-href], i.e., on the Proxy-Cri Option
+       conveying a CRI equivalent to the group URI, or on the Proxy-
+       Scheme-Number Option together with the Uri-* options.
 
    2.  The client MUST retain the Token value used for this original
        unicast request beyond the reception of a first CoAP response
@@ -639,7 +646,7 @@ Table of Contents
    *  The proxy frees up its Token value used for a group observation
       only if, after the timeout expiration, no 2.xx (Success) responses
       matching with the group request and also including an Observe
-      option have been received from any origin server.  Otherwise,
+      Option have been received from any origin server.  Otherwise,
       after the timeout expiration and as long as observations are
       active with servers in the group for the target resource of the
       group request, notifications from those servers are forwarded back
@@ -677,28 +684,33 @@ Table of Contents
 
    3.  The client retrieves the CRI from the value of the Reply-To
        Option, and identifies the origin server whose addressing
-       information is specified by the CRI.
+       information is specified by the CRI.  This allows the client to
+       distinguish different responses as originated by different
+       servers.
 
-       In particular, the client is able to distinguish different
-       responses as originated by different servers.  Optionally, the
-       client may contact one or more of those servers individually,
-       i.e., directly (bypassing the proxy) or indirectly (via a proxied
-       unicast request).
+       Optionally, the client may contact one or more of those servers
+       individually, i.e., directly (bypassing the proxy) or indirectly
+       (via a proxied unicast request).  To this end, the client
+       composes the correct URI for the individual request to the origin
+       server, by using the information specified in the CRI retrieved
+       from the Reply-To Option.
 
        In order to individually reach the origin server again through
-       the proxy, the client is not required to understand or support
-       the transport protocol indicated by 'scheme' in the CRI and used
-       between the proxy and the origin server, in case the protocol is
-       not CoAP over UDP (CRI scheme number: -1).
+       the proxy, the client is not required to support the transport
+       protocol indicated by 'scheme' in the CRI and used between the
+       proxy and the origin server, in case the protocol is not CoAP
+       over UDP (CRI scheme number: -1).
 
-       That is, by using the information specified in the retrieved CRI,
-       the client composes the correct URI for the individual request,
-       and specifies it by means of the Proxy-Uri Option or Proxy-Scheme
-       Option in the unicast request to the proxy.  Alternatively, the
-       client can rely on the analogous Proxy-Cri or Proxy-Scheme-Number
-       Option defined in [I-D.ietf-core-href].  In either case, the
-       client uses the transport protocol that it knows, and has used
-       before, to send the request to the proxy.
+       That is, the client simply specifies the URI for the individual
+       request in the unicast request to the proxy.  To this end, the
+       client can specify the URI as a string in the Proxy-Uri Option,
+       or by using the Proxy-Scheme Option together with the Uri-*
+       options.  Alternatively, the client can rely on the analogous
+       options defined in [I-D.ietf-core-href], i.e., on the Proxy-Cri
+       Option conveying a CRI equivalent to the URI, or on the Proxy-
+       Scheme-Number Option together with the Uri-* options.  In either
+       case, the client uses the transport protocol that it knows, and
+       has used before, to send the unicast request to the proxy.
 
    As discussed in Section 3.1.6 of [I-D.ietf-core-groupcomm-bis], it is
    possible that the client receives multiple responses to the same
@@ -724,7 +736,7 @@ Table of Contents
    When using CoAP Observe [RFC7641], the client frees up its Token
    value only if, after the timeout T expiration, no 2.xx (Success)
    responses matching with the original unicast request and also
-   including an Observe option have been received.
+   including an Observe Option have been received.
 
    Instead, if at least one such response has been received, the client
    continues receiving those notifications as forwarded by the proxy, as
@@ -928,7 +940,7 @@ Table of Contents
       corresponding elements of the CRI reference.  If the client wants
       to specify additional path segments that identify a specific
       resource at the origin server, then the corresponding Uri-Path
-      options are included in the request after the Uri-Path options
+      Options are included in the request after the Uri-Path options
       corresponding to the path component of the CRI reference.
 
 7.  Caching
@@ -1081,7 +1093,7 @@ Table of Contents
    used end-to-end between client and origin servers.
 
    Fundamentally, this requires to define the possible use of the ETag
-   option also as an outer option for OSCORE.  Thus, in addition to the
+   Option also as an outer option for OSCORE.  Thus, in addition to the
    normal inner ETag, a server can add also an outer ETag option
    intended to the proxy.
 
@@ -1091,7 +1103,7 @@ Table of Contents
 
    In case OSCORE is also used between the proxy and an individual
    origin server as per [I-D.ietf-core-oscore-capable-proxies], then the
-   outer ETag option would be seamlessly protected with the OSCORE
+   outer ETag Option would be seamlessly protected with the OSCORE
    Security Context shared between the proxy and the origin server.
 
    The following text can be used to replace the last paragraph above.
@@ -1105,7 +1117,7 @@ Table of Contents
    *  Additional means are required to enable cacheability of responses
       at the proxy (see Section 7.4.1).
 
-   *  If a cached response included an outer ETag option intended to the
+   *  If a cached response included an outer ETag Option intended to the
       proxy, then the proxy can perform revalidation of the cached
       response, by making a request to the unicast URI targeting the
       server, and including outer ETag Option(s).
@@ -1113,7 +1125,7 @@ Table of Contents
       This is possible also in case the proxy and the origin server use
       OSCORE to further protect the exchanged request and response, as
       defined in [I-D.ietf-core-oscore-capable-proxies].  In such a
-      case, the originally outer ETag option is protected with the
+      case, the originally outer ETag Option is protected with the
       OSCORE Security Context shared between the proxy and the origin
       server, before transferring the message over the communication leg
       between the proxy and origin server.
@@ -1150,7 +1162,7 @@ Table of Contents
    *  Additional means are required to enable cacheability of responses
       at the proxy (see Section 7.4.1).
 
-   *  If a cached response included an outer ETag option intended to the
+   *  If a cached response included an outer ETag Option intended to the
       proxy, then the proxy can perform revalidation of the cached
       response, by making a request to the group URI targeting the CoAP
       group, and including outer ETag Option(s).
@@ -1158,7 +1170,7 @@ Table of Contents
       This is possible also in case the proxy and the origin servers use
       Group OSCORE to further protect the exchanged request and
       response, as defined in [I-D.ietf-core-oscore-capable-proxies].
-      In such a case, the originally outer ETag option is protected with
+      In such a case, the originally outer ETag Option is protected with
       the Group OSCORE Security Context shared between the proxy and the
       origin server, before transferring the message over the
       communication leg between the proxy and origin server.
@@ -1332,7 +1344,7 @@ Table of Contents
    When directly interacting with the servers in the CoAP group to
    refresh its cache entries, the proxy also remains able to perform
    response revalidation.  That is, if a cached response included an
-   outer ETag option intended to the proxy, then the proxy can perform
+   outer ETag Option intended to the proxy, then the proxy can perform
    revalidation of the cached response, by making a request to the
    unicast URI addressed to a single server and sent to the related
    unicast URI (see Section 7.2.1) or a group request addressed to the
@@ -1360,7 +1372,7 @@ Table of Contents
 
    Accordingly, possible caching of responses at each proxy works as
    defined in Section 7 and Section 7.4.  Also, possible revalidation of
-   responses cached ad each proxy and based on the Group-ETag option
+   responses cached ad each proxy and based on the Group-ETag Option
    works as defined in Section 7.3 and Section 7.4.2.
 
    The requirements REQ1 and REQ2 defined in Section 4 MUST be fulfilled
@@ -1553,7 +1565,7 @@ Table of Contents
    *  The proxy frees up its Token value used for a group observation
       only if, after the timeout expiration, no 2.xx (Success) responses
       matching with the group request and also including an Observe
-      option have been received from the next hop towards the origin
+      Option have been received from the next hop towards the origin
       servers.  Otherwise, after the timeout expiration and as long as
       the observation for the target resource of the group request is
       active with the next hop towards the origin servers in the group,
@@ -1694,7 +1706,7 @@ Table of Contents
        Section 7.3), the client includes one or multiple HTTP Group-ETag
        header fields in the request (see Section 9.3), each specifying
        an entity-tag value like they would in a corresponding CoAP Group
-       E-Tag option.
+       E-Tag Option.
 
    6.  The client sends the request to the proxy, as a unicast HTTP
        message.  In particular, the client protects the request
@@ -2324,14 +2336,14 @@ A.1.  Example 1
    In particular:
 
    *  In its group request to P, the client C includes the Uri-Host
-      Option with value "group1.com" and the Uri-Path option with value
+      Option with value "group1.com" and the Uri-Path Option with value
       "r".
 
    *  The hostname 'group1.com' resolves to the IPv6 multicast address
       G_ADDR.  The proxy P performs this resolution upon receiving the
       group request from C.
 
-      Since such a request does not include the Uri-Port option, P
+      Since such a request does not include the Uri-Port Option, P
       infers G_PORT to be the default port number 5683 for the 'coap'
       scheme.
 
@@ -2672,9 +2684,11 @@ Appendix B.  Document Updates
 
 B.1.  Version -01 to -02
 
-   *  Fixes in the IANA considerations.
+   *  Improved description on using Proxy-Cri and Proxy-Scheme-Number.
 
    *  Revised the examples of message exchange with a reverse-proxy.
+
+   *  Fixes in the IANA considerations.
 
    *  Editorial fixes and improvements.
 
@@ -2687,7 +2701,7 @@ B.2.  Version -00 to -01
    *  Always use the Multicast-Timeout Option, also with reverse-
       proxies.
 
-   *  Response-Forwarding option:
+   *  Response-Forwarding Option:
 
       -  Renamed as "Reply-To".
 
