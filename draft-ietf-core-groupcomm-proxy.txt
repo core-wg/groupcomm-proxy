@@ -837,9 +837,7 @@ Table of Contents
 
    This practically addresses the additional issues compared to the case
    with a forward-proxy, as compiled in Section 3.5.2 of
-   [I-D.ietf-core-groupcomm-bis].  A reverse-proxy may also operate
-   without support of the Multicast-Timeout Option, as defined in that
-   section.
+   [I-D.ietf-core-groupcomm-bis].
 
    Appendix A provides examples with a reverse-proxy.
 
@@ -2694,6 +2692,9 @@ B.1.  Version -01 to -02
 
    *  Multicast-Timeout Option set to 0 ultimately yields an empty
       value.
+
+   *  Removed moot text on reverse-proxies that might use default
+      timeouts.
 
    *  Improved description on using Proxy-Cri and Proxy-Scheme-Number.
 
