@@ -1759,7 +1759,7 @@ Table of Contents
    resulting HTTP response by superseding the currently stored one from
    that server.
 
-   When the timout expires, if no responses have been received from the
+   When the timeout expires, if no responses have been received from the
    servers, the proxy replies to the client's original unicast group
    request with an HTTP response with status code 204 (No Content).
 
