@@ -5,6 +5,7 @@ title: Proxy Operations for CoAP Group Communication
 abbrev: Proxy Operations for Group Communication
 docname: draft-ietf-core-groupcomm-proxy-latest
 
+ipr: trust200902
 wg: CoRE Working Group
 kw: Internet-Draft
 cat: std
@@ -36,13 +37,11 @@ normative:
   I-D.ietf-core-oscore-groupcomm:
   I-D.ietf-core-href:
   RFC2046:
-  RFC2119:
   RFC4648:
   RFC5234:
   RFC7252:
   RFC7641:
   RFC8075:
-  RFC8174:
   RFC8323:
   RFC8610:
   RFC8613:
@@ -1427,7 +1426,7 @@ C                               P                      S1           S2
 * Editorial fixes and improvements.
 
 # Acknowledgments
-{:unnumbered}
+{: numbered="no"}
 
 The authors sincerely thank {{{Christian Amsüss}}}, {{{Carsten Bormann}}}, {{{Rikard Höglund}}}, {{{Jim Schaad}}}, and {{{Göran Selander}}} for their comments and feedback.
 
