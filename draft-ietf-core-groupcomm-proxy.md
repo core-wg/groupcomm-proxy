@@ -437,7 +437,6 @@ This section clarifies how the Multicast-Timeout Option is effective also in suc
 * The client to indicate to the proxy of being aware that it is communicating with a reverse-proxy, and for how long it is willing to receive responses to a proxied group request.
 
 This practically addresses the additional issues compared to the case with a forward-proxy, as compiled in {{Section 3.5.2 of I-D.ietf-core-groupcomm-bis}}.
-A reverse-proxy may also operate without support of the Multicast-Timeout Option, as defined in that section.
 
 {{sec-reverse-proxies-examples}} provides examples with a reverse-proxy.
 
@@ -1417,6 +1416,8 @@ C                               P                      S1           S2
 ## Version -01 to -02 ## {#sec-01-02}
 
 * Multicast-Timeout Option set to 0 ultimately yields an empty value.
+
+* Removed moot text on reverse-proxies that might use default timeouts.
 
 * Improved description on using Proxy-Cri and Proxy-Scheme-Number.
 
