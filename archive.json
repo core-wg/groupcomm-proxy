@@ -1,0 +1,87 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-07-18T01:26:19.760161+00:00",
+  "repo": "core-wg/groupcomm-proxy",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOK7j_Ns6C6okt",
+      "title": "Use SF to encode Reply-To option in HTTP header?",
+      "url": "https://github.com/core-wg/groupcomm-proxy/issues/1",
+      "state": "OPEN",
+      "author": "EskoDijk",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "(From IETF 119 CoRE meeting discussion)  Instead of base64url.\r\nSee https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-sfbis-05",
+      "createdAt": "2024-03-20T01:15:13Z",
+      "updatedAt": "2024-03-20T01:15:13Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 2,
+      "id": "I_kwDOK7j_Ns6C7pVa",
+      "title": "Rename the \"Reply-To\" option as \"Reply-From\"",
+      "url": "https://github.com/core-wg/groupcomm-proxy/issues/2",
+      "state": "OPEN",
+      "author": "marco-tiloca-sics",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-20T05:06:30Z",
+      "updatedAt": "2024-03-20T05:06:30Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
+  "pulls": []
+}
