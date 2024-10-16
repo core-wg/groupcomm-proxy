@@ -41,6 +41,7 @@ normative:
   RFC5234:
   RFC7252:
   RFC7641:
+  RFC7967:
   RFC8075:
   RFC8323:
   RFC8610:
@@ -56,7 +57,6 @@ informative:
   I-D.ietf-ace-key-groupcomm-oscore:
   I-D.ietf-core-oscore-capable-proxies:
   RFC7515:
-  RFC7967:
   RFC8446:
   RFC9147:
 
@@ -1396,6 +1396,8 @@ C                               P                      S1           S2
 {:removeinrfc}
 
 ## Version -02 to -03 ## {#sec-02-03}
+
+* Made RFC 7967 a normative reference.
 
 * Aligned handling of multiple responses with draft-ietf-core-groupcomm-bis.
 
