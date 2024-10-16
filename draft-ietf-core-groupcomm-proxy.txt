@@ -715,11 +715,13 @@ Table of Contents
    As discussed in Section 3.1.6 of [I-D.ietf-core-groupcomm-bis], it is
    possible that the client receives multiple responses to the same
    group request, i.e., with the same Token, from the same origin
-   server.  The client normally processes at the CoAP layer each of
-   those responses from the same origin server, and decides at the
-   application layer how to exactly handle them depending on its
-   available context information (see Section 3.1.6 of
-   [I-D.ietf-core-groupcomm-bis]).
+   server.  The specific client implementation determines at which layer
+   deduplication of responses is performed, or whether it is necessary
+   in an application at all.  If the processing of a response succeeds,
+   then the client delivers the response to the application as usual.
+   Depending on its available context information, the application
+   itself can be in a good position to decide how to handle such
+   responses.
 
    Upon the timeout expiration, i.e., T seconds after having sent the
    original unicast request to the proxy, the client frees up its local
@@ -2706,6 +2708,9 @@ Appendix B.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 B.1.  Version -02 to -03
+
+   *  Aligned handling of multiple responses with draft-ietf-core-
+      groupcomm-bis.
 
    *  Clarifications and editorial improvements.
 
