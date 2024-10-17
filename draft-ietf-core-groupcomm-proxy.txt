@@ -6,7 +6,7 @@ CoRE Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Updates: 7252 (if approved)                                      E. Dijk
 Intended status: Standards Track                       IoTconsultancy.nl
-Expires: 19 April 2025                                   16 October 2024
+Expires: 20 April 2025                                   17 October 2024
 
 
              Proxy Operations for CoAP Group Communication
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 April 2025.
+   This Internet-Draft will expire on 20 April 2025.
 
 Copyright Notice
 
@@ -510,19 +510,28 @@ Table of Contents
        in fact allowed-listed to have its requests proxied to CoAP group
        URIs.
 
+       If the verification fails, the proxy MUST stop processing the
+       request and MUST reply to the client with a 4.01 (Unauthorized)
+       response.  The proxy protects the response according to the
+       security association that it has with the client.
+
    3.  The proxy verifies the presence of the Multicast-Timeout Option,
        as a confirmation that the client is fine to receive multiple
        CoAP responses matching with the same original request.
 
        If the Multicast-Timeout Option is not present, the proxy MUST
        stop processing the request and MUST reply to the client with a
-       4.00 (Bad Request) response.  The response MUST include a
-       Multicast-Timeout Option, whose value MUST be set to 0.  As per
-       Section 3.2 of [RFC7252], this is represented with an empty
-       option value (a zero-length sequence of bytes).  By doing so, the
-       proxy indicates that the Multicast-Timeout Option was missing and
-       has to be included in the request.  As per Section 5.9.2 of
-       [RFC7252] The response SHOULD include a diagnostic payload.
+       4.00 (Bad Request) response.  The proxy protects the response
+       according to the security association that it has with the
+       client.
+
+       The response MUST include a Multicast-Timeout Option, whose value
+       MUST be set to 0.  As per Section 3.2 of [RFC7252], this is
+       represented with an empty option value (a zero-length sequence of
+       bytes).  By doing so, the proxy indicates that the Multicast-
+       Timeout Option was missing and has to be included in the request.
+       As per Section 5.9.2 of [RFC7252] The response SHOULD include a
+       diagnostic payload.
 
    4.  The proxy retrieves the value T' from the Multicast-Timeout
        Option, and then removes the option from the client's request.
@@ -2710,6 +2719,8 @@ Appendix B.  Document Updates
 B.1.  Version -02 to -03
 
    *  Made RFC 7967 a normative reference.
+
+   *  Improved error handling for request reception at the proxy.
 
    *  Aligned handling of multiple responses with draft-ietf-core-
       groupcomm-bis.
