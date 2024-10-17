@@ -57,7 +57,6 @@ informative:
   I-D.amsuess-core-cachable-oscore:
   I-D.ietf-ace-key-groupcomm-oscore:
   I-D.ietf-core-oscore-capable-proxies:
-  RFC7515:
   RFC8446:
   RFC9147:
 
@@ -795,7 +794,7 @@ When translating an HTTP message into a CoAP message, the CoAP Multicast-Timeout
 
 The HTTP Reply-From header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Reply-From Option defined in {{sec-reply-from-option}}. Its use is intended only for HTTP responses.
 
-HTTP Reply-From is a List Structured Header Field {{RFC9651}}. The List MUST be composed of exactly one or two members. Each member of the list MUST be a Byte Sequence Item. Any deviation from such format MUST cause the entire header field to be ignored.
+Reply-From is a List Structured Header Field {{RFC9651}}. The List MUST be composed of exactly one or two members. Each member of the List MUST be a Byte Sequence Item. Any deviation from such format MUST cause the entire header field to be ignored.
 
 The value of the header field specifies addressing information pertaining to the origin server that generated the CoAP response corresponding to the HTTP response. The client can use this information in order to send an individual request intended to that server.
 
@@ -819,15 +818,35 @@ When translating an HTTP message into a CoAP message, the value of the CoAP Repl
 
 The HTTP Group-ETag header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Group-ETag Option defined in {{sec-proxy-caching-validation-c-p}}.
 
-Using the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} and including the following core ABNF syntax rules defined by that specification: ALPHA (letters) and DIGIT (decimal digits), the HTTP Group-ETag header field value is as follows.
+Group-ETag is a List Structured Header Field {{RFC9651}}. The List MUST be composed of one or more members in HTTP requests and by exactly one member in HTTP responses. Each member of the List MUST be a Byte Sequence Item. Any deviation from such format MUST cause the entire header field to be ignored.
 
-group-etag-char = ALPHA / DIGIT / "-" / "_"
+The value of the header field specifies a set of entity-tag values, each of which is associated with a set of cache entries at the proxy that can be hit by a group request (see {{sec-proxy-caching-validation-c-p}}).
 
-Group-ETag = 2*group-etag-char
+When translating a CoAP message into an HTTP message, the value of the HTTP Group-ETag header field is built as follows.
 
-When translating a CoAP message into an HTTP message, the HTTP Group-ETag header field is set to the value of the CoAP Group-ETag Option in base64url (see {{Section 5 of RFC4648}}) encoding without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
+* When translating a CoAP request to an HTTP request, the List of the HTTP Group-ETag header field MUST include N members, where N is the number of CoAP Group-ETag Options in the CoAP request. The i-th member of the List encodes the value specified in the i-th CoAP Group-ETag Option in the CoAP request.
 
-When translating an HTTP message into a CoAP message, the CoAP Group-ETag Option is set to the value of the HTTP Group-ETag header field decoded from base64url (see {{Section 5 of RFC4648}}) without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
+* When translating a CoAP response to an HTTP response, the List of the HTTP Group-ETag header field MUST include one member, which encodes the value specified in the CoAP Group-ETag Option in the CoAP response.
+
+When translating an HTTP message into a CoAP message, the value of the CoAP Group-ETag Option is built as follows.
+
+* When translating an HTTP request to a CoAP request, N CoAP Group-ETag Options are included in the CoAP request, where N is the number of members of the List of the HTTP Group-ETag header field. The value of the i-th CoAP Group-ETag Option is obtained by decoding the i-th member of the List of the HTTP Group-ETag header field.
+
+* When translating an HTTP response to a CoAP response, one CoAP Group-ETag Option is included in the CoAP response. The value of the CoAP Group-ETag Option is obtained by decoding the only member of the List of the HTTP Group-ETag header field.
+
+When sending to the HTTP-to-CoAP proxy an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group, the client MAY include one HTTP Group-ETag header field in the request. The field value is a list of one or more members, each of which encodes one entity-tag value that is applicable to the set J of cache entries that can be hit by the request.
+
+An HTTP-to-CoAP proxy that performs the form of validation defined in {{sec-proxy-caching-validation-c-p}} proceeds like defined in {{sec-proxy-caching-validation-c-p}} for a CoAP-to-CoAP proxy, with the following differences.
+
+* When sending to the client an HTTP 200 (OK) response to an HTTP GET request that was translated into a CoAP GET request sent to the CoAP group, the proxy MAY include one HTTP Group-ETag header field in the response, in case the set J is "complete". The field value is a List of one member encoding the entity-tag value currently associated with the set J.
+
+* When the HTTP-to-CoAP proxy receives an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group and that includes one or more HTTP Group-ETag header fields, the following applies.
+
+  - As to the entity-tag values used to check for possible cache hits, the HTTP-to-CoAP proxy obtains those values by decoding the members of the List of the HTTP Group-ETag header field in the HTTP request.
+
+  - If the same conditions for which a CoAP-to-CoAP proxy would reply with a single CoAP 2.03 (Valid) response hold, then the HTTP-to-CoAP proxy replies with a single HTTP 304 (Not Modified) response. The response MUST include one HTTP Group-ETag header field, where its value is a List of one member encoding the current entity-tag value of the set J.
+
+An HTTP 304 (Not Modified) response from the HTTP-to-CoAP proxy indicates to the client that it is possible to reuse the stored responses identified by the entity-tag encoded by the only member of the List of the HTTP Group-ETag header field.
 
 ## Request Sending at the Client ## {#sec-cross-proxies-client-req}
 
@@ -1076,7 +1095,7 @@ IANA is asked to enter the following HTTP header fields to the "Hypertext Transf
 |-------------------|-----------|-----------------|-----------|
 | Reply-From        | permanent | List            | {{&SELF}} |
 |-------------------|-----------|-----------------|-----------|
-| Group-ETag        | permanent |                 | {{&SELF}} |
+| Group-ETag        | permanent | List            | {{&SELF}} |
 {: #tab-iana-http-field-names title="Registrations in the Hypertext Transfer Protocol (HTTP) Field Name Registry" align="center"}
 
 --- back
@@ -1427,6 +1446,8 @@ C                               P                      S1           S2
 * Aligned handling of multiple responses with draft-ietf-core-groupcomm-bis.
 
 * Revised HTTP Reply-From header field to be a Structured Header Field.
+
+* Revised HTTP Group-ETag header field to be a Structured Header Field.
 
 * Clarifications and editorial improvements.
 
