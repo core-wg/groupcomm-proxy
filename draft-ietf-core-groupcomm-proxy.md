@@ -49,6 +49,7 @@ normative:
   RFC8742:
   RFC8949:
   RFC9112:
+  RFC9651:
 
 informative:
   I-D.bormann-coap-misc:
@@ -792,17 +793,27 @@ When translating an HTTP message into a CoAP message, the CoAP Multicast-Timeout
 
 ## The HTTP Reply-From Header Field ## {#sec-reply-from-header}
 
-The HTTP Reply-From header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Reply-From Option defined in {{sec-reply-from-option}}.
+The HTTP Reply-From header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Reply-From Option defined in {{sec-reply-from-option}}. Its use is intended only for HTTP responses.
 
-Using the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} and including the following core ABNF syntax rules defined by that specification: ALPHA (letters) and DIGIT (decimal digits), the HTTP Reply-From header field value is as follows.
+HTTP Reply-From is a List Structured Header Field {{RFC9651}}. The List MUST be composed of exactly one or two members. Each member of the list MUST be a Byte Sequence Item. Any deviation from such format MUST cause the entire header field to be ignored.
 
-reply-from-char = ALPHA / DIGIT / "-" / "_"
+The value of the header field specifies addressing information pertaining to the origin server that generated the CoAP response corresponding to the HTTP response. The client can use this information in order to send an individual request intended to that server.
 
-Reply-From = 2*reply-from-char
+When translating a CoAP message into an HTTP message, the value of the HTTP Reply-From header field is built as follows.
 
-When translating a CoAP message into an HTTP message, the HTTP Reply-From header field is set to the value of the CoAP Reply-From Option in base64url (see {{Section 5 of RFC4648}}) encoding without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
+* The first Byte Sequence Item encodes the byte serialization of the first CBOR array of the CBOR sequence that is specified as value of the CoAP Reply-From Option.
 
-When translating an HTTP message into a CoAP message, the CoAP Reply-From Option is set to the value of the HTTP Reply-From header field decoded from base64url (see {{Section 5 of RFC4648}}) without padding. Implementation notes for this encoding are given in {{Section C of RFC7515}}.
+* The second Byte Sequence Item encodes the byte serialization of the second CBOR array (if present) of the CBOR sequence that is specified as value of the CoAP Reply-From Option.
+
+  If the CBOR sequence in the CoAP Reply-From Option does not include the second CBOR array, then this Byte Sequence Item MUST NOT be included in the List of the HTTP Reply-From header field.
+
+When translating an HTTP message into a CoAP message, the value of the CoAP Reply-From Option is built as follows.
+
+* The first CBOR array of the CBOR sequence is obtained by decoding the first Byte Sequence Item in the List that is specified as value of the HTTP Reply-From header field.
+
+* The second CBOR array of the CBOR sequence is obtained by decoding the second Byte Sequence Item (if present) in the List that is specified as value of the HTTP Reply-From header field.
+
+  If the List of the HTTP Reply-From header field does not include the second Byte Sequence Item, then this second CBOR array MUST NOT be included in the CBOR sequence of the CoAP Reply-From Option.
 
 ## The HTTP Group-ETag Header Field ## {#sec-group-etag-header}
 
@@ -1059,13 +1070,13 @@ IANA is asked to enter the following option numbers to the "CoAP Option Numbers"
 
 IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" registry.
 
-| Field Name        | Template | Status    | Structured Type | Reference |
-|-------------------|----------|-----------|-----------------|-----------|
-| Multicast-Timeout |          | permanent |                 | {{&SELF}} |
-|-------------------|----------|-----------|-----------------|-----------|
-| Reply-From        |          | permanent |                 | {{&SELF}} |
-|-------------------|----------|-----------|-----------------|-----------|
-| Group-ETag        |          | permanent |                 | {{&SELF}} |
+| Field Name        | Status    | Structured Type | Reference |
+|-------------------|-----------|-----------------|-----------|
+| Multicast-Timeout | permanent |                 | {{&SELF}} |
+|-------------------|-----------|-----------------|-----------|
+| Reply-From        | permanent | List            | {{&SELF}} |
+|-------------------|-----------|-----------------|-----------|
+| Group-ETag        | permanent |                 | {{&SELF}} |
 {: #tab-iana-http-field-names title="Registrations in the Hypertext Transfer Protocol (HTTP) Field Name Registry" align="center"}
 
 --- back
@@ -1414,6 +1425,8 @@ C                               P                      S1           S2
 * Improved security considerations for the new CoAP options.
 
 * Aligned handling of multiple responses with draft-ietf-core-groupcomm-bis.
+
+* Revised HTTP Reply-From header field to be a Structured Header Field.
 
 * Clarifications and editorial improvements.
 
