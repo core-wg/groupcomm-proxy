@@ -2015,20 +2015,21 @@ Table of Contents
    provide message integrity, so that further intermediaries between the
    two as well as on-path active adversaries are not able to
    undetectably remove the option or alter its content, before the group
-   request reaches the proxy.  Removing the option would otherwise
-   result in not forwarding the group request to the servers.  Instead,
-   altering the option content would result in the proxy accepting and
-   forwarding back responses for an amount of time different than the
-   one actually indicated by the client.
+   request reaches the proxy.
+
+   Removing the option would result in not forwarding the group request
+   to the servers.  Altering the option content would result in the
+   proxy accepting and forwarding back responses for an amount of time
+   different from the one actually indicated by the client.
 
    The security association between the client and the proxy SHOULD also
    provide message confidentiality.  Otherwise, any further
    intermediaries between the two as well as any on-path passive
-   adversaries would be able to simply access the option content, and
-   thus learn for how long the client is willing to receive responses
-   from the servers in the group via the proxy.  This may in turn be
-   used by an on-path active adversary to perform a more efficient,
-   selective suppression of responses from the servers.
+   adversaries would be able to access the option content, and thus
+   learn for how long the client is willing to receive responses from
+   the servers in the group via the proxy.  This may in turn be used by
+   an on-path active adversary to perform a more efficient, selective
+   suppression of responses from the servers.
 
    When the client protects the unicast request sent to the proxy using
    OSCORE (see [I-D.ietf-core-oscore-capable-proxies]) and/or (D)TLS,
@@ -2049,17 +2050,28 @@ Table of Contents
    server response, before forwarding this response back to the
    (previous hop proxy closer to the) origin client.
 
-   Since the security association between the client and the proxy
-   provides message integrity, any further intermediaries between the
-   two as well as any on-path active adversaries are not able to
-   undetectably remove the Reply-From Option from a forwarded server
-   response.  This ensures that the client can correctly distinguish the
-   different responses and identify the corresponding origin servers.
+   The security association between the client and the proxy MUST
+   provide message integrity, so that further intermediaries between the
+   two as well as on-path active adversaries are not able to
+   undetectably remove the option from a forwarded server response or
+   alter its content.  This ensures that the client can correctly
+   distinguish the different responses and identify the corresponding
+   origin servers.
+
+   The security association between the client and the proxy SHOULD also
+   provide message confidentiality.  Otherwise, any further
+   intermediaries between the two as well as any on-path passive
+   adversaries would be able to access the option content, and thus
+   learn the addressing information of servers in the group.  This may
+   in turn be used by an on-path active adversary to perform a more
+   efficient, selective suppression of follow-up requests that the
+   client sends to a specific server, either directly, or indirectly via
+   the proxy.
 
    When the proxy protects the response forwarded back to the client
    using OSCORE (see [I-D.ietf-core-oscore-capable-proxies]) and/or
-   (D)TLS, message integrity is achieved in the leg between the client
-   and the proxy.
+   (D)TLS, both message integrity and message confidentiality are
+   achieved in the leg between the client and the proxy.
 
    The same considerations above about security associations apply when
    a chain of proxies is used (see Section 8), with each proxy but the
@@ -2081,29 +2093,31 @@ Table of Contents
 
    The security association between the client and the proxy MUST
    provide message integrity, so that further intermediaries between the
-   two as well as on-path active adversaries are not able to remove the
-   option or alter its content, before the group request reaches the
-   proxy.  Removing the option would otherwise result in the proxy not
-   performing response revalidation at its cache entries associated with
-   the servers in the CoAP group, even though that was what the client
-   asked for.
+   two as well as on-path active adversaries are not able to
+   undetectably remove the option or alter its content, before the group
+   request reaches the proxy.
+
+   Removing the option would result in the proxy not performing response
+   revalidation at its cache entries associated with the servers in the
+   CoAP group, even though that was what the client asked for.
 
    Altering the option content in a group request would result in the
-   proxy replying with 2.05 (Content) responses conveying the full
-   resource representations from its cache entries, rather than with a
-   single 2.03 (Valid) response.  Instead, altering the option content
-   in a 2.03 (Valid) or 2.05 (Content) response would result in the
-   client wrongly believing that the already stored or the just received
+   proxy failing the response revalidation and hence not replying with a
+   single 2.03 (Valid) response, but instead with multiple 2.05
+   (Content) responses conveying the full resource representations from
+   its cache entries.  Instead, altering the option content in a 2.03
+   (Valid) or 2.05 (Content) response would result in the client wrongly
+   believing that the already stored or the just received
    representation, respectively, is also the current one, as per the
    entity value of the tampered Group-ETag Option.
 
    The security association between the client and the proxy SHOULD also
    provide message confidentiality.  Otherwise, any further
    intermediaries between the two as well as any on-path passive
-   adversaries would be able to simply access the option content, and
-   thus learn the rate and pattern according to which the group resource
-   in question changes over time, as inferable from the entity values
-   read over time.
+   adversaries would be able to access the option content, and thus
+   learn the rate and pattern according to which the group resource in
+   question changes over time, as inferable from the entity values read
+   over time.
 
    When the client protects the unicast request sent to the proxy using
    OSCORE (see [I-D.ietf-core-oscore-capable-proxies]) and/or (D)TLS,
@@ -2721,6 +2735,8 @@ B.1.  Version -02 to -03
    *  Made RFC 7967 a normative reference.
 
    *  Improved error handling for request reception at the proxy.
+
+   *  Improved security considerations for the new CoAP options.
 
    *  Aligned handling of multiple responses with draft-ietf-core-
       groupcomm-bis.
