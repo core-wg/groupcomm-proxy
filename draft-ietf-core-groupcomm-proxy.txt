@@ -2102,14 +2102,16 @@ Table of Contents
    CoAP group, even though that was what the client asked for.
 
    Altering the option content in a group request would result in the
-   proxy failing the response revalidation and hence not replying with a
-   single 2.03 (Valid) response, but instead with multiple 2.05
-   (Content) responses conveying the full resource representations from
-   its cache entries.  Instead, altering the option content in a 2.03
-   (Valid) or 2.05 (Content) response would result in the client wrongly
-   believing that the already stored or the just received
-   representation, respectively, is also the current one, as per the
-   entity value of the tampered Group-ETag Option.
+   proxy performing response revalidation based on different entity-tag
+   values from those actually specified by the client.  Consequently,
+   the proxy would erroneously reply with multiple 2.05 (Content)
+   responses conveying the full resource representations from its cache
+   entries instead of with a single 2.03 (Valid) response, or vice
+   versa.  Instead, altering the option content in a 2.03 (Valid) or
+   2.05 (Content) response would result in the client wrongly believing
+   that the already stored or the just received representation,
+   respectively, is also the current one, as per the entity value of the
+   tampered Group-ETag Option.
 
    The security association between the client and the proxy SHOULD also
    provide message confidentiality.  Otherwise, any further
