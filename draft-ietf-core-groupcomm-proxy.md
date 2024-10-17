@@ -986,9 +986,11 @@ The same considerations apply when a chain of proxies is used (see {{sec-proxy-c
 
 The Multicast-Timeout Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, a proxy is able to access the option value and retrieve the timeout value T', as well as to remove the option altogether before forwarding the group request to the servers. When a chain of proxies is used (see {{sec-proxy-chain}}), this also allows each proxy but the last one in the chain to update the option value, as an indication for the next hop towards the origin servers (see {{sec-proxy-chain-request-processing}}).
 
-The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option or alter its content, before the group request reaches the proxy. Removing the option would otherwise result in not forwarding the group request to the servers. Instead, altering the option content would result in the proxy accepting and forwarding back responses for an amount of time different than the one actually indicated by the client.
+The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option or alter its content, before the group request reaches the proxy.
 
-The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to simply access the option content, and thus learn for how long the client is willing to receive responses from the servers in the group via the proxy. This may in turn be used by an on-path active adversary to perform a more efficient, selective suppression of responses from the servers.
+Removing the option would result in not forwarding the group request to the servers. Altering the option content would result in the proxy accepting and forwarding back responses for an amount of time different from the one actually indicated by the client.
+
+The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option content, and thus learn for how long the client is willing to receive responses from the servers in the group via the proxy. This may in turn be used by an on-path active adversary to perform a more efficient, selective suppression of responses from the servers.
 
 When the client protects the unicast request sent to the proxy using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
 
@@ -998,9 +1000,11 @@ The same considerations above about security associations apply when a chain of 
 
 The Reply-From Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, the proxy that has forwarded the group request to the servers is able to include the option into a server response, before forwarding this response back to the (previous hop proxy closer to the) origin client.
 
-Since the security association between the client and the proxy provides message integrity, any further intermediaries between the two as well as any on-path active adversaries are not able to undetectably remove the Reply-From Option from a forwarded server response. This ensures that the client can correctly distinguish the different responses and identify the corresponding origin servers.
+The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option from a forwarded server response or alter its content. This ensures that the client can correctly distinguish the different responses and identify the corresponding origin servers.
 
-When the proxy protects the response forwarded back to the client using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, message integrity is achieved in the leg between the client and the proxy.
+The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option content, and thus learn the addressing information of servers in the group. This may in turn be used by an on-path active adversary to perform a more efficient, selective suppression of follow-up requests that the client sends to a specific server, either directly, or indirectly via the proxy.
+
+When the proxy protects the response forwarded back to the client using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
 
 The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
 
@@ -1008,11 +1012,13 @@ The same considerations above about security associations apply when a chain of 
 
 The Group-ETag Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, a proxy is able to access the option value and use it to possibly perform response revalidation at its cache entries associated with the servers in the CoAP group, as well as to remove the option altogether before forwarding the group request to the servers. When a chain of proxies is used (see {{sec-proxy-chain}}), this also allows each proxy but the last one in the chain to update the option value, to possibly ask the next hop towards the origin servers to perform response revalidation at its cache entries.
 
-The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to remove the option or alter its content, before the group request reaches the proxy. Removing the option would otherwise result in the proxy not performing response revalidation at its cache entries associated with the servers in the CoAP group, even though that was what the client asked for.
+The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option or alter its content, before the group request reaches the proxy.
 
-Altering the option content in a group request would result in the proxy replying with 2.05 (Content) responses conveying the full resource representations from its cache entries, rather than with a single 2.03 (Valid) response. Instead, altering the option content in a 2.03 (Valid) or 2.05 (Content) response would result in the client wrongly believing that the already stored or the just received representation, respectively, is also the current one, as per the entity value of the tampered Group-ETag Option.
+Removing the option would result in the proxy not performing response revalidation at its cache entries associated with the servers in the CoAP group, even though that was what the client asked for.
 
-The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to simply access the option content, and thus learn the rate and pattern according to which the group resource in question changes over time, as inferable from the entity values read over time.
+Altering the option content in a group request would result in the proxy failing the response revalidation and hence not replying with a single 2.03 (Valid) response, but instead with multiple 2.05 (Content) responses conveying the full resource representations from its cache entries. Instead, altering the option content in a 2.03 (Valid) or 2.05 (Content) response would result in the client wrongly believing that the already stored or the just received representation, respectively, is also the current one, as per the entity value of the tampered Group-ETag Option.
+
+The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option content, and thus learn the rate and pattern according to which the group resource in question changes over time, as inferable from the entity values read over time.
 
 When the client protects the unicast request sent to the proxy using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
 
@@ -1404,6 +1410,8 @@ C                               P                      S1           S2
 * Made RFC 7967 a normative reference.
 
 * Improved error handling for request reception at the proxy.
+
+* Improved security considerations for the new CoAP options.
 
 * Aligned handling of multiple responses with draft-ietf-core-groupcomm-bis.
 
