@@ -238,9 +238,13 @@ Upon receiving the request from the client, the proxy proceeds according to the 
 
 2. The proxy identifies the client, and verifies that the client is in fact allowed-listed to have its requests proxied to CoAP group URIs.
 
+   If the verification fails, the proxy MUST stop processing the request and MUST reply to the client with a 4.01 (Unauthorized) response. The proxy protects the response according to the security association that it has with the client.
+
 3. The proxy verifies the presence of the Multicast-Timeout Option, as a confirmation that the client is fine to receive multiple CoAP responses matching with the same original request.
 
-   If the Multicast-Timeout Option is not present, the proxy MUST stop processing the request and MUST reply to the client with a 4.00 (Bad Request) response. The response MUST include a Multicast-Timeout Option, whose value MUST be set to 0. As per {{Section 3.2 of RFC7252}}, this is represented with an empty option value (a zero-length sequence of bytes). By doing so, the proxy indicates that the Multicast-Timeout Option was missing and has to be included in the request. As per {{Section 5.9.2 of RFC7252}} The response SHOULD include a diagnostic payload.
+   If the Multicast-Timeout Option is not present, the proxy MUST stop processing the request and MUST reply to the client with a 4.00 (Bad Request) response. The proxy protects the response according to the security association that it has with the client.
+
+   The response MUST include a Multicast-Timeout Option, whose value MUST be set to 0. As per {{Section 3.2 of RFC7252}}, this is represented with an empty option value (a zero-length sequence of bytes). By doing so, the proxy indicates that the Multicast-Timeout Option was missing and has to be included in the request. As per {{Section 5.9.2 of RFC7252}} The response SHOULD include a diagnostic payload.
 
 4. The proxy retrieves the value T' from the Multicast-Timeout Option, and then removes the option from the client's request.
 
@@ -1398,6 +1402,8 @@ C                               P                      S1           S2
 ## Version -02 to -03 ## {#sec-02-03}
 
 * Made RFC 7967 a normative reference.
+
+* Improved error handling for request reception at the proxy.
 
 * Aligned handling of multiple responses with draft-ietf-core-groupcomm-bis.
 
