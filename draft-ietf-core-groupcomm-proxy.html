@@ -2468,12 +2468,31 @@ Otherwise, after the timeout expiration and as long as the observation for the t
         <h3 id="name-the-http-reply-from-header-">
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-the-http-reply-from-header-" class="section-name selfRef">The HTTP Reply-From Header Field</a>
         </h3>
-<p id="section-9.2-1">The HTTP Reply-From header field (see <a href="#iana-message-headers" class="auto internal xref">Section 11.2</a>) is used for carrying the content otherwise specified in the CoAP Reply-From Option defined in <a href="#sec-reply-from-option" class="auto internal xref">Section 3</a>.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
-<p id="section-9.2-2">Using the Augmented Backus-Naur Form (ABNF) notation of <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span> and including the following core ABNF syntax rules defined by that specification: ALPHA (letters) and DIGIT (decimal digits), the HTTP Reply-From header field value is as follows.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
-<p id="section-9.2-3">reply-from-char = ALPHA / DIGIT / "-" / "_"<a href="#section-9.2-3" class="pilcrow">¶</a></p>
-<p id="section-9.2-4">Reply-From = 2*reply-from-char<a href="#section-9.2-4" class="pilcrow">¶</a></p>
-<p id="section-9.2-5">When translating a CoAP message into an HTTP message, the HTTP Reply-From header field is set to the value of the CoAP Reply-From Option in base64url (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>) encoding without padding. Implementation notes for this encoding are given in <span><a href="https://rfc-editor.org/rfc/rfc7515#appendix-C" class="relref">Appendix C</a> of [<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-9.2-5" class="pilcrow">¶</a></p>
-<p id="section-9.2-6">When translating an HTTP message into a CoAP message, the CoAP Reply-From Option is set to the value of the HTTP Reply-From header field decoded from base64url (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>) without padding. Implementation notes for this encoding are given in <span><a href="https://rfc-editor.org/rfc/rfc7515#appendix-C" class="relref">Appendix C</a> of [<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>.<a href="#section-9.2-6" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">The HTTP Reply-From header field (see <a href="#iana-message-headers" class="auto internal xref">Section 11.2</a>) is used for carrying the content otherwise specified in the CoAP Reply-From Option defined in <a href="#sec-reply-from-option" class="auto internal xref">Section 3</a>. Its use is intended only for HTTP responses.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-2">HTTP Reply-From is a List Structured Header Field <span>[<a href="#RFC9651" class="cite xref">RFC9651</a>]</span>. The List <span class="bcp14">MUST</span> be composed of exactly one or two members. Each member of the list <span class="bcp14">MUST</span> be a Byte Sequence Item. Any deviation from such format <span class="bcp14">MUST</span> cause the entire header field to be ignored.<a href="#section-9.2-2" class="pilcrow">¶</a></p>
+<p id="section-9.2-3">The value of the header field specifies addressing information pertaining to the origin server that generated the CoAP response corresponding to the HTTP response. The client can use this information in order to send an individual request intended to that server.<a href="#section-9.2-3" class="pilcrow">¶</a></p>
+<p id="section-9.2-4">When translating a CoAP message into an HTTP message, the value of the HTTP Reply-From header field is built as follows.<a href="#section-9.2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-9.2-5.1">
+            <p id="section-9.2-5.1.1">The first Byte Sequence Item encodes the byte serialization of the first CBOR array of the CBOR sequence that is specified as value of the CoAP Reply-From Option.<a href="#section-9.2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.2-5.2">
+            <p id="section-9.2-5.2.1">The second Byte Sequence Item encodes the byte serialization of the second CBOR array (if present) of the CBOR sequence that is specified as value of the CoAP Reply-From Option.<a href="#section-9.2-5.2.1" class="pilcrow">¶</a></p>
+<p id="section-9.2-5.2.2">
+If the CBOR sequence in the CoAP Reply-From Option does not include the second CBOR array, then this Byte Sequence Item <span class="bcp14">MUST NOT</span> be included in the List of the HTTP Reply-From header field.<a href="#section-9.2-5.2.2" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-9.2-6">When translating an HTTP message into a CoAP message, the value of the CoAP Reply-From Option is built as follows.<a href="#section-9.2-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-9.2-7.1">
+            <p id="section-9.2-7.1.1">The first CBOR array of the CBOR sequence is obtained by decoding the first Byte Sequence Item in the List that is specified as value of the HTTP Reply-From header field.<a href="#section-9.2-7.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-9.2-7.2">
+            <p id="section-9.2-7.2.1">The second CBOR array of the CBOR sequence is obtained by decoding the second Byte Sequence Item (if present) in the List that is specified as value of the HTTP Reply-From header field.<a href="#section-9.2-7.2.1" class="pilcrow">¶</a></p>
+<p id="section-9.2-7.2.2">
+If the List of the HTTP Reply-From header field does not include the second Byte Sequence Item, then this second CBOR array <span class="bcp14">MUST NOT</span> be included in the CBOR sequence of the CoAP Reply-From Option.<a href="#section-9.2-7.2.2" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 <div id="sec-group-etag-header">
@@ -2822,7 +2841,6 @@ Body: More than done!
 <thead>
             <tr>
               <th class="text-left" rowspan="1" colspan="1">Field Name</th>
-              <th class="text-left" rowspan="1" colspan="1">Template</th>
               <th class="text-left" rowspan="1" colspan="1">Status</th>
               <th class="text-left" rowspan="1" colspan="1">Structured Type</th>
               <th class="text-left" rowspan="1" colspan="1">Reference</th>
@@ -2831,21 +2849,18 @@ Body: More than done!
           <tbody>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Multicast-Timeout</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
               <td class="text-left" rowspan="1" colspan="1">permanent</td>
               <td class="text-left" rowspan="1" colspan="1"> </td>
               <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Reply-From</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
               <td class="text-left" rowspan="1" colspan="1">permanent</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">List</td>
               <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">Group-ETag</td>
-              <td class="text-left" rowspan="1" colspan="1"> </td>
               <td class="text-left" rowspan="1" colspan="1">permanent</td>
               <td class="text-left" rowspan="1" colspan="1"> </td>
               <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
@@ -2937,8 +2952,12 @@ Body: More than done!
 <span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">STD 94</span>, <span class="seriesInfo">RFC 8949</span>, <span class="seriesInfo">DOI 10.17487/RFC8949</span>, <time datetime="2020-12" class="refDate">December 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8949">https://www.rfc-editor.org/rfc/rfc8949</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC9112">[RFC9112]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Fielding, R., Ed.</span>, <span class="refAuthor">Nottingham, M., Ed.</span>, and <span class="refAuthor">J. Reschke, Ed.</span>, <span class="refTitle">"HTTP/1.1"</span>, <span class="seriesInfo">STD 99</span>, <span class="seriesInfo">RFC 9112</span>, <span class="seriesInfo">DOI 10.17487/RFC9112</span>, <time datetime="2022-06" class="refDate">June 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9112">https://www.rfc-editor.org/rfc/rfc9112</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9651">[RFC9651]</dt>
+      <dd>
+<span class="refAuthor">Nottingham, M.</span> and <span class="refAuthor">P. Kamp</span>, <span class="refTitle">"Structured Field Values for HTTP"</span>, <span class="seriesInfo">RFC 9651</span>, <span class="seriesInfo">DOI 10.17487/RFC9651</span>, <time datetime="2024-09" class="refDate">September 2024</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9651">https://www.rfc-editor.org/rfc/rfc9651</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -3640,7 +3659,10 @@ Based on this information, P composes the group request and sends it to the CoAP
             <p id="appendix-B.1-1.4.1">Aligned handling of multiple responses with draft-ietf-core-groupcomm-bis.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.5.1">Revised HTTP Reply-From header field to be a Structured Header Field.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.6">
+            <p id="appendix-B.1-1.6.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
