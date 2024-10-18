@@ -828,23 +828,23 @@ When translating a CoAP message into an HTTP message, the value of the HTTP Grou
 
 * When translating a CoAP response to an HTTP response, the List of the HTTP Group-ETag header field MUST include one member, which encodes the value specified in the CoAP Group-ETag Option in the CoAP response.
 
-When translating an HTTP message into a CoAP message, the value of the CoAP Group-ETag Option is built as follows.
+When translating an HTTP message into a CoAP message, the value of the CoAP Group-ETag Options is built as follows.
 
 * When translating an HTTP request to a CoAP request, N CoAP Group-ETag Options are included in the CoAP request, where N is the number of members of the List of the HTTP Group-ETag header field. The value of the i-th CoAP Group-ETag Option is obtained by decoding the i-th member of the List of the HTTP Group-ETag header field.
 
 * When translating an HTTP response to a CoAP response, one CoAP Group-ETag Option is included in the CoAP response. The value of the CoAP Group-ETag Option is obtained by decoding the only member of the List of the HTTP Group-ETag header field.
 
-When sending to the HTTP-to-CoAP proxy an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group, the client MAY include one HTTP Group-ETag header field in the request. The field value is a list of one or more members, each of which encodes one entity-tag value that is applicable to the set J of cache entries that can be hit by the request.
+When sending to the HTTP-to-CoAP proxy an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group, the client MAY include one HTTP Group-ETag header field in the request. The field value is a list of one or more members, each of which encodes one entity-tag value that is applicable to the set J of cache entries that can be hit by the request (see {{sec-proxy-caching-validation-c-p}}).
 
 An HTTP-to-CoAP proxy that performs the form of validation defined in {{sec-proxy-caching-validation-c-p}} proceeds like defined in {{sec-proxy-caching-validation-c-p}} for a CoAP-to-CoAP proxy, with the following differences.
 
-* When sending to the client an HTTP 200 (OK) response to an HTTP GET request that was translated into a CoAP GET request sent to the CoAP group, the proxy MAY include one HTTP Group-ETag header field in the response, in case the set J is "complete". The field value is a List of one member encoding the entity-tag value currently associated with the set J.
+* When sending to the client an HTTP 200 (OK) response to an HTTP GET request that was translated into a CoAP GET request sent to the CoAP group, the proxy MAY include one HTTP Group-ETag header field in the response, in case the set J is "complete". The field value is a List composed of one member, which encodes the entity-tag value currently associated with the set J.
 
-* When the HTTP-to-CoAP proxy receives an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group and that includes one or more HTTP Group-ETag header fields, the following applies.
+* When the HTTP-to-CoAP proxy receives an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group and that includes an HTTP Group-ETag header field, the following applies.
 
   - As to the entity-tag values used to check for possible cache hits, the HTTP-to-CoAP proxy obtains those values by decoding the members of the List of the HTTP Group-ETag header field in the HTTP request.
 
-  - If the same conditions for which a CoAP-to-CoAP proxy would reply with a single CoAP 2.03 (Valid) response hold, then the HTTP-to-CoAP proxy replies with a single HTTP 304 (Not Modified) response. The response MUST include one HTTP Group-ETag header field, where its value is a List of one member encoding the current entity-tag value of the set J.
+  - If the same conditions for which a CoAP-to-CoAP proxy would reply with a single CoAP 2.03 (Valid) response hold, then the HTTP-to-CoAP proxy replies with a single HTTP 304 (Not Modified) response. The response MUST include one HTTP Group-ETag header field whose value is a List composed of one member, which encodes the current entity-tag value of the set J.
 
 An HTTP 304 (Not Modified) response from the HTTP-to-CoAP proxy indicates to the client that it is possible to reuse the stored responses identified by the entity-tag encoded by the only member of the List of the HTTP Group-ETag header field.
 
