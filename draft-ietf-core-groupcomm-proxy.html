@@ -1029,7 +1029,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Dijk</td>
-<td class="center">Expires 20 April 2025</td>
+<td class="center">Expires 21 April 2025</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1045,12 +1045,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2024-10-17" class="published">17 October 2024</time>
+<time datetime="2024-10-18" class="published">18 October 2024</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-04-20">20 April 2025</time></dd>
+<dd class="expires"><time datetime="2025-04-21">21 April 2025</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1099,7 +1099,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 21 April 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2512,7 +2512,7 @@ If the List of the HTTP Reply-From header field does not include the second Byte
             <p id="section-9.3-5.2.1">When translating a CoAP response to an HTTP response, the List of the HTTP Group-ETag header field <span class="bcp14">MUST</span> include one member, which encodes the value specified in the CoAP Group-ETag Option in the CoAP response.<a href="#section-9.3-5.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.3-6">When translating an HTTP message into a CoAP message, the value of the CoAP Group-ETag Option is built as follows.<a href="#section-9.3-6" class="pilcrow">¶</a></p>
+<p id="section-9.3-6">When translating an HTTP message into a CoAP message, the value of the CoAP Group-ETag Options is built as follows.<a href="#section-9.3-6" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.3-7.1">
             <p id="section-9.3-7.1.1">When translating an HTTP request to a CoAP request, N CoAP Group-ETag Options are included in the CoAP request, where N is the number of members of the List of the HTTP Group-ETag header field. The value of the i-th CoAP Group-ETag Option is obtained by decoding the i-th member of the List of the HTTP Group-ETag header field.<a href="#section-9.3-7.1.1" class="pilcrow">¶</a></p>
@@ -2521,20 +2521,20 @@ If the List of the HTTP Reply-From header field does not include the second Byte
             <p id="section-9.3-7.2.1">When translating an HTTP response to a CoAP response, one CoAP Group-ETag Option is included in the CoAP response. The value of the CoAP Group-ETag Option is obtained by decoding the only member of the List of the HTTP Group-ETag header field.<a href="#section-9.3-7.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-9.3-8">When sending to the HTTP-to-CoAP proxy an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group, the client <span class="bcp14">MAY</span> include one HTTP Group-ETag header field in the request. The field value is a list of one or more members, each of which encodes one entity-tag value that is applicable to the set J of cache entries that can be hit by the request.<a href="#section-9.3-8" class="pilcrow">¶</a></p>
+<p id="section-9.3-8">When sending to the HTTP-to-CoAP proxy an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group, the client <span class="bcp14">MAY</span> include one HTTP Group-ETag header field in the request. The field value is a list of one or more members, each of which encodes one entity-tag value that is applicable to the set J of cache entries that can be hit by the request (see <a href="#sec-proxy-caching-validation-c-p" class="auto internal xref">Section 7.3</a>).<a href="#section-9.3-8" class="pilcrow">¶</a></p>
 <p id="section-9.3-9">An HTTP-to-CoAP proxy that performs the form of validation defined in <a href="#sec-proxy-caching-validation-c-p" class="auto internal xref">Section 7.3</a> proceeds like defined in <a href="#sec-proxy-caching-validation-c-p" class="auto internal xref">Section 7.3</a> for a CoAP-to-CoAP proxy, with the following differences.<a href="#section-9.3-9" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.3-10.1">
-            <p id="section-9.3-10.1.1">When sending to the client an HTTP 200 (OK) response to an HTTP GET request that was translated into a CoAP GET request sent to the CoAP group, the proxy <span class="bcp14">MAY</span> include one HTTP Group-ETag header field in the response, in case the set J is "complete". The field value is a List of one member encoding the entity-tag value currently associated with the set J.<a href="#section-9.3-10.1.1" class="pilcrow">¶</a></p>
+            <p id="section-9.3-10.1.1">When sending to the client an HTTP 200 (OK) response to an HTTP GET request that was translated into a CoAP GET request sent to the CoAP group, the proxy <span class="bcp14">MAY</span> include one HTTP Group-ETag header field in the response, in case the set J is "complete". The field value is a List composed of one member, which encodes the entity-tag value currently associated with the set J.<a href="#section-9.3-10.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-9.3-10.2">
-            <p id="section-9.3-10.2.1">When the HTTP-to-CoAP proxy receives an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group and that includes one or more HTTP Group-ETag header fields, the following applies.<a href="#section-9.3-10.2.1" class="pilcrow">¶</a></p>
+            <p id="section-9.3-10.2.1">When the HTTP-to-CoAP proxy receives an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group and that includes an HTTP Group-ETag header field, the following applies.<a href="#section-9.3-10.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-9.3-10.2.2.1">
                 <p id="section-9.3-10.2.2.1.1">As to the entity-tag values used to check for possible cache hits, the HTTP-to-CoAP proxy obtains those values by decoding the members of the List of the HTTP Group-ETag header field in the HTTP request.<a href="#section-9.3-10.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-9.3-10.2.2.2">
-                <p id="section-9.3-10.2.2.2.1">If the same conditions for which a CoAP-to-CoAP proxy would reply with a single CoAP 2.03 (Valid) response hold, then the HTTP-to-CoAP proxy replies with a single HTTP 304 (Not Modified) response. The response <span class="bcp14">MUST</span> include one HTTP Group-ETag header field, where its value is a List of one member encoding the current entity-tag value of the set J.<a href="#section-9.3-10.2.2.2.1" class="pilcrow">¶</a></p>
+                <p id="section-9.3-10.2.2.2.1">If the same conditions for which a CoAP-to-CoAP proxy would reply with a single CoAP 2.03 (Valid) response hold, then the HTTP-to-CoAP proxy replies with a single HTTP 304 (Not Modified) response. The response <span class="bcp14">MUST</span> include one HTTP Group-ETag header field whose value is a List composed of one member, which encodes the current entity-tag value of the set J.<a href="#section-9.3-10.2.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
