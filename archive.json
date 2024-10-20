@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-17T01:46:31.627898+00:00",
+  "timestamp": "2024-10-20T01:54:15.968336+00:00",
   "repo": "core-wg/groupcomm-proxy",
   "labels": [
     {
@@ -53,17 +53,17 @@
     {
       "number": 1,
       "id": "I_kwDOK7j_Ns6C6okt",
-      "title": "Use SF to encode Reply-To option in HTTP header?",
+      "title": "Use SF to encode Reply-From option in HTTP header?",
       "url": "https://github.com/core-wg/groupcomm-proxy/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "EskoDijk",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "(From IETF 119 CoRE meeting discussion)  Instead of base64url.\r\nSee https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-sfbis-05",
       "createdAt": "2024-03-20T01:15:13Z",
-      "updatedAt": "2024-03-20T01:15:13Z",
-      "closedAt": null,
+      "updatedAt": "2024-10-17T10:16:54Z",
+      "closedAt": "2024-10-17T10:16:54Z",
       "comments": []
     },
     {
@@ -71,16 +71,24 @@
       "id": "I_kwDOK7j_Ns6C7pVa",
       "title": "Rename the \"Reply-To\" option as \"Reply-From\"",
       "url": "https://github.com/core-wg/groupcomm-proxy/issues/2",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "marco-tiloca-sics",
       "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2024-03-20T05:06:30Z",
-      "updatedAt": "2024-03-20T05:06:30Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2024-10-17T08:25:26Z",
+      "closedAt": "2024-10-17T08:25:26Z",
+      "comments": [
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "This was addressed in version -02.",
+          "createdAt": "2024-10-17T08:25:26Z",
+          "updatedAt": "2024-10-17T08:25:26Z"
+        }
+      ]
     }
   ],
   "pulls": []
