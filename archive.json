@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-10-20T01:54:15.968336+00:00",
+  "timestamp": "2024-10-22T01:47:43.072427+00:00",
   "repo": "core-wg/groupcomm-proxy",
   "labels": [
     {
@@ -87,6 +87,30 @@
           "body": "This was addressed in version -02.",
           "createdAt": "2024-10-17T08:25:26Z",
           "updatedAt": "2024-10-17T08:25:26Z"
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "I_kwDOK7j_Ns6bBQwk",
+      "title": "More naming around Reply-From",
+      "url": "https://github.com/core-wg/groupcomm-proxy/issues/3",
+      "state": "OPEN",
+      "author": "chrysn",
+      "authorAssociation": "MEMBER",
+      "assignees": [],
+      "labels": [],
+      "body": "Sorry to start this just after Reply-To became Reply-From. Working on transport-indication sent me here, and now I wonder:\r\n\r\nIs Reply-From a specific usage pattern of the more general \"and by the way this is my address\" option? The places where I've also seen the need for the same option are:\r\n\r\n* When a server suspects traffic misdirection and wants to send its own canonical address (currently the only related text is in [Appendix D of transport-indication](https://www.ietf.org/archive/id/draft-ietf-core-transport-indication-06.html#name-edhoc-ead-for-verifying-leg) where it is in an EAD rather than a CoAP option, but that is being overhauled)\r\n* Similarly, when a server wants to switch transports in Onion OSCORE in the scenario where there is a difference between introduction and rendezvous node.\r\n* When a client sends a request, expects role reversal, but wants a specific host name to be used rather than just the automatic role reversal address.\r\n\r\nI'm not sure yet those have all the same semantics as Reply-From, but if they have, maybe they should be one option. (If all their semantics differ from Reply-From, then there is nothing to be done here, other than be aware that Reply-From will be the first in a series of options with similar structure).\r\n\r\n(Relatedly, https://github.com/core-wg/corrclar/issues/10#issuecomment-2425180685.)",
+      "createdAt": "2024-10-20T19:16:53Z",
+      "updatedAt": "2024-10-20T20:21:58Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "marco-tiloca-sics",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "> Is Reply-From a specific usage pattern of the more general \"and by the way this is my address\" option?\r\n\r\nI think it's a bit different: the Reply-From option is added by the proxy (not by the origin server), and provides the client with \"instructions\" about where to send a follow-up request that reaches the originator of the response.\r\n\r\nIn most cases, that's actual addressing information of the origin server. In a particular case involving a reverse-proxy, that's addressing information of that proxy (such that a request sent there will be forwarded to the originator of the response).\r\n\r\n> * Similarly, when a server wants to switch transports in Onion OSCORE in the scenario where there is a difference between introduction and rendezvous node.\r\n\r\nI should double-check, but I thought that the server (the hidden service) would inform the origin client about this particular switch in the payload of a protected response, i.e., the only one sent back to the client in the first circuit used to establish a contact.\r\n\r\n> I'm not sure yet those have all the same semantics as Reply-From, but if they have, maybe they should be one option. (If all their semantics differ from Reply-From, then there is nothing to be done here, other than be aware that Reply-From will be the first in a series of options with similar structure).\r\n\r\nAt a first look/thought, they seem to be different but relatable, so part of a series/cluster :-)\r\n",
+          "createdAt": "2024-10-20T20:21:57Z",
+          "updatedAt": "2024-10-20T20:21:57Z"
         }
       ]
     }
