@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-11-21T01:50:59.252897+00:00",
+  "timestamp": "2024-11-24T01:58:29.808484+00:00",
   "repo": "core-wg/groupcomm-proxy",
   "labels": [
     {
@@ -113,6 +113,22 @@
           "updatedAt": "2024-10-20T20:21:57Z"
         }
       ]
+    },
+    {
+      "number": 4,
+      "id": "I_kwDOK7j_Ns6f4O9N",
+      "title": "IANA early review: specify a range for requested Option Numbers",
+      "url": "https://github.com/core-wg/groupcomm-proxy/issues/4",
+      "state": "OPEN",
+      "author": "EskoDijk",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Ranges listed: https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers \r\nRange should be 0-255.",
+      "createdAt": "2024-11-22T08:26:13Z",
+      "updatedAt": "2024-11-22T08:26:13Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": []
