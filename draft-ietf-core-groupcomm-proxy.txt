@@ -6,7 +6,7 @@ CoRE Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Updates: 7252 (if approved)                                      E. Dijk
 Intended status: Standards Track                       IoTconsultancy.nl
-Expires: 21 April 2025                                   18 October 2024
+Expires: 6 August 2025                                   2 February 2025
 
 
              Proxy Operations for CoAP Group Communication
@@ -52,11 +52,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 April 2025.
+   This Internet-Draft will expire on 6 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -2283,15 +2283,16 @@ Table of Contents
               Dijk, E., Wang, C., and M. Tiloca, "Group Communication
               for the Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              11, 24 April 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-groupcomm-bis-11>.
+              12, 21 October 2024,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
+              groupcomm-bis-12>.
 
    [I-D.ietf-core-href]
               Bormann, C. and H. Birkholz, "Constrained Resource
               Identifiers", Work in Progress, Internet-Draft, draft-
-              ietf-core-href-16, 24 July 2024,
+              ietf-core-href-17, 24 January 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              href-16>.
+              href-17>.
 
    [I-D.ietf-core-oscore-groupcomm]
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
@@ -2384,9 +2385,9 @@ Table of Contents
    [I-D.amsuess-core-cachable-oscore]
               Amsüss, C. and M. Tiloca, "Cacheable OSCORE", Work in
               Progress, Internet-Draft, draft-amsuess-core-cachable-
-              oscore-09, 8 July 2024,
+              oscore-10, 8 January 2025,
               <https://datatracker.ietf.org/doc/html/draft-amsuess-core-
-              cachable-oscore-09>.
+              cachable-oscore-10>.
 
    [I-D.bormann-coap-misc]
               Bormann, C. and K. Hartke, "Miscellaneous additions to
@@ -2405,9 +2406,9 @@ Table of Contents
    [I-D.ietf-core-oscore-capable-proxies]
               Tiloca, M. and R. Höglund, "OSCORE-capable Proxies", Work
               in Progress, Internet-Draft, draft-ietf-core-oscore-
-              capable-proxies-02, 8 July 2024,
+              capable-proxies-03, 21 October 2024,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-capable-proxies-02>.
+              oscore-capable-proxies-03>.
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsüss, C., and P. Van der Stok, "Discovery of
