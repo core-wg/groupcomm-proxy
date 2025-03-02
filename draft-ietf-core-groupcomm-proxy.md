@@ -1084,6 +1084,10 @@ IANA is asked to enter the following option numbers to the "CoAP Option Numbers"
 |  TBD3  | Group-ETag        | {{&SELF}} |
 {: #tab-iana-coap-option-numbers title="Registrations in the CoAP Option Numbers Registry" align="center"}
 
+Note to RFC Editor: Please replace "TBD1", "TBD2", and "TBD3" in {{tab-iana-coap-option-numbers}} with the assigned option numbers. Then please delete this paragraph and the following text within the present {{iana-coap-options}}.
+
+For all the three requested options, it is preferred to assign a value in the range 0-255.
+
 ## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
 
 IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" registry.
@@ -1435,6 +1439,8 @@ C                               P                      S1           S2
 {:removeinrfc}
 
 ## Version -03 to -04 ## {#sec-03-04}
+
+* Suggested value ranges for codepoints to register.
 
 * Editorial improvements.
 
