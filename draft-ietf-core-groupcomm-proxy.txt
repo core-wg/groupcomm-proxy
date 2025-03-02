@@ -155,7 +155,7 @@ Table of Contents
    CoAP supports also group communication over IP multicast
    [I-D.ietf-core-groupcomm-bis], where a group request can be addressed
    to multiple recipient servers, each of which may reply with an
-   individual unicast response.  As discussed in Section 3.5 of
+   individual unicast response.  As discussed in Sections E and F of
    [I-D.ietf-core-groupcomm-bis], this group communication scenario
    poses a number of issues and limitations to proxy operations.
 
@@ -178,9 +178,9 @@ Table of Contents
    CoAP group request from the client to the group of CoAP servers, the
    proxy relays the individual responses back to the client as separate
    CoAP messages.  The described method addresses all the related issues
-   raised in Section 3.5 of [I-D.ietf-core-groupcomm-bis].  To this end,
-   this document defines a dedicated signaling protocol based on two new
-   CoAP options and used by the client and the proxy.
+   raised in Sections E and F of [I-D.ietf-core-groupcomm-bis].  To this
+   end, this document defines a dedicated signaling protocol based on
+   two new CoAP options and used by the client and the proxy.
 
    By using this protocol, the client explicitly confirms its intent to
    perform a proxied group request and its support for receiving
@@ -363,10 +363,10 @@ Table of Contents
    *  REQ3.  If end-to-end secure communication is required between the
       client and the servers in the CoAP group, exchanged messages MUST
       be protected by using Group OSCORE
-      [I-D.ietf-core-oscore-groupcomm], as discussed in Section 5 of
-      [I-D.ietf-core-groupcomm-bis].  This requires the client and the
-      servers to have previously joined the correct OSCORE group, for
-      instance by using the approach described in
+      [I-D.ietf-core-oscore-groupcomm], as discussed in Sections E and F
+      of [I-D.ietf-core-groupcomm-bis].  This requires the client and
+      the servers to have previously joined the correct OSCORE group,
+      for instance by using the approach described in
       [I-D.ietf-ace-key-groupcomm-oscore].  The correct OSCORE group to
       join can be pre-configured or alternatively discovered, for
       instance by using the approach described in
@@ -846,7 +846,7 @@ Table of Contents
       to receive responses to a proxied group request.
 
    This practically addresses the additional issues compared to the case
-   with a forward-proxy, as compiled in Section 3.5.2 of
+   with a forward-proxy, as compiled in Appendix F of
    [I-D.ietf-core-groupcomm-bis].
 
    Appendix A provides examples with a reverse-proxy.
@@ -2827,6 +2827,9 @@ Appendix B.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 B.1.  Version -03 to -04
+
+   *  More appropriate pointers to sections of draft-ietf-core-
+      groupcomm-bis.
 
    *  Suggested value ranges for codepoints to register.
 
