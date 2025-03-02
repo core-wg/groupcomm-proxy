@@ -72,13 +72,13 @@ This document specifies the operations performed by a proxy, when using the Cons
 
 The Constrained Application Protocol (CoAP) {{RFC7252}} allows the presence of proxies, as intermediary entities supporting clients by performing requests on their behalf and relaying back responses.
 
-CoAP supports also group communication over IP multicast {{I-D.ietf-core-groupcomm-bis}}, where a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in {{Section 3.5 of I-D.ietf-core-groupcomm-bis}}, this group communication scenario poses a number of issues and limitations to proxy operations.
+CoAP supports also group communication over IP multicast {{I-D.ietf-core-groupcomm-bis}}, where a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}, this group communication scenario poses a number of issues and limitations to proxy operations.
 
 In particular, the client sends to the proxy a single unicast request, which the proxy forwards to a group of CoAP servers, e.g., using UDP/IP multicast as the defined default transport protocol for CoAP group requests (see {{Section 1.1 of I-D.ietf-core-groupcomm-bis}}). Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.
 
 As per {{RFC7252}}, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation Content-Format, which is not available yet. Both these approaches have open issues.
 
-This document takes the former approach. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The described method addresses all the related issues raised in {{Section 3.5 of I-D.ietf-core-groupcomm-bis}}. To this end, this document defines a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.
+This document takes the former approach. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The described method addresses all the related issues raised in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}. To this end, this document defines a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.
 
 By using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates the addressing information of the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast request(s) to the indicated address(es). In doing these follow-up unicast requests, the client may optionally bypass the proxy.
 
@@ -164,7 +164,7 @@ This document assumes that the following requirements are fulfilled.
 
   * A pairwise OSCORE {{RFC8613}} Security Context between the client and the proxy, as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
 
-* REQ3. If end-to-end secure communication is required between the client and the servers in the CoAP group, exchanged messages MUST be protected by using Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}, as discussed in {{Section 5 of I-D.ietf-core-groupcomm-bis}}. This requires the client and the servers to have previously joined the correct OSCORE group, for instance by using the approach described in {{I-D.ietf-ace-key-groupcomm-oscore}}. The correct OSCORE group to join can be pre-configured or alternatively discovered, for instance by using the approach described in {{I-D.tiloca-core-oscore-discovery}}.
+* REQ3. If end-to-end secure communication is required between the client and the servers in the CoAP group, exchanged messages MUST be protected by using Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}, as discussed in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}. This requires the client and the servers to have previously joined the correct OSCORE group, for instance by using the approach described in {{I-D.ietf-ace-key-groupcomm-oscore}}. The correct OSCORE group to join can be pre-configured or alternatively discovered, for instance by using the approach described in {{I-D.tiloca-core-oscore-discovery}}.
 
 This document defines how to achieve the following objectives.
 
@@ -422,7 +422,7 @@ This section clarifies how the Multicast-Timeout Option is effective also in suc
 
 * The client to indicate to the proxy of being aware that it is communicating with a reverse-proxy, and for how long it is willing to receive responses to a proxied group request.
 
-This practically addresses the additional issues compared to the case with a forward-proxy, as compiled in {{Section 3.5.2 of I-D.ietf-core-groupcomm-bis}}.
+This practically addresses the additional issues compared to the case with a forward-proxy, as compiled in {{Section F of I-D.ietf-core-groupcomm-bis}}.
 
 {{sec-reverse-proxies-examples}} provides examples with a reverse-proxy.
 
@@ -1439,6 +1439,8 @@ C                               P                      S1           S2
 {:removeinrfc}
 
 ## Version -03 to -04 ## {#sec-03-04}
+
+* More appropriate pointers to sections of draft-ietf-core-groupcomm-bis.
 
 * Suggested value ranges for codepoints to register.
 
