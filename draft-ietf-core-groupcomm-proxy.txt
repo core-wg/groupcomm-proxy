@@ -2264,6 +2264,13 @@ Table of Contents
                      Table 4: Registrations in the CoAP
                           Option Numbers Registry
 
+   Note to RFC Editor: Please replace "TBD1", "TBD2", and "TBD3" in
+   Table 4 with the assigned option numbers.  Then please delete this
+   paragraph and the following text within the present Section 11.1.
+
+   For all the three requested options, it is preferred to assign a
+   value in the range 0-255.
+
 11.2.  Hypertext Transfer Protocol (HTTP) Field Name Registry
 
    IANA is asked to enter the following HTTP header fields to the
@@ -2820,6 +2827,8 @@ Appendix B.  Document Updates
    This section is to be removed before publishing as an RFC.
 
 B.1.  Version -03 to -04
+
+   *  Suggested value ranges for codepoints to register.
 
    *  Editorial improvements.
 
