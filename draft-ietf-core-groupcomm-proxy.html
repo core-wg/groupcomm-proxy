@@ -1177,6 +1177,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.2">
                     <p id="section-toc.1-1.5.2.1.2.2.1"><a href="#section-5.1.2" class="auto internal xref">5.1.2</a>.  <a href="#name-supporting-observe" class="internal xref">Supporting Observe</a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.3">
+                    <p id="section-toc.1-1.5.2.1.2.3.1"><a href="#section-5.1.3" class="auto internal xref">5.1.3</a>.  <a href="#name-cancellation-of-ongoing-res" class="internal xref">Cancellation of Ongoing Response Forwarding</a></p>
+</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
@@ -1187,6 +1190,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.2">
                     <p id="section-toc.1-1.5.2.2.2.2.1"><a href="#section-5.2.2" class="auto internal xref">5.2.2</a>.  <a href="#name-supporting-observe-2" class="internal xref">Supporting Observe</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2.2.3">
+                    <p id="section-toc.1-1.5.2.2.2.3.1"><a href="#section-5.2.3" class="auto internal xref">5.2.3</a>.  <a href="#name-cancellation-of-ongoing-resp" class="internal xref">Cancellation of Ongoing Response Forwarding</a></p>
 </li>
                 </ul>
 </li>
@@ -1280,6 +1286,9 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.1">
                     <p id="section-toc.1-1.8.2.1.2.1.1"><a href="#section-8.1.1" class="auto internal xref">8.1.1</a>.  <a href="#name-supporting-observe-6" class="internal xref">Supporting Observe</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.2">
+                    <p id="section-toc.1-1.8.2.1.2.2.1"><a href="#section-8.1.2" class="auto internal xref">8.1.2</a>.  <a href="#name-cancellation-of-ongoing-respo" class="internal xref">Cancellation of Ongoing Response Forwarding</a></p>
 </li>
                 </ul>
 </li>
@@ -1689,6 +1698,45 @@ Consistently, if the unicast request to send to the proxy already included a No-
 <p id="section-5.1.2-2">Furthermore, the client especially follows what is specified in <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, i.e., it registers its interest to be an observer with the proxy, as if it was communicating with the servers.<a href="#section-5.1.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="ssec-cancel-forwarding">
+<section id="section-5.1.3">
+          <h4 id="name-cancellation-of-ongoing-res">
+<a href="#section-5.1.3" class="section-number selfRef">5.1.3. </a><a href="#name-cancellation-of-ongoing-res" class="section-name selfRef">Cancellation of Ongoing Response Forwarding</a>
+          </h4>
+<p id="section-5.1.3-1">After having sent the unicast request to the proxy but before timeout expiration, the client might become not interested in receiving further corresponding responses, i.e., from that point in time until T seconds have elapsed since the request was sent to the proxy.<a href="#section-5.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-2">In such a case the client <span class="bcp14">MAY</span> ask the proxy for an early stop of the ongoing response forwarding, i.e., to not forward to the client any further response received to the forwarded group request from the servers.<a href="#section-5.1.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-3">To this end, the client can rely on one of the following two approaches.<a href="#section-5.1.3-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1.3-4.1">
+              <p id="section-5.1.3-4.1.1">The client acts like it would at timeout expiration (see <a href="#ssec-resp-proc-client-steps" class="auto internal xref">Section 5.5.1</a>), i.e., it simply frees up its local Token value associated with the original unicast request sent to the proxy.<a href="#section-5.1.3-4.1.1" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-4.1.2">
+Consequently, further responses forwarded by the proxy would result in the client sending a CoAP Reset message (RST), which the proxy would interpret as a loss of interest from the client.<a href="#section-5.1.3-4.1.2" class="pilcrow">¶</a></p>
+<p id="section-5.1.3-4.1.3">
+While this approach would work when using CoAP over UDP between the client and the proxy, it might not be suitable in case a different transport is used instead.<a href="#section-5.1.3-4.1.3" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.3-4.2">
+              <p id="section-5.1.3-4.2.1">The client sends to the proxy a new CoAP unicast request, namely Early Stop Request, such that:<a href="#section-5.1.3-4.2.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1.3-4.2.2.1">
+                  <p id="section-5.1.3-4.2.2.1.1">It <span class="bcp14">MUST</span> use the method GET.<a href="#section-5.1.3-4.2.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-5.1.3-4.2.2.2">
+                  <p id="section-5.1.3-4.2.2.2.1">It <span class="bcp14">MUST</span> use the same Token value of the original unicast request sent to the proxy. This explicitly relates the present Early Stop Request to the original unicast request.<a href="#section-5.1.3-4.2.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-5.1.3-4.2.2.3">
+                  <p id="section-5.1.3-4.2.2.3.1">It <span class="bcp14">MUST</span> include the Multicast-Timeout Option, specifying 0 as option value. This explicitly indicates the client's wish to stop receiving further responses to the original unicast request.<a href="#section-5.1.3-4.2.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-5.1.3-4.2.2.4">
+                  <p id="section-5.1.3-4.2.2.4.1">It <span class="bcp14">MUST NOT</span> include any of the following: the Proxy-Uri Option or the Proxy-Cri Option; the Proxy-Scheme Option or the Proxy-Scheme-Number Option, together with the Uri-* options. This explicitly indicates the proxy to not forward the Early Stop Request.<a href="#section-5.1.3-4.2.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+<p id="section-5.1.3-4.2.3">
+After sending the Early Stop Request, the client frees up its local Token value associated with the original unicast request sent to the proxy.<a href="#section-5.1.3-4.2.3" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.1.3-5">Note that, irrespective of the approach used by the client, freeing up the Token value does not make it eligible for possible reuse yet (see <a href="#ssec-req-send-steps" class="auto internal xref">Section 5.1.1</a>).<a href="#section-5.1.3-5" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="ssec-req-proc-proxy">
@@ -1743,6 +1791,16 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
           </h4>
 <p id="section-5.2.2-1">When using CoAP Observe <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, the proxy takes the role of the client and registers its own interest to observe the target resource with the servers as per <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.2.2-2">When doing so, the proxy especially follows what is specified for the client in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, by forwarding the group request to the servers over IP multicast as defined in <a href="#ssec-req-proc-proxy-steps" class="auto internal xref">Section 5.2.1</a> of this document.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ssec-cancel-forwarding-proxy">
+<section id="section-5.2.3">
+          <h4 id="name-cancellation-of-ongoing-resp">
+<a href="#section-5.2.3" class="section-number selfRef">5.2.3. </a><a href="#name-cancellation-of-ongoing-resp" class="section-name selfRef">Cancellation of Ongoing Response Forwarding</a>
+          </h4>
+<p id="section-5.2.3-1">As defined in <a href="#ssec-cancel-forwarding" class="auto internal xref">Section 5.1.3</a>, the client might ask the proxy for an early stop of the ongoing response forwarding, i.e., to stop forwarding to the client any further responses received to the forwarded group request from the servers.<a href="#section-5.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-2">Consistently, the proxy stops forwarding such responses to the client, after receiving a CoAP Reset message (RST) in reply to one of such responses, or after receiving an Early Stop Request related to the ongoing response forwarding (i.e., using the same Token value of the original unicast request from the client).<a href="#section-5.2.3-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.3-3">After that, in case the proxy receives further responses to the forwarded group request from the servers, the proxy <span class="bcp14">MUST NOT</span> forward those responses to the client. In fact, the proxy can safely free up its local Token value associated with that group request, which results in discarding any further responses to the same group request received from then on from the servers.<a href="#section-5.2.3-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2408,6 +2466,16 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
           </h4>
 <p id="section-8.1.1-1">When using CoAP Observe <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, what is defined in <a href="#ssec-req-proc-proxy-observe" class="auto internal xref">Section 5.2.2</a> applies for the last proxy in the chain, i.e., the last hop before the origin servers.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1.1-2">Any other proxy in the chain acts as a client and registers its own interest to observe the target resource with the next hop towards the origin servers, as per <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>.<a href="#section-8.1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ssec-cancel-forwarding-proxy-chain">
+<section id="section-8.1.2">
+          <h4 id="name-cancellation-of-ongoing-respo">
+<a href="#section-8.1.2" class="section-number selfRef">8.1.2. </a><a href="#name-cancellation-of-ongoing-respo" class="section-name selfRef">Cancellation of Ongoing Response Forwarding</a>
+          </h4>
+<p id="section-8.1.2-1">Consistently with what is described in <a href="#ssec-cancel-forwarding-proxy" class="auto internal xref">Section 5.2.3</a>, a proxy might be asked by the (previous hop proxy closer to the) origin client for an early stop of the ongoing response forwarding.<a href="#section-8.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.1.2-2">That is, the proxy is asked to stop forwarding to the (previous hop proxy closer to the) origin client any further responses received to the forwarded group request from the (next hop proxy towards the) origin servers.<a href="#section-8.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-8.1.2-3">When this happens, the proxy proceeds as described in <a href="#ssec-cancel-forwarding-proxy" class="auto internal xref">Section 5.2.3</a>. Furthermore, if the proxy is not the last one in the chain, the proxy <span class="bcp14">MAY</span> send to the next hop proxy towards the origin servers an Early Stop Request (see <a href="#ssec-req-proc-proxy-steps" class="auto internal xref">Section 5.2.1</a>), with the same Token value of the group request that the proxy forwarded to the next hop proxy towards the origin servers.<a href="#section-8.1.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3719,10 +3787,13 @@ Based on this information, P composes the group request and sends it to the CoAP
             <p id="appendix-B.1-1.2.1">More precise semantics for the Reply-From Option.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Suggested value ranges for codepoints to register.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Defined early cancellation of ongoing response forwarding.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Suggested value ranges for codepoints to register.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
