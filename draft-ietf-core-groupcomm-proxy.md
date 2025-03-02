@@ -228,6 +228,34 @@ When using CoAP Observe {{RFC7641}}, the client follows what is specified in {{S
 
 Furthermore, the client especially follows what is specified in {{Section 5 of RFC7641}}, i.e., it registers its interest to be an observer with the proxy, as if it was communicating with the servers.
 
+### Cancellation of Ongoing Response Forwarding {#ssec-cancel-forwarding}
+
+After having sent the unicast request to the proxy but before timeout expiration, the client might become not interested in receiving further corresponding responses, i.e., from that point in time until T seconds have elapsed since the request was sent to the proxy.
+
+In such a case the client MAY ask the proxy for an early stop of the ongoing response forwarding, i.e., to not forward to the client any further response received to the forwarded group request from the servers.
+
+To this end, the client can rely on one of the following two approaches.
+
+* The client acts like it would at timeout expiration (see {{ssec-resp-proc-client-steps}}), i.e., it simply frees up its local Token value associated with the original unicast request sent to the proxy.
+
+  Consequently, further responses forwarded by the proxy would result in the client sending a CoAP Reset message (RST), which the proxy would interpret as a loss of interest from the client.
+
+  While this approach would work when using CoAP over UDP between the client and the proxy, it might not be suitable in case a different transport is used instead.
+
+* The client sends to the proxy a new CoAP unicast request, namely Early Stop Request, such that:
+
+  * It MUST use the method GET.
+
+  * It MUST use the same Token value of the original unicast request sent to the proxy. This explicitly relates the present Early Stop Request to the original unicast request.
+
+  * It MUST include the Multicast-Timeout Option, specifying 0 as option value. This explicitly indicates the client's wish to stop receiving further responses to the original unicast request.
+
+  * It MUST NOT include any of the following: the Proxy-Uri Option or the Proxy-Cri Option; the Proxy-Scheme Option or the Proxy-Scheme-Number Option, together with the Uri-* options. This explicitly indicates the proxy to not forward the Early Stop Request.
+
+  After sending the Early Stop Request, the client frees up its local Token value associated with the original unicast request sent to the proxy.
+
+Note that, irrespective of the approach used by the client, freeing up the Token value does not make it eligible for possible reuse yet (see {{ssec-req-send-steps}}).
+
 ## Request Processing at the Proxy ## {#ssec-req-proc-proxy}
 
 This section defines the operations performed by the proxy, when receiving a request to forward to a group of servers.
@@ -265,6 +293,14 @@ If the proxy supports caching of responses, it can serve the original unicast re
 When using CoAP Observe {{RFC7641}}, the proxy takes the role of the client and registers its own interest to observe the target resource with the servers as per {{Section 5 of RFC7641}}.
 
 When doing so, the proxy especially follows what is specified for the client in {{Section 3.7 of I-D.ietf-core-groupcomm-bis}}, by forwarding the group request to the servers over IP multicast as defined in {{ssec-req-proc-proxy-steps}} of this document.
+
+### Cancellation of Ongoing Response Forwarding {#ssec-cancel-forwarding-proxy}
+
+As defined in {{ssec-cancel-forwarding}}, the client might ask the proxy for an early stop of the ongoing response forwarding, i.e., to stop forwarding to the client any further responses received to the forwarded group request from the servers.
+
+Consistently, the proxy stops forwarding such responses to the client, after receiving a CoAP Reset message (RST) in reply to one of such responses, or after receiving an Early Stop Request related to the ongoing response forwarding (i.e., using the same Token value of the original unicast request from the client).
+
+After that, in case the proxy receives further responses to the forwarded group request from the servers, the proxy MUST NOT forward those responses to the client. In fact, the proxy can safely free up its local Token value associated with that group request, which results in discarding any further responses to the same group request received from then on from the servers.
 
 ## Request and Response Processing at the Server ## {#ssec-req-resp-proc-server}
 
@@ -727,6 +763,14 @@ Multicast-Timeout Option of the request received from the (previous hop proxy cl
 When using CoAP Observe {{RFC7641}}, what is defined in {{ssec-req-proc-proxy-observe}} applies for the last proxy in the chain, i.e., the last hop before the origin servers.
 
 Any other proxy in the chain acts as a client and registers its own interest to observe the target resource with the next hop towards the origin servers, as per {{Section 5 of RFC7641}}.
+
+### Cancellation of Ongoing Response Forwarding {#ssec-cancel-forwarding-proxy-chain}
+
+Consistently with what is described in {{ssec-cancel-forwarding-proxy}}, a proxy might be asked by the (previous hop proxy closer to the) origin client for an early stop of the ongoing response forwarding.
+
+That is, the proxy is asked to stop forwarding to the (previous hop proxy closer to the) origin client any further responses received to the forwarded group request from the (next hop proxy towards the) origin servers.
+
+When this happens, the proxy proceeds as described in {{ssec-cancel-forwarding-proxy}}. Furthermore, if the proxy is not the last one in the chain, the proxy MAY send to the next hop proxy towards the origin servers an Early Stop Request (see {{ssec-req-proc-proxy-steps}}), with the same Token value of the group request that the proxy forwarded to the next hop proxy towards the origin servers.
 
 ## Response Processing at the Proxy # {#sec-proxy-chain-response-processing}
 
@@ -1447,6 +1491,8 @@ C                               P                      S1           S2
 * More appropriate pointers to sections of draft-ietf-core-groupcomm-bis.
 
 * More precise semantics for the Reply-From Option.
+
+* Defined early cancellation of ongoing response forwarding.
 
 * Suggested value ranges for codepoints to register.
 
