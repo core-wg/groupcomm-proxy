@@ -144,7 +144,11 @@ When used as defined in this document, the option value is set to the byte seria
 
 * The first CBOR array is REQUIRED and specifies a CRI (see {{I-D.ietf-core-href}}). In particular, both 'scheme' and 'authority' are given, while 'path', 'query', and 'fragment' are not given.
 
-* The second CBOR array is OPTIONAL and specifies a CRI reference (see {{I-D.ietf-core-href}}). In particular, 'scheme' is set to `null` (0xf6), at least one of 'authority' and 'path' is given, and both 'query' and 'fragment' are not given. This CRI reference is relevant in some scenarios where the proxy is a reverse-proxy.
+* The second CBOR array is OPTIONAL and specifies a CRI reference (see {{I-D.ietf-core-href}}). In particular, 'scheme' is set to `null` (0xf6), at least one of 'authority' and 'path' is given, and both 'query' and 'fragment' are not given.
+
+  If 'authority' is given in this CRI reference, then 'host' MUST NOT be of the form host-name within 'authority' of the CRI specified by the first CBOR array.
+
+  This CRI reference is relevant in some scenarios where the proxy is a reverse-proxy.
 
 The detailed use of this option is specified in {{ssec-resp-proc-proxy-steps}} and {{ssec-resp-proc-client-steps}} when the proxy is a forward-proxy, and in {{sec-reverse-proxies-proxy-side}} and {{sec-reverse-proxies-client-side}} when the proxy is a reverse-proxy.
 
@@ -1442,9 +1446,11 @@ C                               P                      S1           S2
 
 * More appropriate pointers to sections of draft-ietf-core-groupcomm-bis.
 
+* More precise semantics for the Reply-From Option.
+
 * Suggested value ranges for codepoints to register.
 
-* Editorial improvements.
+* Clarifications and editorial improvements.
 
 ## Version -02 to -03 ## {#sec-02-03}
 
