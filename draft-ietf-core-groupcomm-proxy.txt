@@ -2268,8 +2268,8 @@ Table of Contents
    Table 4 with the assigned option numbers.  Then please delete this
    paragraph and the following text within the present Section 11.1.
 
-   For all the three requested options, it is preferred to assign a
-   value in the range 0-255.
+   For all the three requested options, it is preferred to assign an
+   option number from the value range 0-255.
 
 11.2.  Hypertext Transfer Protocol (HTTP) Field Name Registry
 
