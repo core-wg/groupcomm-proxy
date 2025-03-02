@@ -6,7 +6,7 @@ CoRE Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Updates: 7252 (if approved)                                      E. Dijk
 Intended status: Standards Track                       IoTconsultancy.nl
-Expires: 6 August 2025                                   2 February 2025
+Expires: 3 September 2025                                   2 March 2025
 
 
              Proxy Operations for CoAP Group Communication
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 August 2025.
+   This Internet-Draft will expire on 3 September 2025.
 
 Copyright Notice
 
@@ -139,9 +139,10 @@ Table of Contents
      A.2.  Example 2
      A.3.  Example 3
    Appendix B.  Document Updates
-     B.1.  Version -02 to -03
-     B.2.  Version -01 to -02
-     B.3.  Version -00 to -01
+     B.1.  Version -03 to -04
+     B.2.  Version -02 to -03
+     B.3.  Version -01 to -02
+     B.4.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -913,11 +914,13 @@ Table of Contents
       the value of the Reply-From Option specifies an addressing
       information TARGET that is directly associated with the origin
       server that generated the response.  In particular, the proxy sets
-      the option value as follows.  * The CRI present as first element
-      of the CBOR sequence specifies the addressing information TARGET,
-      such that a unicast request reaches the origin server if sent
-      according to TARGET.  The second element of the CBOR sequence MUST
-      NOT be present.
+      the option value as follows.
+
+      -  The CRI present as first element of the CBOR sequence specifies
+         the addressing information TARGET, such that a unicast request
+         reaches the origin server if sent according to TARGET.
+
+      -  The second element of the CBOR sequence MUST NOT be present.
 
       The client will be able to use that information for sending a
       follow-up unicast request directly to that server, i.e., bypassing
@@ -1123,6 +1126,7 @@ Table of Contents
    The following text can be used to replace the last paragraph above.
 
 
+
    As discussed in Section 7.4, the following applies when Group OSCORE
    [I-D.ietf-core-oscore-groupcomm] is used to secure communications
    end-to-end between the origin client and the origin servers in the
@@ -1166,6 +1170,7 @@ Table of Contents
    See the notes in Section 7.2.1.
 
    The following text can be used to replace the last paragraph above.
+
 
 
    As discussed in Section 7.4, the following applies when Group OSCORE
@@ -1350,6 +1355,7 @@ Table of Contents
    See the notes in Section 7.2.1.
 
    The following text can be used to replace the last paragraph above.
+
 
 
    When directly interacting with the servers in the CoAP group to
@@ -1947,6 +1953,7 @@ Table of Contents
    Body: Do that!
 
 
+
    The following is an example of HTTP batch response sent by P to C, as
    a reply to the client's original unicast group request
 
@@ -2280,27 +2287,27 @@ Table of Contents
 12.1.  Normative References
 
    [I-D.ietf-core-groupcomm-bis]
-              Dijk, E., Wang, C., and M. Tiloca, "Group Communication
-              for the Constrained Application Protocol (CoAP)", Work in
+              Dijk, E. and M. Tiloca, "Group Communication for the
+              Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              12, 21 October 2024,
+              13, 24 February 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              groupcomm-bis-12>.
+              groupcomm-bis-13>.
 
    [I-D.ietf-core-href]
               Bormann, C. and H. Birkholz, "Constrained Resource
               Identifiers", Work in Progress, Internet-Draft, draft-
-              ietf-core-href-17, 24 January 2025,
+              ietf-core-href-18, 3 February 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              href-17>.
+              href-18>.
 
    [I-D.ietf-core-oscore-groupcomm]
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
               and R. Höglund, "Group Object Security for Constrained
               RESTful Environments (Group OSCORE)", Work in Progress,
-              Internet-Draft, draft-ietf-core-oscore-groupcomm-23, 26
-              September 2024, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-oscore-groupcomm-23>.
+              Internet-Draft, draft-ietf-core-oscore-groupcomm-24, 8
+              February 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-core-oscore-groupcomm-24>.
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
               Extensions (MIME) Part Two: Media Types", RFC 2046,
@@ -2812,7 +2819,11 @@ Appendix B.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-B.1.  Version -02 to -03
+B.1.  Version -03 to -04
+
+   *  Editorial improvements.
+
+B.2.  Version -02 to -03
 
    *  Made RFC 7967 a normative reference.
 
@@ -2831,7 +2842,7 @@ B.1.  Version -02 to -03
 
    *  Clarifications and editorial improvements.
 
-B.2.  Version -01 to -02
+B.3.  Version -01 to -02
 
    *  Reply-To Option renamed as Reply-From.
 
@@ -2851,7 +2862,7 @@ B.2.  Version -01 to -02
 
    *  Editorial fixes and improvements.
 
-B.3.  Version -00 to -01
+B.4.  Version -00 to -01
 
    *  Definition of "individual request" in the terminology.
 
