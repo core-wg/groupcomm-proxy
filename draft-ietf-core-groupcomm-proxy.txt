@@ -17,9 +17,9 @@ Abstract
    This document specifies the operations performed by a proxy, when
    using the Constrained Application Protocol (CoAP) in group
    communication scenarios.  Such a proxy processes a single request
-   sent by a client over unicast, and distributes the request to a group
-   of servers, e.g., over UDP/IP multicast as the defined default
-   transport protocol.  Then, the proxy collects the individual
+   sent by a client typically over unicast, and distributes the request
+   to a group of servers, e.g., over UDP/IP multicast as the defined
+   default transport protocol.  Then, the proxy collects the individual
    responses from those servers and relays those responses back to the
    client, in a way that allows the client to distinguish the responses
    and their origin servers through embedded addressing information.
@@ -159,10 +159,10 @@ Table of Contents
    [I-D.ietf-core-groupcomm-bis], this group communication scenario
    poses a number of issues and limitations to proxy operations.
 
-   In particular, the client sends to the proxy a single unicast
-   request, which the proxy forwards to a group of CoAP servers, e.g.,
-   using UDP/IP multicast as the defined default transport protocol for
-   CoAP group requests (see Section 1.1 of
+   In particular, the client typically sends to the proxy a single
+   unicast request, which the proxy forwards to a group of CoAP servers,
+   e.g., using UDP/IP multicast as the defined default transport
+   protocol for CoAP group requests (see Section 1.1 of
    [I-D.ietf-core-groupcomm-bis]).  Later on, the proxy replies to the
    client's original unicast request, by relaying back the responses
    from the servers.
@@ -187,12 +187,12 @@ Table of Contents
    multiple responses as a result, i.e., one or more from each origin
    server.  Also, the client signals for how long it is willing to wait
    for responses.  When relaying to the client a response to the group
-   request, the proxy indicates the addressing information of the origin
-   server.  This enables the client to distinguish multiple different
-   responses by origin and to possibly contact one or more of the
-   respective servers by sending individual unicast request(s) to the
-   indicated address(es).  In doing these follow-up unicast requests,
-   the client may optionally bypass the proxy.
+   request, the proxy indicates addressing information pertaining to the
+   origin server.  This enables the client to distinguish multiple
+   different responses by origin and to possibly contact one or more of
+   the respective servers by sending individual unicast request(s) to
+   the indicated address(es).  In doing these follow-up unicast
+   requests, the client can optionally bypass the proxy.
 
    Like [I-D.ietf-core-groupcomm-bis], this document refers to UDP/IP
    multicast as the transport protocol that a proxy uses to forward a
@@ -238,7 +238,7 @@ Table of Contents
    This document also uses the following terminology.
 
    *  Individual request: a request that an origin client sends to a
-      single origin server within a group, either directly, or
+      single origin server within a group, either directly or instead
       indirectly via a proxy.
 
 2.  The Multicast-Timeout Option
@@ -269,7 +269,7 @@ Table of Contents
 
    When sending a CoAP group request to a proxy via IP unicast, to be
    forwarded by the proxy to a targeted group of servers, the client
-   includes the Multicast-Timeout Option into the request.  The option
+   includes the Multicast-Timeout Option in the request.  The option
    value indicates after how much time in seconds the client will stop
    accepting responses matching its original unicast request, with the
    exception of notifications if the CoAP Observe Option [RFC7641] is
@@ -303,16 +303,16 @@ Table of Contents
    that can perform proxied CoAP group requests.
 
    Upon receiving a response to such a request from an origin server,
-   the proxy includes the Reply-From Option into the response sent to
-   the origin client (see Section 5).  The proxy uses the option to
-   indicate addressing information pertaining to that origin server,
-   which the client can use in order to send an individual request
-   intended to that server.
+   the proxy includes the Reply-From Option in the response sent to the
+   origin client (see Section 5).  The proxy uses the option to indicate
+   addressing information pertaining to that origin server, which the
+   client can use in order to send an individual request intended to
+   that server.
 
    In particular, the client can use the addressing information
    specified in the option in order to identify the response originator
    and to possibly send it individual unicast requests later on, either
-   directly or indirectly via the proxy.
+   directly or instead indirectly via the proxy.
 
    When used as defined in this document, the option value is set to the
    byte serialization of a CBOR sequence [RFC8742], which is composed of
@@ -452,7 +452,7 @@ Table of Contents
           trip delay between the proxy and any of the origin servers.
 
    3.  The client MUST include the Multicast-Timeout Option defined in
-       Section 2 into the unicast request to send to the proxy.  The
+       Section 2 in the unicast request to send to the proxy.  The
        option value specifies an amount of time T' < T.  The difference
        (T - T') should be at least the expected worst-case round-trip
        time between the client and the proxy.
@@ -604,14 +604,14 @@ Table of Contents
    proxy proceeds according to the following steps.
 
    1.  The proxy MUST include the Reply-From Option defined in Section 3
-       into the response.  The proxy sets the option value as follows.
+       in the response.  The proxy sets the option value as follows.
 
        The CRI present as first element of the CBOR sequence specifies
        the addressing information of the server generating the response.
        The second element of the CBOR sequence MUST NOT be present.
 
        If the proxy supports caching of responses (see Section 7), the
-       proxy MUST include the Reply-From Option into the response before
+       proxy MUST include the Reply-From Option in the response before
        caching the response.  This ensures that a response to a group
        request conveys the addressing information of the origin server
        that generated the response, also when the response is forwarded
@@ -699,11 +699,11 @@ Table of Contents
        servers.
 
        Optionally, the client may contact one or more of those servers
-       individually, i.e., directly (bypassing the proxy) or indirectly
-       (via a proxied unicast request).  To this end, the client
-       composes the correct URI for the individual request to the origin
-       server, by using the information specified in the CRI retrieved
-       from the Reply-From Option.
+       individually, i.e., directly (bypassing the proxy) or instead
+       indirectly (via a proxied unicast request).  To this end, the
+       client composes the correct URI for the individual request to the
+       origin server, by using the information specified in the CRI
+       retrieved from the Reply-From Option.
 
        In order to individually reach the origin server again through
        the proxy, the client is not required to support the transport
@@ -2152,8 +2152,8 @@ Table of Contents
    learn the addressing information of servers in the group.  This may
    in turn be used by an on-path active adversary to perform a more
    efficient, selective suppression of follow-up requests that the
-   client sends to a specific server, either directly, or indirectly via
-   the proxy.
+   client sends to a specific server, either directly or instead
+   indirectly via the proxy.
 
    When the proxy protects the response forwarded back to the client
    using OSCORE (see [I-D.ietf-core-oscore-capable-proxies]) and/or
