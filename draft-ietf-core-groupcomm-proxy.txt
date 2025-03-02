@@ -326,8 +326,14 @@ Table of Contents
    *  The second CBOR array is OPTIONAL and specifies a CRI reference
       (see [I-D.ietf-core-href]).  In particular, 'scheme' is set to
       null (0xf6), at least one of 'authority' and 'path' is given, and
-      both 'query' and 'fragment' are not given.  This CRI reference is
-      relevant in some scenarios where the proxy is a reverse-proxy.
+      both 'query' and 'fragment' are not given.
+
+      If 'authority' is given in this CRI reference, then 'host' MUST
+      NOT be of the form host-name within 'authority' of the CRI
+      specified by the first CBOR array.
+
+      This CRI reference is relevant in some scenarios where the proxy
+      is a reverse-proxy.
 
    The detailed use of this option is specified in Section 5.4.1 and
    Section 5.5.1 when the proxy is a forward-proxy, and in Section 6.1
@@ -2831,9 +2837,11 @@ B.1.  Version -03 to -04
    *  More appropriate pointers to sections of draft-ietf-core-
       groupcomm-bis.
 
+   *  More precise semantics for the Reply-From Option.
+
    *  Suggested value ranges for codepoints to register.
 
-   *  Editorial improvements.
+   *  Clarifications and editorial improvements.
 
 B.2.  Version -02 to -03
 
