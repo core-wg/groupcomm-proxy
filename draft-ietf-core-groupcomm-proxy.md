@@ -1086,7 +1086,7 @@ IANA is asked to enter the following option numbers to the "CoAP Option Numbers"
 
 Note to RFC Editor: Please replace "TBD1", "TBD2", and "TBD3" in {{tab-iana-coap-option-numbers}} with the assigned option numbers. Then please delete this paragraph and the following text within the present {{iana-coap-options}}.
 
-For all the three requested options, it is preferred to assign a value in the range 0-255.
+For all the three requested options, it is preferred to assign an option number from the value range 0-255.
 
 ## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
 
