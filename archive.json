@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-02T01:54:59.660960+00:00",
+  "timestamp": "2025-03-04T01:51:32.769829+00:00",
   "repo": "core-wg/groupcomm-proxy",
   "labels": [
     {
@@ -119,16 +119,24 @@
       "id": "I_kwDOK7j_Ns6f4O9N",
       "title": "IANA early review: specify a range for requested Option Numbers",
       "url": "https://github.com/core-wg/groupcomm-proxy/issues/4",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "EskoDijk",
       "authorAssociation": "NONE",
       "assignees": [],
       "labels": [],
       "body": "Ranges listed: https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers \r\nRange should be 0-255.",
       "createdAt": "2024-11-22T08:26:13Z",
-      "updatedAt": "2024-11-22T08:26:13Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-03-02T16:38:44Z",
+      "closedAt": "2025-03-02T16:02:41Z",
+      "comments": [
+        {
+          "author": "cabo",
+          "authorAssociation": "MEMBER",
+          "body": "This will do for the draft.\nNote that the characteristics of an actual option number will depend on what other options are usually present in the message, so any discussion on core-parameters that leads to an allocation will best look at specific examples in context.\n",
+          "createdAt": "2025-03-02T16:38:43Z",
+          "updatedAt": "2025-03-02T16:38:43Z"
+        }
+      ]
     }
   ],
   "pulls": []
