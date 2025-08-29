@@ -8,24 +8,24 @@
 <meta content="Marco Tiloca" name="author">
 <meta content="Esko Dijk" name="author">
 <meta content="
-       This document specifies the operations performed by a proxy, when using the Constrained Application Protocol (CoAP) in group communication scenarios. Such a proxy processes a single request sent by a client typically over unicast, and distributes the request to a group of servers, e.g., over UDP/IP multicast as the defined default transport protocol. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies. 
+       This document defines a specific realization of proxy intended for scenarios that use group communication for the Constrained Application Protocol (CoAP). Such a proxy processes a single request sent by a client typically over unicast, and distributes the request to a group of servers, e.g., over UDP/IP multicast as the defined default transport protocol. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies. 
     " name="description">
-<meta content="xml2rfc 3.27.0" name="generator">
+<meta content="xml2rfc 3.30.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-core-groupcomm-proxy-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.27.0
-    Python 3.12.9
+  xml2rfc 3.30.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
-    Jinja2 3.1.5
-    lxml 5.3.0
-    platformdirs 4.3.6
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
+    requests 2.32.4
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-ietf-core-groupcomm-proxy.xml" rel="alternate" type="application/rfc+xml">
@@ -1045,11 +1045,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Proxy Operations for Group Communication</td>
-<td class="right">March 2025</td>
+<td class="right">August 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Dijk</td>
-<td class="center">Expires 3 September 2025</td>
+<td class="center">Expires 2 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1065,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-03-02" class="published">2 March 2025</time>
+<time datetime="2025-08-29" class="published">29 August 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-09-03">3 September 2025</time></dd>
+<dd class="expires"><time datetime="2026-03-02">2 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1087,7 +1087,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Proxy Operations for CoAP Group Communication</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">This document specifies the operations performed by a proxy, when using the Constrained Application Protocol (CoAP) in group communication scenarios. Such a proxy processes a single request sent by a client typically over unicast, and distributes the request to a group of servers, e.g., over UDP/IP multicast as the defined default transport protocol. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">This document defines a specific realization of proxy intended for scenarios that use group communication for the Constrained Application Protocol (CoAP). Such a proxy processes a single request sent by a client typically over unicast, and distributes the request to a group of servers, e.g., over UDP/IP multicast as the defined default transport protocol. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-discussion-venues">
@@ -1119,7 +1119,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 September 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 2 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1405,16 +1405,19 @@ svg :is([fill="white"], [fill^="#fff"]) {
             <p id="section-toc.1-1.14.1"><a href="#appendix-B" class="auto internal xref">Appendix B</a>.  <a href="#name-document-updates" class="internal xref">Document Updates</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.1">
-                <p id="section-toc.1-1.14.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
+                <p id="section-toc.1-1.14.2.1.1"><a href="#appendix-B.1" class="auto internal xref">B.1</a>.  <a href="#name-version-04-to-05" class="internal xref">Version -04 to -05</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.2">
-                <p id="section-toc.1-1.14.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
+                <p id="section-toc.1-1.14.2.2.1"><a href="#appendix-B.2" class="auto internal xref">B.2</a>.  <a href="#name-version-03-to-04" class="internal xref">Version -03 to -04</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.3">
-                <p id="section-toc.1-1.14.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+                <p id="section-toc.1-1.14.2.3.1"><a href="#appendix-B.3" class="auto internal xref">B.3</a>.  <a href="#name-version-02-to-03" class="internal xref">Version -02 to -03</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.4">
-                <p id="section-toc.1-1.14.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
+                <p id="section-toc.1-1.14.2.4.1"><a href="#appendix-B.4" class="auto internal xref">B.4</a>.  <a href="#name-version-01-to-02" class="internal xref">Version -01 to -02</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.14.2.5">
+                <p id="section-toc.1-1.14.2.5.1"><a href="#appendix-B.5" class="auto internal xref">B.5</a>.  <a href="#name-version-00-to-01" class="internal xref">Version -00 to -01</a></p>
 </li>
             </ul>
 </li>
@@ -1434,10 +1437,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">The Constrained Application Protocol (CoAP) <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> allows the presence of proxies, as intermediary entities supporting clients by performing requests on their behalf and relaying back responses.<a href="#section-1-1" class="pilcrow">¶</a></p>
-<p id="section-1-2">CoAP supports also group communication over IP multicast <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, where a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#appendix-E" class="relref">E</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#appendix-F" class="relref">F</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, this group communication scenario poses a number of issues and limitations to proxy operations.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">In particular, the client typically sends to the proxy a single unicast request, which the proxy forwards to a group of CoAP servers, e.g., using UDP/IP multicast as the defined default transport protocol for CoAP group requests (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-1.1" class="relref">Section 1.1</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>). Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-2">CoAP supports also group communication over IP multicast <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, where a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#appendix-E" class="relref">E</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#appendix-F" class="relref">F</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, this group communication scenario poses a number of issues and limitations to proxy operations.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">In particular, the client typically sends to the proxy a single unicast request, which the proxy forwards to a group of CoAP servers, e.g., using UDP/IP multicast as the defined default transport protocol for CoAP group requests (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-1.1" class="relref">Section 1.1</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>). Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">As per <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation Content-Format, which is not available yet. Both these approaches have open issues.<a href="#section-1-4" class="pilcrow">¶</a></p>
-<p id="section-1-5">This document takes the former approach. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The described method addresses all the related issues raised in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#appendix-E" class="relref">E</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#appendix-F" class="relref">F</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>. To this end, this document defines a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-5">This document takes the former approach and accordingly defines a specific realization of proxy intended for scenarios that use group communication for CoAP. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The defined realization of proxy addresses all the related issues raised in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#appendix-E" class="relref">E</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#appendix-F" class="relref">F</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>. To this end, this document specifies a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.<a href="#section-1-5" class="pilcrow">¶</a></p>
 <p id="section-1-6">By using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates addressing information pertaining to the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast request(s) to the indicated address(es). In doing these follow-up unicast requests, the client can optionally bypass the proxy.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <p id="section-1-7">Like <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, this document refers to UDP/IP multicast as the transport protocol that a proxy uses to forward a CoAP group request to a group of servers. While other transport protocols such as broadcast, non-IP multicast, and geocast can also be possible to employ, their use is not considered in this document.<a href="#section-1-7" class="pilcrow">¶</a></p>
 <p id="section-1-8">This document also defines how the proposed protocol is used between an HTTP client and an HTTP-to-CoAP cross-proxy, in order to forward an HTTP group request from the client to a group of CoAP servers, and relay back the individual CoAP responses as HTTP responses.<a href="#section-1-8" class="pilcrow">¶</a></p>
@@ -1607,7 +1610,7 @@ This CRI reference is relevant in some scenarios where the proxy is a reverse-pr
           </ul>
 </li>
         <li class="normal" id="section-4-3.3">
-          <p id="section-4-3.3.1">REQ3. If end-to-end secure communication is required between the client and the servers in the CoAP group, exchanged messages <span class="bcp14">MUST</span> be protected by using Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, as discussed in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#appendix-E" class="relref">E</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#appendix-F" class="relref">F</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>. This requires the client and the servers to have previously joined the correct OSCORE group, for instance by using the approach described in <span>[<a href="#I-D.ietf-ace-key-groupcomm-oscore" class="cite xref">I-D.ietf-ace-key-groupcomm-oscore</a>]</span>. The correct OSCORE group to join can be pre-configured or alternatively discovered, for instance by using the approach described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="cite xref">I-D.tiloca-core-oscore-discovery</a>]</span>.<a href="#section-4-3.3.1" class="pilcrow">¶</a></p>
+          <p id="section-4-3.3.1">REQ3. If end-to-end secure communication is required between the client and the servers in the CoAP group, exchanged messages <span class="bcp14">MUST</span> be protected by using Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>, as discussed in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#appendix-E" class="relref">E</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#appendix-F" class="relref">F</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>. This requires the client and the servers to have previously joined the correct OSCORE group, for instance by using the approach described in <span>[<a href="#I-D.ietf-ace-key-groupcomm-oscore" class="cite xref">I-D.ietf-ace-key-groupcomm-oscore</a>]</span>. The correct OSCORE group to join can be pre-configured or alternatively discovered, for instance by using the approach described in <span>[<a href="#I-D.tiloca-core-oscore-discovery" class="cite xref">I-D.tiloca-core-oscore-discovery</a>]</span>.<a href="#section-4-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-4-4">This document defines how to achieve the following objectives.<a href="#section-4-4" class="pilcrow">¶</a></p>
@@ -1652,17 +1655,17 @@ This CRI reference is relevant in some scenarios where the proxy is a reverse-pr
 <li id="section-5.1.1-2.1">
               <p id="section-5.1.1-2.1.1">The client prepares a unicast CoAP group request addressed to the proxy, and specifies the group URI where the request has to be forwarded to.<a href="#section-5.1.1-2.1.1" class="pilcrow">¶</a></p>
 <p id="section-5.1.1-2.1.2">
-The client can specify the group URI as a string in the Proxy-Uri Option, or by using the Proxy-Scheme Option together with the Uri-* options (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.5.1" class="relref">Section 3.5.1</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>).<a href="#section-5.1.1-2.1.2" class="pilcrow">¶</a></p>
+The client can specify the group URI as a string in the Proxy-Uri Option, or by using the Proxy-Scheme Option together with the Uri-* options (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.5.1" class="relref">Section 3.5.1</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>).<a href="#section-5.1.1-2.1.2" class="pilcrow">¶</a></p>
 <p id="section-5.1.1-2.1.3">
 Alternatively, the client can rely on the analogous options defined in <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>, i.e., on the Proxy-Cri Option conveying a CRI equivalent to the group URI, or on the Proxy-Scheme-Number Option together with the Uri-* options.<a href="#section-5.1.1-2.1.3" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.1.1-2.2">
-              <p id="section-5.1.1-2.2.1">The client <span class="bcp14">MUST</span> retain the Token value used for this original unicast request beyond the reception of a first CoAP response matching with it. To this end, the client follows the same rules for Token retention defined for multicast CoAP requests in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.1.5" class="relref">Section 3.1.5</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-5.1.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-5.1.1-2.2.1">The client <span class="bcp14">MUST</span> retain the Token value used for this original unicast request beyond the reception of a first CoAP response matching with it. To this end, the client follows the same rules for Token retention defined for multicast CoAP requests in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.1.5" class="relref">Section 3.1.5</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-5.1.1-2.2.1" class="pilcrow">¶</a></p>
 <p id="section-5.1.1-2.2.2">
 In particular, the client picks an amount of time T that it is fine to wait for before freeing up the Token value. Specifically, the value of T <span class="bcp14">MUST</span> be such that:<a href="#section-5.1.1-2.2.2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.1.1-2.2.3.1">
-                  <p id="section-5.1.1-2.2.3.1.1">T &lt; T_r , where T_r is the amount of time that the client is fine to wait for before potentially reusing the Token value. Note that T_r <span class="bcp14">MUST NOT</span> be less than MIN_TOKEN_REUSE_TIME defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.1.5" class="relref">Section 3.1.5</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-5.1.1-2.2.3.1.1" class="pilcrow">¶</a></p>
+                  <p id="section-5.1.1-2.2.3.1.1">T &lt; T_r , where T_r is the amount of time that the client is fine to wait for before potentially reusing the Token value. Note that T_r <span class="bcp14">MUST NOT</span> be less than MIN_TOKEN_REUSE_TIME defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.1.5" class="relref">Section 3.1.5</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-5.1.1-2.2.3.1.1" class="pilcrow">¶</a></p>
 </li>
                 <li class="normal" id="section-5.1.1-2.2.3.2">
                   <p id="section-5.1.1-2.2.3.2.1">T should be at least the expected worst-case time taken by the request and response processing on the proxy and on the servers in the addressed CoAP group.<a href="#section-5.1.1-2.2.3.2.1" class="pilcrow">¶</a></p>
@@ -1694,7 +1697,7 @@ Consistently, if the unicast request to send to the proxy already included a No-
           <h4 id="name-supporting-observe">
 <a href="#section-5.1.2" class="section-number selfRef">5.1.2. </a><a href="#name-supporting-observe" class="section-name selfRef">Supporting Observe</a>
           </h4>
-<p id="section-5.1.2-1">When using CoAP Observe <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, the client follows what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, with the difference that it sends a unicast request to the proxy, to be forwarded to the group of servers as defined in <a href="#ssec-req-send-steps" class="auto internal xref">Section 5.1.1</a> of this document.<a href="#section-5.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.2-1">When using CoAP Observe <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, the client follows what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, with the difference that it sends a unicast request to the proxy, to be forwarded to the group of servers as defined in <a href="#ssec-req-send-steps" class="auto internal xref">Section 5.1.1</a> of this document.<a href="#section-5.1.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.1.2-2">Furthermore, the client especially follows what is specified in <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, i.e., it registers its interest to be an observer with the proxy, as if it was communicating with the servers.<a href="#section-5.1.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1790,7 +1793,7 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
 <a href="#section-5.2.2" class="section-number selfRef">5.2.2. </a><a href="#name-supporting-observe-2" class="section-name selfRef">Supporting Observe</a>
           </h4>
 <p id="section-5.2.2-1">When using CoAP Observe <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, the proxy takes the role of the client and registers its own interest to observe the target resource with the servers as per <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>.<a href="#section-5.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.2.2-2">When doing so, the proxy especially follows what is specified for the client in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, by forwarding the group request to the servers over IP multicast as defined in <a href="#ssec-req-proc-proxy-steps" class="auto internal xref">Section 5.2.1</a> of this document.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2.2-2">When doing so, the proxy especially follows what is specified for the client in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, by forwarding the group request to the servers over IP multicast as defined in <a href="#ssec-req-proc-proxy-steps" class="auto internal xref">Section 5.2.1</a> of this document.<a href="#section-5.2.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="ssec-cancel-forwarding-proxy">
@@ -1832,7 +1835,7 @@ In case T' = 0, the proxy will ignore all responses to the forwarded group reque
           <h4 id="name-supporting-observe-3">
 <a href="#section-5.3.2" class="section-number selfRef">5.3.2. </a><a href="#name-supporting-observe-3" class="section-name selfRef">Supporting Observe</a>
           </h4>
-<p id="section-5.3.2-1">When using CoAP Observe <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, the server especially follows what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>.<a href="#section-5.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.3.2-1">When using CoAP Observe <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, the server especially follows what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>.<a href="#section-5.3.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1861,7 +1864,7 @@ If the proxy supports caching of responses (see <a href="#sec-proxy-caching" cla
               <p id="section-5.4.1-2.2.1">The proxy forwards the response back to the client. When doing so, the proxy protects the response according to the security association that it has with the client.<a href="#section-5.4.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
           </ol>
-<p id="section-5.4.1-3">As discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.1.6" class="relref">Section 3.1.6</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, it is possible that a same server replies with multiple responses to the same group request, i.e., with the same Token. As long as the proxy forwards responses to a group request back to the origin client, the proxy <span class="bcp14">MUST</span> follow the steps defined above and forward also such multiple responses "as they come".<a href="#section-5.4.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.4.1-3">As discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.1.6" class="relref">Section 3.1.6</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, it is possible that a same server replies with multiple responses to the same group request, i.e., with the same Token. As long as the proxy forwards responses to a group request back to the origin client, the proxy <span class="bcp14">MUST</span> follow the steps defined above and forward also such multiple responses "as they come".<a href="#section-5.4.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.4.1-4">Upon timeout expiration, i.e., T' seconds after having sent the group request over IP multicast, the proxy frees up its local Token value associated with that request. Thus, following late responses to the same group request will be discarded and not forwarded back to the client.<a href="#section-5.4.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -1871,7 +1874,7 @@ If the proxy supports caching of responses (see <a href="#sec-proxy-caching" cla
 <a href="#section-5.4.2" class="section-number selfRef">5.4.2. </a><a href="#name-supporting-observe-4" class="section-name selfRef">Supporting Observe</a>
           </h4>
 <p id="section-5.4.2-1">When using CoAP Observe <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, the proxy acts as a client registered with the servers, as described earlier in <a href="#ssec-req-proc-proxy-observe" class="auto internal xref">Section 5.2.2</a>.<a href="#section-5.4.2-1" class="pilcrow">¶</a></p>
-<p id="section-5.4.2-2">Furthermore, the proxy takes the role of a server when forwarding notifications from origin servers back to the client. To this end, the proxy follows what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, with the following additions.<a href="#section-5.4.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.4.2-2">Furthermore, the proxy takes the role of a server when forwarding notifications from origin servers back to the client. To this end, the proxy follows what is specified in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and <span><a href="https://rfc-editor.org/rfc/rfc7641#section-5" class="relref">Section 5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>, with the following additions.<a href="#section-5.4.2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.4.2-3.1">
               <p id="section-5.4.2-3.1.1">At Step 1 in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, the proxy includes the Reply-From Option in every notification, including non-2.xx notifications resulting in removing the proxy from the list of observers of the origin server.<a href="#section-5.4.2-3.1.1" class="pilcrow">¶</a></p>
@@ -1882,7 +1885,7 @@ If the proxy supports caching of responses (see <a href="#sec-proxy-caching" cla
 Otherwise, after the timeout expiration and as long as observations are active with servers in the group for the target resource of the group request, notifications from those servers are forwarded back to the client, as defined in <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>, and the Token value used for the group observation is not freed during this time.<a href="#section-5.4.2-3.2.2" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-5.4.2-4">Finally, the proxy <span class="bcp14">SHOULD</span> regularly verify that the client is still interested in receiving observe notifications for a group observation. To this end, the proxy can rely on the same approach discussed for servers in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, with more details available in <span><a href="https://rfc-editor.org/rfc/rfc7641#section-4.5" class="relref">Section 4.5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>.<a href="#section-5.4.2-4" class="pilcrow">¶</a></p>
+<p id="section-5.4.2-4">Finally, the proxy <span class="bcp14">SHOULD</span> regularly verify that the client is still interested in receiving observe notifications for a group observation. To this end, the proxy can rely on the same approach discussed for servers in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.7" class="relref">Section 3.7</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, with more details available in <span><a href="https://rfc-editor.org/rfc/rfc7641#section-4.5" class="relref">Section 4.5</a> of [<a href="#RFC7641" class="cite xref">RFC7641</a>]</span>.<a href="#section-5.4.2-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1916,7 +1919,7 @@ In order to individually reach the origin server again through the proxy, the cl
 That is, the client simply specifies the URI for the individual request in the unicast request to the proxy. To this end, the client can specify the URI as a string in the Proxy-Uri Option, or by using the Proxy-Scheme Option together with the Uri-* options. Alternatively, the client can rely on the analogous options defined in <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>, i.e., on the Proxy-Cri Option conveying a CRI equivalent to the URI, or on the Proxy-Scheme-Number Option together with the Uri-* options. In either case, the client uses the transport protocol that it supports, and has used before, to send the unicast request to the proxy.<a href="#section-5.5.1-2.3.4" class="pilcrow">¶</a></p>
 </li>
           </ol>
-<p id="section-5.5.1-3">As discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.1.6" class="relref">Section 3.1.6</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, it is possible that the client receives multiple responses to the same group request, i.e., with the same Token, from the same origin server. The specific client implementation determines at which layer deduplication of responses is performed, or whether it is necessary in an application at all. If the processing of a response succeeds, then the client delivers the response to the application as usual. Depending on its available context information, the application itself can be in a good position to decide how to handle such responses.<a href="#section-5.5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.5.1-3">As discussed in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.1.6" class="relref">Section 3.1.6</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, it is possible that the client receives multiple responses to the same group request, i.e., with the same Token, from the same origin server. The specific client implementation determines at which layer deduplication of responses is performed, or whether it is necessary in an application at all. If the processing of a response succeeds, then the client delivers the response to the application as usual. Depending on its available context information, the application itself can be in a good position to decide how to handle such responses.<a href="#section-5.5.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.5.1-4">Upon the timeout expiration, i.e., T seconds after having sent the original unicast request to the proxy, the client frees up its local Token value associated with that request. Note that, upon this timeout expiration, the Token value is not eligible for possible reuse yet (see <a href="#ssec-req-send-steps" class="auto internal xref">Section 5.1.1</a>). Thus, until the actual amount of time before enabling Token reusage has elapsed, following late responses to the same request forwarded by the proxy will be discarded, as these are not matching (by Token) with any active request from the client.<a href="#section-5.5.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2060,7 +2063,7 @@ That is, the client simply specifies the URI for the individual request in the u
       <h2 id="name-reverse-proxies">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-reverse-proxies" class="section-name selfRef">Reverse-Proxies</a>
       </h2>
-<p id="section-6-1">The use of reverse-proxies in group communication scenarios is defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.5.2" class="relref">Section 3.5.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-1">The use of reverse-proxies in group communication scenarios is defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.5.2" class="relref">Section 3.5.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">This section clarifies how the Multicast-Timeout Option is effective also in such a context, in order for:<a href="#section-6-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-6-3.1">
@@ -2070,7 +2073,7 @@ That is, the client simply specifies the URI for the individual request in the u
           <p id="section-6-3.2.1">The client to indicate to the proxy of being aware that it is communicating with a reverse-proxy, and for how long it is willing to receive responses to a proxied group request.<a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-6-4">This practically addresses the additional issues compared to the case with a forward-proxy, as compiled in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#appendix-F" class="relref">Appendix F</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-6-4" class="pilcrow">¶</a></p>
+<p id="section-6-4">This practically addresses the additional issues compared to the case with a forward-proxy, as compiled in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#appendix-F" class="relref">Appendix F</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-6-4" class="pilcrow">¶</a></p>
 <p id="section-6-5"><a href="#sec-reverse-proxies-examples" class="auto internal xref">Appendix A</a> provides examples with a reverse-proxy.<a href="#section-6-5" class="pilcrow">¶</a></p>
 <div id="sec-reverse-proxies-proxy-side">
 <section id="section-6.1">
@@ -2159,7 +2162,7 @@ That is, a matching group request produces a hit to multiple cache entries, each
 Note that, as per the freshness model defined in <a href="#sec-proxy-caching-freshness" class="auto internal xref">Section 7.1</a>, the proxy might serve a group request exclusively from its cached responses only when it knows all the CoAP servers that are current members of the CoAP group and it has a valid cache entry for each of them.<a href="#section-7-3.2.3" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-7-4">When forwarding a GET or FETCH group request to the servers in the CoAP group, the proxy behaves like a CoAP client as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, with the following additions.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-4">When forwarding a GET or FETCH group request to the servers in the CoAP group, the proxy behaves like a CoAP client as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, with the following additions.<a href="#section-7-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7-5.1">
           <p id="section-7-5.1.1">As discussed in <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a>, the proxy can receive multiple responses to the same group request from a same origin server, and forwards them back to the origin client "as they come". When this happens, each of such multiple responses is stored in the cache entry associated with the server "as it comes", possibly replacing an already stored response from that server.<a href="#section-7-5.1.1" class="pilcrow">¶</a></p>
@@ -2174,7 +2177,7 @@ Note that, as per the freshness model defined in <a href="#sec-proxy-caching-fre
         <h3 id="name-freshness-model">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-freshness-model" class="section-name selfRef">Freshness Model</a>
         </h3>
-<p id="section-7.1-1">The proxy relies on the same freshness model defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.2.1" class="relref">Section 3.2.1</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, by taking the role of a CoAP client with respect to the servers in the CoAP group.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">The proxy relies on the same freshness model defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.2.1" class="relref">Section 3.2.1</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, by taking the role of a CoAP client with respect to the servers in the CoAP group.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1-2">In particular, when receiving a unicast group request from the client, the proxy <span class="bcp14">MAY</span> serve it by using exclusively cached responses without forwarding the group request to the servers in the CoAP group, but only if both the following conditions hold.<a href="#section-7.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-3.1">
@@ -2254,7 +2257,7 @@ This is possible also in case the proxy and the origin server use OSCORE to furt
 <a href="#section-7.2.2" class="section-number selfRef">7.2.2. </a><a href="#name-proxy-servers-revalidation-w" class="section-name selfRef">Proxy-Servers Revalidation with Group Requests</a>
           </h4>
 <p id="section-7.2.2-1">When forwarding a group request to the servers in the CoAP group, the proxy <span class="bcp14">MAY</span> revalidate one or more stored responses that it has cached.<a href="#section-7.2.2-1" class="pilcrow">¶</a></p>
-<p id="section-7.2.2-2">To this end, the proxy relies on the same validation model defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.2.2" class="relref">Section 3.2.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and using the ETag Option, by taking the role of a CoAP client with respect to the servers in the CoAP group.<a href="#section-7.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-7.2.2-2">To this end, the proxy relies on the same validation model defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.2.2" class="relref">Section 3.2.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span> and using the ETag Option, by taking the role of a CoAP client with respect to the servers in the CoAP group.<a href="#section-7.2.2-2" class="pilcrow">¶</a></p>
 <p id="section-7.2.2-3">As discussed in <a href="#sec-group-caching" class="auto internal xref">Section 7.4</a>, this is however not possible for the proxy if communications in the group are secured end-to-end between origin client and origin servers by using Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-7.2.2-3" class="pilcrow">¶</a></p>
 <p id="section-7.2.2-4">[ TODO<a href="#section-7.2.2-4" class="pilcrow">¶</a></p>
 <p id="section-7.2.2-5">See the notes in <a href="#sec-proxy-caching-validation-p-s-unicast" class="auto internal xref">Section 7.2.1</a>.<a href="#section-7.2.2-5" class="pilcrow">¶</a></p>
@@ -2361,7 +2364,7 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
 <p id="section-7.4.1-1">For application scenarios that use secure group communication, it is still possible to achieve cacheability of responses at proxies by using the approach defined in <span>[<a href="#I-D.amsuess-core-cachable-oscore" class="cite xref">I-D.amsuess-core-cachable-oscore</a>]</span>, which is based on Deterministic Requests protected with the pairwise mode of Group OSCORE. This approach is limited to group requests that are safe (in the RESTful sense) to process and do not yield side effects at the servers. As for any protected group request, it requires the clients and all the servers in the CoAP group to have already joined the correct OSCORE group.<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-2">Starting from the same plain CoAP request, this allows different clients in the OSCORE group to deterministically generate a same request protected with Group OSCORE, which is sent to the proxy for being forwarded to the CoAP group. The proxy can now effectively cache the resulting responses from the servers in the CoAP group, since the same plain CoAP request will result again in the same Deterministic Request and thus will produce a cache hit.<a href="#section-7.4.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-3">When caching of Group OSCORE secured responses is enabled at the proxy, the same as defined in <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a> applies, with respect to cache entries and their lifetimes.<a href="#section-7.4.1-3" class="pilcrow">¶</a></p>
-<p id="section-7.4.1-4">Note that different Deterministic Requests result in different cache entries at the proxy. This includes the case where different plain group requests differ only in their set of ETag Options, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.2.2" class="relref">Section 3.2.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-7.4.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-4">Note that different Deterministic Requests result in different cache entries at the proxy. This includes the case where different plain group requests differ only in their set of ETag Options, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.2.2" class="relref">Section 3.2.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-7.4.1-4" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-5">That is, even though the servers would produce the same plain CoAP responses when replying to two different Deterministic Requests, those will result in different protected responses to each respective Deterministic Request, hence in different cache entries at the proxy.<a href="#section-7.4.1-5" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-6">Thus, given a plain group request, a client needs to reuse the same set of ETag Options, in order to send that group request as a Deterministic Request that can actually produce a cache hit at the proxy. However, while this would prevent the caching at the proxy from being inefficient and unnecessarily redundant, it would also limit the flexibility of end-to-end response revalidation for a client.<a href="#section-7.4.1-6" class="pilcrow">¶</a></p>
 </section>
@@ -2371,7 +2374,7 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
           <h4 id="name-validation-of-responses">
 <a href="#section-7.4.2" class="section-number selfRef">7.4.2. </a><a href="#name-validation-of-responses" class="section-name selfRef">Validation of Responses</a>
           </h4>
-<p id="section-7.4.2-1">Response revalidation remains possible end-to-end between the client and the servers in the group, by including inner ETag Options as defined in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.2" class="relref">3.2</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13#section-3.2.2" class="relref">3.2.2</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-7.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-7.4.2-1">Response revalidation remains possible end-to-end between the client and the servers in the group, by including inner ETag Options as defined in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.2" class="relref">3.2</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14#section-3.2.2" class="relref">3.2.2</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-7.4.2-1" class="pilcrow">¶</a></p>
 <p id="section-7.4.2-2">Furthermore, it remains possible for a client to attempt revalidating responses to a group request from a "complete" set of cache entries at the proxy, by using the Group-ETag Option as defined in <a href="#sec-proxy-caching-validation-c-p" class="auto internal xref">Section 7.3</a>.<a href="#section-7.4.2-2" class="pilcrow">¶</a></p>
 <p id="section-7.4.2-3">When directly interacting with the servers in the CoAP group to refresh its cache entries, the proxy cannot rely on response revalidation anymore. This applies to both the case where the request is addressed to a single server and sent to the related unicast URI (see <a href="#sec-proxy-caching-validation-p-s-unicast" class="auto internal xref">Section 7.2.1</a>) or instead is a group request addressed to the CoAP group and sent to the related group URI (see <a href="#sec-proxy-caching-validation-p-s" class="auto internal xref">Section 7.2.2</a>).<a href="#section-7.4.2-3" class="pilcrow">¶</a></p>
 <p id="section-7.4.2-4">[ TODO<a href="#section-7.4.2-4" class="pilcrow">¶</a></p>
@@ -2857,7 +2860,7 @@ Body: More than done!
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-client-authentication" class="section-name selfRef">Client Authentication</a>
         </h3>
 <p id="section-10.1-1">As per the requirement REQ2 (see <a href="#sec-objectives" class="auto internal xref">Section 4</a>), the client has to authenticate to the proxy when sending a group request to forward. This leverages an established security association between the client and the proxy, which the client uses to protect the group request before sending it to the proxy.<a href="#section-10.1-1" class="pilcrow">¶</a></p>
-<p id="section-10.1-2">If the group request is also protected end-to-end between the client and the origin servers using the group mode of Group OSCORE, the proxy can act as external signature checker (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-24#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>) and authenticate the client by successfully verifying the signature embedded in the group request. However, this requires the proxy to store, for each client to authenticate, the authentication credential that the client uses in the OSCORE group and the public key included therein, and to also store the authentication credential of the Group Manager responsible for the OSCORE group. This in turn would require a form of active synchronization between the proxy and the Group Manager for that group <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-10.1-2" class="pilcrow">¶</a></p>
+<p id="section-10.1-2">If the group request is also protected end-to-end between the client and the origin servers using the group mode of Group OSCORE, the proxy can act as external signature checker (see <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26#section-7.5" class="relref">Section 7.5</a> of [<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>) and authenticate the client by successfully verifying the signature embedded in the group request. However, this requires the proxy to store, for each client to authenticate, the authentication credential that the client uses in the OSCORE group and the public key included therein, and to also store the authentication credential of the Group Manager responsible for the OSCORE group. This in turn would require a form of active synchronization between the proxy and the Group Manager for that group <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>.<a href="#section-10.1-2" class="pilcrow">¶</a></p>
 <p id="section-10.1-3">Nevertheless, the client and the proxy <span class="bcp14">SHOULD</span> still rely on a full-fledged pairwise secure association. In addition to ensuring the integrity of group requests sent to the proxy (see <a href="#sec-security-considerations-opt1" class="auto internal xref">Section 10.2</a>, <a href="#sec-security-considerations-opt2" class="auto internal xref">Section 10.3</a>, and <a href="#sec-security-considerations-opt3" class="auto internal xref">Section 10.4</a>), this prevents the proxy from forwarding replayed group requests with a valid signature, as possibly injected by an active, on-path adversary.<a href="#section-10.1-3" class="pilcrow">¶</a></p>
 <p id="section-10.1-4">The same considerations apply when a chain of proxies is used (see <a href="#sec-proxy-chain" class="auto internal xref">Section 8</a>), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.<a href="#section-10.1-4" class="pilcrow">¶</a></p>
 </section>
@@ -3023,15 +3026,15 @@ Body: More than done!
 <dl class="references">
 <dt id="I-D.ietf-core-groupcomm-bis">[I-D.ietf-core-groupcomm-bis]</dt>
         <dd>
-<span class="refAuthor">Dijk, E.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-groupcomm-bis-13</span>, <time datetime="2025-02-24" class="refDate">24 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13">https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-13</a>&gt;</span>. </dd>
+<span class="refAuthor">Dijk, E.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Group Communication for the Constrained Application Protocol (CoAP)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-groupcomm-bis-14</span>, <time datetime="2025-07-02" class="refDate">2 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14">https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-14</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-href">[I-D.ietf-core-href]</dt>
         <dd>
-<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"Constrained Resource Identifiers"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-href-18</span>, <time datetime="2025-02-03" class="refDate">3 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-18">https://datatracker.ietf.org/doc/html/draft-ietf-core-href-18</a>&gt;</span>. </dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">H. Birkholz</span>, <span class="refTitle">"Constrained Resource Identifiers"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-href-23</span>, <time datetime="2025-07-07" class="refDate">7 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-23">https://datatracker.ietf.org/doc/html/draft-ietf-core-href-23</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-oscore-groupcomm">[I-D.ietf-core-oscore-groupcomm]</dt>
         <dd>
-<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Palombini, F.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"Group Object Security for Constrained RESTful Environments (Group OSCORE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-groupcomm-24</span>, <time datetime="2025-02-08" class="refDate">8 February 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-24">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-24</a>&gt;</span>. </dd>
+<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Palombini, F.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"Group Object Security for Constrained RESTful Environments (Group OSCORE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-groupcomm-26</span>, <time datetime="2025-07-05" class="refDate">5 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-26</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2046">[RFC2046]</dt>
         <dd>
@@ -3108,7 +3111,7 @@ Body: More than done!
 <dl class="references">
 <dt id="I-D.amsuess-core-cachable-oscore">[I-D.amsuess-core-cachable-oscore]</dt>
         <dd>
-<span class="refAuthor">Amsüss, C.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Cacheable OSCORE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-amsuess-core-cachable-oscore-10</span>, <time datetime="2025-01-08" class="refDate">8 January 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-amsuess-core-cachable-oscore-10">https://datatracker.ietf.org/doc/html/draft-amsuess-core-cachable-oscore-10</a>&gt;</span>. </dd>
+<span class="refAuthor">Amsüss, C.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Cacheable OSCORE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-amsuess-core-cachable-oscore-11</span>, <time datetime="2025-07-06" class="refDate">6 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-amsuess-core-cachable-oscore-11">https://datatracker.ietf.org/doc/html/draft-amsuess-core-cachable-oscore-11</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.bormann-coap-misc">[I-D.bormann-coap-misc]</dt>
         <dd>
@@ -3116,15 +3119,15 @@ Body: More than done!
 <dd class="break"></dd>
 <dt id="I-D.ietf-ace-key-groupcomm-oscore">[I-D.ietf-ace-key-groupcomm-oscore]</dt>
         <dd>
-<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Park, J.</span>, and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Key Management for OSCORE Groups in ACE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-key-groupcomm-oscore-16</span>, <time datetime="2023-03-06" class="refDate">6 March 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-groupcomm-oscore-16">https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-groupcomm-oscore-16</a>&gt;</span>. </dd>
+<span class="refAuthor">Tiloca, M.</span> and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Key Management for Group Object Security for Constrained RESTful Environments (Group OSCORE) Using Authentication and Authorization for Constrained Environments (ACE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-key-groupcomm-oscore-18</span>, <time datetime="2025-08-28" class="refDate">28 August 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-groupcomm-oscore-18">https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-groupcomm-oscore-18</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-oscore-capable-proxies">[I-D.ietf-core-oscore-capable-proxies]</dt>
         <dd>
-<span class="refAuthor">Tiloca, M.</span> and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"OSCORE-capable Proxies"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-capable-proxies-03</span>, <time datetime="2024-10-21" class="refDate">21 October 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-capable-proxies-03">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-capable-proxies-03</a>&gt;</span>. </dd>
+<span class="refAuthor">Tiloca, M.</span> and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"OSCORE-capable Proxies"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-capable-proxies-04</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-capable-proxies-04">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-capable-proxies-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.tiloca-core-oscore-discovery">[I-D.tiloca-core-oscore-discovery]</dt>
         <dd>
-<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Amsüss, C.</span>, and <span class="refAuthor">P. Van der Stok</span>, <span class="refTitle">"Discovery of OSCORE Groups with the CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tiloca-core-oscore-discovery-16</span>, <time datetime="2024-09-04" class="refDate">4 September 2024</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-16">https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-16</a>&gt;</span>. </dd>
+<span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Amsüss, C.</span>, and <span class="refAuthor">P. Van der Stok</span>, <span class="refTitle">"Discovery of OSCORE Groups with the CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tiloca-core-oscore-discovery-17</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-17">https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-17</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8446">[RFC8446]</dt>
         <dd>
@@ -3774,133 +3777,148 @@ Based on this information, P composes the group request and sends it to the CoAP
 <a href="#appendix-B" class="section-number selfRef">Appendix B. </a><a href="#name-document-updates" class="section-name selfRef">Document Updates</a>
       </h2>
 <p id="appendix-B-1">This section is to be removed before publishing as an RFC.<a href="#appendix-B-1" class="pilcrow">¶</a></p>
-<div id="sec-03-04">
+<div id="sec-04-05">
 <section id="appendix-B.1">
-        <h3 id="name-version-03-to-04">
-<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
+        <h3 id="name-version-04-to-05">
+<a href="#appendix-B.1" class="section-number selfRef">B.1. </a><a href="#name-version-04-to-05" class="section-name selfRef">Version -04 to -05</a>
         </h3>
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1">
-            <p id="appendix-B.1-1.1.1">More appropriate pointers to sections of draft-ietf-core-groupcomm-bis.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.1.1">Abstract and introduction: the scope is one possible realization of proxy.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">More precise semantics for the Reply-From Option.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Defined early cancellation of ongoing response forwarding.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+        </ul>
+</section>
+</div>
+<div id="sec-03-04">
+<section id="appendix-B.2">
+        <h3 id="name-version-03-to-04">
+<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-version-03-to-04" class="section-name selfRef">Version -03 to -04</a>
+        </h3>
+<ul class="normal">
+<li class="normal" id="appendix-B.2-1.1">
+            <p id="appendix-B.2-1.1.1">More appropriate pointers to sections of draft-ietf-core-groupcomm-bis.<a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Suggested value ranges for codepoints to register.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.2">
+            <p id="appendix-B.2-1.2.1">More precise semantics for the Reply-From Option.<a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.1-1.5">
-            <p id="appendix-B.1-1.5.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.2-1.3">
+            <p id="appendix-B.2-1.3.1">Defined early cancellation of ongoing response forwarding.<a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.4">
+            <p id="appendix-B.2-1.4.1">Suggested value ranges for codepoints to register.<a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.2-1.5">
+            <p id="appendix-B.2-1.5.1">Clarifications and editorial improvements.<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-02-03">
-<section id="appendix-B.2">
+<section id="appendix-B.3">
         <h3 id="name-version-02-to-03">
-<a href="#appendix-B.2" class="section-number selfRef">B.2. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
+<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-version-02-to-03" class="section-name selfRef">Version -02 to -03</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.2-1.1">
-            <p id="appendix-B.2-1.1.1">Made RFC 7967 a normative reference.<a href="#appendix-B.2-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.3-1.1">
+            <p id="appendix-B.3-1.1.1">Made RFC 7967 a normative reference.<a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.2">
-            <p id="appendix-B.2-1.2.1">Improved error handling for request reception at the proxy.<a href="#appendix-B.2-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.2">
+            <p id="appendix-B.3-1.2.1">Improved error handling for request reception at the proxy.<a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.3">
-            <p id="appendix-B.2-1.3.1">Improved security considerations for the new CoAP options.<a href="#appendix-B.2-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.3">
+            <p id="appendix-B.3-1.3.1">Improved security considerations for the new CoAP options.<a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.4">
-            <p id="appendix-B.2-1.4.1">Aligned handling of multiple responses with draft-ietf-core-groupcomm-bis.<a href="#appendix-B.2-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.4">
+            <p id="appendix-B.3-1.4.1">Aligned handling of multiple responses with draft-ietf-core-groupcomm-bis.<a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.5">
-            <p id="appendix-B.2-1.5.1">Revised HTTP Reply-From header field to be a Structured Header Field.<a href="#appendix-B.2-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.5">
+            <p id="appendix-B.3-1.5.1">Revised HTTP Reply-From header field to be a Structured Header Field.<a href="#appendix-B.3-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.6">
-            <p id="appendix-B.2-1.6.1">Revised HTTP Group-ETag header field to be a Structured Header Field.<a href="#appendix-B.2-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.6">
+            <p id="appendix-B.3-1.6.1">Revised HTTP Group-ETag header field to be a Structured Header Field.<a href="#appendix-B.3-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.2-1.7">
-            <p id="appendix-B.2-1.7.1">Clarifications and editorial improvements.<a href="#appendix-B.2-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.3-1.7">
+            <p id="appendix-B.3-1.7.1">Clarifications and editorial improvements.<a href="#appendix-B.3-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-01-02">
-<section id="appendix-B.3">
+<section id="appendix-B.4">
         <h3 id="name-version-01-to-02">
-<a href="#appendix-B.3" class="section-number selfRef">B.3. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
+<a href="#appendix-B.4" class="section-number selfRef">B.4. </a><a href="#name-version-01-to-02" class="section-name selfRef">Version -01 to -02</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.3-1.1">
-            <p id="appendix-B.3-1.1.1">Reply-To Option renamed as Reply-From.<a href="#appendix-B.3-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.4-1.1">
+            <p id="appendix-B.4-1.1.1">Reply-To Option renamed as Reply-From.<a href="#appendix-B.4-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.2">
-            <p id="appendix-B.3-1.2.1">Multicast-Timeout Option set to 0 ultimately yields an empty value.<a href="#appendix-B.3-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.2">
+            <p id="appendix-B.4-1.2.1">Multicast-Timeout Option set to 0 ultimately yields an empty value.<a href="#appendix-B.4-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.3">
-            <p id="appendix-B.3-1.3.1">Removed moot text on reverse-proxies that might use default timeouts.<a href="#appendix-B.3-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.3">
+            <p id="appendix-B.4-1.3.1">Removed moot text on reverse-proxies that might use default timeouts.<a href="#appendix-B.4-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.4">
-            <p id="appendix-B.3-1.4.1">Improved description on using Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.3-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.4">
+            <p id="appendix-B.4-1.4.1">Improved description on using Proxy-Cri and Proxy-Scheme-Number.<a href="#appendix-B.4-1.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.5">
-            <p id="appendix-B.3-1.5.1">Improved error handling for inadequate timeouts with proxy chains.<a href="#appendix-B.3-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.5">
+            <p id="appendix-B.4-1.5.1">Improved error handling for inadequate timeouts with proxy chains.<a href="#appendix-B.4-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.6">
-            <p id="appendix-B.3-1.6.1">Revised the examples of message exchange with a reverse-proxy.<a href="#appendix-B.3-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.6">
+            <p id="appendix-B.4-1.6.1">Revised the examples of message exchange with a reverse-proxy.<a href="#appendix-B.4-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.7">
-            <p id="appendix-B.3-1.7.1">Fixes in the IANA considerations.<a href="#appendix-B.3-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.7">
+            <p id="appendix-B.4-1.7.1">Fixes in the IANA considerations.<a href="#appendix-B.4-1.7.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.3-1.8">
-            <p id="appendix-B.3-1.8.1">Editorial fixes and improvements.<a href="#appendix-B.3-1.8.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.4-1.8">
+            <p id="appendix-B.4-1.8.1">Editorial fixes and improvements.<a href="#appendix-B.4-1.8.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
 </div>
 <div id="sec-00-01">
-<section id="appendix-B.4">
+<section id="appendix-B.5">
         <h3 id="name-version-00-to-01">
-<a href="#appendix-B.4" class="section-number selfRef">B.4. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
+<a href="#appendix-B.5" class="section-number selfRef">B.5. </a><a href="#name-version-00-to-01" class="section-name selfRef">Version -00 to -01</a>
         </h3>
 <ul class="normal">
-<li class="normal" id="appendix-B.4-1.1">
-            <p id="appendix-B.4-1.1.1">Definition of "individual request" in the terminology.<a href="#appendix-B.4-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.5-1.1">
+            <p id="appendix-B.5-1.1.1">Definition of "individual request" in the terminology.<a href="#appendix-B.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.2">
-            <p id="appendix-B.4-1.2.1">UDP/IP multicast treated as the default transport protocol.<a href="#appendix-B.4-1.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.2">
+            <p id="appendix-B.5-1.2.1">UDP/IP multicast treated as the default transport protocol.<a href="#appendix-B.5-1.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.3">
-            <p id="appendix-B.4-1.3.1">Always use the Multicast-Timeout Option, also with reverse-proxies.<a href="#appendix-B.4-1.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.3">
+            <p id="appendix-B.5-1.3.1">Always use the Multicast-Timeout Option, also with reverse-proxies.<a href="#appendix-B.5-1.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.4">
-            <p id="appendix-B.4-1.4.1">Response-Forwarding Option:<a href="#appendix-B.4-1.4.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.4">
+            <p id="appendix-B.5-1.4.1">Response-Forwarding Option:<a href="#appendix-B.5-1.4.1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-B.4-1.4.2.1">
-                <p id="appendix-B.4-1.4.2.1.1">Renamed as "Reply-To".<a href="#appendix-B.4-1.4.2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="appendix-B.5-1.4.2.1">
+                <p id="appendix-B.5-1.4.2.1.1">Renamed as "Reply-To".<a href="#appendix-B.5-1.4.2.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-B.4-1.4.2.2">
-                <p id="appendix-B.4-1.4.2.2.1">Revised encoding to use CRIs.<a href="#appendix-B.4-1.4.2.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-B.5-1.4.2.2">
+                <p id="appendix-B.5-1.4.2.2.1">Revised encoding to use CRIs.<a href="#appendix-B.5-1.4.2.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-B.4-1.4.2.3">
-                <p id="appendix-B.4-1.4.2.3.1">Revised semantics to better address setups with reverse-proxies.<a href="#appendix-B.4-1.4.2.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-B.5-1.4.2.3">
+                <p id="appendix-B.5-1.4.2.3.1">Revised semantics to better address setups with reverse-proxies.<a href="#appendix-B.5-1.4.2.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="appendix-B.4-1.4.2.4">
-                <p id="appendix-B.4-1.4.2.4.1">Added before possible response caching.<a href="#appendix-B.4-1.4.2.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="appendix-B.5-1.4.2.4">
+                <p id="appendix-B.5-1.4.2.4.1">Added before possible response caching.<a href="#appendix-B.5-1.4.2.4.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
-          <li class="normal" id="appendix-B.4-1.5">
-            <p id="appendix-B.4-1.5.1">Clarified response processing at reverse-proxies.<a href="#appendix-B.4-1.5.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.5">
+            <p id="appendix-B.5-1.5.1">Clarified response processing at reverse-proxies.<a href="#appendix-B.5-1.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.6">
-            <p id="appendix-B.4-1.6.1">Updated IANA considerations.<a href="#appendix-B.4-1.6.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.6">
+            <p id="appendix-B.5-1.6.1">Updated IANA considerations.<a href="#appendix-B.5-1.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="appendix-B.4-1.7">
-            <p id="appendix-B.4-1.7.1">Editorial fixes and improvements.<a href="#appendix-B.4-1.7.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="appendix-B.5-1.7">
+            <p id="appendix-B.5-1.7.1">Editorial fixes and improvements.<a href="#appendix-B.5-1.7.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

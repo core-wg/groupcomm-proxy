@@ -6,7 +6,7 @@ CoRE Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Updates: 7252 (if approved)                                      E. Dijk
 Intended status: Standards Track                       IoTconsultancy.nl
-Expires: 3 September 2025                                   2 March 2025
+Expires: 2 March 2026                                     29 August 2025
 
 
              Proxy Operations for CoAP Group Communication
@@ -14,9 +14,9 @@ Expires: 3 September 2025                                   2 March 2025
 
 Abstract
 
-   This document specifies the operations performed by a proxy, when
-   using the Constrained Application Protocol (CoAP) in group
-   communication scenarios.  Such a proxy processes a single request
+   This document defines a specific realization of proxy intended for
+   scenarios that use group communication for the Constrained
+   Application Protocol (CoAP).  Such a proxy processes a single request
    sent by a client typically over unicast, and distributes the request
    to a group of servers, e.g., over UDP/IP multicast as the defined
    default transport protocol.  Then, the proxy collects the individual
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2025.
+   This Internet-Draft will expire on 2 March 2026.
 
 Copyright Notice
 
@@ -142,10 +142,11 @@ Table of Contents
      A.2.  Example 2
      A.3.  Example 3
    Appendix B.  Document Updates
-     B.1.  Version -03 to -04
-     B.2.  Version -02 to -03
-     B.3.  Version -01 to -02
-     B.4.  Version -00 to -01
+     B.1.  Version -04 to -05
+     B.2.  Version -03 to -04
+     B.3.  Version -02 to -03
+     B.4.  Version -01 to -02
+     B.5.  Version -00 to -01
    Acknowledgments
    Authors' Addresses
 
@@ -177,13 +178,15 @@ Table of Contents
    the client would require a specific aggregation Content-Format, which
    is not available yet.  Both these approaches have open issues.
 
-   This document takes the former approach.  That is, after forwarding a
-   CoAP group request from the client to the group of CoAP servers, the
-   proxy relays the individual responses back to the client as separate
-   CoAP messages.  The described method addresses all the related issues
-   raised in Sections E and F of [I-D.ietf-core-groupcomm-bis].  To this
-   end, this document defines a dedicated signaling protocol based on
-   two new CoAP options and used by the client and the proxy.
+   This document takes the former approach and accordingly defines a
+   specific realization of proxy intended for scenarios that use group
+   communication for CoAP.  That is, after forwarding a CoAP group
+   request from the client to the group of CoAP servers, the proxy
+   relays the individual responses back to the client as separate CoAP
+   messages.  The defined realization of proxy addresses all the related
+   issues raised in Sections E and F of [I-D.ietf-core-groupcomm-bis].
+   To this end, this document specifies a dedicated signaling protocol
+   based on two new CoAP options and used by the client and the proxy.
 
    By using this protocol, the client explicitly confirms its intent to
    perform a proxied group request and its support for receiving
@@ -2399,24 +2402,23 @@ Table of Contents
               Dijk, E. and M. Tiloca, "Group Communication for the
               Constrained Application Protocol (CoAP)", Work in
               Progress, Internet-Draft, draft-ietf-core-groupcomm-bis-
-              13, 24 February 2025,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              groupcomm-bis-13>.
+              14, 2 July 2025, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-core-groupcomm-bis-14>.
 
    [I-D.ietf-core-href]
               Bormann, C. and H. Birkholz, "Constrained Resource
               Identifiers", Work in Progress, Internet-Draft, draft-
-              ietf-core-href-18, 3 February 2025,
+              ietf-core-href-23, 7 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              href-18>.
+              href-23>.
 
    [I-D.ietf-core-oscore-groupcomm]
               Tiloca, M., Selander, G., Palombini, F., Mattsson, J. P.,
               and R. Höglund, "Group Object Security for Constrained
               RESTful Environments (Group OSCORE)", Work in Progress,
-              Internet-Draft, draft-ietf-core-oscore-groupcomm-24, 8
-              February 2025, <https://datatracker.ietf.org/doc/html/
-              draft-ietf-core-oscore-groupcomm-24>.
+              Internet-Draft, draft-ietf-core-oscore-groupcomm-26, 5
+              July 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-core-oscore-groupcomm-26>.
 
    [RFC2046]  Freed, N. and N. Borenstein, "Multipurpose Internet Mail
               Extensions (MIME) Part Two: Media Types", RFC 2046,
@@ -2501,9 +2503,9 @@ Table of Contents
    [I-D.amsuess-core-cachable-oscore]
               Amsüss, C. and M. Tiloca, "Cacheable OSCORE", Work in
               Progress, Internet-Draft, draft-amsuess-core-cachable-
-              oscore-10, 8 January 2025,
+              oscore-11, 6 July 2025,
               <https://datatracker.ietf.org/doc/html/draft-amsuess-core-
-              cachable-oscore-10>.
+              cachable-oscore-11>.
 
    [I-D.bormann-coap-misc]
               Bormann, C. and K. Hartke, "Miscellaneous additions to
@@ -2513,26 +2515,28 @@ Table of Contents
               misc-27>.
 
    [I-D.ietf-ace-key-groupcomm-oscore]
-              Tiloca, M., Park, J., and F. Palombini, "Key Management
-              for OSCORE Groups in ACE", Work in Progress, Internet-
-              Draft, draft-ietf-ace-key-groupcomm-oscore-16, 6 March
-              2023, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              ace-key-groupcomm-oscore-16>.
+              Tiloca, M. and F. Palombini, "Key Management for Group
+              Object Security for Constrained RESTful Environments
+              (Group OSCORE) Using Authentication and Authorization for
+              Constrained Environments (ACE)", Work in Progress,
+              Internet-Draft, draft-ietf-ace-key-groupcomm-oscore-18, 28
+              August 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-ace-key-groupcomm-oscore-18>.
 
    [I-D.ietf-core-oscore-capable-proxies]
               Tiloca, M. and R. Höglund, "OSCORE-capable Proxies", Work
               in Progress, Internet-Draft, draft-ietf-core-oscore-
-              capable-proxies-03, 21 October 2024,
+              capable-proxies-04, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-core-
-              oscore-capable-proxies-03>.
+              oscore-capable-proxies-04>.
 
    [I-D.tiloca-core-oscore-discovery]
               Tiloca, M., Amsüss, C., and P. Van der Stok, "Discovery of
               OSCORE Groups with the CoRE Resource Directory", Work in
               Progress, Internet-Draft, draft-tiloca-core-oscore-
-              discovery-16, 4 September 2024,
+              discovery-17, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-tiloca-core-
-              oscore-discovery-16>.
+              oscore-discovery-17>.
 
    [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
@@ -2928,7 +2932,14 @@ Appendix B.  Document Updates
 
    This section is to be removed before publishing as an RFC.
 
-B.1.  Version -03 to -04
+B.1.  Version -04 to -05
+
+   *  Abstract and introduction: the scope is one possible realization
+      of proxy.
+
+   *  Clarifications and editorial improvements.
+
+B.2.  Version -03 to -04
 
    *  More appropriate pointers to sections of draft-ietf-core-
       groupcomm-bis.
@@ -2941,7 +2952,7 @@ B.1.  Version -03 to -04
 
    *  Clarifications and editorial improvements.
 
-B.2.  Version -02 to -03
+B.3.  Version -02 to -03
 
    *  Made RFC 7967 a normative reference.
 
@@ -2960,7 +2971,7 @@ B.2.  Version -02 to -03
 
    *  Clarifications and editorial improvements.
 
-B.3.  Version -01 to -02
+B.4.  Version -01 to -02
 
    *  Reply-To Option renamed as Reply-From.
 
@@ -2980,7 +2991,7 @@ B.3.  Version -01 to -02
 
    *  Editorial fixes and improvements.
 
-B.4.  Version -00 to -01
+B.5.  Version -00 to -01
 
    *  Definition of "individual request" in the terminology.
 
