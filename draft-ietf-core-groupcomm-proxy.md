@@ -64,7 +64,7 @@ entity:
 
 --- abstract
 
-This document specifies the operations performed by a proxy, when using the Constrained Application Protocol (CoAP) in group communication scenarios. Such a proxy processes a single request sent by a client typically over unicast, and distributes the request to a group of servers, e.g., over UDP/IP multicast as the defined default transport protocol. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies.
+This document defines a specific realization of proxy intended for scenarios that use group communication for the Constrained Application Protocol (CoAP). Such a proxy processes a single request sent by a client typically over unicast, and distributes the request to a group of servers, e.g., over UDP/IP multicast as the defined default transport protocol. Then, the proxy collects the individual responses from those servers and relays those responses back to the client, in a way that allows the client to distinguish the responses and their origin servers through embedded addressing information. This document updates RFC7252 with respect to caching of response messages at proxies.
 
 --- middle
 
@@ -78,7 +78,7 @@ In particular, the client typically sends to the proxy a single unicast request,
 
 As per {{RFC7252}}, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation Content-Format, which is not available yet. Both these approaches have open issues.
 
-This document takes the former approach. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The described method addresses all the related issues raised in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}. To this end, this document defines a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.
+This document takes the former approach and accordingly defines a specific realization of proxy intended for scenarios that use group communication for CoAP. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The defined realization of proxy addresses all the related issues raised in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}. To this end, this document specifies a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.
 
 By using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates addressing information pertaining to the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast request(s) to the indicated address(es). In doing these follow-up unicast requests, the client can optionally bypass the proxy.
 
@@ -1485,6 +1485,12 @@ C                               P                      S1           S2
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -04 to -05 ## {#sec-04-05}
+
+* Abstract and introduction: the scope is one possible realization of proxy.
+
+* Clarifications and editorial improvements.
 
 ## Version -03 to -04 ## {#sec-03-04}
 
