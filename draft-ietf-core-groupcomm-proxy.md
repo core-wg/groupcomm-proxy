@@ -1136,6 +1136,12 @@ Note to RFC Editor: Please replace "TBD1", "TBD2", and "TBD3" in {{tab-iana-coap
 
 For all the three requested options, it is preferred to assign an option number from the value range 0-255.
 
+For the Multicast-Timeout option, the number suggested to IANA is 2.
+
+For the Reply-From option, the number suggested to IANA is 248.
+
+For the Group-ETag option, the number suggested to IANA is 24.
+
 ## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
 
 IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" registry.
@@ -1489,6 +1495,8 @@ C                               P                      S1           S2
 ## Version -04 to -05 ## {#sec-04-05}
 
 * Abstract and introduction: the scope is one possible realization of proxy.
+
+* Suggested option numbers for the three new CoAP options.
 
 * Clarifications and editorial improvements.
 
