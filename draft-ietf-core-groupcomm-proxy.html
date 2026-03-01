@@ -2237,7 +2237,7 @@ Note that, from the forwarding of the group request until the timeout expiration
 <p id="section-7.2.1-3">[ TODO<a href="#section-7.2.1-3" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-4">It can be actually possible to enable revalidation of responses between proxy and server, also in this case where Group OSCORE is used end-to-end between client and origin servers.<a href="#section-7.2.1-4" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-5">Fundamentally, this requires to define the possible use of the ETag Option also as an outer option for OSCORE. Thus, in addition to the normal inner ETag, a server can add also an outer ETag option intended for the proxy.<a href="#section-7.2.1-5" class="pilcrow">¶</a></p>
-<p id="section-7.2.1-6">Since validation of responses assumes that cacheability of responses is possible in the first place, it would be convenient to define the use of ETag as outer option in <span>[<a href="#I-D.amsuess-core-cachable-oscore" class="cite xref">I-D.amsuess-core-cachable-oscore</a>]</span>.<a href="#section-7.2.1-6" class="pilcrow">¶</a></p>
+<p id="section-7.2.1-6">Since validation of responses assumes that cacheability of responses is possible in the first place, it would be convenient to define the use of ETag as outer option in <span>[<a href="#I-D.ietf-core-cacheable-oscore" class="cite xref">I-D.ietf-core-cacheable-oscore</a>]</span>.<a href="#section-7.2.1-6" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-7">In case OSCORE is also used between the proxy and an individual origin server as per <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>, then the outer ETag Option would be seamlessly protected with the OSCORE Security Context shared between the proxy and the origin server.<a href="#section-7.2.1-7" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-8">The following text can be used to replace the last paragraph above.<a href="#section-7.2.1-8" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-9"><br></p>
@@ -2365,7 +2365,7 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
           <h4 id="name-deterministic-requests-to-a">
 <a href="#section-7.4.1" class="section-number selfRef">7.4.1. </a><a href="#name-deterministic-requests-to-a" class="section-name selfRef">Deterministic Requests to Achieve Cacheability</a>
           </h4>
-<p id="section-7.4.1-1">For application scenarios that use secure group communication, it is still possible to achieve cacheability of responses at proxies by using the approach defined in <span>[<a href="#I-D.amsuess-core-cachable-oscore" class="cite xref">I-D.amsuess-core-cachable-oscore</a>]</span>, which is based on Deterministic Requests protected with the pairwise mode of Group OSCORE. This approach is limited to group requests that are safe (in the RESTful sense) to process and do not yield side effects at the servers. As for any protected group request, it requires the clients and all the servers in the CoAP group to have already joined the correct OSCORE group.<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.4.1-1">For application scenarios that use secure group communication, it is still possible to achieve cacheability of responses at proxies by using the approach defined in <span>[<a href="#I-D.ietf-core-cacheable-oscore" class="cite xref">I-D.ietf-core-cacheable-oscore</a>]</span>, which is based on Deterministic Requests protected with the pairwise mode of Group OSCORE. This approach is limited to group requests that are safe (in the RESTful sense) to process and do not yield side effects at the servers. As for any protected group request, it requires the clients and all the servers in the CoAP group to have already joined the correct OSCORE group.<a href="#section-7.4.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-2">Starting from the same plain CoAP request, this allows different clients in the OSCORE group to deterministically generate the same request protected with Group OSCORE, which is sent to the proxy for being forwarded to the CoAP group. The proxy can now effectively cache the resulting responses from the servers in the CoAP group, since the same plain CoAP request will result again in the same Deterministic Request and thus will produce a cache hit.<a href="#section-7.4.1-2" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-3">When caching of Group OSCORE secured responses is enabled at the proxy, the same as defined in <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a> applies, with respect to cache entries and their lifetimes.<a href="#section-7.4.1-3" class="pilcrow">¶</a></p>
 <p id="section-7.4.1-4">Note that different Deterministic Requests result in different cache entries at the proxy. This includes the case where different plain group requests differ only in their set of ETag Options, as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-18#section-3.2.2" class="relref">Section 3.2.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-7.4.1-4" class="pilcrow">¶</a></p>
@@ -3118,10 +3118,6 @@ Body: More than done!
 <a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
-<dt id="I-D.amsuess-core-cachable-oscore">[I-D.amsuess-core-cachable-oscore]</dt>
-        <dd>
-<span class="refAuthor">Amsüss, C.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Cacheable OSCORE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-amsuess-core-cachable-oscore-11</span>, <time datetime="2025-07-06" class="refDate">6 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-amsuess-core-cachable-oscore-11">https://datatracker.ietf.org/doc/html/draft-amsuess-core-cachable-oscore-11</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="I-D.bormann-coap-misc">[I-D.bormann-coap-misc]</dt>
         <dd>
 <span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">K. Hartke</span>, <span class="refTitle">"Miscellaneous additions to CoAP"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-bormann-coap-misc-27</span>, <time datetime="2014-11-14" class="refDate">14 November 2014</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-bormann-coap-misc-27">https://datatracker.ietf.org/doc/html/draft-bormann-coap-misc-27</a>&gt;</span>. </dd>
@@ -3129,6 +3125,10 @@ Body: More than done!
 <dt id="I-D.ietf-ace-key-groupcomm-oscore">[I-D.ietf-ace-key-groupcomm-oscore]</dt>
         <dd>
 <span class="refAuthor">Tiloca, M.</span> and <span class="refAuthor">F. Palombini</span>, <span class="refTitle">"Key Management for Group Object Security for Constrained RESTful Environments (Group OSCORE) Using Authentication and Authorization for Constrained Environments (ACE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-ace-key-groupcomm-oscore-20</span>, <time datetime="2026-02-25" class="refDate">25 February 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-groupcomm-oscore-20">https://datatracker.ietf.org/doc/html/draft-ietf-ace-key-groupcomm-oscore-20</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-core-cacheable-oscore">[I-D.ietf-core-cacheable-oscore]</dt>
+        <dd>
+<span class="refAuthor">Amsüss, C.</span> and <span class="refAuthor">M. Tiloca</span>, <span class="refTitle">"Cacheable OSCORE"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-cacheable-oscore-00</span>, <time datetime="2025-09-22" class="refDate">22 September 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-cacheable-oscore-00">https://datatracker.ietf.org/doc/html/draft-ietf-core-cacheable-oscore-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-oscore-capable-proxies">[I-D.ietf-core-oscore-capable-proxies]</dt>
         <dd>
@@ -3772,7 +3772,10 @@ Based on this information, P composes the group request and sends it to the CoAP
             <p id="appendix-B.1-1.1.1">Extended security considerations on client authentication.<a href="#appendix-B.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.2">
-            <p id="appendix-B.1-1.2.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.2.1">Updated references.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.3">
+            <p id="appendix-B.1-1.3.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>

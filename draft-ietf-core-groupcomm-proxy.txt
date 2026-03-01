@@ -1209,7 +1209,7 @@ Table of Contents
 
    Since validation of responses assumes that cacheability of responses
    is possible in the first place, it would be convenient to define the
-   use of ETag as outer option in [I-D.amsuess-core-cachable-oscore].
+   use of ETag as outer option in [I-D.ietf-core-cacheable-oscore].
 
    In case OSCORE is also used between the proxy and an individual
    origin server as per [I-D.ietf-core-oscore-capable-proxies], then the
@@ -1386,13 +1386,13 @@ Table of Contents
 
    For application scenarios that use secure group communication, it is
    still possible to achieve cacheability of responses at proxies by
-   using the approach defined in [I-D.amsuess-core-cachable-oscore],
-   which is based on Deterministic Requests protected with the pairwise
-   mode of Group OSCORE.  This approach is limited to group requests
-   that are safe (in the RESTful sense) to process and do not yield side
-   effects at the servers.  As for any protected group request, it
-   requires the clients and all the servers in the CoAP group to have
-   already joined the correct OSCORE group.
+   using the approach defined in [I-D.ietf-core-cacheable-oscore], which
+   is based on Deterministic Requests protected with the pairwise mode
+   of Group OSCORE.  This approach is limited to group requests that are
+   safe (in the RESTful sense) to process and do not yield side effects
+   at the servers.  As for any protected group request, it requires the
+   clients and all the servers in the CoAP group to have already joined
+   the correct OSCORE group.
 
    Starting from the same plain CoAP request, this allows different
    clients in the OSCORE group to deterministically generate the same
@@ -2527,13 +2527,6 @@ Table of Contents
 
 12.2.  Informative References
 
-   [I-D.amsuess-core-cachable-oscore]
-              Amsüss, C. and M. Tiloca, "Cacheable OSCORE", Work in
-              Progress, Internet-Draft, draft-amsuess-core-cachable-
-              oscore-11, 6 July 2025,
-              <https://datatracker.ietf.org/doc/html/draft-amsuess-core-
-              cachable-oscore-11>.
-
    [I-D.bormann-coap-misc]
               Bormann, C. and K. Hartke, "Miscellaneous additions to
               CoAP", Work in Progress, Internet-Draft, draft-bormann-
@@ -2549,6 +2542,13 @@ Table of Contents
               Internet-Draft, draft-ietf-ace-key-groupcomm-oscore-20, 25
               February 2026, <https://datatracker.ietf.org/doc/html/
               draft-ietf-ace-key-groupcomm-oscore-20>.
+
+   [I-D.ietf-core-cacheable-oscore]
+              Amsüss, C. and M. Tiloca, "Cacheable OSCORE", Work in
+              Progress, Internet-Draft, draft-ietf-core-cacheable-
+              oscore-00, 22 September 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-core-
+              cacheable-oscore-00>.
 
    [I-D.ietf-core-oscore-capable-proxies]
               Tiloca, M. and R. Höglund, "OSCORE-capable Proxies", Work
@@ -2955,6 +2955,8 @@ Appendix B.  Document Updates
 B.1.  Version -05 to -06
 
    *  Extended security considerations on client authentication.
+
+   *  Updated references.
 
    *  Clarifications and editorial improvements.
 
