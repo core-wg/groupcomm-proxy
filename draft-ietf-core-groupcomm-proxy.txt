@@ -158,8 +158,8 @@ Table of Contents
    presence of proxies, as intermediary entities supporting clients by
    performing requests on their behalf and relaying back responses.
 
-   CoAP supports also group communication [I-D.ietf-core-groupcomm-bis],
-   e.g., over IP multicast, where a group request can be addressed to
+   CoAP supports group communication [I-D.ietf-core-groupcomm-bis],
+   e.g., over IP multicast, so that a group request can be addressed to
    multiple recipient servers, each of which may reply with an
    individual unicast response.  As discussed in Sections E and F of
    [I-D.ietf-core-groupcomm-bis], this group communication scenario
@@ -189,7 +189,8 @@ Table of Contents
    messages.  The defined realization of proxy addresses all the related
    issues raised in Sections E and F of [I-D.ietf-core-groupcomm-bis].
    To this end, this document specifies a dedicated signaling protocol
-   based on two new CoAP options and used by the client and the proxy.
+   based on two new CoAP options, which is used by the client and the
+   proxy.
 
    By using this protocol, the client explicitly confirms its intent to
    perform a proxied group request and its support for receiving
@@ -199,7 +200,7 @@ Table of Contents
    request, the proxy indicates addressing information pertaining to the
    origin server.  This enables the client to distinguish multiple
    different responses by origin and to possibly contact one or more of
-   the respective servers by sending individual unicast requests to the
+   the respective servers, by sending individual unicast requests to the
    indicated addresses.  In doing these follow-up unicast requests, the
    client can optionally bypass the proxy.
 
@@ -233,7 +234,8 @@ Table of Contents
       [I-D.ietf-core-groupcomm-bis].
 
    *  Object Security for Constrained RESTful Environments (OSCORE)
-      [RFC8613] and Group OSCORE [I-D.ietf-core-oscore-groupcomm].
+      [RFC8613] and Group Object Security for Constrained RESTful
+      Environments (Group OSCORE) [I-D.ietf-core-oscore-groupcomm].
 
    *  Concise Data Definition Language (CDDL) [RFC8610], Concise Binary
       Object Representation (CBOR) [RFC8949], and CBOR sequences
