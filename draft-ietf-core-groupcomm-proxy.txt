@@ -9,7 +9,8 @@ Intended status: Standards Track                       IoTconsultancy.nl
 Expires: 2 September 2026                                   1 March 2026
 
 
-             Proxy Operations for CoAP Group Communication
+Proxy Operations in Group Communication for the Constrained Application
+                            Protocol (CoAP)
                  draft-ietf-core-groupcomm-proxy-latest
 
 Abstract
@@ -2954,9 +2955,11 @@ Appendix B.  Document Updates
 
 B.1.  Version -05 to -06
 
-   *  Extended security considerations on client authentication.
+   *  Updated title.
 
    *  Updated references.
+
+   *  Extended security considerations on client authentication.
 
    *  Clarifications and editorial improvements.
 
