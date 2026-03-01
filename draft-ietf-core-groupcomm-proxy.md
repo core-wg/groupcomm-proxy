@@ -214,7 +214,7 @@ The client proceeds according to the following steps.
 
    The client can specify T' = 0 as option value, thus indicating to be not interested in receiving responses from the origin servers through the proxy. In such a case, the client SHOULD also include a No-Response Option {{RFC7967}} with value 26 (suppress all response codes), if it supports that option.
 
-   Consistently, if the unicast request to send to the proxy already included a No-Response Option with value 26, the client SHOULD specify T' = 0 as value of the Multicast-Timeout Option.
+   Consistently, if the unicast request to send to the proxy was already intended to include a No-Response Option with value 26, the client SHOULD specify T' = 0 as value of the Multicast-Timeout Option.
 
 4. The client processes the request as defined in {{I-D.ietf-core-groupcomm-bis}} and also as in {{I-D.ietf-core-oscore-groupcomm}} when secure group communication is used between the client and the servers.
 
@@ -232,7 +232,7 @@ Furthermore, the client especially follows what is specified in {{Section 5 of R
 
 After having sent the unicast request to the proxy but before timeout expiration, the client might become not interested in receiving further corresponding responses, i.e., from that point in time until T seconds have elapsed since the request was sent to the proxy.
 
-In such a case the client MAY ask the proxy for an early stop of the ongoing response forwarding, i.e., to not forward to the client any further response received to the forwarded group request from the servers.
+In such a case, the client MAY ask the proxy for an early stop of the ongoing response forwarding, i.e., to not forward to the client any further response received from the servers as a reply to the forwarded group request.
 
 To this end, the client can rely on one of the following two approaches.
 
@@ -296,7 +296,7 @@ When doing so, the proxy especially follows what is specified for the client in 
 
 ### Cancellation of Ongoing Response Forwarding {#ssec-cancel-forwarding-proxy}
 
-As defined in {{ssec-cancel-forwarding}}, the client might ask the proxy for an early stop of the ongoing response forwarding, i.e., to stop forwarding to the client any further responses received to the forwarded group request from the servers.
+As defined in {{ssec-cancel-forwarding}}, the client might ask the proxy for an early stop of the ongoing response forwarding, i.e., to stop forwarding to the client any further responses received from the servers as a reply to the forwarded group request.
 
 Consistently, the proxy stops forwarding such responses to the client, after receiving a CoAP Reset message (RST) in reply to one of such responses, or after receiving an Early Stop Request related to the ongoing response forwarding (i.e., conveying the same Token value of the original unicast request from the client).
 
@@ -326,9 +326,11 @@ This section defines the operations performed by the proxy, when receiving a res
 
 Upon receiving a response matching with the group request before the amount of time T' has elapsed (see Step 6 in {{ssec-req-proc-proxy-steps}}), the proxy proceeds according to the following steps.
 
-1. The proxy MUST include the Reply-From Option defined in {{sec-reply-from-option}} in the response. The proxy sets the option value as follows.
+1. The proxy MUST include the Reply-From Option defined in {{sec-reply-from-option}} in the response. The proxy sets the option value as follows:
 
-   The CRI present as first element of the CBOR sequence specifies the addressing information of the server generating the response. The second element of the CBOR sequence MUST NOT be present.
+   * The CRI present as first element of the CBOR sequence specifies the addressing information of the server generating the response.
+
+   * The second element of the CBOR sequence MUST NOT be present.
 
    If the proxy supports caching of responses (see {{sec-proxy-caching}}), the proxy MUST include the Reply-From Option in the response before caching the response. This ensures that a response to a group request conveys the addressing information of the origin server that generated the response, also when the response is forwarded to a client as retrieved from the proxy's cache.
 
@@ -374,7 +376,7 @@ Upon receiving from the proxy a response matching with the original unicast requ
 
 As discussed in {{Section 3.1.6 of I-D.ietf-core-groupcomm-bis}}, it is possible that the client receives multiple responses to the same group request (i.e., conveying the same Token) from the same origin server. The specific client implementation determines at which layer deduplication of responses is performed, or whether it is necessary in an application at all. If the processing of a response succeeds, then the client delivers the response to the application as usual. Depending on its available context information, the application itself can be in a good position to decide how to handle such responses.
 
-Upon the timeout expiration, i.e., T seconds after having sent the original unicast request to the proxy, the client frees up its local Token value associated with that request. Note that, upon this timeout expiration, the Token value is not eligible for possible reuse yet (see {{ssec-req-send-steps}}). Thus, until the actual amount of time before enabling Token reusage has elapsed, following late responses to the same request forwarded by the proxy will be discarded, as these are not matching (by Token value) with any active request from the client.
+Upon the timeout expiration, i.e., T seconds after having sent the original unicast request to the proxy, the client frees up its local Token value associated with that request. Note that, upon this timeout expiration, the Token value is not eligible for possible reuse yet (see {{ssec-req-send-steps}}). Thus, until the actual amount of time before enabling Token reuse has elapsed, following late responses to the same request forwarded by the proxy will be discarded, as these are not matching (by Token value) with any active request from the client.
 
 ### Supporting Observe ## {#ssec-resp-proc-client-observe}
 
