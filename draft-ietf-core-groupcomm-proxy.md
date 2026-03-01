@@ -1053,11 +1053,15 @@ Furthermore, the following additional considerations hold.
 
 As per the requirement REQ2 (see {{sec-objectives}}), the client has to authenticate to the proxy when sending a group request to forward. This leverages an established security association between the client and the proxy, which the client uses to protect the group request before sending it to the proxy.
 
-If the group request is also protected end-to-end between the client and the origin servers using the group mode of Group OSCORE, the proxy can act as external signature checker (see {{Section 7.5 of I-D.ietf-core-oscore-groupcomm}}) and authenticate the client by successfully verifying the signature embedded in the group request. However, this requires the proxy to store, for each client to authenticate, the authentication credential that the client uses in the OSCORE group and the public key included therein, and to also store the authentication credential of the Group Manager responsible for the OSCORE group. This in turn would require a form of active synchronization between the proxy and the Group Manager for that group {{I-D.ietf-core-oscore-groupcomm}}.
+If the group request is also protected end-to-end between the client and the origin servers using the group mode of Group OSCORE, the proxy can act as an external signature checker (see {{Section 7.5 of I-D.ietf-core-oscore-groupcomm}}) and authenticate the client by successfully verifying the signature embedded in the group request.
 
-Nevertheless, the client and the proxy SHOULD still rely on a full-fledged pairwise secure association. In addition to ensuring the integrity of group requests sent to the proxy (see {{sec-security-considerations-opt1}}, {{sec-security-considerations-opt2}}, and {{sec-security-considerations-opt3}}), this prevents the proxy from forwarding replayed group requests with a valid signature, as possibly injected by an active, on-path adversary.
+However, this requires the proxy to store, for each client to authenticate, the authentication credential that the client uses in the OSCORE group and the public key included therein, and to also store the authentication credential of the Group Manager responsible for the OSCORE group. This in turn would require a form of active synchronization between the proxy and the Group Manager for that group {{I-D.ietf-core-oscore-groupcomm}}.
 
-The same considerations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
+Furthermore, when specifically acting as an external signature checker for an OSCORE group, the proxy can leverage its knowledge of the authentication credential of the Group Manager for that group, combined with the IP multicast address where to forward a group request and the Group Identifier of the OSCORE group (i.e., the ID Context specified in the OSCORE Option of the group request). Such combined information enables the proxy to fully identify the OSCORE group that the client is communicating in, which might not be desirable for that specific host acting as a proxy.
+
+Regardless, the client and the proxy SHOULD still rely on a full-fledged pairwise secure association. In addition to ensuring the integrity of group requests sent to the proxy (see {{sec-security-considerations-opt1}}, {{sec-security-considerations-opt2}}, and {{sec-security-considerations-opt3}}), this prevents the proxy from forwarding replayed group requests with a valid signature, as possibly injected by an active, on-path adversary.
+
+The same considerations above apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as a client with the next hop towards the origin servers.
 
 ## Multicast-Timeout Option ## {#sec-security-considerations-opt1}
 
@@ -1481,6 +1485,12 @@ C                               P                      S1           S2
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -05 to -06 ## {#sec-05-06}
+
+* Extended security considerations on client authentication.
+
+* Clarifications and editorial improvements.
 
 ## Version -04 to -05 ## {#sec-04-05}
 
