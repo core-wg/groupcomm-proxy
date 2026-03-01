@@ -72,15 +72,15 @@ This document defines a specific realization of proxy intended for scenarios tha
 
 The Constrained Application Protocol (CoAP) {{RFC7252}} allows the presence of proxies, as intermediary entities supporting clients by performing requests on their behalf and relaying back responses.
 
-CoAP supports also group communication {{I-D.ietf-core-groupcomm-bis}}, e.g., over IP multicast, where a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}, this group communication scenario poses a number of issues and limitations to proxy operations.
+CoAP supports group communication {{I-D.ietf-core-groupcomm-bis}}, e.g., over IP multicast, so that a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}, this group communication scenario poses a number of issues and limitations to proxy operations.
 
 In particular, the client typically sends to the proxy a single unicast request, which the proxy forwards to a group of CoAP servers, e.g., using UDP/IP multicast as the defined default transport protocol for CoAP group requests (see {{Section 1.1 of I-D.ietf-core-groupcomm-bis}}). Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.
 
 As per {{RFC7252}}, a CoAP-to-CoAP proxy relays those responses to the client as separate CoAP messages, all matching (by Token value) with the client's original unicast request. A possible alternative approach for aggregating those responses into a single CoAP response sent to the client would require a specific aggregation Content-Format, which is not available yet. Both these approaches pose issues.
 
-This document takes the former approach and accordingly defines a specific realization of proxy intended for scenarios that use group communication for CoAP. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The defined realization of proxy addresses all the related issues raised in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}. To this end, this document specifies a dedicated signaling protocol based on two new CoAP options and used by the client and the proxy.
+This document takes the former approach and accordingly defines a specific realization of proxy intended for scenarios that use group communication for CoAP. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The defined realization of proxy addresses all the related issues raised in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}. To this end, this document specifies a dedicated signaling protocol based on two new CoAP options, which is used by the client and the proxy.
 
-By using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates addressing information pertaining to the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers by sending individual unicast requests to the indicated addresses. In doing these follow-up unicast requests, the client can optionally bypass the proxy.
+By using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates addressing information pertaining to the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers, by sending individual unicast requests to the indicated addresses. In doing these follow-up unicast requests, the client can optionally bypass the proxy.
 
 Like {{I-D.ietf-core-groupcomm-bis}}, this document refers to UDP/IP multicast as the transport protocol that a proxy uses to forward a CoAP group request to a group of servers. While other transport protocols such as broadcast, non-IP multicast, and geocast can also be possible to employ, their use is not considered in this document.
 
@@ -96,7 +96,7 @@ Readers are expected to be familiar with the terms and concepts from the followi
 
 * CoAP {{RFC7252}} and group communication for CoAP {{I-D.ietf-core-groupcomm-bis}}.
 
-* Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}} and Group OSCORE {{I-D.ietf-core-oscore-groupcomm}}.
+* Object Security for Constrained RESTful Environments (OSCORE) {{RFC8613}} and Group Object Security for Constrained RESTful Environments (Group OSCORE) {{I-D.ietf-core-oscore-groupcomm}}.
 
 * Concise Data Definition Language (CDDL) {{RFC8610}}, Concise Binary Object Representation (CBOR) {{RFC8949}}, and CBOR sequences {{RFC8742}}
 
