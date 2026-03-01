@@ -482,9 +482,10 @@ Table of Contents
        include a No-Response Option [RFC7967] with value 26 (suppress
        all response codes), if it supports that option.
 
-       Consistently, if the unicast request to send to the proxy already
-       included a No-Response Option with value 26, the client SHOULD
-       specify T' = 0 as value of the Multicast-Timeout Option.
+       Consistently, if the unicast request to send to the proxy was
+       already intended to include a No-Response Option with value 26,
+       the client SHOULD specify T' = 0 as value of the Multicast-
+       Timeout Option.
 
    4.  The client processes the request as defined in
        [I-D.ietf-core-groupcomm-bis] and also as in
@@ -520,10 +521,10 @@ Table of Contents
    further corresponding responses, i.e., from that point in time until
    T seconds have elapsed since the request was sent to the proxy.
 
-   In such a case the client MAY ask the proxy for an early stop of the
+   In such a case, the client MAY ask the proxy for an early stop of the
    ongoing response forwarding, i.e., to not forward to the client any
-   further response received to the forwarded group request from the
-   servers.
+   further response received from the servers as a reply to the
+   forwarded group request.
 
    To this end, the client can rely on one of the following two
    approaches.
@@ -644,8 +645,8 @@ Table of Contents
 
    As defined in Section 5.1.3, the client might ask the proxy for an
    early stop of the ongoing response forwarding, i.e., to stop
-   forwarding to the client any further responses received to the
-   forwarded group request from the servers.
+   forwarding to the client any further responses received from the
+   servers as a reply to the forwarded group request.
 
    Consistently, the proxy stops forwarding such responses to the
    client, after receiving a CoAP Reset message (RST) in reply to one of
@@ -698,11 +699,13 @@ Table of Contents
    proxy proceeds according to the following steps.
 
    1.  The proxy MUST include the Reply-From Option defined in Section 3
-       in the response.  The proxy sets the option value as follows.
+       in the response.  The proxy sets the option value as follows:
 
-       The CRI present as first element of the CBOR sequence specifies
-       the addressing information of the server generating the response.
-       The second element of the CBOR sequence MUST NOT be present.
+       *  The CRI present as first element of the CBOR sequence
+          specifies the addressing information of the server generating
+          the response.
+
+       *  The second element of the CBOR sequence MUST NOT be present.
 
        If the proxy supports caching of responses (see Section 7), the
        proxy MUST include the Reply-From Option in the response before
@@ -831,10 +834,10 @@ Table of Contents
    Token value associated with that request.  Note that, upon this
    timeout expiration, the Token value is not eligible for possible
    reuse yet (see Section 5.1.1).  Thus, until the actual amount of time
-   before enabling Token reusage has elapsed, following late responses
-   to the same request forwarded by the proxy will be discarded, as
-   these are not matching (by Token value) with any active request from
-   the client.
+   before enabling Token reuse has elapsed, following late responses to
+   the same request forwarded by the proxy will be discarded, as these
+   are not matching (by Token value) with any active request from the
+   client.
 
 5.5.2.  Supporting Observe
 
