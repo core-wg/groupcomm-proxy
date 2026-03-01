@@ -53,7 +53,7 @@ normative:
 informative:
   I-D.bormann-coap-misc:
   I-D.tiloca-core-oscore-discovery:
-  I-D.amsuess-core-cachable-oscore:
+  I-D.ietf-core-cacheable-oscore:
   I-D.ietf-ace-key-groupcomm-oscore:
   I-D.ietf-core-oscore-capable-proxies:
   RFC8446:
@@ -582,7 +582,7 @@ It can be actually possible to enable revalidation of responses between proxy an
 
 Fundamentally, this requires to define the possible use of the ETag Option also as an outer option for OSCORE. Thus, in addition to the normal inner ETag, a server can add also an outer ETag option intended for the proxy.
 
-Since validation of responses assumes that cacheability of responses is possible in the first place, it would be convenient to define the use of ETag as outer option in {{I-D.amsuess-core-cachable-oscore}}.
+Since validation of responses assumes that cacheability of responses is possible in the first place, it would be convenient to define the use of ETag as outer option in {{I-D.ietf-core-cacheable-oscore}}.
 
 In case OSCORE is also used between the proxy and an individual origin server as per {{I-D.ietf-core-oscore-capable-proxies}}, then the outer ETag Option would be seamlessly protected with the OSCORE Security Context shared between the proxy and the origin server.
 
@@ -670,7 +670,7 @@ In fact, when starting from the same plain CoAP message, different clients gener
 
 ### Deterministic Requests to Achieve Cacheability # {#sec-det-req}
 
-For application scenarios that use secure group communication, it is still possible to achieve cacheability of responses at proxies by using the approach defined in {{I-D.amsuess-core-cachable-oscore}}, which is based on Deterministic Requests protected with the pairwise mode of Group OSCORE. This approach is limited to group requests that are safe (in the RESTful sense) to process and do not yield side effects at the servers. As for any protected group request, it requires the clients and all the servers in the CoAP group to have already joined the correct OSCORE group.
+For application scenarios that use secure group communication, it is still possible to achieve cacheability of responses at proxies by using the approach defined in {{I-D.ietf-core-cacheable-oscore}}, which is based on Deterministic Requests protected with the pairwise mode of Group OSCORE. This approach is limited to group requests that are safe (in the RESTful sense) to process and do not yield side effects at the servers. As for any protected group request, it requires the clients and all the servers in the CoAP group to have already joined the correct OSCORE group.
 
 Starting from the same plain CoAP request, this allows different clients in the OSCORE group to deterministically generate the same request protected with Group OSCORE, which is sent to the proxy for being forwarded to the CoAP group. The proxy can now effectively cache the resulting responses from the servers in the CoAP group, since the same plain CoAP request will result again in the same Deterministic Request and thus will produce a cache hit.
 
@@ -1489,6 +1489,8 @@ C                               P                      S1           S2
 ## Version -05 to -06 ## {#sec-05-06}
 
 * Extended security considerations on client authentication.
+
+* Updated references.
 
 * Clarifications and editorial improvements.
 
