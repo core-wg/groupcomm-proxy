@@ -1,7 +1,7 @@
 ---
 v: 3
 
-title: Proxy Operations for CoAP Group Communication
+title: Proxy Operations in Group Communication for the Constrained Application Protocol (CoAP)
 abbrev: Proxy Operations for Group Communication
 docname: draft-ietf-core-groupcomm-proxy-latest
 
@@ -1488,9 +1488,11 @@ C                               P                      S1           S2
 
 ## Version -05 to -06 ## {#sec-05-06}
 
-* Extended security considerations on client authentication.
+* Updated title.
 
 * Updated references.
+
+* Extended security considerations on client authentication.
 
 * Clarifications and editorial improvements.
 
