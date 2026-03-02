@@ -2180,7 +2180,7 @@ That is, a matching group request produces a hit to multiple cache entries, each
 Note that, as per the freshness model defined in <a href="#sec-proxy-caching-freshness" class="auto internal xref">Section 7.1</a>, the proxy might serve a group request exclusively from its cached responses only when it knows all the CoAP servers that are current members of the CoAP group and it has a valid cache entry for each of them.<a href="#section-7-3.2.3" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-7-4">When forwarding a GET or FETCH group request to the servers in the CoAP group, the proxy behaves like a CoAP client as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-18#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, with the following additions.<a href="#section-7-4" class="pilcrow">¶</a></p>
+<p id="section-7-4">When forwarding a GET or FETCH group request to the servers in the CoAP group, the proxy behaves like a CoAP client as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-18#section-3.2" class="relref">Section 3.2</a> of [<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>, with the following additions:<a href="#section-7-4" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7-5.1">
           <p id="section-7-5.1.1">As discussed in <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a>, the proxy can receive multiple responses to the same group request from the same origin server and forwards them back to the origin client "as they come". When this happens, each of such multiple responses is stored in the cache entry associated with the server "as it comes", possibly replacing an already stored response from that server.<a href="#section-7-5.1.1" class="pilcrow">¶</a></p>
@@ -2205,15 +2205,15 @@ Note that, as per the freshness model defined in <a href="#sec-proxy-caching-fre
             <p id="section-7.1-3.2.1">The proxy's cache currently stores a fresh response for each of those CoAP servers.<a href="#section-7.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.1-4">The specific way that the proxy uses to determine the CoAP servers currently members of the target CoAP group is out of scope for this document. As possible examples, the proxy can synchronize with a group manager server; rely on well-known time patterns used by the application or in the network for the addition of new CoAP group members; observe group join requests or IGMP/MLD multicast group join messages, e.g., if the proxy is embedded in a multicast router.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
+<p id="section-7.1-4">The specific way that the proxy uses to determine the CoAP servers that are currently members of the target CoAP group is out of scope for this document. As possible examples, the proxy can synchronize with a group manager server; rely on well-known time patterns used by the application or in the network for the addition of new CoAP group members; observe group join requests or IGMP/MLD multicast group join messages, e.g., if the proxy is embedded in a multicast router.<a href="#section-7.1-4" class="pilcrow">¶</a></p>
 <p id="section-7.1-5">When forwarding the group request to the servers, the proxy may have fresh responses stored in its cache for (some of) those servers. In such a case, the proxy uses (also) those cached responses to serve the original unicast group request, as defined below.<a href="#section-7.1-5" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.1-6.1">
             <p id="section-7.1-6.1.1">The request processing in <a href="#ssec-req-proc-proxy-steps" class="auto internal xref">Section 5.2.1</a> is extended as follows.<a href="#section-7.1-6.1.1" class="pilcrow">¶</a></p>
 <p id="section-7.1-6.1.2">
-After setting the timeout with value T' &gt; 0 in Step 6, the proxy checks whether its cache currently stores fresh responses to the group request. For each of such responses, the proxy compares the residual lifetime L of the corresponding cache entry against the value T'.<a href="#section-7.1-6.1.2" class="pilcrow">¶</a></p>
+After setting the timeout with value T' &gt; 0 at Step 6, the proxy checks whether its cache currently stores fresh responses to the group request. For each of such responses, the proxy compares the residual lifetime L of the corresponding cache entry against the value T'.<a href="#section-7.1-6.1.2" class="pilcrow">¶</a></p>
 <p id="section-7.1-6.1.3">
-If a cached response X is such that L &lt; T', then the proxy forwards X back to the client at its earliest convenience. Otherwise, the proxy does not forward X back to the client right away and instead waits for approaching the timeout expiration, as discussed in the next point.<a href="#section-7.1-6.1.3" class="pilcrow">¶</a></p>
+If a cached response X is such that L &lt; T', then the proxy forwards X back to the client at its earliest convenience. Otherwise, the proxy does not forward X back to the client right away, and instead waits for approaching the timeout expiration as discussed in the next point.<a href="#section-7.1-6.1.3" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.1-6.2">
             <p id="section-7.1-6.2.1">The response processing in <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a> is extended as follows.<a href="#section-7.1-6.2.1" class="pilcrow">¶</a></p>
@@ -2304,7 +2304,7 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
         </h3>
 <p id="section-7.3-1">A client <span class="bcp14">MAY</span> revalidate the full set of responses to a group request by leveraging the corresponding cache entries at the proxy. To this end, this document defines the new Group-ETag Option.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <p id="section-7.3-2">The Group-ETag Option has the properties summarized in <a href="#_table-response-group-etag-option" class="auto internal xref">Table 3</a>, which extends Table 4 of <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
-<p id="section-7.3-3">The Group-ETag Option is elective, safe to forward, part of the cache key, and repeatable. The option is intended for group requests sent to a proxy to be forwarded to the servers in a CoAP group as well as for the associated responses.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
+<p id="section-7.3-3">The Group-ETag Option is elective, safe to forward, part of the Cache-Key, and repeatable. The option is intended for group requests sent to a proxy to be forwarded to the servers in a CoAP group as well as for the associated responses.<a href="#section-7.3-3" class="pilcrow">¶</a></p>
 <span id="name-the-group-etag-option-ccrit"></span><div id="_table-response-group-etag-option">
 <table class="center" id="table-3">
           <caption>
@@ -2345,7 +2345,7 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
 <p id="section-7.3-8">If the proxy supports this form of response revalidation, the following applies.<a href="#section-7.3-8" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-9.1">
-            <p id="section-7.3-9.1.1">The proxy defines J as a joint set including all the cache entries currently storing fresh responses that satisfy a group request. A set J is "complete" if it includes a valid cache entry for each of the CoAP servers currently members of the CoAP group.<a href="#section-7.3-9.1.1" class="pilcrow">¶</a></p>
+            <p id="section-7.3-9.1.1">The proxy defines J as a joint set including all the cache entries currently storing fresh responses that satisfy a group request. A set J is "complete" if it includes a valid cache entry for each of the CoAP servers that are currently members of the CoAP group.<a href="#section-7.3-9.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-7.3-9.2">
             <p id="section-7.3-9.2.1">When the set J becomes "complete", the proxy assigns it an entity-tag value. The proxy <span class="bcp14">MUST</span> update the current entity-tag value, when J is "complete" and one of its cache entry is updated.<a href="#section-7.3-9.2.1" class="pilcrow">¶</a></p>
@@ -2355,7 +2355,7 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
 </li>
         </ul>
 <p id="section-7.3-10">When sending to the proxy a GET or FETCH request to be forwarded to the servers in the CoAP group, the client <span class="bcp14">MAY</span> include one or more Group-ETag Options. Each option specifies one entity-tag value, as applicable to the set J of cache entries that can be hit by the group request.<a href="#section-7.3-10" class="pilcrow">¶</a></p>
-<p id="section-7.3-11">The proxy <span class="bcp14">MAY</span> perform the following actions, in case the group request produces a hit to the cache entry of each CoAP server currently member of the CoAP group, i.e., in case the set J associated with the group request is "complete".<a href="#section-7.3-11" class="pilcrow">¶</a></p>
+<p id="section-7.3-11">The proxy <span class="bcp14">MAY</span> perform the following actions, in case the group request produces a hit to the cache entry of each CoAP server that is currently a member of the CoAP group, i.e., in case the set J associated with the group request is "complete".<a href="#section-7.3-11" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-12.1">
             <p id="section-7.3-12.1.1">The proxy checks whether the current entity-tag value of the set J matches with one of the entity-tag values specified in the Group-ETag Options of the unicast group request from the client.<a href="#section-7.3-12.1.1" class="pilcrow">¶</a></p>
@@ -2394,7 +2394,7 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
           </h4>
 <p id="section-7.4.2-1">Response revalidation remains possible end-to-end between the client and the servers in the group, by including inner ETag Options as defined in Sections <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-18#section-3.2" class="relref">3.2</a> and <a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-groupcomm-bis-18#section-3.2.2" class="relref">3.2.2</a> of <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-7.4.2-1" class="pilcrow">¶</a></p>
 <p id="section-7.4.2-2">Furthermore, it remains possible for a client to attempt revalidating responses to a group request from a "complete" set of cache entries at the proxy, by using the Group-ETag Option as defined in <a href="#sec-proxy-caching-validation-c-p" class="auto internal xref">Section 7.3</a>.<a href="#section-7.4.2-2" class="pilcrow">¶</a></p>
-<p id="section-7.4.2-3">When directly interacting with the servers in the CoAP group to refresh its cache entries, the proxy cannot rely on response revalidation anymore. This applies to the case where the request is addressed to a single server and sent to the related unicast URI (see <a href="#sec-proxy-caching-validation-p-s-unicast" class="auto internal xref">Section 7.2.1</a>) as well as to the case where the request is a group request addressed to the CoAP group and sent to the related group URI (see <a href="#sec-proxy-caching-validation-p-s" class="auto internal xref">Section 7.2.2</a>).<a href="#section-7.4.2-3" class="pilcrow">¶</a></p>
+<p id="section-7.4.2-3">When directly interacting with the servers in the CoAP group to refresh its cache entries, the proxy cannot rely on response revalidation anymore. This applies to the case where the request is addressed to a single server and is sent to the related unicast URI (see <a href="#sec-proxy-caching-validation-p-s-unicast" class="auto internal xref">Section 7.2.1</a>) as well as to the case where the request is a group request addressed to the CoAP group and is sent to the related group URI (see <a href="#sec-proxy-caching-validation-p-s" class="auto internal xref">Section 7.2.2</a>).<a href="#section-7.4.2-3" class="pilcrow">¶</a></p>
 <p id="section-7.4.2-4">[ TODO<a href="#section-7.4.2-4" class="pilcrow">¶</a></p>
 <p id="section-7.4.2-5">See the notes in <a href="#sec-proxy-caching-validation-p-s-unicast" class="auto internal xref">Section 7.2.1</a>.<a href="#section-7.4.2-5" class="pilcrow">¶</a></p>
 <p id="section-7.4.2-6">The following text can be used to replace the last paragraph above.<a href="#section-7.4.2-6" class="pilcrow">¶</a></p>
@@ -2412,7 +2412,7 @@ This is possible also in case the proxy and the origin servers use Group OSCORE 
       <h2 id="name-chain-of-proxies">
 <a href="#section-8" class="section-number selfRef">8. </a><a href="#name-chain-of-proxies" class="section-name selfRef">Chain of Proxies</a>
       </h2>
-<p id="section-8-1">A client may be interested to access a resource at a group of origin servers that is reached through a chain of two or more proxies.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-1">A client may be interested in accessing a resource at a group of origin servers that is reached through a chain of two or more proxies.<a href="#section-8-1" class="pilcrow">¶</a></p>
 <p id="section-8-2">That is, these proxies are configured into a chain, where each non-last proxy is configured to forward (group) requests to the next hop towards the origin servers. Also, each non-first proxy is configured to forward back responses to the previous hop proxy towards the origin client.<a href="#section-8-2" class="pilcrow">¶</a></p>
 <p id="section-8-3">This section specifies how the signaling protocol defined in <a href="#sec-description" class="auto internal xref">Section 5</a> is used in that setting. Except for the last proxy before the origin servers, every other proxy in the chain takes the role of client with respect to the next hop towards the origin servers. Also, every proxy in the chain except the first takes the role of server towards the previous proxy closer to the origin client.<a href="#section-8-3" class="pilcrow">¶</a></p>
 <p id="section-8-4">Accordingly, possible caching of responses at each proxy works as defined in <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a> and <a href="#sec-group-caching" class="auto internal xref">Section 7.4</a>. Also, possible revalidation of responses cached at each proxy and based on the Group-ETag Option works as defined in <a href="#sec-proxy-caching-validation-c-p" class="auto internal xref">Section 7.3</a> and <a href="#chap-sec-group-caching-validation" class="auto internal xref">Section 7.4.2</a>.<a href="#section-8-4" class="pilcrow">¶</a></p>
@@ -2699,7 +2699,7 @@ If the List of the HTTP Reply-From header field does not include the second Byte
 <a href="#section-9.5" class="section-number selfRef">9.5. </a><a href="#name-request-processing-at-the-pro" class="section-name selfRef">Request Processing at the Proxy</a>
         </h3>
 <p id="section-9.5-1">The proxy translates the HTTP request to a CoAP request, as per <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>. The additional rules for HTTP messages with the HTTP Multicast-Timeout header field and HTTP Group-ETag header field are defined in <a href="#sec-multicast-timeout-header" class="auto internal xref">Section 9.1</a> and <a href="#sec-group-etag-header" class="auto internal xref">Section 9.3</a>, respectively.<a href="#section-9.5-1" class="pilcrow">¶</a></p>
-<p id="section-9.5-2">Once translated the HTTP request into a CoAP request, the proxy <span class="bcp14">MUST</span> perform the steps defined in <a href="#ssec-req-proc-proxy" class="auto internal xref">Section 5.2</a>. If the proxy supports caching of responses, it can serve the unicast request also by using cached responses as per <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a>, considering the CoAP request above as the potentially matching request.<a href="#section-9.5-2" class="pilcrow">¶</a></p>
+<p id="section-9.5-2">Once translated the HTTP request into a CoAP request, the proxy performs the steps defined in <a href="#ssec-req-proc-proxy" class="auto internal xref">Section 5.2</a>. If the proxy supports caching of responses, it can serve the unicast request also by using cached responses as per <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a>, considering the CoAP request above as the potentially matching request.<a href="#section-9.5-2" class="pilcrow">¶</a></p>
 <p id="section-9.5-3">In addition, in case the HTTP Multicast-Timeout header field had value 0, the proxy replies to the client with an HTTP response with status code 204 (No Content), right after forwarding the group request to the group of servers.<a href="#section-9.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
@@ -2741,7 +2741,7 @@ If the List of the HTTP Reply-From header field does not include the second Byte
         <h3 id="name-response-processing-at-the-cl">
 <a href="#section-9.7" class="section-number selfRef">9.7. </a><a href="#name-response-processing-at-the-cl" class="section-name selfRef">Response Processing at the Client</a>
         </h3>
-<p id="section-9.7-1">When it receives an HTTP response as a reply to the original unicast group request, the client proceeds as follows.<a href="#section-9.7-1" class="pilcrow">¶</a></p>
+<p id="section-9.7-1">When it receives an HTTP response as a reply to the original unicast group request, the client proceeds as follows:<a href="#section-9.7-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-9.7-2">
 <li id="section-9.7-2.1">
             <p id="section-9.7-2.1.1">The client decrypts and verifies the response, according to the security association that it has with the proxy.<a href="#section-9.7-2.1.1" class="pilcrow">¶</a></p>
@@ -2753,17 +2753,13 @@ If the List of the HTTP Reply-From header field does not include the second Byte
             <p id="section-9.7-2.3.1">From each of the extracted batch parts, the client extracts the body as one of the individual HTTP response RESP.<a href="#section-9.7-2.3.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-9.7-2.4">
-            <p id="section-9.7-2.4.1">For each individual HTTP response RESP, the client performs the following steps.<a href="#section-9.7-2.4.1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-9.7-2.4.2.1">
-                <p id="section-9.7-2.4.2.1.1">If Group OSCORE is used end-to-end between the client and servers, the client translates the HTTP response RESP into a CoAP response, as per <span><a href="https://rfc-editor.org/rfc/rfc8613#section-11.3" class="relref">Section 11.3</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. Then, the client decrypts and verifies the resulting CoAP response by using Group OSCORE, as defined in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. Finally, the decrypted CoAP response is mapped to HTTP as per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-10.2" class="relref">Section 10.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> as well as <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>. The additional rules for HTTP messages with the HTTP Reply-From header field are defined in <a href="#sec-reply-from-header" class="auto internal xref">Section 9.2</a>.<a href="#section-9.7-2.4.2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-9.7-2.4.2.2">
-                <p id="section-9.7-2.4.2.2.1">The client delivers the individual HTTP response to the application.<a href="#section-9.7-2.4.2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
+            <p id="section-9.7-2.4.1">For each individual HTTP response RESP, the client performs the following steps:<a href="#section-9.7-2.4.1" class="pilcrow">¶</a></p>
+<p id="section-9.7-2.4.2">
+a. If Group OSCORE is used end-to-end between the client and servers, the client translates the HTTP response RESP into a CoAP response, as per <span><a href="https://rfc-editor.org/rfc/rfc8613#section-11.3" class="relref">Section 11.3</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>. Then, the client decrypts and verifies the resulting CoAP response by using Group OSCORE, as defined in <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span>. Finally, the decrypted CoAP response is mapped to HTTP as per <span><a href="https://rfc-editor.org/rfc/rfc7252#section-10.2" class="relref">Section 10.2</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span> as well as <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span>. The additional rules for HTTP messages with the HTTP Reply-From header field are defined in <a href="#sec-reply-from-header" class="auto internal xref">Section 9.2</a>.<a href="#section-9.7-2.4.2" class="pilcrow">¶</a></p>
 <p id="section-9.7-2.4.3">
-Similarly to Step 3 in <a href="#ssec-resp-proc-client-steps" class="auto internal xref">Section 5.5.1</a>, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as value of the HTTP Reply-From header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.<a href="#section-9.7-2.4.3" class="pilcrow">¶</a></p>
+b. The client delivers the individual HTTP response to the application.<a href="#section-9.7-2.4.3" class="pilcrow">¶</a></p>
+<p id="section-9.7-2.4.4">
+Similarly to Step 3 in <a href="#ssec-resp-proc-client-steps" class="auto internal xref">Section 5.5.1</a>, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as value of the HTTP Reply-From header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.<a href="#section-9.7-2.4.4" class="pilcrow">¶</a></p>
 </li>
         </ol>
 </section>
@@ -2841,8 +2837,8 @@ Body: More than done!
           <h4 id="name-processing-on-the-client-sid">
 <a href="#section-9.10.1" class="section-number selfRef">9.10.1. </a><a href="#name-processing-on-the-client-sid" class="section-name selfRef">Processing on the Client Side</a>
           </h4>
-<p id="section-9.10.1-1">If an HTTP client sends a request intended for a group of servers and is aware of actually communicating with a reverse-proxy, then the client <span class="bcp14">MUST</span> perform the steps defined in <a href="#sec-cross-proxies-client-req" class="auto internal xref">Section 9.4</a>. In particular, this results in a request sent to the proxy including a Multicast-Timeout header field.<a href="#section-9.10.1-1" class="pilcrow">¶</a></p>
-<p id="section-9.10.1-2">The client processes the HTTP response forwarded back by the proxy as defined in <a href="#sec-cross-proxies-client-resp" class="auto internal xref">Section 9.7</a>. If the client wishes to send a follow-up unicast request intended only to one of the CoAP servers that generated the response, the same concepts defined in <a href="#sec-reverse-proxies-client-side" class="auto internal xref">Section 6.2</a> apply to the composition of HTTP requests.<a href="#section-9.10.1-2" class="pilcrow">¶</a></p>
+<p id="section-9.10.1-1">If an HTTP client sends a request intended for a group of servers and is aware of actually communicating with a reverse-proxy, then the client performs the steps defined in <a href="#sec-cross-proxies-client-req" class="auto internal xref">Section 9.4</a>. In particular, this results in a request sent to the proxy and including a Multicast-Timeout header field.<a href="#section-9.10.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.10.1-2">The client processes the HTTP response forwarded back by the proxy as defined in <a href="#sec-cross-proxies-client-resp" class="auto internal xref">Section 9.7</a>. If the client wishes to send a follow-up unicast request intended only for one of the CoAP servers that generated the response, the same concepts defined in <a href="#sec-reverse-proxies-client-side" class="auto internal xref">Section 6.2</a> apply to the composition of HTTP requests.<a href="#section-9.10.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-reverse-proxies-proxy-side-http">
