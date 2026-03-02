@@ -6,7 +6,7 @@ CoRE Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Updates: 7252 (if approved)                                      E. Dijk
 Intended status: Standards Track                       IoTconsultancy.nl
-Expires: 2 September 2026                                   1 March 2026
+Expires: 3 September 2026                                   2 March 2026
 
 
 Proxy Operations in Group Communication for the Constrained Application
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 September 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
@@ -864,7 +864,8 @@ Table of Contents
 
    The origin servers are members of a CoAP group with IP multicast
    address G_ADDR and port number G_PORT.  Also, the origin servers are
-   members of the same application group and share the same resource /r.
+   members of the same application group and share the same resource at
+   /r.
 
    The communication between C and P is based on CoAP over UDP, as per
    [RFC7252].  The communication between P and the origin servers is
@@ -984,11 +985,12 @@ Table of Contents
       -  A CRI reference MUST be present as the second element of the
          CBOR sequence in case, upon receiving a unicast request that
          has been sent according to TARGET_1, the proxy forwards the
-         request based on what is specified by the Uri-Host, Uri-Port,
-         and Uri-Path Options included in the request.  The CRI
-         reference specifies the same information that the proxy expects
-         to be specified in the Uri-Host, Uri-Port, and Uri-Path Options
-         of such a unicast request.
+         request based on further information than TARGET_1 and relying
+         on what is specified by the Uri-Host, Uri-Port, and Uri-Path
+         Options included in the request.  The CRI reference specifies
+         the same information that the proxy expects to be specified in
+         the Uri-Host, Uri-Port, and Uri-Path Options of such a unicast
+         request.
 
          Otherwise, the second element of the CBOR sequence MUST NOT be
          present, in which case the proxy forwards the unicast request
@@ -1053,11 +1055,17 @@ Table of Contents
       reference as the second element of the CBOR sequence, then the
       client includes the Uri-Host, Uri-Port, and Uri-Path Options in
       the unicast request, according to what is specified by the
-      corresponding elements of the CRI reference.  If the client wants
-      to specify additional path segments that identify a specific
-      resource at the origin server, then the corresponding Uri-Path
-      Options are included in the request after the Uri-Path Options
-      corresponding to the path component of the CRI reference.
+      corresponding elements of the CRI reference.  In particular:
+
+      -  If 'authority' is given in the CRI reference and it does not
+         include 'port', then the client MUST NOT include the Uri-Port
+         Option in the unicast request.
+
+      -  If the client wants to specify additional path segments that
+         identify a specific resource at the origin server, then the
+         corresponding Uri-Path Options are included in the request
+         after the Uri-Path Options corresponding to the path component
+         of the CRI reference.
 
 7.  Caching
 
@@ -2963,6 +2971,8 @@ B.1.  Version -05 to -06
    *  Updated title.
 
    *  Updated references.
+
+   *  Clarified handling of the Reply-From Option on the client side.
 
    *  Extended security considerations on client authentication.
 

@@ -1050,7 +1050,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Dijk</td>
-<td class="center">Expires 2 September 2026</td>
+<td class="center">Expires 3 September 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1066,12 +1066,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-03-01" class="published">1 March 2026</time>
+<time datetime="2026-03-02" class="published">2 March 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-09-02">2 September 2026</time></dd>
+<dd class="expires"><time datetime="2026-09-03">3 September 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1120,7 +1120,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 3 September 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1961,7 +1961,7 @@ That is, the client simply specifies the URI for the individual request in the u
             <p id="section-5.6-2.3.1">Two origin servers S1 and S2, where the server Sx has address Sx_ADDR and port number Sx_PORT.<a href="#section-5.6-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-5.6-3">The origin servers are members of a CoAP group with IP multicast address G_ADDR and port number G_PORT. Also, the origin servers are members of the same application group and share the same resource /r.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
+<p id="section-5.6-3">The origin servers are members of a CoAP group with IP multicast address G_ADDR and port number G_PORT. Also, the origin servers are members of the same application group and share the same resource at /r.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 <p id="section-5.6-4">The communication between C and P is based on CoAP over UDP, as per <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. The communication between P and the origin servers is based on CoAP over UDP and IP multicast, as per <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-5.6-4" class="pilcrow">¶</a></p>
 <p id="section-5.6-5">Finally, cri'X' denotes a CRI corresponding to the URI X.<a href="#section-5.6-5" class="pilcrow">¶</a></p>
 <span id="name-workflow-example-with-a-for"></span><div id="workflow-example">
@@ -2103,7 +2103,7 @@ In such a case, within a response forwarded back to the client, the value of the
                 <p id="section-6.1-4.1.3.1.1">The CRI that is present as the first element of the CBOR sequence specifies an addressing information TARGET_1, such that a unicast request reaches the proxy if it is sent according to TARGET_1.<a href="#section-6.1-4.1.3.1.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-6.1-4.1.3.2">
-                <p id="section-6.1-4.1.3.2.1">A CRI reference <span class="bcp14">MUST</span> be present as the second element of the CBOR sequence in case, upon receiving a unicast request that has been sent according to TARGET_1, the proxy forwards the request based on what is specified by the Uri-Host, Uri-Port, and Uri-Path Options included in the request. The CRI reference specifies the same information that the proxy expects to be specified in the Uri-Host, Uri-Port, and Uri-Path Options of such a unicast request.<a href="#section-6.1-4.1.3.2.1" class="pilcrow">¶</a></p>
+                <p id="section-6.1-4.1.3.2.1">A CRI reference <span class="bcp14">MUST</span> be present as the second element of the CBOR sequence in case, upon receiving a unicast request that has been sent according to TARGET_1, the proxy forwards the request based on further information than TARGET_1 and relying on what is specified by the Uri-Host, Uri-Port, and Uri-Path Options included in the request. The CRI reference specifies the same information that the proxy expects to be specified in the Uri-Host, Uri-Port, and Uri-Path Options of such a unicast request.<a href="#section-6.1-4.1.3.2.1" class="pilcrow">¶</a></p>
 <p id="section-6.1-4.1.3.2.2">
 Otherwise, the second element of the CBOR sequence <span class="bcp14">MUST NOT</span> be present, in which case the proxy forwards the unicast request solely based on the addressing information TARGET_1 according to which the request has been sent to.<a href="#section-6.1-4.1.3.2.2" class="pilcrow">¶</a></p>
 </li>
@@ -2142,7 +2142,15 @@ The client will be able to use that information for sending a follow-up unicast 
 <p id="section-6.2-3.1.2">
 Effectively, the client sends the unicast request either directly to the origin server (in case the proxy stands in only for the whole group of servers, but not for the individual servers in the group), or to the proxy (in case the proxy stands in for both the whole group of servers and the individual servers in the group).<a href="#section-6.2-3.1.2" class="pilcrow">¶</a></p>
 <p id="section-6.2-3.1.3">
-In case the value of the Reply-From Option specifies also a CRI reference as the second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. If the client wants to specify additional path segments that identify a specific resource at the origin server, then the corresponding Uri-Path Options are included in the request after the Uri-Path Options corresponding to the path component of the CRI reference.<a href="#section-6.2-3.1.3" class="pilcrow">¶</a></p>
+In case the value of the Reply-From Option specifies also a CRI reference as the second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. In particular:<a href="#section-6.2-3.1.3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.2-3.1.4.1">
+                <p id="section-6.2-3.1.4.1.1">If 'authority' is given in the CRI reference and it does not include 'port', then the client <span class="bcp14">MUST NOT</span> include the Uri-Port Option in the unicast request.<a href="#section-6.2-3.1.4.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-6.2-3.1.4.2">
+                <p id="section-6.2-3.1.4.2.1">If the client wants to specify additional path segments that identify a specific resource at the origin server, then the corresponding Uri-Path Options are included in the request after the Uri-Path Options corresponding to the path component of the CRI reference.<a href="#section-6.2-3.1.4.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 </li>
         </ul>
 </section>
@@ -3781,10 +3789,13 @@ Based on this information, P composes the group request and sends it to the CoAP
             <p id="appendix-B.1-1.2.1">Updated references.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Extended security considerations on client authentication.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Clarified handling of the Reply-From Option on the client side.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.4">
-            <p id="appendix-B.1-1.4.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.4.1">Extended security considerations on client authentication.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">Clarifications and editorial improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
