@@ -2601,7 +2601,8 @@ Appendix A.  Examples with Reverse-Proxy
 
    The origin servers are members of a CoAP group with IP multicast
    address G_ADDR and port number G_PORT.  Also, the origin servers are
-   members of the same application group and share the same resource /r.
+   members of the same application group and share the same resource at
+   /r.
 
    The communication between C and P is based on CoAP over TCP, as per
    [RFC8323].  The group communication between P and the origin servers
@@ -2621,7 +2622,7 @@ A.1.  Example 1
    After the client C has received two responses to its group request
    sent via the proxy, it selects one server (S1) and sends a new
    request again via the proxy, intended only for that server and
-   targeting a different resource /r1 in unicast.
+   targeting a different resource at /r1 in unicast.
 
    In particular:
 
@@ -2642,8 +2643,8 @@ A.1.  Example 1
 
    *  Typically, S1_PORT and S2_PORT will be equal to G_PORT, but a
       server Sx is allowed to reply to the multicast request from
-      another port number not equal to G_PORT.  For this reason, the
-      notation Sx_PORT is used.
+      another port number that is not equal to G_PORT.  For this reason,
+      the notation Sx_PORT is used.
 
    Note that this type of reverse-proxy only requires one unicast IP
    address (P_ADDR) for the proxy, so it scales well with a large number
@@ -2759,7 +2760,7 @@ A.2.  Example 2
    After the client C has received two responses to its group request
    sent via the proxy, it selects one server (S1) and sends a new
    request again via the proxy, intended only for that server and
-   targeting the same resource /r in unicast.
+   targeting the same resource at /r in unicast.
 
    In particular:
 
