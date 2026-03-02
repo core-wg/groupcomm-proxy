@@ -1177,7 +1177,7 @@ The examples in this section refer to the following actors.
 
 * Two origin servers S1 and S2, where the server Sx has address Sx_ADDR and port number Sx_PORT.
 
-The origin servers are members of a CoAP group with IP multicast address G_ADDR and port number G_PORT. Also, the origin servers are members of the same application group and share the same resource /r.
+The origin servers are members of a CoAP group with IP multicast address G_ADDR and port number G_PORT. Also, the origin servers are members of the same application group and share the same resource at /r.
 
 The communication between C and P is based on CoAP over TCP, as per {{RFC8323}}. The group communication between P and the origin servers is based on CoAP over UDP and IP multicast, as per {{I-D.ietf-core-groupcomm-bis}}.
 
@@ -1187,7 +1187,7 @@ Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI r
 
 The example shown in {{workflow-example-reverse-1}} considers a reverse-proxy P that provides access to both the whole group of servers {S1,S2} and also to each of those servers individually. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).
 
-After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and sends a new request again via the proxy, intended only for that server and targeting a different resource /r1 in unicast.
+After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and sends a new request again via the proxy, intended only for that server and targeting a different resource at /r1 in unicast.
 
 In particular:
 
@@ -1199,7 +1199,7 @@ In particular:
 
   Based on this information, P composes the group request and sends it to the CoAP group at G_ADDR:G_PORT.
 
-* Typically, S1_PORT and S2_PORT will be equal to G_PORT, but a server Sx is allowed to reply to the multicast request from another port number not equal to G_PORT. For this reason, the notation Sx_PORT is used.
+* Typically, S1_PORT and S2_PORT will be equal to G_PORT, but a server Sx is allowed to reply to the multicast request from another port number that is not equal to G_PORT. For this reason, the notation Sx_PORT is used.
 
 Note that this type of reverse-proxy only requires one unicast IP address (P_ADDR) for the proxy, so it scales well with a large number of servers Sx. Instead, the type of reverse-proxy in the example in {{sec-reverse-proxies-examples-ex2}} requires one IP address for each server Sx and one for each CoAP group that the proxy supports.
 
@@ -1304,7 +1304,7 @@ C                                    P                      S1       S2
 
 The example shown in {{workflow-example-reverse-2}} considers a reverse-proxy that stands in for both the whole group of servers {S1,S2} and for each of those servers Sx. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).
 
-After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and sends a new request again via the proxy, intended only for that server and targeting the same resource /r in unicast.
+After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and sends a new request again via the proxy, intended only for that server and targeting the same resource at /r in unicast.
 
 In particular:
 
