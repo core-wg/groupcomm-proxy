@@ -1084,9 +1084,9 @@ If the group request is also protected end-to-end between the client and the ori
 
 However, this requires the proxy to store, for each client to authenticate, the authentication credential that the client uses in the OSCORE group and the public key included therein, and to also store the authentication credential of the Group Manager responsible for the OSCORE group. This in turn would require a form of active synchronization between the proxy and the Group Manager for that group {{I-D.ietf-core-oscore-groupcomm}}.
 
-Furthermore, when specifically acting as an external signature checker for an OSCORE group, the proxy can leverage its knowledge of the authentication credential of the Group Manager for that group, combined with the IP multicast address where to forward a group request and the Group Identifier of the OSCORE group (i.e., the ID Context specified in the OSCORE Option of the group request). Such combined information enables the proxy to fully identify the OSCORE group that the client is communicating in, which might not be desirable for that specific host acting as a proxy.
+Furthermore, when specifically acting as an external signature checker for an OSCORE group, the proxy can leverage its knowledge of the authentication credential of the Group Manager for that group, combined with the IP multicast address where to forward a group request and the Group Identifier of the OSCORE group (i.e., the ID Context specified in the OSCORE Option of the group request). Such combined information enables the proxy to fully identify the OSCORE group that the client is communicating in, which might not be desirable for that specific host acting as a proxy. Conversely, if the proxy does not act as an external signature checker and does not have the authentication credential of the Group Manager, the proxy is not able to fully and unambiguously identify the security group that the client is communicating in.
 
-Regardless, the client and the proxy SHOULD still rely on a full-fledged pairwise secure association. In addition to ensuring the integrity of group requests sent to the proxy (see {{sec-security-considerations-opt1}}, {{sec-security-considerations-opt2}}, and {{sec-security-considerations-opt3}}), this prevents the proxy from forwarding replayed group requests with a valid signature, as possibly injected by an active, on-path adversary.
+Irrespective of the above, the client and the proxy SHOULD still rely on a full-fledged pairwise secure association. In addition to ensuring the integrity of group requests sent to the proxy (see {{sec-security-considerations-opt1}}, {{sec-security-considerations-opt2}}, and {{sec-security-considerations-opt3}}), this prevents the proxy from forwarding replayed group requests with a valid signature, as possibly injected by an active, on-path adversary.
 
 The same considerations above apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as a client with the next hop towards the origin servers.
 
@@ -1520,6 +1520,8 @@ C                               P                      S1           S2
   * Representing the option value 0.
 
   * Checks at the proxy about the client being allowed-listed.
+
+  * Privacy benefits if the proxy is not a Group OSCORE signature checker.
 
 * Mentioned the possible use of the Uri-Path-Abbrev Option.
 
