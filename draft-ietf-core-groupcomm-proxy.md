@@ -282,7 +282,7 @@ Upon receiving the request from the client, the proxy proceeds according to the 
 
 1. The proxy decrypts and verifies the request, according to the security association that it has with the client.
 
-2. The proxy identifies the client and verifies that the client is in fact allowed-listed to have its requests proxied to CoAP group URIs.
+2. The proxy identifies the client and verifies that the client is in fact allowed-listed to have its requests proxied to CoAP group URIs. In particular, the proxy verifies that the client is allowed-listed to have its requests proxied to the group URI specified in the present request.
 
    If the verification fails, the proxy MUST stop processing the request and MUST reply to the client with a 4.01 (Unauthorized) response. The proxy protects the response according to the security association that it has with the client.
 
@@ -1515,6 +1515,8 @@ C                               P                      S1           S2
 * Clarifications:
 
   * Representing the option value 0.
+
+  * Checks at the proxy about the client being allowed-listed.
 
 * Avoided unnecessary normative language.
 
