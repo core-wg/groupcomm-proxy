@@ -49,6 +49,18 @@ normative:
   RFC8949:
   RFC9112:
   RFC9651:
+  IANA.CoAP.Option.Numbers:
+    author:
+      org: IANA
+    date: false
+    title: CoAP Option Numbers
+    target: https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers
+  IANA.HTTP.Field.Name:
+    author:
+      org: IANA
+    date: false
+    title: Hypertext Transfer Protocol (HTTP) Field Name Registry
+    target: https://www.iana.org/assignments/http-fields/http-fields.xhtml#field-names
 
 informative:
   I-D.bormann-coap-misc:
@@ -56,8 +68,8 @@ informative:
   I-D.ietf-core-cacheable-oscore:
   I-D.ietf-ace-key-groupcomm-oscore:
   I-D.ietf-core-oscore-capable-proxies:
-  RFC8446:
   RFC9147:
+  RFC9846:
 
 entity:
   SELF: "[RFC-XXXX]"
@@ -164,7 +176,7 @@ This document assumes that the following requirements are fulfilled.
 
 * REQ2. The proxy MUST identify a client sending a unicast group request to be proxied, in order to verify whether the client is allowed-listed to do so. For example, this can rely on one of the following security associations.
 
-  * A TLS {{RFC8446}} or DTLS {{RFC9147}} channel between the client and the proxy, where the client has been authenticated during the secure channel establishment.
+  * A TLS {{RFC9846}} or DTLS {{RFC9147}} channel between the client and the proxy, where the client has been authenticated during the secure channel establishment.
 
   * A pairwise OSCORE {{RFC8613}} Security Context between the client and the proxy, as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
 
@@ -1115,7 +1127,7 @@ When the caching of responses protected with Group OSCORE is enabled at the prox
 
 ## HTTP-to-CoAP Proxies # {#sec-http-to-coap-proxies-sec-con}
 
-Consistent with what is discussed in {{sec-security-considerations-client-auth}}, an HTTP client has to authenticate to the HTTP-to-CoAP proxy and they SHOULD rely on a full-fledged pairwise secure association. This can rely on a TLS {{RFC8446}} channel as also recommended in {{Section 12.1 of RFC8613}} for when OSCORE is used with HTTP, or on a pairwise OSCORE Security Context shared between the client and the proxy as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
+Consistent with what is discussed in {{sec-security-considerations-client-auth}}, an HTTP client has to authenticate to the HTTP-to-CoAP proxy and they SHOULD rely on a full-fledged pairwise secure association. This can rely on a TLS {{RFC9846}} channel as also recommended in {{Section 12.1 of RFC8613}} for when OSCORE is used with HTTP, or on a pairwise OSCORE Security Context shared between the client and the proxy as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
 
 \[ TODO
 
@@ -1131,7 +1143,7 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 ## CoAP Option Numbers Registry ## {#iana-coap-options}
 
-IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
+IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry {{IANA.CoAP.Option.Numbers}} within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
 | Number | Name              | Reference |
 |--------|-------------------|-----------|
@@ -1154,7 +1166,7 @@ For the Group-ETag option, the number suggested to IANA is 24.
 
 ## Hypertext Transfer Protocol (HTTP) Field Name Registry {#iana-message-headers}
 
-IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" registry.
+IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name Registry" {{IANA.HTTP.Field.Name}}.
 
 | Field Name        | Status    | Structured Type | Reference |
 |-------------------|-----------|-----------------|-----------|
@@ -1499,6 +1511,8 @@ C                               P                      S1           S2
   * Representing the option value 0.
 
 * Avoided unnecessary normative language.
+
+* Updated references.
 
 * Editorial improvements.
 
