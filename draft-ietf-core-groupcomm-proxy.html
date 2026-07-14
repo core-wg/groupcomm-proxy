@@ -1514,7 +1514,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         </thead>
         <tbody>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">TBD1</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD2</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1">x</td>
             <td class="text-left" rowspan="1" colspan="1">-</td>
@@ -1527,9 +1527,10 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         </tbody>
       </table>
 </div>
-<p id="section-2-4">This document specifically defines how a client uses this option in a CoAP request, in order to indicate to a proxy its support for and interest in receiving multiple responses to a proxied CoAP group request (i.e., one or more responses from each origin server) and for how long it is willing to wait for receiving those responses via that proxy (see <a href="#ssec-req-send-steps" class="auto internal xref">Section 5.1.1</a> and <a href="#ssec-req-proc-proxy-steps" class="auto internal xref">Section 5.2.1</a>).<a href="#section-2-4" class="pilcrow">¶</a></p>
-<p id="section-2-5">When sending a CoAP group request to a proxy via IP unicast, to be forwarded by the proxy to a targeted group of servers, the client includes the Multicast-Timeout Option in the request. The option value indicates after how much time in seconds the client will stop accepting responses matching its original unicast request, with the exception of notifications if the CoAP Observe Option <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span> is used in the same request. This allows the proxy to stop relaying responses back to the client, if those are received from servers after the indicated amount of time has elapsed.<a href="#section-2-5" class="pilcrow">¶</a></p>
-<p id="section-2-6">The Multicast-Timeout Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-4">Note to RFC Editor: Please replace "TBD2" in <a href="#_table-multicast-timeout-option" class="auto internal xref">Table 1</a> with the assigned option number. Then please delete this paragraph.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">This document specifically defines how a client uses this option in a CoAP request, in order to indicate to a proxy its support for and interest in receiving multiple responses to a proxied CoAP group request (i.e., one or more responses from each origin server) and for how long it is willing to wait for receiving those responses via that proxy (see <a href="#ssec-req-send-steps" class="auto internal xref">Section 5.1.1</a> and <a href="#ssec-req-proc-proxy-steps" class="auto internal xref">Section 5.2.1</a>).<a href="#section-2-5" class="pilcrow">¶</a></p>
+<p id="section-2-6">When sending a CoAP group request to a proxy via IP unicast, to be forwarded by the proxy to a targeted group of servers, the client includes the Multicast-Timeout Option in the request. The option value indicates after how much time in seconds the client will stop accepting responses matching its original unicast request, with the exception of notifications if the CoAP Observe Option <span>[<a href="#RFC7641" class="cite xref">RFC7641</a>]</span> is used in the same request. This allows the proxy to stop relaying responses back to the client, if those are received from servers after the indicated amount of time has elapsed.<a href="#section-2-6" class="pilcrow">¶</a></p>
+<p id="section-2-7">The Multicast-Timeout Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-reply-from-option">
@@ -1560,7 +1561,7 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         </thead>
         <tbody>
           <tr>
-            <td class="text-left" rowspan="1" colspan="1">TBD2</td>
+            <td class="text-left" rowspan="1" colspan="1">TBD248</td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1"> </td>
             <td class="text-left" rowspan="1" colspan="1">-</td>
@@ -1573,24 +1574,25 @@ appear in all capitals, as shown here.<a href="#section-1.1-1" class="pilcrow">�
         </tbody>
       </table>
 </div>
-<p id="section-3-4">This document specifically defines how this option is used by a proxy that can perform proxied CoAP group requests.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">Upon receiving a response to such a request from an origin server, the proxy includes the Reply-From Option in the response sent to the origin client (see <a href="#sec-description" class="auto internal xref">Section 5</a>). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended to that server.<a href="#section-3-5" class="pilcrow">¶</a></p>
-<p id="section-3-6">In particular, the client can use the addressing information specified in the option in order to identify the response originator and to possibly send it individual unicast requests later on, either directly or instead indirectly via the proxy.<a href="#section-3-6" class="pilcrow">¶</a></p>
-<p id="section-3-7">When used as defined in this document, the option value is set to the byte serialization of a CBOR sequence <span>[<a href="#RFC8742" class="cite xref">RFC8742</a>]</span>, which is composed of at most two CBOR arrays.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<p id="section-3-4">Note to RFC Editor: Please replace "TBD248" in <a href="#_table-reply-from-option" class="auto internal xref">Table 2</a> with the assigned option number. Then please delete this paragraph.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">This document specifically defines how this option is used by a proxy that can perform proxied CoAP group requests.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">Upon receiving a response to such a request from an origin server, the proxy includes the Reply-From Option in the response sent to the origin client (see <a href="#sec-description" class="auto internal xref">Section 5</a>). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended to that server.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">In particular, the client can use the addressing information specified in the option in order to identify the response originator and to possibly send it individual unicast requests later on, either directly or instead indirectly via the proxy.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<p id="section-3-8">When used as defined in this document, the option value is set to the byte serialization of a CBOR sequence <span>[<a href="#RFC8742" class="cite xref">RFC8742</a>]</span>, which is composed of at most two CBOR arrays.<a href="#section-3-8" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3-8.1">
-          <p id="section-3-8.1.1">The first CBOR array is <span class="bcp14">REQUIRED</span> and specifies a CRI <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>. In particular, both 'scheme' and 'authority' are given, while 'path', 'query', and 'fragment' are not given.<a href="#section-3-8.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3-9.1">
+          <p id="section-3-9.1.1">The first CBOR array is <span class="bcp14">REQUIRED</span> and specifies a CRI <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>. In particular, both 'scheme' and 'authority' are given, while 'path', 'query', and 'fragment' are not given.<a href="#section-3-9.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-3-8.2">
-          <p id="section-3-8.2.1">The second CBOR array is <span class="bcp14">OPTIONAL</span> and specifies a CRI reference <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>. In particular, 'scheme' is set to <code>null</code> (0xf6), at least one of 'authority' and 'path' is given, and both 'query' and 'fragment' are not given.<a href="#section-3-8.2.1" class="pilcrow">¶</a></p>
-<p id="section-3-8.2.2">
-If 'authority' is given in this CRI reference, then the CRI specified by the first CBOR array <span class="bcp14">MUST NOT</span> have 'host' of the form host-name within 'authority'.<a href="#section-3-8.2.2" class="pilcrow">¶</a></p>
-<p id="section-3-8.2.3">
-This CRI reference is relevant in some scenarios where the proxy is a reverse-proxy (see <a href="#sec-reverse-proxies" class="auto internal xref">Section 6</a>).<a href="#section-3-8.2.3" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-3-9.2">
+          <p id="section-3-9.2.1">The second CBOR array is <span class="bcp14">OPTIONAL</span> and specifies a CRI reference <span>[<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>. In particular, 'scheme' is set to <code>null</code> (0xf6), at least one of 'authority' and 'path' is given, and both 'query' and 'fragment' are not given.<a href="#section-3-9.2.1" class="pilcrow">¶</a></p>
+<p id="section-3-9.2.2">
+If 'authority' is given in this CRI reference, then the CRI specified by the first CBOR array <span class="bcp14">MUST NOT</span> have 'host' of the form host-name within 'authority'.<a href="#section-3-9.2.2" class="pilcrow">¶</a></p>
+<p id="section-3-9.2.3">
+This CRI reference is relevant in some scenarios where the proxy is a reverse-proxy (see <a href="#sec-reverse-proxies" class="auto internal xref">Section 6</a>).<a href="#section-3-9.2.3" class="pilcrow">¶</a></p>
 </li>
       </ul>
-<p id="section-3-9">The detailed use of this option is specified in <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a> and <a href="#ssec-resp-proc-client-steps" class="auto internal xref">Section 5.5.1</a> when the proxy is a forward-proxy, and in <a href="#sec-reverse-proxies-proxy-side" class="auto internal xref">Section 6.1</a> and <a href="#sec-reverse-proxies-client-side" class="auto internal xref">Section 6.2</a> when the proxy is a reverse-proxy.<a href="#section-3-9" class="pilcrow">¶</a></p>
-<p id="section-3-10">The Reply-From Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-3-10" class="pilcrow">¶</a></p>
+<p id="section-3-10">The detailed use of this option is specified in <a href="#ssec-resp-proc-proxy-steps" class="auto internal xref">Section 5.4.1</a> and <a href="#ssec-resp-proc-client-steps" class="auto internal xref">Section 5.5.1</a> when the proxy is a forward-proxy, and in <a href="#sec-reverse-proxies-proxy-side" class="auto internal xref">Section 6.1</a> and <a href="#sec-reverse-proxies-client-side" class="auto internal xref">Section 6.2</a> when the proxy is a reverse-proxy.<a href="#section-3-10" class="pilcrow">¶</a></p>
+<p id="section-3-11">The Reply-From Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-3-11" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-objectives">
@@ -1608,7 +1610,7 @@ This CRI reference is relevant in some scenarios where the proxy is a reverse-pr
           <p id="section-4-3.2.1">REQ2. The proxy <span class="bcp14">MUST</span> identify a client sending a unicast group request to be proxied, in order to verify whether the client is allowed-listed to do so. For example, this can rely on one of the following security associations.<a href="#section-4-3.2.1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4-3.2.2.1">
-              <p id="section-4-3.2.2.1.1">A TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> or DTLS <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> channel between the client and the proxy, where the client has been authenticated during the secure channel establishment.<a href="#section-4-3.2.2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-4-3.2.2.1.1">A TLS <span>[<a href="#RFC9846" class="cite xref">RFC9846</a>]</span> or DTLS <span>[<a href="#RFC9147" class="cite xref">RFC9147</a>]</span> channel between the client and the proxy, where the client has been authenticated during the secure channel establishment.<a href="#section-4-3.2.2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4-3.2.2.2">
               <p id="section-4-3.2.2.2.1">A pairwise OSCORE <span>[<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> Security Context between the client and the proxy, as defined in <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>.<a href="#section-4-3.2.2.2.1" class="pilcrow">¶</a></p>
@@ -1721,7 +1723,7 @@ If the unicast request to send to the proxy was already intended to include a No
 <p id="section-5.1.3-4.1.2">
 Consequently, further responses forwarded by the proxy would result in the client sending a CoAP Reset message (RST), which the proxy would interpret as a loss of interest from the client.<a href="#section-5.1.3-4.1.2" class="pilcrow">¶</a></p>
 <p id="section-5.1.3-4.1.3">
-While this approach would work when using CoAP over UDP between the client and the proxy, it might not be suitable in case a different transport is used instead.<a href="#section-5.1.3-4.1.3" class="pilcrow">¶</a></p>
+While this approach would work when using CoAP over UDP between the client and the proxy, it might not be suitable if a different transport is used instead.<a href="#section-5.1.3-4.1.3" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-5.1.3-4.2">
               <p id="section-5.1.3-4.2.1">The client sends to the proxy a new CoAP unicast request, namely Early Stop Request, such that:<a href="#section-5.1.3-4.2.1" class="pilcrow">¶</a></p>
@@ -1785,9 +1787,9 @@ The response <span class="bcp14">MUST</span> include a Multicast-Timeout Option,
             <li id="section-5.2.1-2.6">
               <p id="section-5.2.1-2.6.1">The proxy sets a timeout with the value T' retrieved from the Multicast-Timeout Option of the original unicast request.<a href="#section-5.2.1-2.6.1" class="pilcrow">¶</a></p>
 <p id="section-5.2.1-2.6.2">
-In case T' &gt; 0, the proxy will ignore responses to the forwarded group request coming from servers, if received after the timeout expiration, with the exception of Observe notifications (see <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>).<a href="#section-5.2.1-2.6.2" class="pilcrow">¶</a></p>
+In the case that T' &gt; 0, the proxy will ignore responses to the forwarded group request coming from servers, if received after the timeout expiration, with the exception of Observe notifications (see <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>).<a href="#section-5.2.1-2.6.2" class="pilcrow">¶</a></p>
 <p id="section-5.2.1-2.6.3">
-In case T' = 0, the proxy will ignore all responses to the forwarded group request coming from servers.<a href="#section-5.2.1-2.6.3" class="pilcrow">¶</a></p>
+In the case that T' = 0, the proxy will ignore all responses to the forwarded group request coming from servers.<a href="#section-5.2.1-2.6.3" class="pilcrow">¶</a></p>
 </li>
           </ol>
 <p id="section-5.2.1-3">If the proxy supports caching of responses, it can serve the original unicast request also by using cached responses, as per <a href="#sec-proxy-caching" class="auto internal xref">Section 7</a>.<a href="#section-5.2.1-3" class="pilcrow">¶</a></p>
@@ -2254,7 +2256,7 @@ Note that, from the forwarding of the group request until the timeout expiration
 <p id="section-7.2.1-4">It can be actually possible to enable revalidation of responses between proxy and server, also in this case where Group OSCORE is used end-to-end between client and origin servers.<a href="#section-7.2.1-4" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-5">Fundamentally, this requires to define the possible use of the ETag Option also as an outer option for OSCORE. Thus, in addition to the normal inner ETag, a server can add also an outer ETag Option intended to the proxy.<a href="#section-7.2.1-5" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-6">Since validation of responses assumes that cacheability of responses is possible in the first place, it would be convenient to define the use of ETag as outer option in <span>[<a href="#I-D.ietf-core-cacheable-oscore" class="cite xref">I-D.ietf-core-cacheable-oscore</a>]</span>.<a href="#section-7.2.1-6" class="pilcrow">¶</a></p>
-<p id="section-7.2.1-7">In case OSCORE is also used between the proxy and an individual origin server as per <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>, then the outer ETag Option would be seamlessly protected with the OSCORE Security Context shared between the proxy and the origin server.<a href="#section-7.2.1-7" class="pilcrow">¶</a></p>
+<p id="section-7.2.1-7">If OSCORE is also used between the proxy and an individual origin server as per <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>, then the outer ETag Option would be seamlessly protected with the OSCORE Security Context shared between the proxy and the origin server.<a href="#section-7.2.1-7" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-8">The following text can be used to replace the last paragraph above.<a href="#section-7.2.1-8" class="pilcrow">¶</a></p>
 <p id="section-7.2.1-9"><br></p>
 <p id="section-7.2.1-10">As discussed in <a href="#sec-group-caching" class="auto internal xref">Section 7.4</a>, the following applies when Group OSCORE <span>[<a href="#I-D.ietf-core-oscore-groupcomm" class="cite xref">I-D.ietf-core-oscore-groupcomm</a>]</span> is used to secure communications end-to-end between the origin client and the origin servers in the group.<a href="#section-7.2.1-10" class="pilcrow">¶</a></p>
@@ -2328,7 +2330,7 @@ This is possible also in the case that the proxy and the origin servers use Grou
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">TBD3</td>
+              <td class="text-left" rowspan="1" colspan="1">TBD24</td>
               <td class="text-left" rowspan="1" colspan="1"> </td>
               <td class="text-left" rowspan="1" colspan="1"> </td>
               <td class="text-left" rowspan="1" colspan="1"> </td>
@@ -2341,32 +2343,33 @@ This is possible also in the case that the proxy and the origin servers use Grou
           </tbody>
         </table>
 </div>
-<p id="section-7.3-5">The Group-ETag Option has the same properties of the ETag Option defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.10.6" class="relref">Section 5.10.6</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
-<p id="section-7.3-6">The Group-ETag Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-7.3-6" class="pilcrow">¶</a></p>
-<p id="section-7.3-7">A proxy <span class="bcp14">MUST NOT</span> provide this form of validation if it is not in a position to serve a group request by using exclusively cached responses, i.e., without sending the group request to the servers in the CoAP group (see <a href="#sec-proxy-caching-freshness" class="auto internal xref">Section 7.1</a>).<a href="#section-7.3-7" class="pilcrow">¶</a></p>
-<p id="section-7.3-8">If the proxy supports this form of response revalidation, the following applies.<a href="#section-7.3-8" class="pilcrow">¶</a></p>
+<p id="section-7.3-5">Note to RFC Editor: Please replace "TBD24" in <a href="#_table-response-group-etag-option" class="auto internal xref">Table 3</a> with the assigned option number. Then please delete this paragraph.<a href="#section-7.3-5" class="pilcrow">¶</a></p>
+<p id="section-7.3-6">The Group-ETag Option has the same properties of the ETag Option defined in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.10.6" class="relref">Section 5.10.6</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-7.3-6" class="pilcrow">¶</a></p>
+<p id="section-7.3-7">The Group-ETag Option is of class U in terms of OSCORE processing (see <span><a href="https://rfc-editor.org/rfc/rfc8613#section-4.1" class="relref">Section 4.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span>).<a href="#section-7.3-7" class="pilcrow">¶</a></p>
+<p id="section-7.3-8">A proxy <span class="bcp14">MUST NOT</span> provide this form of validation if it is not in a position to serve a group request by using exclusively cached responses, i.e., without sending the group request to the servers in the CoAP group (see <a href="#sec-proxy-caching-freshness" class="auto internal xref">Section 7.1</a>).<a href="#section-7.3-8" class="pilcrow">¶</a></p>
+<p id="section-7.3-9">If the proxy supports this form of response revalidation, the following applies.<a href="#section-7.3-9" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.3-9.1">
-            <p id="section-7.3-9.1.1">The proxy defines J as a joint set including all the cache entries currently storing fresh responses that satisfy a group request. A set J is "complete" if it includes a valid cache entry for each of the CoAP servers that are currently members of the CoAP group.<a href="#section-7.3-9.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7.3-10.1">
+            <p id="section-7.3-10.1.1">The proxy defines J as a joint set including all the cache entries currently storing fresh responses that satisfy a group request. A set J is "complete" if it includes a valid cache entry for each of the CoAP servers that are currently members of the CoAP group.<a href="#section-7.3-10.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.3-9.2">
-            <p id="section-7.3-9.2.1">When the set J becomes "complete", the proxy assigns it an entity-tag value. The proxy <span class="bcp14">MUST</span> update the current entity-tag value, when J is "complete" and one of its cache entry is updated.<a href="#section-7.3-9.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.3-10.2">
+            <p id="section-7.3-10.2.1">When the set J becomes "complete", the proxy assigns it an entity-tag value. The proxy <span class="bcp14">MUST</span> update the current entity-tag value, when J is "complete" and one of its cache entry is updated.<a href="#section-7.3-10.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.3-9.3">
-            <p id="section-7.3-9.3.1">When forwarding to the client a 2.05 (Content) response to a GET or FETCH group request, the proxy <span class="bcp14">MAY</span> include one Group-ETag Option, if the set J is "complete". Such a response <span class="bcp14">MUST NOT</span> include more than one Group-ETag Option. The option value specifies the entity-tag value currently associated with the set J.<a href="#section-7.3-9.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.3-10.3">
+            <p id="section-7.3-10.3.1">When forwarding to the client a 2.05 (Content) response to a GET or FETCH group request, the proxy <span class="bcp14">MAY</span> include one Group-ETag Option, if the set J is "complete". Such a response <span class="bcp14">MUST NOT</span> include more than one Group-ETag Option. The option value specifies the entity-tag value currently associated with the set J.<a href="#section-7.3-10.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.3-10">When sending to the proxy a GET or FETCH request to be forwarded to the servers in the CoAP group, the client <span class="bcp14">MAY</span> include one or more Group-ETag Options. Each option specifies one entity-tag value, as applicable to the set J of cache entries that can be hit by the group request.<a href="#section-7.3-10" class="pilcrow">¶</a></p>
-<p id="section-7.3-11">The proxy <span class="bcp14">MAY</span> perform the following actions, if the group request produces a hit to the cache entry of each CoAP server that is currently a member of the CoAP group, i.e., if the set J associated with the group request is "complete".<a href="#section-7.3-11" class="pilcrow">¶</a></p>
+<p id="section-7.3-11">When sending to the proxy a GET or FETCH request to be forwarded to the servers in the CoAP group, the client <span class="bcp14">MAY</span> include one or more Group-ETag Options. Each option specifies one entity-tag value, as applicable to the set J of cache entries that can be hit by the group request.<a href="#section-7.3-11" class="pilcrow">¶</a></p>
+<p id="section-7.3-12">The proxy <span class="bcp14">MAY</span> perform the following actions, if the group request produces a hit to the cache entry of each CoAP server that is currently a member of the CoAP group, i.e., if the set J associated with the group request is "complete".<a href="#section-7.3-12" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.3-12.1">
-            <p id="section-7.3-12.1.1">The proxy checks whether the current entity-tag value of the set J matches with one of the entity-tag values specified in the Group-ETag Options of the unicast group request from the client.<a href="#section-7.3-12.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7.3-13.1">
+            <p id="section-7.3-13.1.1">The proxy checks whether the current entity-tag value of the set J matches with one of the entity-tag values specified in the Group-ETag Options of the unicast group request from the client.<a href="#section-7.3-13.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-7.3-12.2">
-            <p id="section-7.3-12.2.1">In the case of a positive match, the proxy replies with a single 2.03 (Valid) response. This response has no payload and <span class="bcp14">MUST</span> include one Group-ETag Option, specifying the current entity-tag value of the set J.<a href="#section-7.3-12.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-7.3-13.2">
+            <p id="section-7.3-13.2.1">In the case of a positive match, the proxy replies with a single 2.03 (Valid) response. This response has no payload and <span class="bcp14">MUST</span> include one Group-ETag Option, specifying the current entity-tag value of the set J.<a href="#section-7.3-13.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-7.3-13">That is, the 2.03 (Valid) response from the proxy indicates to the client that the stored responses identified by the entity-tag given in the response's Group-ETag Option can be reused, after updating each of them as described in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.9.1.3" class="relref">Section 5.9.1.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. In effect, the client can determine if any of the stored representations from the respective cache entries at the proxy is current, without needing to transfer any of them again.<a href="#section-7.3-13" class="pilcrow">¶</a></p>
+<p id="section-7.3-14">That is, the 2.03 (Valid) response from the proxy indicates to the client that the stored responses identified by the entity-tag given in the response's Group-ETag Option can be reused, after updating each of them as described in <span><a href="https://rfc-editor.org/rfc/rfc7252#section-5.9.1.3" class="relref">Section 5.9.1.3</a> of [<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. In effect, the client can determine if any of the stored representations from the respective cache entries at the proxy is current, without needing to transfer any of them again.<a href="#section-7.3-14" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="sec-group-caching">
@@ -2477,9 +2480,9 @@ Otherwise, upon receiving the error response, any other proxy in the chain <span
             <p id="section-8.1-4.4.1">At Step 6, the proxy sets a timeout with the value T' retrieved from the
 Multicast-Timeout Option of the request received from the (previous hop closer to the) origin client.<a href="#section-8.1-4.4.1" class="pilcrow">¶</a></p>
 <p id="section-8.1-4.4.2">
-In case T' &gt; 0, the proxy will ignore responses to the forwarded group request coming from the next hop towards the origin servers, if received after the timeout expiration, with the exception of Observe notifications (see <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>).<a href="#section-8.1-4.4.2" class="pilcrow">¶</a></p>
+In the case that T' &gt; 0, the proxy will ignore responses to the forwarded group request coming from the next hop towards the origin servers, if received after the timeout expiration, with the exception of Observe notifications (see <a href="#ssec-resp-proc-proxy" class="auto internal xref">Section 5.4</a>).<a href="#section-8.1-4.4.2" class="pilcrow">¶</a></p>
 <p id="section-8.1-4.4.3">
-In case T' = 0, the proxy will ignore all responses to the forwarded group request coming from the next hop towards the origin servers.<a href="#section-8.1-4.4.3" class="pilcrow">¶</a></p>
+In the case that T' = 0, the proxy will ignore all responses to the forwarded group request coming from the next hop towards the origin servers.<a href="#section-8.1-4.4.3" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <div id="sec-proxy-chain-request-processing-observe">
@@ -2928,7 +2931,7 @@ Body: More than done!
         <h3 id="name-http-to-coap-proxies-2">
 <a href="#section-10.5" class="section-number selfRef">10.5. </a><a href="#name-http-to-coap-proxies-2" class="section-name selfRef">HTTP-to-CoAP Proxies</a>
         </h3>
-<p id="section-10.5-1">Consistent with what is discussed in <a href="#sec-security-considerations-client-auth" class="auto internal xref">Section 10.1</a>, an HTTP client has to authenticate to the HTTP-to-CoAP proxy and they <span class="bcp14">SHOULD</span> rely on a full-fledged pairwise secure association. This can rely on a TLS <span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> channel as also recommended in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-12.1" class="relref">Section 12.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> for when OSCORE is used with HTTP, or on a pairwise OSCORE Security Context shared between the client and the proxy as defined in <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>.<a href="#section-10.5-1" class="pilcrow">¶</a></p>
+<p id="section-10.5-1">Consistent with what is discussed in <a href="#sec-security-considerations-client-auth" class="auto internal xref">Section 10.1</a>, an HTTP client has to authenticate to the HTTP-to-CoAP proxy and they <span class="bcp14">SHOULD</span> rely on a full-fledged pairwise secure association. This can rely on a TLS <span>[<a href="#RFC9846" class="cite xref">RFC9846</a>]</span> channel as also recommended in <span><a href="https://rfc-editor.org/rfc/rfc8613#section-12.1" class="relref">Section 12.1</a> of [<a href="#RFC8613" class="cite xref">RFC8613</a>]</span> for when OSCORE is used with HTTP, or on a pairwise OSCORE Security Context shared between the client and the proxy as defined in <span>[<a href="#I-D.ietf-core-oscore-capable-proxies" class="cite xref">I-D.ietf-core-oscore-capable-proxies</a>]</span>.<a href="#section-10.5-1" class="pilcrow">¶</a></p>
 <p id="section-10.5-2">[ TODO<a href="#section-10.5-2" class="pilcrow">¶</a></p>
 <p id="section-10.5-3">Revisit security considerations from <span>[<a href="#RFC8075" class="cite xref">RFC8075</a>]</span><a href="#section-10.5-3" class="pilcrow">¶</a></p>
 <p id="section-10.5-4">]<a href="#section-10.5-4" class="pilcrow">¶</a></p>
@@ -2948,7 +2951,7 @@ Body: More than done!
         <h3 id="name-coap-option-numbers-registr">
 <a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-coap-option-numbers-registr" class="section-name selfRef">CoAP Option Numbers Registry</a>
         </h3>
-<p id="section-11.1-1">IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry within the "Constrained RESTful Environments (CoRE) Parameters" registry group.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
+<p id="section-11.1-1">IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry <span>[<a href="#IANA.CoAP.Option.Numbers" class="cite xref">IANA.CoAP.Option.Numbers</a>]</span> within the "Constrained RESTful Environments (CoRE) Parameters" registry group.<a href="#section-11.1-1" class="pilcrow">¶</a></p>
 <span id="name-registrations-in-the-coap-o"></span><div id="tab-iana-coap-option-numbers">
 <table class="center" id="table-4">
           <caption>
@@ -2964,24 +2967,24 @@ Body: More than done!
           </thead>
           <tbody>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">TBD1</td>
+              <td class="text-left" rowspan="1" colspan="1">TBD2</td>
               <td class="text-left" rowspan="1" colspan="1">Multicast-Timeout</td>
               <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">TBD2</td>
+              <td class="text-left" rowspan="1" colspan="1">TBD248</td>
               <td class="text-left" rowspan="1" colspan="1">Reply-From</td>
               <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
             </tr>
             <tr>
-              <td class="text-left" rowspan="1" colspan="1">TBD3</td>
+              <td class="text-left" rowspan="1" colspan="1">TBD24</td>
               <td class="text-left" rowspan="1" colspan="1">Group-ETag</td>
               <td class="text-left" rowspan="1" colspan="1">[RFC-XXXX]</td>
             </tr>
           </tbody>
         </table>
 </div>
-<p id="section-11.1-3">Note to RFC Editor: Please replace "TBD1", "TBD2", and "TBD3" in <a href="#tab-iana-coap-option-numbers" class="auto internal xref">Table 4</a> with the assigned option numbers. Then please delete this paragraph and the following text within the present <a href="#iana-coap-options" class="auto internal xref">Section 11.1</a>.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
+<p id="section-11.1-3">Note to RFC Editor: Please replace "TBD2", "TBD248", and "TBD24" in <a href="#tab-iana-coap-option-numbers" class="auto internal xref">Table 4</a> with the assigned option numbers. Then please delete this paragraph and the following text within the present <a href="#iana-coap-options" class="auto internal xref">Section 11.1</a>.<a href="#section-11.1-3" class="pilcrow">¶</a></p>
 <p id="section-11.1-4">For all the three requested options, it is preferred to assign an option number from the value range 0-255.<a href="#section-11.1-4" class="pilcrow">¶</a></p>
 <p id="section-11.1-5">For the Multicast-Timeout option, the number suggested to IANA is 2.<a href="#section-11.1-5" class="pilcrow">¶</a></p>
 <p id="section-11.1-6">For the Reply-From option, the number suggested to IANA is 248.<a href="#section-11.1-6" class="pilcrow">¶</a></p>
@@ -2993,7 +2996,7 @@ Body: More than done!
         <h3 id="name-hypertext-transfer-protocol">
 <a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-hypertext-transfer-protocol" class="section-name selfRef">Hypertext Transfer Protocol (HTTP) Field Name Registry</a>
         </h3>
-<p id="section-11.2-1">IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name" registry.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
+<p id="section-11.2-1">IANA is asked to enter the following HTTP header fields to the "Hypertext Transfer Protocol (HTTP) Field Name Registry" <span>[<a href="#IANA.HTTP.Field.Name" class="cite xref">IANA.HTTP.Field.Name</a>]</span>.<a href="#section-11.2-1" class="pilcrow">¶</a></p>
 <span id="name-registrations-in-the-hypert"></span><div id="tab-iana-http-field-names">
 <table class="center" id="table-5">
           <caption>
@@ -3056,6 +3059,14 @@ Body: More than done!
 <dt id="I-D.ietf-core-oscore-groupcomm">[I-D.ietf-core-oscore-groupcomm]</dt>
         <dd>
 <span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Selander, G.</span>, <span class="refAuthor">Palombini, F.</span>, <span class="refAuthor">Mattsson, J. P.</span>, and <span class="refAuthor">R. Höglund</span>, <span class="refTitle">"Group Object Security for Constrained RESTful Environments (Group OSCORE)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-oscore-groupcomm-28</span>, <time datetime="2025-12-23" class="refDate">23 December 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28">https://datatracker.ietf.org/doc/html/draft-ietf-core-oscore-groupcomm-28</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA.CoAP.Option.Numbers">[IANA.CoAP.Option.Numbers]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"CoAP Option Numbers"</span>, <span>&lt;<a href="https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers">https://www.iana.org/assignments/core-parameters/core-parameters.xhtml#option-numbers</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="IANA.HTTP.Field.Name">[IANA.HTTP.Field.Name]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Hypertext Transfer Protocol (HTTP) Field Name Registry"</span>, <span>&lt;<a href="https://www.iana.org/assignments/http-fields/http-fields.xhtml#field-names">https://www.iana.org/assignments/http-fields/http-fields.xhtml#field-names</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2046">[RFC2046]</dt>
         <dd>
@@ -3150,13 +3161,13 @@ Body: More than done!
         <dd>
 <span class="refAuthor">Tiloca, M.</span>, <span class="refAuthor">Amsüss, C.</span>, and <span class="refAuthor">P. Van der Stok</span>, <span class="refTitle">"Discovery of OSCORE Groups with the CoRE Resource Directory"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-tiloca-core-oscore-discovery-19</span>, <time datetime="2026-03-02" class="refDate">2 March 2026</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-19">https://datatracker.ietf.org/doc/html/draft-tiloca-core-oscore-discovery-19</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="RFC8446">[RFC8446]</dt>
-        <dd>
-<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC9147">[RFC9147]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Rescorla, E.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">N. Modadugu</span>, <span class="refTitle">"The Datagram Transport Layer Security (DTLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 9147</span>, <span class="seriesInfo">DOI 10.17487/RFC9147</span>, <time datetime="2022-04" class="refDate">April 2022</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9147">https://www.rfc-editor.org/rfc/rfc9147</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC9846">[RFC9846]</dt>
+      <dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 9846</span>, <span class="seriesInfo">DOI 10.17487/RFC9846</span>, <time datetime="2026-07" class="refDate">July 2026</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9846">https://www.rfc-editor.org/rfc/rfc9846</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -3792,7 +3803,13 @@ Based on this information, P composes the group request and sends it to the CoAP
             <p id="appendix-B.1-1.2.1">Avoided unnecessary normative language.<a href="#appendix-B.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="appendix-B.1-1.3">
-            <p id="appendix-B.1-1.3.1">Editorial improvements.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+            <p id="appendix-B.1-1.3.1">Use suggested CoAP option numbers in the placeholders.<a href="#appendix-B.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.4">
+            <p id="appendix-B.1-1.4.1">Updated references.<a href="#appendix-B.1-1.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="appendix-B.1-1.5">
+            <p id="appendix-B.1-1.5.1">Editorial improvements.<a href="#appendix-B.1-1.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
