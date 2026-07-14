@@ -2239,14 +2239,18 @@ Table of Contents
    Context specified in the OSCORE Option of the group request).  Such
    combined information enables the proxy to fully identify the OSCORE
    group that the client is communicating in, which might not be
-   desirable for that specific host acting as a proxy.
+   desirable for that specific host acting as a proxy.  Conversely, if
+   the proxy does not act as an external signature checker and does not
+   have the authentication credential of the Group Manager, the proxy is
+   not able to fully and unambiguously identify the security group that
+   the client is communicating in.
 
-   Regardless, the client and the proxy SHOULD still rely on a full-
-   fledged pairwise secure association.  In addition to ensuring the
-   integrity of group requests sent to the proxy (see Section 10.2,
-   Section 10.3, and Section 10.4), this prevents the proxy from
-   forwarding replayed group requests with a valid signature, as
-   possibly injected by an active, on-path adversary.
+   Irrespective of the above, the client and the proxy SHOULD still rely
+   on a full-fledged pairwise secure association.  In addition to
+   ensuring the integrity of group requests sent to the proxy (see
+   Section 10.2, Section 10.3, and Section 10.4), this prevents the
+   proxy from forwarding replayed group requests with a valid signature,
+   as possibly injected by an active, on-path adversary.
 
    The same considerations above apply when a chain of proxies is used
    (see Section 8), with each proxy but the last one in the chain acting
@@ -3021,6 +3025,9 @@ B.1.  Version -06 to -07
       -  Representing the option value 0.
 
       -  Checks at the proxy about the client being allowed-listed.
+
+      -  Privacy benefits if the proxy is not a Group OSCORE signature
+         checker.
 
    *  Mentioned the possible use of the Uri-Path-Abbrev Option.
 
