@@ -240,7 +240,7 @@ To this end, the client can rely on one of the following two approaches:
 
   Consequently, further responses forwarded by the proxy would result in the client sending a CoAP Reset message (RST), which the proxy would interpret as a loss of interest from the client.
 
-  While this approach would work when using CoAP over UDP between the client and the proxy, it might not be suitable in case a different transport is used instead.
+  While this approach would work when using CoAP over UDP between the client and the proxy, it might not be suitable if a different transport is used instead.
 
 * The client sends to the proxy a new CoAP unicast request, namely Early Stop Request, such that:
 
@@ -282,9 +282,9 @@ Upon receiving the request from the client, the proxy proceeds according to the 
 
 6. The proxy sets a timeout with the value T' retrieved from the Multicast-Timeout Option of the original unicast request.
 
-   In case T' > 0, the proxy will ignore responses to the forwarded group request coming from servers, if received after the timeout expiration, with the exception of Observe notifications (see {{ssec-resp-proc-proxy}}).
+   In the case that T' > 0, the proxy will ignore responses to the forwarded group request coming from servers, if received after the timeout expiration, with the exception of Observe notifications (see {{ssec-resp-proc-proxy}}).
 
-   In case T' = 0, the proxy will ignore all responses to the forwarded group request coming from servers.
+   In the case that T' = 0, the proxy will ignore all responses to the forwarded group request coming from servers.
 
 If the proxy supports caching of responses, it can serve the original unicast request also by using cached responses, as per {{sec-proxy-caching}}.
 
@@ -590,7 +590,7 @@ Fundamentally, this requires to define the possible use of the ETag Option also 
 
 Since validation of responses assumes that cacheability of responses is possible in the first place, it would be convenient to define the use of ETag as outer option in {{I-D.ietf-core-cacheable-oscore}}.
 
-In case OSCORE is also used between the proxy and an individual origin server as per {{I-D.ietf-core-oscore-capable-proxies}}, then the outer ETag Option would be seamlessly protected with the OSCORE Security Context shared between the proxy and the origin server.
+If OSCORE is also used between the proxy and an individual origin server as per {{I-D.ietf-core-oscore-capable-proxies}}, then the outer ETag Option would be seamlessly protected with the OSCORE Security Context shared between the proxy and the origin server.
 
 The following text can be used to replace the last paragraph above.
 
@@ -760,9 +760,9 @@ Otherwise, the proxy performs the steps defined in {{ssec-req-proc-proxy}}, with
 * At Step 6, the proxy sets a timeout with the value T' retrieved from the
 Multicast-Timeout Option of the request received from the (previous hop closer to the) origin client.
 
-  In case T' > 0, the proxy will ignore responses to the forwarded group request coming from the next hop towards the origin servers, if received after the timeout expiration, with the exception of Observe notifications (see {{ssec-resp-proc-proxy}}).
+  In the case that T' > 0, the proxy will ignore responses to the forwarded group request coming from the next hop towards the origin servers, if received after the timeout expiration, with the exception of Observe notifications (see {{ssec-resp-proc-proxy}}).
 
-  In case T' = 0, the proxy will ignore all responses to the forwarded group request coming from the next hop towards the origin servers.
+  In the case that T' = 0, the proxy will ignore all responses to the forwarded group request coming from the next hop towards the origin servers.
 
 ### Supporting Observe # {#sec-proxy-chain-request-processing-observe}
 
