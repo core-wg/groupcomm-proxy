@@ -72,7 +72,7 @@ This document defines a specific realization of proxy intended for scenarios tha
 
 The Constrained Application Protocol (CoAP) {{RFC7252}} allows the presence of proxies, as intermediary entities supporting clients by performing requests on their behalf and relaying back responses.
 
-CoAP supports group communication {{I-D.ietf-core-groupcomm-bis}}, e.g., over IP multicast, so that a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}, this group communication scenario poses a number of issues and limitations to proxy operations.
+CoAP supports group communication {{I-D.ietf-core-groupcomm-bis}}, e.g., over UDP and IP multicast, so that a group request can be addressed to multiple recipient servers, each of which may reply with an individual unicast response. As discussed in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}, this group communication scenario poses a number of issues and limitations to proxy operations.
 
 In particular, the client typically sends to the proxy a single unicast request, which the proxy forwards to a group of CoAP servers, e.g., using UDP/IP multicast as the defined default transport protocol for CoAP group requests (see {{Section 1.1 of I-D.ietf-core-groupcomm-bis}}). Later on, the proxy replies to the client's original unicast request, by relaying back the responses from the servers.
 
@@ -80,7 +80,7 @@ As per {{RFC7252}}, a CoAP-to-CoAP proxy relays those responses to the client as
 
 This document takes the former approach and accordingly defines a specific realization of proxy intended for scenarios that use group communication for CoAP. That is, after forwarding a CoAP group request from the client to the group of CoAP servers, the proxy relays the individual responses back to the client as separate CoAP messages. The defined realization of proxy addresses all the related issues raised in {{Sections E and F of I-D.ietf-core-groupcomm-bis}}. To this end, this document specifies a dedicated signaling protocol based on two new CoAP options, which is used by the client and the proxy.
 
-By using this protocol, the client explicitly confirms its intent to perform a proxied group request and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client signals for how long it is willing to wait for responses. When relaying to the client a response to the group request, the proxy indicates addressing information pertaining to the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers, by sending individual unicast requests to the indicated addresses. In doing these follow-up unicast requests, the client can optionally bypass the proxy.
+By using this protocol, the client explicitly confirms its intent to have a group request proxied and its support for receiving multiple responses as a result, i.e., one or more from each origin server. Also, the client indicates for how long it is willing to wait for those responses. When relaying to the client a response to the group request, the proxy indicates addressing information pertaining to the origin server. This enables the client to distinguish multiple different responses by origin and to possibly contact one or more of the respective servers, by sending individual unicast requests to the indicated addresses. In doing these follow-up unicast requests, the client can optionally bypass the proxy.
 
 Like {{I-D.ietf-core-groupcomm-bis}}, this document refers to UDP/IP multicast as the transport protocol that a proxy uses to forward a CoAP group request to a group of servers. While other transport protocols such as broadcast, non-IP multicast, and geocast can also be possible to employ, their use is not considered in this document.
 
@@ -118,7 +118,7 @@ The Multicast-Timeout Option is elective, unsafe to forward, and not repeatable.
 | TBD1  |   | x | - |   | Multicast-Timeout | uint   | 0-4    | (none)  |
 {: #table-multicast-timeout-option title="The Multicast-Timeout Option. C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
 
-This document specifically defines how this option is used by a client in a CoAP request, in order to indicate to a proxy its support for and interest in receiving multiple responses to a proxied CoAP group request (i.e., one or more responses from each origin server) and for how long it is willing to wait for receiving responses via that proxy (see {{ssec-req-send-steps}} and {{ssec-req-proc-proxy-steps}}).
+This document specifically defines how a client uses this option in a CoAP request, in order to indicate to a proxy its support for and interest in receiving multiple responses to a proxied CoAP group request (i.e., one or more responses from each origin server) and for how long it is willing to wait for receiving those responses via that proxy (see {{ssec-req-send-steps}} and {{ssec-req-proc-proxy-steps}}).
 
 When sending a CoAP group request to a proxy via IP unicast, to be forwarded by the proxy to a targeted group of servers, the client includes the Multicast-Timeout Option in the request. The option value indicates after how much time in seconds the client will stop accepting responses matching its original unicast request, with the exception of notifications if the CoAP Observe Option {{RFC7641}} is used in the same request. This allows the proxy to stop relaying responses back to the client, if those are received from servers after the indicated amount of time has elapsed.
 
@@ -136,19 +136,19 @@ The Reply-From Option is elective, safe to forward, and not repeatable. Since th
 
 This document specifically defines how this option is used by a proxy that can perform proxied CoAP group requests.
 
-Upon receiving a response to such a request from an origin server, the proxy includes the Reply-From Option in the response sent to the origin client (see {{sec-description}}). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended for that server.
+Upon receiving a response to such a request from an origin server, the proxy includes the Reply-From Option in the response sent to the origin client (see {{sec-description}}). The proxy uses the option to indicate addressing information pertaining to that origin server, which the client can use in order to send an individual request intended to that server.
 
 In particular, the client can use the addressing information specified in the option in order to identify the response originator and to possibly send it individual unicast requests later on, either directly or instead indirectly via the proxy.
 
 When used as defined in this document, the option value is set to the byte serialization of a CBOR sequence {{RFC8742}}, which is composed of at most two CBOR arrays.
 
-* The first CBOR array is REQUIRED and specifies a CRI (see {{I-D.ietf-core-href}}). In particular, both 'scheme' and 'authority' are given, while 'path', 'query', and 'fragment' are not given.
+* The first CBOR array is REQUIRED and specifies a CRI {{I-D.ietf-core-href}}. In particular, both 'scheme' and 'authority' are given, while 'path', 'query', and 'fragment' are not given.
 
-* The second CBOR array is OPTIONAL and specifies a CRI reference (see {{I-D.ietf-core-href}}). In particular, 'scheme' is set to `null` (0xf6), at least one of 'authority' and 'path' is given, and both 'query' and 'fragment' are not given.
+* The second CBOR array is OPTIONAL and specifies a CRI reference {{I-D.ietf-core-href}}. In particular, 'scheme' is set to `null` (0xf6), at least one of 'authority' and 'path' is given, and both 'query' and 'fragment' are not given.
 
-  If 'authority' is given in this CRI reference, then 'host' MUST NOT be of the form host-name within 'authority' of the CRI specified by the first CBOR array.
+  If 'authority' is given in this CRI reference, then the CRI specified by the first CBOR array MUST NOT have 'host' of the form host-name within 'authority'.
 
-  This CRI reference is relevant in some scenarios where the proxy is a reverse-proxy.
+  This CRI reference is relevant in some scenarios where the proxy is a reverse-proxy (see {{sec-reverse-proxies}}).
 
 The detailed use of this option is specified in {{ssec-resp-proc-proxy-steps}} and {{ssec-resp-proc-client-steps}} when the proxy is a forward-proxy, and in {{sec-reverse-proxies-proxy-side}} and {{sec-reverse-proxies-client-side}} when the proxy is a reverse-proxy.
 
@@ -180,7 +180,7 @@ This document defines how to achieve the following objectives.
 
 * OBJ4. The client is able to distinguish the different responses to the proxied group request, as well as their corresponding origin servers.
 
-* OBJ5. The client is enabled to optionally contact one or more of the responding origin servers in the future, either directly or via the proxy.
+* OBJ5. The client is enabled to optionally contact one or more of the responding origin servers, either directly or via the proxy.
 
 # Protocol Description # {#sec-description}
 
@@ -204,7 +204,7 @@ The client proceeds according to the following steps.
 
    In particular, the client picks an amount of time T that it is fine to wait for before freeing up the Token value. Specifically, the value of T MUST be such that:
 
-   * T < T_r , where T_r is the amount of time that the client is fine to wait for before potentially reusing the Token value. Note that T_r MUST NOT be less than MIN_TOKEN_REUSE_TIME defined in {{Section 3.1.5 of I-D.ietf-core-groupcomm-bis}}.
+   * T < T_r , where T_r is the amount of time that the client is fine to wait for before potentially reusing the Token value. Specifically, T_r MUST NOT be less than MIN_TOKEN_REUSE_TIME defined in {{Section 3.1.5 of I-D.ietf-core-groupcomm-bis}}.
 
    * T should be at least the expected worst-case amount of time taken by the request and response processing on the proxy and on the servers in the addressed CoAP group.
 
@@ -212,9 +212,9 @@ The client proceeds according to the following steps.
 
 3. The client MUST include the Multicast-Timeout Option defined in {{sec-multicast-timeout-option}} in the unicast request to send to the proxy. The option value specifies an amount of time T' < T. The difference (T - T') should be at least the expected worst-case round-trip time between the client and the proxy.
 
-   The client can specify T' = 0 as option value, thus indicating to be not interested in receiving responses from the origin servers through the proxy. In such a case, the client SHOULD also include a No-Response Option {{RFC7967}} with value 26 (suppress all response codes), if it supports that option.
+   The client can specify T' = 0 as option value, thus indicating to be not interested in receiving responses from the origin servers through the proxy. As per {{Section 3.2 of RFC7252}}, the option value 0 is represented with an empty option value (a zero-length sequence of bytes). In such a case, the client SHOULD also include a No-Response Option {{RFC7967}} with value 26 (suppress all response codes), if it supports that option.
 
-   Consistently, if the unicast request to send to the proxy was already intended to include a No-Response Option with value 26, the client SHOULD specify T' = 0 as value of the Multicast-Timeout Option.
+   If the unicast request to send to the proxy was already intended to include a No-Response Option with value 26, the client SHOULD specify T' = 0 as value of the Multicast-Timeout Option.
 
 4. The client processes the request as defined in {{I-D.ietf-core-groupcomm-bis}} and also as in {{I-D.ietf-core-oscore-groupcomm}} when secure group communication is used between the client and the servers.
 
@@ -234,7 +234,7 @@ After having sent the unicast request to the proxy but before timeout expiration
 
 In such a case, the client MAY ask the proxy for an early stop of the ongoing response forwarding, i.e., to not forward to the client any further response received from the servers as a reply to the forwarded group request.
 
-To this end, the client can rely on one of the following two approaches.
+To this end, the client can rely on one of the following two approaches:
 
 * The client acts like it would at timeout expiration (see {{ssec-resp-proc-client-steps}}), i.e., it simply frees up its local Token value associated with the original unicast request sent to the proxy.
 
@@ -248,7 +248,7 @@ To this end, the client can rely on one of the following two approaches.
 
   * It MUST use the same Token value of the original unicast request sent to the proxy. This explicitly relates the present Early Stop Request to the original unicast request.
 
-  * It MUST include the Multicast-Timeout Option, specifying 0 as option value. This explicitly indicates the client's wish to stop receiving further responses to the original unicast request.
+  * It MUST include the Multicast-Timeout Option, specifying 0 as option value. As per {{Section 3.2 of RFC7252}}, the option value 0 is represented with an empty option value (a zero-length sequence of bytes). This explicitly indicates the client's wish to stop receiving further responses to the original unicast request.
 
   * It MUST NOT include any of the following: the Proxy-Uri Option or the Proxy-Cri Option; the Proxy-Scheme Option or the Proxy-Scheme-Number Option, together with the Uri-* options. This explicitly indicates the proxy to not forward the Early Stop Request.
 
@@ -274,11 +274,11 @@ Upon receiving the request from the client, the proxy proceeds according to the 
 
    If the Multicast-Timeout Option is not present, the proxy MUST stop processing the request and MUST reply to the client with a 4.00 (Bad Request) response. The proxy protects the response according to the security association that it has with the client.
 
-   The response MUST include a Multicast-Timeout Option, whose value MUST be set to 0. As per {{Section 3.2 of RFC7252}}, this is represented with an empty option value (a zero-length sequence of bytes). By doing so, the proxy indicates that the Multicast-Timeout Option was missing and has to be included in the request. As per {{Section 5.9.2 of RFC7252}}, the response SHOULD include a diagnostic payload.
+   The response MUST include a Multicast-Timeout Option, whose value MUST be set to 0. As per {{Section 3.2 of RFC7252}}, the option value 0 is represented with an empty option value (a zero-length sequence of bytes). By doing so, the proxy indicates that the Multicast-Timeout Option was missing and has to be included in the request. As per {{Section 5.9.2 of RFC7252}}, the response should include a diagnostic payload.
 
-4. The proxy retrieves the value T' from the Multicast-Timeout Option, and then removes the option from the client's request.
+4. The proxy retrieves the value T' from the Multicast-Timeout Option and then removes the option from the client's request.
 
-5. The proxy forwards the client's request to the group of servers. In particular, the proxy sends it as a CoAP group request over IP multicast, addressed to the group URI specified by the client.
+5. The proxy forwards the client's request to the group of servers. In particular, the proxy sends it as a CoAP group request over UDP/IP multicast, addressed to the group URI specified by the client.
 
 6. The proxy sets a timeout with the value T' retrieved from the Multicast-Timeout Option of the original unicast request.
 
@@ -292,15 +292,15 @@ If the proxy supports caching of responses, it can serve the original unicast re
 
 When using CoAP Observe {{RFC7641}}, the proxy takes the role of the client and registers its own interest to observe the target resource with the servers as per {{Section 5 of RFC7641}}.
 
-When doing so, the proxy especially follows what is specified for the client in {{Section 3.7 of I-D.ietf-core-groupcomm-bis}}, by forwarding the group request to the servers over IP multicast as defined in {{ssec-req-proc-proxy-steps}} of this document.
+When doing so, the proxy especially follows what is specified for the client in {{Section 3.7 of I-D.ietf-core-groupcomm-bis}}, by forwarding the group request to the servers over UDP/IP multicast as defined in {{ssec-req-proc-proxy-steps}} of this document.
 
 ### Cancellation of Ongoing Response Forwarding {#ssec-cancel-forwarding-proxy}
 
 As defined in {{ssec-cancel-forwarding}}, the client might ask the proxy for an early stop of the ongoing response forwarding, i.e., to stop forwarding to the client any further responses received from the servers as a reply to the forwarded group request.
 
-Consistently, the proxy stops forwarding such responses to the client, after receiving a CoAP Reset message (RST) in reply to one of such responses, or after receiving an Early Stop Request related to the ongoing response forwarding (i.e., conveying the same Token value of the original unicast request from the client).
+In particular, the proxy stops forwarding such responses to the client, after receiving a CoAP Reset message (RST) in reply to one of such responses, or after receiving an Early Stop Request related to the ongoing response forwarding (i.e., conveying the same Token value of the original unicast request from the client).
 
-After that, in case the proxy receives further responses to the forwarded group request from the servers, the proxy MUST NOT forward those responses to the client. In fact, the proxy can safely free up its local Token value associated with that group request, which results in discarding any further responses to the same group request received from then on from the servers.
+After that, if the proxy receives further responses to the forwarded group request from the servers, the proxy MUST NOT forward those responses to the client. In fact, the proxy can safely free up its local Token value associated with that group request, which results in discarding any further responses to the same group request received from then on from the servers.
 
 ## Request and Response Processing at the Server ## {#ssec-req-resp-proc-server}
 
@@ -368,7 +368,7 @@ Upon receiving from the proxy a response matching with the original unicast requ
 
 3. The client retrieves the CRI from the value of the Reply-From Option and identifies the origin server whose addressing information is specified by the CRI. This allows the client to distinguish different responses as generated by different origin servers.
 
-   Optionally, the client may contact one or more of those servers individually, i.e., directly (bypassing the proxy) or instead indirectly (via a proxied unicast request). To this end, the client composes the correct URI for the individual request to the origin server, by using the information specified in the CRI retrieved from the Reply-From Option.
+   Optionally, the client can contact one or more of those servers individually, i.e., directly (bypassing the proxy) or instead indirectly (via a proxied unicast request). To this end, the client composes the correct URI for the individual request to the origin server, by using the information specified in the CRI retrieved from the Reply-From Option.
 
    In order to individually reach the origin server again through the proxy, the client is not required to support the transport protocol indicated by the CRI and used between the proxy and the origin server.
 
@@ -376,7 +376,7 @@ Upon receiving from the proxy a response matching with the original unicast requ
 
 As discussed in {{Section 3.1.6 of I-D.ietf-core-groupcomm-bis}}, it is possible that the client receives multiple responses to the same group request (i.e., conveying the same Token) from the same origin server. The specific client implementation determines at which layer deduplication of responses is performed, or whether it is necessary in an application at all. If the processing of a response succeeds, then the client delivers the response to the application as usual. Depending on its available context information, the application itself can be in a good position to decide how to handle such responses.
 
-Upon the timeout expiration, i.e., T seconds after having sent the original unicast request to the proxy, the client frees up its local Token value associated with that request. Note that, upon this timeout expiration, the Token value is not eligible for possible reuse yet (see {{ssec-req-send-steps}}). Thus, until the actual amount of time before enabling Token reuse has elapsed, following late responses to the same request forwarded by the proxy will be discarded, as these are not matching (by Token value) with any active request from the client.
+Upon the timeout expiration, i.e., T seconds after having sent the original unicast request to the proxy, the client frees up its local Token value associated with that request, except for the case where CoAP Observe {{RFC7641}} is used (see {{ssec-resp-proc-client-observe}}). Note that, upon this timeout expiration, the Token value is not eligible for possible reuse yet (see {{ssec-req-send-steps}}). Thus, until the actual amount of time before enabling Token reuse has elapsed, following late responses to the same request forwarded by the proxy will be discarded, as these are not matching (by Token value) with any active request from the client.
 
 ### Supporting Observe ## {#ssec-resp-proc-client-observe}
 
@@ -462,7 +462,7 @@ This section clarifies how the Multicast-Timeout Option is effective also in suc
 
 * The proxy to effectively reveal itself as a reverse-proxy to the client.
 
-* The client to indicate to the proxy of being aware that it is communicating with a reverse-proxy and for how long it is willing to receive responses to a proxied group request.
+* The client to indicate to the proxy about being aware that it is communicating with a reverse-proxy and for how long it is willing to receive responses to a proxied group request.
 
 This practically addresses the additional issues compared to the case with a forward-proxy, as compiled in {{Section F of I-D.ietf-core-groupcomm-bis}}.
 
@@ -472,7 +472,7 @@ This practically addresses the additional issues compared to the case with a for
 
 If the proxy receives a CoAP request and determines that it should be forwarded to a group of servers over IP multicast, then the proxy performs the steps defined in {{ssec-req-proc-proxy}}.
 
-In particular, when such a request does not include a Multicast-Timeout Option, the proxy effectively reveals itself as a reverse-proxy, by replying with a 4.00 (Bad Request) response including a Multicast-Timeout Option with value 0 (which is ultimately represented with an empty option value).
+In particular, when such a request does not include a Multicast-Timeout Option, the proxy effectively reveals itself as a reverse-proxy, by replying with a 4.00 (Bad Request) response including a Multicast-Timeout Option with value 0 (which is ultimately represented with an empty option value, as per {{Section 3.2 of RFC7252}}).
 
 The proxy processes the CoAP responses forwarded back to the client as defined in {{ssec-resp-proc-proxy}}, with the following additions.
 
@@ -482,11 +482,11 @@ The proxy processes the CoAP responses forwarded back to the client as defined i
 
   * The CRI that is present as the first element of the CBOR sequence specifies an addressing information TARGET_1, such that a unicast request reaches the proxy if it is sent according to TARGET_1.
 
-  * A CRI reference MUST be present as the second element of the CBOR sequence in case, upon receiving a unicast request that has been sent according to TARGET_1, the proxy forwards the request based on further information than TARGET_1 and relying on what is specified by the Uri-Host, Uri-Port, and Uri-Path Options included in the request. The CRI reference specifies the same information that the proxy expects to be specified in the Uri-Host, Uri-Port, and Uri-Path Options of such a unicast request.
+  * A CRI reference MUST be present as the second element of the CBOR sequence if, upon receiving a unicast request that has been sent according to TARGET_1, the proxy forwards the request based on further information than TARGET_1 and relying on what is specified by the Uri-Host, Uri-Port, and Uri-Path Options included in the request. The CRI reference specifies the same information that the proxy expects to be specified in the Uri-Host, Uri-Port, and Uri-Path Options of such a unicast request.
 
     Otherwise, the second element of the CBOR sequence MUST NOT be present, in which case the proxy forwards the unicast request solely based on the addressing information TARGET_1 according to which the request has been sent to.
 
-  The client will be able to communicate individually with the origin server that generated the response, by sending a follow-up unicast request to the proxy at the specified addressing information TARGET, according to which the proxy forwards the request to that server. This is further specified in {{sec-reverse-proxies-client-side}}. Examples are provided in {{sec-reverse-proxies-examples-ex1}} and {{sec-reverse-proxies-examples-ex2}}.
+  The client will be able to communicate individually with the origin server that generated the response, by sending a follow-up unicast request to the proxy as per the specified addressing information TARGET, according to which the proxy forwards the request to that server. This is further specified in {{sec-reverse-proxies-client-side}}. Examples are provided in {{sec-reverse-proxies-examples-ex1}} and {{sec-reverse-proxies-examples-ex2}}.
 
 * As a second possible case, the proxy stands in only for the whole group of servers, but not for the individual servers in the group. That is, the origin client can reach the individual servers directly, without recourse to the proxy.
 
@@ -500,17 +500,17 @@ The proxy processes the CoAP responses forwarded back to the client as defined i
 
 ## Processing on the Client Side ## {#sec-reverse-proxies-client-side}
 
-If a client sends a CoAP request intended for a group of servers and is aware of actually communicating with a reverse-proxy, then the client MUST perform the steps defined in {{ssec-req-send-steps}}. In particular, this results in a request sent to the proxy including a Multicast-Timeout Option.
+If a client sends a CoAP request intended to a group of servers and is aware of actually communicating with a reverse-proxy, then the client MUST perform the steps defined in {{ssec-req-send-steps}}. In particular, this results in a request sent to the proxy including a Multicast-Timeout Option.
 
 The client processes the CoAP responses forwarded back by the proxy as defined in {{ssec-resp-proc-client-steps}}, with the following differences at Step 3.
 
 * If the client wishes to send a follow-up unicast request intended only to the origin server that generated the response, then the client sends such a request according to the addressing information specified by the CRI retrieved from the value of the Reply-From Option.
 
-   Effectively, the client sends the unicast request either directly to the origin server (in case the proxy stands in only for the whole group of servers, but not for the individual servers in the group), or to the proxy (in case the proxy stands in for both the whole group of servers and the individual servers in the group).
+   Effectively, the client sends the unicast request either directly to the origin server (in the case that the proxy stands in only for the whole group of servers, but not for the individual servers in the group), or to the proxy (in the case that the proxy stands in for both the whole group of servers and the individual servers in the group).
 
-   In case the value of the Reply-From Option specifies also a CRI reference as the second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. In particular:
+   If the value of the Reply-From Option specifies also a CRI reference as the second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. When doing so, the following applies:
 
-   * If 'authority' is given in the CRI reference and it does not include 'port', then the client MUST NOT include the Uri-Port Option in the unicast request.
+   * If 'authority' is given in the CRI reference and it does not include 'port', this in itself MUST NOT result in the client including the Uri-Port Option in the unicast request.
 
    * If the client wants to specify additional path segments that identify a specific resource at the origin server, then the corresponding Uri-Path Options are included in the request after the Uri-Path Options corresponding to the path component of the CRI reference.
 
@@ -520,17 +520,17 @@ A proxy MAY cache responses to a group request, as defined in {{Section 5.7.1 of
 
 A cache entry is associated with one server and stores one response from that server, regardless of whether it is a response to a unicast request or to a group request. The following two types of requests can produce a hit to a cache entry.
 
-* A matching request intended for that server, i.e., to the corresponding unicast URI.
+* A matching request intended to that server, i.e., to the corresponding unicast URI.
 
   When the stored response is a response to a unicast request to the server, the unicast URI of the matching request is the same target URI used for the original unicast request.
 
   When the stored response is a response to a group request to the CoAP group, the unicast URI of the matching request is the target URI obtained by replacing the authority component of the group URI in the original group request with the transport-layer source address and port number of the response.
 
-* A matching group request intended for the CoAP group, i.e., to the corresponding group URI.
+* A matching group request intended to the CoAP group, i.e., to the corresponding group URI.
 
-  That is, a matching group request produces a hit to multiple cache entries, each of which is associated with one of the CoAP servers in the CoAP group.
+  That is, a matching group request can produce a hit to multiple cache entries, each of which is associated with one of the CoAP servers in the CoAP group.
 
-  Note that, as per the freshness model defined in {{sec-proxy-caching-freshness}}, the proxy might serve a group request exclusively from its cached responses only when it knows all the CoAP servers that are current members of the CoAP group and it has a valid cache entry for each of them.
+  As per the freshness model defined in {{sec-proxy-caching-freshness}}, the proxy can serve a group request exclusively from its cached responses only when it knows all the CoAP servers that are current members of the CoAP group and it has a valid cache entry for each of those.
 
 When forwarding a GET or FETCH group request to the servers in the CoAP group, the proxy behaves like a CoAP client as defined in {{Section 3.2 of I-D.ietf-core-groupcomm-bis}}, with the following additions:
 
@@ -552,13 +552,13 @@ In particular, when receiving a unicast group request from the client, the proxy
 
 The specific way that the proxy uses to determine the CoAP servers that are currently members of the target CoAP group is out of scope for this document. As possible examples, the proxy can synchronize with a group manager server; rely on well-known time patterns used by the application or in the network for the addition of new CoAP group members; observe group join requests or IGMP/MLD multicast group join messages, e.g., if the proxy is embedded in a multicast router.
 
-When forwarding the group request to the servers, the proxy may have fresh responses stored in its cache for (some of) those servers. In such a case, the proxy uses (also) those cached responses to serve the original unicast group request, as defined below.
+When forwarding the group request to the servers, the proxy could have fresh responses stored in its cache for (some of) those servers. In such a case, the proxy uses (also) those cached responses to serve the original unicast group request, as defined below.
 
 * The request processing in {{ssec-req-proc-proxy-steps}} is extended as follows.
 
   After setting the timeout with value T' > 0 at Step 6, the proxy checks whether its cache currently stores fresh responses to the group request. For each of such responses, the proxy compares the residual lifetime L of the corresponding cache entry against the value T'.
 
-  If a cached response X is such that L < T', then the proxy forwards X back to the client at its earliest convenience. Otherwise, the proxy does not forward X back to the client right away, and instead waits for approaching the timeout expiration as discussed in the next point.
+  If a cached response X is such that L < T', then the proxy forwards X back to the client at its earliest convenience. Otherwise, the proxy does not forward X back to the client at the moment, and instead it waits for approaching the timeout expiration as discussed in the next point.
 
 * The response processing in {{ssec-resp-proc-proxy-steps}} is extended as follows.
 
@@ -586,7 +586,7 @@ As discussed in {{sec-group-caching}}, this is however not possible for the prox
 
 It can be actually possible to enable revalidation of responses between proxy and server, also in this case where Group OSCORE is used end-to-end between client and origin servers.
 
-Fundamentally, this requires to define the possible use of the ETag Option also as an outer option for OSCORE. Thus, in addition to the normal inner ETag, a server can add also an outer ETag option intended for the proxy.
+Fundamentally, this requires to define the possible use of the ETag Option also as an outer option for OSCORE. Thus, in addition to the normal inner ETag, a server can add also an outer ETag Option intended to the proxy.
 
 Since validation of responses assumes that cacheability of responses is possible in the first place, it would be convenient to define the use of ETag as outer option in {{I-D.ietf-core-cacheable-oscore}}.
 
@@ -600,9 +600,9 @@ As discussed in {{sec-group-caching}}, the following applies when Group OSCORE {
 
 * Additional means are required to enable cacheability of responses at the proxy (see {{sec-det-req}}).
 
-* If a cached response included an outer ETag Option intended for the proxy, then the proxy can perform revalidation of the cached response, by making a request to the unicast URI targeting the server, and including outer ETag Option(s).
+* If a cached response included an outer ETag Option intended to the proxy, then the proxy can perform revalidation of the cached response, by making a request to the unicast URI targeting the server, and including outer ETag Option(s).
 
-   This is possible also in case the proxy and the origin server use OSCORE to further protect the exchanged request and response, as defined in {{I-D.ietf-core-oscore-capable-proxies}}. In such a case, the originally outer ETag Option is protected with the OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
+   This is possible also in the case that the proxy and the origin server use OSCORE to further protect the exchanged request and response, as defined in {{I-D.ietf-core-oscore-capable-proxies}}. In such a case, the originally outer ETag Option is protected with the OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
 
 \]
 
@@ -626,9 +626,9 @@ As discussed in {{sec-group-caching}}, the following applies when Group OSCORE {
 
 * Additional means are required to enable cacheability of responses at the proxy (see {{sec-det-req}}).
 
-* If a cached response included an outer ETag Option intended for the proxy, then the proxy can perform revalidation of the cached response, by making a request to the group URI targeting the CoAP group, and including outer ETag Option(s).
+* If a cached response included an outer ETag Option intended to the proxy, then the proxy can perform revalidation of the cached response, by making a request to the group URI targeting the CoAP group, and including outer ETag Option(s).
 
-   This is possible also in case the proxy and the origin servers use Group OSCORE to further protect the exchanged request and response, as defined in {{I-D.ietf-core-oscore-capable-proxies}}. In such a case, the originally outer ETag Option is protected with the Group OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
+   This is possible also in the case that the proxy and the origin servers use Group OSCORE to further protect the exchanged request and response, as defined in {{I-D.ietf-core-oscore-capable-proxies}}. In such a case, the originally outer ETag Option is protected with the Group OSCORE Security Context shared between the proxy and the origin server, before transferring the message over the communication leg between the proxy and origin server.
 
 \]
 
@@ -656,15 +656,15 @@ If the proxy supports this form of response revalidation, the following applies.
 
 * When the set J becomes "complete", the proxy assigns it an entity-tag value. The proxy MUST update the current entity-tag value, when J is "complete" and one of its cache entry is updated.
 
-* When forwarding to the client a 2.05 (Content) response to a GET or FETCH group request, the proxy MAY include one Group-ETag Option, in case the set J is "complete". Such a response MUST NOT include more than one Group-ETag Option. The option value specifies the entity-tag value currently associated with the set J.
+* When forwarding to the client a 2.05 (Content) response to a GET or FETCH group request, the proxy MAY include one Group-ETag Option, if the set J is "complete". Such a response MUST NOT include more than one Group-ETag Option. The option value specifies the entity-tag value currently associated with the set J.
 
 When sending to the proxy a GET or FETCH request to be forwarded to the servers in the CoAP group, the client MAY include one or more Group-ETag Options. Each option specifies one entity-tag value, as applicable to the set J of cache entries that can be hit by the group request.
 
-The proxy MAY perform the following actions, in case the group request produces a hit to the cache entry of each CoAP server that is currently a member of the CoAP group, i.e., in case the set J associated with the group request is "complete".
+The proxy MAY perform the following actions, if the group request produces a hit to the cache entry of each CoAP server that is currently a member of the CoAP group, i.e., if the set J associated with the group request is "complete".
 
 * The proxy checks whether the current entity-tag value of the set J matches with one of the entity-tag values specified in the Group-ETag Options of the unicast group request from the client.
 
-* In case of positive match, the proxy replies with a single 2.03 (Valid) response. This response has no payload and MUST include one Group-ETag Option, specifying the current entity-tag value of the set J.
+* In the case of a positive match, the proxy replies with a single 2.03 (Valid) response. This response has no payload and MUST include one Group-ETag Option, specifying the current entity-tag value of the set J.
 
 That is, the 2.03 (Valid) response from the proxy indicates to the client that the stored responses identified by the entity-tag given in the response's Group-ETag Option can be reused, after updating each of them as described in {{Section 5.9.1.3 of RFC7252}}. In effect, the client can determine if any of the stored representations from the respective cache entries at the proxy is current, without needing to transfer any of them again.
 
@@ -680,13 +680,13 @@ For application scenarios that use secure group communication, it is still possi
 
 Starting from the same plain CoAP request, this allows different clients in the OSCORE group to deterministically generate the same request protected with Group OSCORE, which is sent to the proxy for being forwarded to the CoAP group. The proxy can now effectively cache the resulting responses from the servers in the CoAP group, since the same plain CoAP request will result again in the same Deterministic Request and thus will produce a cache hit.
 
-When caching of Group OSCORE secured responses is enabled at the proxy, the same as defined in {{sec-proxy-caching}} applies, with respect to cache entries and their lifetimes.
+When the caching of responses protected with Group OSCORE is enabled at the proxy, the same as defined in {{sec-proxy-caching}} applies, with respect to cache entries and their lifetimes.
 
 Note that different Deterministic Requests result in different cache entries at the proxy. This includes the case where different plain group requests differ only in their set of ETag Options, as defined in {{Section 3.2.2 of I-D.ietf-core-groupcomm-bis}}.
 
 That is, even though the servers would produce the same plain CoAP responses when replying to two different Deterministic Requests, those will result in different protected responses to each respective Deterministic Request, hence in different cache entries at the proxy.
 
-Thus, given a plain group request, a client needs to reuse the same set of ETag Options in order to send that group request as a Deterministic Request that can actually produce a cache hit at the proxy. However, while this would prevent the caching at the proxy from being inefficient and unnecessarily redundant, it would also limit the flexibility of end-to-end response revalidation for a client.
+Thus, given a plain group request, a client needs to reuse the same set of ETag Options in order to send that group request as a Deterministic Request that can actually produce a cache hit at the proxy. While this would prevent the caching at the proxy from being inefficient and unnecessarily redundant, it would also limit the flexibility of end-to-end response revalidation for a client.
 
 ### Validation of Responses # {#chap-sec-group-caching-validation}
 
@@ -705,7 +705,7 @@ The following text can be used to replace the last paragraph above.
 
 <br>
 
-When directly interacting with the servers in the CoAP group to refresh its cache entries, the proxy also remains able to perform response revalidation. That is, if a cached response included an outer ETag Option intended for the proxy, then the proxy can perform revalidation of the cached response, by making a request to the unicast URI addressed to a single server and sent to the related unicast URI (see {{sec-proxy-caching-validation-p-s-unicast}}) or a group request addressed to the CoAP group and sent to the related group URI (see {{sec-proxy-caching-validation-p-s}}).
+When directly interacting with the servers in the CoAP group to refresh its cache entries, the proxy also remains able to perform response revalidation. That is, if a cached response included an outer ETag Option intended to the proxy, then the proxy can perform revalidation of the cached response, by making a request to the unicast URI addressed to a single server and sent to the related unicast URI (see {{sec-proxy-caching-validation-p-s-unicast}}) or a group request addressed to the CoAP group and sent to the related group URI (see {{sec-proxy-caching-validation-p-s}}).
 
 \]
 
@@ -713,13 +713,13 @@ When directly interacting with the servers in the CoAP group to refresh its cach
 
 A client may be interested in accessing a resource at a group of origin servers that is reached through a chain of two or more proxies.
 
-That is, these proxies are configured into a chain, where each non-last proxy is configured to forward (group) requests to the next hop towards the origin servers. Also, each non-first proxy is configured to forward back responses to the previous hop proxy towards the origin client.
+That is, these proxies are configured into a chain, where each non-last proxy is configured to forward (group) requests to the next hop towards the origin servers. Also, each non-first proxy is configured to forward back responses to the previous hop towards the origin client.
 
 This section specifies how the signaling protocol defined in {{sec-description}} is used in that setting. Except for the last proxy before the origin servers, every other proxy in the chain takes the role of client with respect to the next hop towards the origin servers. Also, every proxy in the chain except the first takes the role of server towards the previous proxy closer to the origin client.
 
 Accordingly, possible caching of responses at each proxy works as defined in {{sec-proxy-caching}} and {{sec-group-caching}}. Also, possible revalidation of responses cached at each proxy and based on the Group-ETag Option works as defined in {{sec-proxy-caching-validation-c-p}} and {{chap-sec-group-caching-validation}}.
 
-The requirements REQ1 and REQ2 defined in {{sec-objectives}} MUST be fulfilled for each proxy in the chain. That is, every proxy in the chain has to be explicitly configured with an allow-list that allows proxied group requests from specific senders and MUST identify those senders upon receiving their group request. For the first proxy in the chain, that sender is the origin client. For each other proxy in the chain, that sender is the previous hop proxy closer to the origin client. In either case, a proxy can identify the sender of a group request by the same means mentioned in {{sec-objectives}}.
+The requirements REQ1 and REQ2 defined in {{sec-objectives}} MUST be fulfilled for each proxy in the chain. That is, every proxy in the chain has to be explicitly configured with an allow-list that allows proxied group requests from specific senders and MUST identify those senders upon receiving their group request. For the first proxy in the chain, that sender is the origin client. For each other proxy in the chain, that sender is the proxy acting as the previous hop closer to the origin client. In either case, a proxy can identify the sender of a group request by the same means mentioned in {{sec-objectives}}.
 
 ## Request Processing at the Proxy # {#sec-proxy-chain-request-processing}
 
@@ -729,13 +729,13 @@ If the proxy is the last one in the chain, i.e., it is the last hop before the o
 
 Otherwise, the proxy performs the steps defined in {{ssec-req-proc-proxy}}, with the following differences.
 
-* At Steps 1-3, "client" refers to the origin client when the proxy is the first one in the chain, or to the previous hop proxy closer to the origin client otherwise.
+* At Steps 1-3, "client" refers to the origin client when the proxy is the first one in the chain, or to the proxy acting as the previous hop closer to the origin client otherwise.
 
 * At Step 4, the proxy rather performs the following actions.
 
   1. The proxy retrieves the value T' from the Multicast-Timeout Option and does not remove the option.
 
-  2. In case T' > 0, the proxy picks an amount of time T that it is fine to wait for before freeing up its local Token value to use with the next hop towards the origin servers. To this end, the proxy MUST follow what is defined at Step 2 of {{ssec-req-send-steps}} for the origin client, with the following differences.
+  2. If T' > 0, the proxy picks an amount of time T that it is fine to wait for before freeing up its local Token value to use with the next hop towards the origin servers. To this end, the proxy MUST follow what is defined at Step 2 of {{ssec-req-send-steps}} for the origin client, with the following differences.
 
      * T MUST be greater than the retrieved value T', i.e., T' < T.
 
@@ -743,22 +743,22 @@ Otherwise, the proxy performs the steps defined in {{ssec-req-proc-proxy}}, with
 
      * The worst-case round-trip delay takes into account all the legs between the proxy and the origin servers.
 
-  3. In case T' > 0, the proxy replaces the value of the Multicast-Timeout Option with a new value T'', such that:
+  3. If T' > 0, the proxy replaces the value of the Multicast-Timeout Option with a new value T'', such that:
 
      * T'' < T. The difference (T - T'') should be at least the expected worst-case round-trip time between the proxy and the next hop towards the origin servers; and
 
-     * T'' < T'. The difference (T' - T'') should be at least the expected worst-case round-trip time between the proxy and the (previous hop proxy closer to the) origin client.
+     * T'' < T'. The difference (T' - T'') should be at least the expected worst-case round-trip time between the proxy and the (previous hop closer to the) origin client.
 
-     If the proxy is not able to determine a value T'' that fulfills both the requirements above, the proxy MUST stop processing the request and MUST respond with a 5.05 (Proxying Not Supported) error response to the (previous hop proxy closer to the) origin client. The proxy SHOULD include a Multicast-Timeout Option, set to the minimum value T' that would be acceptable in the Multicast-Timeout Option of a group request to forward.
+     If the proxy is not able to determine a value T'' that fulfills both the requirements above, the proxy MUST stop processing the request and MUST reply with a 5.05 (Proxying Not Supported) error response to the (previous hop closer to the) origin client. The proxy SHOULD include a Multicast-Timeout Option, set to the minimum value T' that would be acceptable in the Multicast-Timeout Option of a group request to forward.
 
      If the proxy is the first one in the chain, then the error response is sent to the origin client. Upon receiving the error response, the origin client MAY send an updated group request to the same first proxy in the chain. In the updated request, the Multicast-Timeout Option SHOULD specify a value T' such that: it is greater than the one specified in the original group request; and it is greater than or equal to the one specified in the error response (if present therein).
 
-     Otherwise, upon receiving the error response, any other proxy in the chain MAY send an updated group request to the next hop towards the origin servers. In the updated group request, the Multicast-Timeout Option MUST specify a value T' such that: it is greater than the one specified in the previous forwarded request; and it is greater than or equal to the one specified in the error response (if present therein). If the proxy does not send an updated group request, the proxy MUST also send a 5.05 (Proxying Not Supported) error response to the previous hop proxy closer to the origin client. Like the received one, also this error response SHOULD include a Multicast-Timeout Option, set to the minimum value T' acceptable by the proxy sending the error response.
+     Otherwise, upon receiving the error response, any other proxy in the chain MAY send an updated group request to the next hop towards the origin servers. In the updated group request, the Multicast-Timeout Option MUST specify a value T' such that: it is greater than the one specified in the previous forwarded request; and it is greater than or equal to the one specified in the error response (if present therein). If the proxy does not send an updated group request, the proxy MUST also send a 5.05 (Proxying Not Supported) error response to the proxy acting as the previous hop closer to the origin client. Like the received one, also this error response SHOULD include a Multicast-Timeout Option, set to the minimum value T' acceptable by the proxy sending the error response.
 
 * At Step 5, the proxy forwards the request to the next hop towards the origin servers.
 
 * At Step 6, the proxy sets a timeout with the value T' retrieved from the
-Multicast-Timeout Option of the request received from the (previous hop proxy closer to the) origin client.
+Multicast-Timeout Option of the request received from the (previous hop closer to the) origin client.
 
   In case T' > 0, the proxy will ignore responses to the forwarded group request coming from the next hop towards the origin servers, if received after the timeout expiration, with the exception of Observe notifications (see {{ssec-resp-proc-proxy}}).
 
@@ -772,11 +772,11 @@ Any other proxy in the chain acts as a client and registers its own interest to 
 
 ### Cancellation of Ongoing Response Forwarding {#ssec-cancel-forwarding-proxy-chain}
 
-Consistently with what is described in {{ssec-cancel-forwarding-proxy}}, a proxy might be asked by the (previous hop proxy closer to the) origin client for an early stop of the ongoing response forwarding.
+Consistent with what is described in {{ssec-cancel-forwarding-proxy}}, a proxy might be asked by the (previous hop closer to the) origin client for an early stop of the ongoing response forwarding.
 
-That is, the proxy is asked to stop forwarding to the (previous hop proxy closer to the) origin client any further responses received to the forwarded group request from the (next hop proxy towards the) origin servers.
+That is, the proxy is asked to stop forwarding to the (previous hop closer to the) origin client any further responses received to the forwarded group request from the (next hop towards the) origin servers.
 
-When this happens, the proxy proceeds as described in {{ssec-cancel-forwarding-proxy}}. Furthermore, if the proxy is not the last one in the chain, the proxy MAY send to the next hop proxy towards the origin servers an Early Stop Request (see {{ssec-req-proc-proxy-steps}}), with the same Token value of the group request that the proxy forwarded to the next hop proxy towards the origin servers.
+When this happens, the proxy proceeds as described in {{ssec-cancel-forwarding-proxy}}. Furthermore, if the proxy is not the last one in the chain, the proxy MAY send to the next hop towards the origin servers an Early Stop Request (see {{ssec-req-proc-proxy-steps}}), with the same Token value of the group request that the proxy forwarded to the next hop towards the origin servers.
 
 ## Response Processing at the Proxy # {#sec-proxy-chain-response-processing}
 
@@ -794,17 +794,17 @@ Otherwise, the proxy performs the steps defined in {{ssec-resp-proc-proxy}}, wit
 
   This ensures that, when receiving a response to a group request and consuming the Reply-From Option, the origin client can retrieve addressing information that is directly associated with the origin server that generated the response.
 
-* At Step 1, the following applies in case the chain is composed of reverse-proxies and, at the same time, the last reverse-proxy (in fact, the whole chain) stands in both for the whole group of servers and for the individual origin servers in the group (see {{sec-reverse-proxies-proxy-side}}).
+* At Step 1, the following applies if the chain is composed of reverse-proxies and, at the same time, the last reverse-proxy (in fact, the whole chain) stands in both for the whole group of servers and for the individual origin servers in the group (see {{sec-reverse-proxies-proxy-side}}).
 
-  In the Reply-From Option, the proxy MUST replace the old value TARGET_OLD. The new value TARGET_NEW specifies addressing information directly associated with the proxy. The new value is such that, when receiving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the next hop towards the origin server that generated the response.
+  In the Reply-From Option, the proxy MUST replace the old option value TARGET_OLD. The new option value TARGET_NEW specifies addressing information directly associated with the proxy. The new option value is such that, when receiving a unicast request that has been sent according to what is specified in TARGET_NEW, the proxy forwards the request according to what was specified in TARGET_OLD, i.e., to the next hop towards the origin server that generated the response.
 
   This ensures that, when receiving a response to a group request and consuming the Reply-From Option, the origin client can retrieve addressing information that is directly associated with the first reverse-proxy in the chain, i.e., with the next hop towards the origin server that generated the response.
 
-* At Step 2, "client" refers to the origin client when the proxy is the first one in the chain, or to the previous hop proxy closer to the origin client otherwise.
+* At Step 2, "client" refers to the origin client when the proxy is the first one in the chain, or to the proxy acting as the previous hop closer to the origin client otherwise.
 
-As to the possible reception of multiple responses to the same group request from the same (next hop proxy towards the) origin server, the same as defined in {{ssec-resp-proc-proxy-steps}} applies. That is, as long as the proxy forwards responses to a group request back to the (previous hop proxy closer to the) origin client, the proxy MUST follow the steps above and forward also such multiple responses "as they come".
+As to the possible reception of multiple responses to the same group request from the same (next hop towards the) origin server, the same as defined in {{ssec-resp-proc-proxy-steps}} applies. That is, as long as the proxy forwards responses to a group request back to the (previous hop closer to the) origin client, the proxy MUST follow the steps above and forward also such multiple responses "as they come".
 
-Upon timeout expiration, i.e., T' seconds after having forwarded the group request to the next hop towards the origin servers, the proxy frees up its local Token value associated with that request. Thus, following late responses to the same group request will be discarded and not forwarded back to the (previous hop proxy closer to the) origin client.
+Upon timeout expiration, i.e., T' seconds after having forwarded the group request to the next hop towards the origin servers, the proxy frees up its local Token value associated with that request. Thus, following late responses to the same group request will be discarded and not forwarded back to the (previous hop closer to the) origin client.
 
 ### Supporting Observe # {#sec-proxy-chain-response-processing-observe}
 
@@ -814,13 +814,13 @@ As to any other proxy in the chain, the following applies.
 
 * The proxy acts as a client registered with the next hop towards the origin servers, as described earlier in {{sec-proxy-chain-request-processing-observe}}.
 
-* The proxy takes the role of a server when forwarding notifications from the next hop towards the origin servers back to the (previous hop proxy closer to the) origin client, as per {{Section 5 of RFC7641}}.
+* The proxy takes the role of a server when forwarding notifications from the next hop towards the origin servers back to the (previous hop closer to the) origin client, as per {{Section 5 of RFC7641}}.
 
 * The proxy frees up its Token value used for a group observation only if, after the timeout expiration, no 2.xx (Success) responses matching with the group request and also including an Observe Option have been received from the next hop towards the origin servers.
 
-  Otherwise, after the timeout expiration and as long as the observation for the target resource of the group request is active with the next hop towards the origin servers in the group, notifications from that hop are forwarded back to the (previous hop proxy closer to the) origin client, as defined in {{sec-proxy-chain-response-processing}}.
+  Otherwise, after the timeout expiration and as long as the observation for the target resource of the group request is active with the next hop towards the origin servers in the group, notifications from that hop are forwarded back to the (previous hop closer to the) origin client, as defined in {{sec-proxy-chain-response-processing}}.
 
-* The proxy SHOULD regularly verify that the (previous hop proxy closer to the) origin client is still interested in receiving observe notifications for a group observation. To this end, the proxy can rely on the same approach defined in {{Section 4.5 of RFC7641}}.
+* The proxy SHOULD regularly verify that the (previous hop closer to the) origin client is still interested in receiving observe notifications for a group observation. To this end, the proxy can rely on the same approach defined in {{Section 4.5 of RFC7641}}.
 
 # HTTP-to-CoAP Proxies # {#sec-http-to-coap-proxies}
 
@@ -832,7 +832,7 @@ Furthermore, the components defined in {{Section 11 of RFC8613}} are used to map
 
 ## The HTTP Multicast-Timeout Header Field ## {#sec-multicast-timeout-header}
 
-The HTTP Multicast-Timeout header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Multicast-Timeout Option defined in {{sec-multicast-timeout-option}}.
+The HTTP Multicast-Timeout header field (see {{iana-message-headers}}) is used for carrying the information that is normally specified in the CoAP Multicast-Timeout Option defined in {{sec-multicast-timeout-option}}.
 
 Using the Augmented Backus-Naur Form (ABNF) notation of {{RFC5234}} and including the core ABNF syntax rule DIGIT (decimal digits) defined by that specification, the HTTP Multicast-Timeout header field value is as follows.
 
@@ -840,37 +840,37 @@ Multicast-Timeout = *DIGIT
 
 The empty header field is equivalent to the header field conveying the value 0.
 
-When translating a CoAP message into an HTTP message, the HTTP Multicast-Timeout header field is set with the content of the CoAP Multicast-Timeout Option, or is left empty in case the option is empty.
+When translating a CoAP message into an HTTP message, the HTTP Multicast-Timeout header field is set with the value of the CoAP Multicast-Timeout Option, or is left empty if the option is empty.
 
-When translating an HTTP message into a CoAP message, the CoAP Multicast-Timeout Option is set with the content of the HTTP Multicast-Timeout header field, or is left empty in case the header field is empty.
+When translating an HTTP message into a CoAP message, the CoAP Multicast-Timeout Option is set with the content of the HTTP Multicast-Timeout header field, or is left empty if the header field is empty.
 
 ## The HTTP Reply-From Header Field ## {#sec-reply-from-header}
 
-The HTTP Reply-From header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Reply-From Option defined in {{sec-reply-from-option}}. Its use is intended only for HTTP responses.
+The HTTP Reply-From header field (see {{iana-message-headers}}) is used for carrying the information that is normally specified in the CoAP Reply-From Option defined in {{sec-reply-from-option}}. Its use is intended only for HTTP responses.
 
 Reply-From is a List Structured Header Field {{RFC9651}}. The List MUST be composed of exactly one or two members. Each member of the List MUST be a Byte Sequence Item. Any deviation from such format MUST cause the entire header field to be ignored.
 
-The value of the header field specifies addressing information pertaining to the origin server that generated the CoAP response corresponding to the HTTP response. The client can use this information in order to send an individual request intended for that server.
+The value of the header field specifies addressing information pertaining to the origin server that generated the CoAP response corresponding to the HTTP response. The client can use this information in order to send an individual request intended to that server.
 
 When translating a CoAP message into an HTTP message, the value of the HTTP Reply-From header field is built as follows.
 
-* The first Byte Sequence Item encodes the byte serialization of the first CBOR array of the CBOR sequence that is specified as value of the CoAP Reply-From Option.
+* The first Byte Sequence Item encodes the byte serialization of the first CBOR array of the CBOR sequence that is specified as the value of the CoAP Reply-From Option.
 
-* The second Byte Sequence Item encodes the byte serialization of the second CBOR array (if present) of the CBOR sequence that is specified as value of the CoAP Reply-From Option.
+* The second Byte Sequence Item encodes the byte serialization of the second CBOR array (if present) of the CBOR sequence that is specified as the value of the CoAP Reply-From Option.
 
-  If the CBOR sequence in the CoAP Reply-From Option does not include the second CBOR array, then this Byte Sequence Item MUST NOT be included in the List of the HTTP Reply-From header field.
+  If the CBOR sequence specified in the value of the CoAP Reply-From Option does not include the second CBOR array, then this Byte Sequence Item MUST NOT be included in the List of the HTTP Reply-From header field.
 
 When translating an HTTP message into a CoAP message, the value of the CoAP Reply-From Option is built as follows.
 
-* The first CBOR array of the CBOR sequence is obtained by decoding the first Byte Sequence Item in the List that is specified as value of the HTTP Reply-From header field.
+* The first CBOR array of the CBOR sequence is obtained by decoding the first Byte Sequence Item in the List that is specified as the value of the HTTP Reply-From header field.
 
-* The second CBOR array of the CBOR sequence is obtained by decoding the second Byte Sequence Item (if present) in the List that is specified as value of the HTTP Reply-From header field.
+* The second CBOR array of the CBOR sequence is obtained by decoding the second Byte Sequence Item (if present) in the List that is specified as the value of the HTTP Reply-From header field.
 
-  If the List of the HTTP Reply-From header field does not include the second Byte Sequence Item, then this second CBOR array MUST NOT be included in the CBOR sequence of the CoAP Reply-From Option.
+  If the List of the HTTP Reply-From header field does not include the second Byte Sequence Item, then this second CBOR array MUST NOT be included in the CBOR sequence specified in the value of the CoAP Reply-From Option.
 
 ## The HTTP Group-ETag Header Field ## {#sec-group-etag-header}
 
-The HTTP Group-ETag header field (see {{iana-message-headers}}) is used for carrying the content otherwise specified in the CoAP Group-ETag Option defined in {{sec-proxy-caching-validation-c-p}}.
+The HTTP Group-ETag header field (see {{iana-message-headers}}) is used for carrying the information that is normally specified in the CoAP Group-ETag Option defined in {{sec-proxy-caching-validation-c-p}}.
 
 Group-ETag is a List Structured Header Field {{RFC9651}}. The List MUST be composed of one or more members in HTTP requests and by exactly one member in HTTP responses. Each member of the List MUST be a Byte Sequence Item. Any deviation from such format MUST cause the entire header field to be ignored.
 
@@ -888,13 +888,13 @@ When translating an HTTP message into a CoAP message, the value of the CoAP Grou
 
 * When translating an HTTP response to a CoAP response, one CoAP Group-ETag Option is included in the CoAP response. The value of the CoAP Group-ETag Option is obtained by decoding the only member of the List of the HTTP Group-ETag header field.
 
-When sending to the HTTP-to-CoAP proxy an HTTP GET request to be translated into a CoAP GET request intended for the CoAP group, the client MAY include one HTTP Group-ETag header field in the request. The field value is a list of one or more members, each of which encodes one entity-tag value that is applicable to the set J of cache entries that can be hit by the request (see {{sec-proxy-caching-validation-c-p}}).
+When sending to the HTTP-to-CoAP proxy an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group, the client MAY include one HTTP Group-ETag header field in the request. The field value is a list of one or more members, each of which encodes one entity-tag value that is applicable to the set J of cache entries that can be hit by the request (see {{sec-proxy-caching-validation-c-p}}).
 
 An HTTP-to-CoAP proxy that performs the form of validation defined in {{sec-proxy-caching-validation-c-p}} proceeds like defined in {{sec-proxy-caching-validation-c-p}} for a CoAP-to-CoAP proxy, with the following differences.
 
-* When sending to the client an HTTP 200 (OK) response to an HTTP GET request that was translated into a CoAP GET request sent to the CoAP group, the proxy MAY include one HTTP Group-ETag header field in the response, in case the set J is "complete". The field value is a List composed of one member, which encodes the entity-tag value currently associated with the set J.
+* When sending to the client an HTTP 200 (OK) response to an HTTP GET request that was translated into a CoAP GET request sent to the CoAP group, the proxy MAY include one HTTP Group-ETag header field in the response, if the set J is "complete". The field value is a List composed of one member, which encodes the entity-tag value currently associated with the set J.
 
-* When the HTTP-to-CoAP proxy receives an HTTP GET request to be translated into a CoAP GET request intended for the CoAP group and that includes an HTTP Group-ETag header field, the following applies.
+* When the HTTP-to-CoAP proxy receives an HTTP GET request to be translated into a CoAP GET request intended to the CoAP group and that includes an HTTP Group-ETag header field, the following applies.
 
   * As to the entity-tag values used to check for possible cache hits, the HTTP-to-CoAP proxy obtains those values by decoding the members of the List of the HTTP Group-ETag header field in the HTTP request.
 
@@ -906,7 +906,7 @@ An HTTP 304 (Not Modified) response from the HTTP-to-CoAP proxy indicates to the
 
 The client proceeds according to the following steps.
 
-1. The client prepares an HTTP request to send to the proxy via IP unicast and to be forwarded by the proxy to the targeted group of CoAP servers over IP multicast. With reference to {{Section 5 of RFC8075}}, the request is addressed to a Hosting HTTP URI, such that the proxy can extract the Target CoAP URI as the group URI where to forward the request.
+1. The client prepares an HTTP request to send to the proxy via IP unicast and to be forwarded by the proxy to the targeted group of CoAP servers over UDP/IP multicast. With reference to {{Section 5 of RFC8075}}, the request is addressed to a Hosting HTTP URI, such that the proxy can extract the Target CoAP URI as the group URI where to forward the request.
 
 2. The client determines the amount of time T that it is fine to wait for a response to the request from the proxy. Then, the client determines the amount of time T' < T, where the difference (T - T') should be at least the expected worst-case round-trip time between the client and the proxy.
 
@@ -924,13 +924,13 @@ The proxy translates the HTTP request to a CoAP request, as per {{RFC8075}}. The
 
 Once translated the HTTP request into a CoAP request, the proxy performs the steps defined in {{ssec-req-proc-proxy}}. If the proxy supports caching of responses, it can serve the unicast request also by using cached responses as per {{sec-proxy-caching}}, considering the CoAP request above as the potentially matching request.
 
-In addition, in case the HTTP Multicast-Timeout header field had value 0, the proxy replies to the client with an HTTP response with status code 204 (No Content), right after forwarding the group request to the group of servers.
+In addition, if the HTTP Multicast-Timeout header field had value 0, the proxy replies to the client with an HTTP response with status code 204 (No Content), right after forwarding the group request to the group of servers.
 
 ## Response Processing at the Proxy ## {#sec-cross-proxies-proxy-resp}
 
 Upon receiving a CoAP response matching with the group request before the amount of time T' > 0 has elapsed, the proxy includes the Reply-From Option in the response, as per Step 1 of {{ssec-resp-proc-proxy-steps}}. Then, the proxy translates the CoAP response to an HTTP response, as per {{Section 10.1 of RFC7252}} and {{RFC8075}}, as well as {{Section 11.2 of RFC8613}} if Group OSCORE is used end-to-end between the client and servers. The additional rules for CoAP messages specifying the Reply-From Option are defined in {{sec-reply-from-header}}.
 
-After that, the proxy stores the resulting HTTP response until the timeout with original value T' > 0 expires. If, before then, the proxy receives another response to the same group request from the same CoAP server, the proxy performs the steps above and stores the resulting HTTP response by superseding the currently stored one from that server.
+After that, the proxy stores the resulting HTTP response until the timeout with original value T' > 0 expires. If, before then, the proxy receives another response to the same group request from the same CoAP server, the proxy performs the steps above and stores the resulting HTTP response by replacing the currently stored one from that server.
 
 When the timeout expires, if no responses have been received from the servers, the proxy replies to the client's original unicast group request with an HTTP response with status code 204 (No Content).
 
@@ -964,7 +964,7 @@ When it receives an HTTP response as a reply to the original unicast group reque
 
    b. The client delivers the individual HTTP response to the application.
 
-   Similarly to Step 3 in {{ssec-resp-proc-client-steps}}, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as value of the HTTP Reply-From header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.
+   Similarly to Step 3 in {{ssec-resp-proc-client-steps}}, the client identifies the origin server that originated the CoAP response corresponding to the HTTP response RESP, by means of the addressing information specified as the value of the HTTP Reply-From header field. This allows the client to distinguish different individual HTTP responses as corresponding to different CoAP responses from the servers in the CoAP group.
 
 ## Example ## {#sec-cross-proxies-example}
 
@@ -1029,17 +1029,17 @@ The above applies to HTTP 1.1, while HTTP/2 has its own mechanisms for data stre
 
 ## Reverse-Proxies # {#sec-reverse-proxies-http-to-coap}
 
-In case an HTTP-to-CoAP proxy acts specifically as a reverse-proxy, the same principles defined in {{sec-reverse-proxies}} apply, as specified in the following subsections.
+If an HTTP-to-CoAP proxy acts specifically as a reverse-proxy, the same principles defined in {{sec-reverse-proxies}} apply, as specified in the following subsections.
 
 ### Processing on the Client Side ## {#sec-reverse-proxies-client-side-http}
 
-If an HTTP client sends a request intended for a group of servers and is aware of actually communicating with a reverse-proxy, then the client performs the steps defined in {{sec-cross-proxies-client-req}}. In particular, this results in a request sent to the proxy and including a Multicast-Timeout header field.
+If an HTTP client sends a request intended to a group of servers and is aware of actually communicating with a reverse-proxy, then the client performs the steps defined in {{sec-cross-proxies-client-req}}. In particular, this results in a request sent to the proxy and including a Multicast-Timeout header field.
 
 The client processes the HTTP response forwarded back by the proxy as defined in {{sec-cross-proxies-client-resp}}. If the client wishes to send a follow-up unicast request intended only for one of the CoAP servers that generated the response, the same concepts defined in {{sec-reverse-proxies-client-side}} apply to the composition of HTTP requests.
 
 ### Processing on the Proxy Side ## {#sec-reverse-proxies-proxy-side-http}
 
-If the proxy receives a request and determines that the request should be forwarded to a group of servers over IP multicast, then the same as defined in {{sec-cross-proxies-proxy-req}} applies, with the following difference.
+If the proxy receives a request and determines that the request should be forwarded to a group of servers over UDP/IP multicast, then the same as defined in {{sec-cross-proxies-proxy-req}} applies, with the following difference.
 
 * Once translated the HTTP request into a CoAP request, the proxy performs what is defined in {{sec-reverse-proxies-proxy-side}}.
 
@@ -1073,49 +1073,49 @@ The same considerations above apply when a chain of proxies is used (see {{sec-p
 
 The Multicast-Timeout Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, a proxy is able to access the option value and retrieve the timeout value T', as well as to remove the option altogether before forwarding the group request to the servers. When a chain of proxies is used (see {{sec-proxy-chain}}), this also allows each proxy but the last one in the chain to update the option value, as an indication for the next hop towards the origin servers (see {{sec-proxy-chain-request-processing}}).
 
-The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option or alter its content, before the group request reaches the proxy.
+The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option or alter its value, before the group request reaches the proxy.
 
-Removing the option would result in not forwarding the group request to the servers. Altering the option content would result in the proxy accepting and forwarding back responses for an amount of time different from the one actually indicated by the client.
+Removing the option would result in not forwarding the group request to the servers. Altering the option value would result in the proxy accepting and forwarding back responses for an amount of time different from the one actually indicated by the client.
 
-The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option content, thereby learning for how long the client is willing to receive responses from the servers in the group via the proxy. This may in turn be used by an on-path active adversary to perform a more efficient, selective suppression of responses from the servers.
+The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option value, thereby learning for how long the client is willing to receive responses from the servers in the group via the proxy. This may in turn be used by an on-path active adversary to perform a more efficient, selective suppression of responses from the servers.
 
 When the client protects the unicast request sent to the proxy using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
 
-The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
+The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as a client with the next hop towards the origin servers.
 
 ## Reply-From Option ## {#sec-security-considerations-opt2}
 
-The Reply-From Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, the proxy that has forwarded the group request to the servers is able to include the option into a server response, before forwarding this response back to the (previous hop proxy closer to the) origin client.
+The Reply-From Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, the proxy that has forwarded the group request to the servers is able to include the option into a response, before forwarding this response back to the (previous hop closer to the) origin client.
 
-The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option from a forwarded server response or alter its content. This ensures that the client can correctly distinguish the different responses and identify the corresponding origin servers.
+The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option from a forwarded response or alter its value. This ensures that the client can correctly distinguish the different responses and identify the corresponding origin servers.
 
-The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option content, thereby learning the addressing information of servers in the group. This may in turn be used by an on-path active adversary to perform a more efficient, selective suppression of follow-up requests that the client sends to a specific server, either directly or instead indirectly via the proxy.
+The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option value, thereby learning the addressing information of servers in the group. This may in turn be used by an on-path active adversary to perform a more efficient, selective suppression of follow-up requests that the client sends to a specific server, either directly or instead indirectly via the proxy.
 
 When the proxy protects the response forwarded back to the client using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
 
-The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
+The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as a client with the next hop towards the origin servers.
 
 ## Group-ETag Option ## {#sec-security-considerations-opt3}
 
 The Group-ETag Option is of class U for OSCORE {{RFC8613}}. Hence, also when Group OSCORE is used between the client and the servers {{I-D.ietf-core-oscore-groupcomm}}, a proxy is able to access the option value and use it to possibly perform response revalidation at its cache entries associated with the servers in the CoAP group, as well as to remove the option altogether before forwarding the group request to the servers. When a chain of proxies is used (see {{sec-proxy-chain}}), this also allows each proxy but the last one in the chain to update the option value, in order to possibly ask the next hop towards the origin servers to perform response revalidation at its cache entries.
 
-The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option or alter its content, before the group request reaches the proxy.
+The security association between the client and the proxy MUST provide message integrity, so that further intermediaries between the two as well as on-path active adversaries are not able to undetectably remove the option or alter its value, before the group request reaches the proxy.
 
 Removing the option would result in the proxy not performing response revalidation at its cache entries associated with the servers in the CoAP group, even though that was what the client asked for.
 
-Altering the option content in a group request would result in the proxy performing response revalidation based on different entity-tag values from those actually specified by the client. Consequently, the proxy would erroneously reply with multiple 2.05 (Content) responses conveying the full resource representations from its cache entries instead of with a single 2.03 (Valid) response, or vice versa. Instead, altering the option content in a 2.03 (Valid) or 2.05 (Content) response would result in the client wrongly believing that the already stored or the just received representation, respectively, is also the current one, as per the entity value of the tampered Group-ETag Option.
+Altering the option value in a group request would result in the proxy performing response revalidation based on different entity-tag values from those actually specified by the client. Consequently, the proxy would erroneously reply with multiple 2.05 (Content) responses conveying the full resource representations from its cache entries instead of with a single 2.03 (Valid) response, or vice versa. Instead, altering the option value in a 2.03 (Valid) or 2.05 (Content) response would result in the client wrongly believing that the already stored or the just received representation, respectively, is also the current one, as per the entity value of the tampered Group-ETag Option.
 
-The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option content, thereby learning the rate and pattern according to which the group resource in question changes over time, as inferable from the entity values read over time.
+The security association between the client and the proxy SHOULD also provide message confidentiality. Otherwise, any further intermediaries between the two as well as any on-path passive adversaries would be able to access the option value, thereby learning the rate and pattern according to which the group resource in question changes over time, as inferable from the entity values read over time.
 
 When the client protects the unicast request sent to the proxy using OSCORE (see {{I-D.ietf-core-oscore-capable-proxies}}) and/or (D)TLS, both message integrity and message confidentiality are achieved in the leg between the client and the proxy.
 
-The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as client with the next hop towards the origin servers.
+The same considerations above about security associations apply when a chain of proxies is used (see {{sec-proxy-chain}}), with each proxy but the last one in the chain acting as a client with the next hop towards the origin servers.
 
-When caching of Group OSCORE secured responses is enabled at the proxy, the same as defined in {{sec-proxy-caching}} applies, with respect to cache entries and the way they are maintained.
+When the caching of responses protected with Group OSCORE is enabled at the proxy, the same as defined in {{sec-proxy-caching}} applies, with respect to cache entries and the way they are maintained.
 
 ## HTTP-to-CoAP Proxies # {#sec-http-to-coap-proxies-sec-con}
 
-Consistently with what is discussed in {{sec-security-considerations-client-auth}}, an HTTP client has to authenticate to the HTTP-to-CoAP proxy and they SHOULD rely on a full-fledged pairwise secure association. This can rely on a TLS {{RFC8446}} channel as also recommended in {{Section 12.1 of RFC8613}} for when OSCORE is used with HTTP, or on a pairwise OSCORE Security Context shared between the client and the proxy as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
+Consistent with what is discussed in {{sec-security-considerations-client-auth}}, an HTTP client has to authenticate to the HTTP-to-CoAP proxy and they SHOULD rely on a full-fledged pairwise secure association. This can rely on a TLS {{RFC8446}} channel as also recommended in {{Section 12.1 of RFC8613}} for when OSCORE is used with HTTP, or on a pairwise OSCORE Security Context shared between the client and the proxy as defined in {{I-D.ietf-core-oscore-capable-proxies}}.
 
 \[ TODO
 
@@ -1167,7 +1167,7 @@ IANA is asked to enter the following HTTP header fields to the "Hypertext Transf
 
 --- back
 
-# Examples with Reverse-Proxy # {#sec-reverse-proxies-examples}
+# Examples with a Reverse-Proxy # {#sec-reverse-proxies-examples}
 
 The examples in this section refer to the following actors.
 
@@ -1179,7 +1179,7 @@ The examples in this section refer to the following actors.
 
 The origin servers are members of a CoAP group with IP multicast address G_ADDR and port number G_PORT. Also, the origin servers are members of the same application group and share the same resource at /r.
 
-The communication between C and P is based on CoAP over TCP, as per {{RFC8323}}. The group communication between P and the origin servers is based on CoAP over UDP and IP multicast, as per {{I-D.ietf-core-groupcomm-bis}}.
+The communication between C and P is based on CoAP over TCP, as per {{RFC8323}}. The group communication between P and the origin servers is based on CoAP over UDP/IP multicast, as per {{I-D.ietf-core-groupcomm-bis}}.
 
 Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI reference X.
 
@@ -1187,7 +1187,7 @@ Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI r
 
 The example shown in {{workflow-example-reverse-1}} considers a reverse-proxy P that provides access to both the whole group of servers {S1,S2} and also to each of those servers individually. The client C may not have a way to reach the servers directly (e.g., P is acting as a firewall).
 
-After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and sends a new request again via the proxy, intended only for that server and targeting a different resource at /r1 in unicast.
+After the client C has received two responses to its group request sent via the proxy, it selects one server (S1) and sends a new request again via the proxy, intended only to that server and targeting a different resource at /r1 in unicast.
 
 In particular:
 
@@ -1491,6 +1491,16 @@ C                               P                      S1           S2
 
 # Document Updates # {#sec-document-updates}
 {:removeinrfc}
+
+## Version -06 to -07 ## {#sec-07-07}
+
+* Clarifications:
+
+  * Representing the option value 0.
+
+* Avoided unnecessary normative language.
+
+* Editorial improvements.
 
 ## Version -05 to -06 ## {#sec-05-06}
 
