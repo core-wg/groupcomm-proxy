@@ -127,8 +127,10 @@ The Multicast-Timeout Option defined in this section has the properties summariz
 The Multicast-Timeout Option is elective, unsafe to forward, and not repeatable. Since the option is not Safe-to-Forward, the column "N" indicates a dash for "not applicable". The value of the Multicast-Timeout Option specifies a timeout value in seconds, encoded as an unsigned integer (see {{Section 3.2 of RFC7252}}).
 
 | No.   | C | U | N | R | Name              | Format | Length | Default |
-| TBD1  |   | x | - |   | Multicast-Timeout | uint   | 0-4    | (none)  |
+| TBD2  |   | x | - |   | Multicast-Timeout | uint   | 0-4    | (none)  |
 {: #table-multicast-timeout-option title="The Multicast-Timeout Option. C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
+
+Note to RFC Editor: Please replace "TBD2" in {{table-multicast-timeout-option}} with the assigned option number. Then please delete this paragraph.
 
 This document specifically defines how a client uses this option in a CoAP request, in order to indicate to a proxy its support for and interest in receiving multiple responses to a proxied CoAP group request (i.e., one or more responses from each origin server) and for how long it is willing to wait for receiving those responses via that proxy (see {{ssec-req-send-steps}} and {{ssec-req-proc-proxy-steps}}).
 
@@ -142,9 +144,11 @@ The Reply-From Option defined in this section has the properties summarized in {
 
 The Reply-From Option is elective, safe to forward, and not repeatable. Since the option is intended only for responses, the column "N" indicates a dash for "not applicable".
 
-| No.   | C | U | N | R | Name       | Format | Length | Default |
-| TBD2  |   |   | - |   | Reply-From | (*)    | 5-1034 | (none)  |
+| No.    | C | U | N | R | Name       | Format | Length | Default |
+| TBD248 |   |   | - |   | Reply-From | (*)    | 5-1034 | (none)  |
 {: #table-reply-from-option title="The Reply-From Option. C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable, (*) See below" align="center"}
+
+Note to RFC Editor: Please replace "TBD248" in {{table-reply-from-option}} with the assigned option number. Then please delete this paragraph.
 
 This document specifically defines how this option is used by a proxy that can perform proxied CoAP group requests.
 
@@ -653,8 +657,10 @@ The Group-ETag Option has the properties summarized in {{table-response-group-et
 The Group-ETag Option is elective, safe to forward, part of the Cache-Key, and repeatable. The option is intended for group requests sent to a proxy to be forwarded to the servers in a CoAP group as well as for the associated responses.
 
 | No.   | C | U | N | R | Name       | Format | Length | Default |
-| TBD3  |   |   |   | x | Group-ETag | opaque | 1-8    | (none)  |
+| TBD24 |   |   |   | x | Group-ETag | opaque | 1-8    | (none)  |
 {: #table-response-group-etag-option title="The Group-ETag Option. C=Critical, U=Unsafe, N=NoCacheKey, R=Repeatable" align="center"}
+
+Note to RFC Editor: Please replace "TBD24" in {{table-response-group-etag-option}} with the assigned option number. Then please delete this paragraph.
 
 The Group-ETag Option has the same properties of the ETag Option defined in {{Section 5.10.6 of RFC7252}}.
 
@@ -1145,16 +1151,16 @@ Note to RFC Editor: Please replace all occurrences of "{{&SELF}}" with the RFC n
 
 IANA is asked to enter the following option numbers to the "CoAP Option Numbers" registry {{IANA.CoAP.Option.Numbers}} within the "Constrained RESTful Environments (CoRE) Parameters" registry group.
 
-| Number | Name              | Reference |
-|--------|-------------------|-----------|
-|  TBD1  | Multicast-Timeout | {{&SELF}} |
-|--------|-------------------|-----------|
-|  TBD2  | Reply-From        | {{&SELF}} |
-|--------|-------------------|-----------|
-|  TBD3  | Group-ETag        | {{&SELF}} |
+| Number  | Name              | Reference |
+|---------|-------------------|-----------|
+|  TBD2   | Multicast-Timeout | {{&SELF}} |
+|---------|-------------------|-----------|
+|  TBD248 | Reply-From        | {{&SELF}} |
+|---------|-------------------|-----------|
+|  TBD24  | Group-ETag        | {{&SELF}} |
 {: #tab-iana-coap-option-numbers title="Registrations in the CoAP Option Numbers Registry" align="center"}
 
-Note to RFC Editor: Please replace "TBD1", "TBD2", and "TBD3" in {{tab-iana-coap-option-numbers}} with the assigned option numbers. Then please delete this paragraph and the following text within the present {{iana-coap-options}}.
+Note to RFC Editor: Please replace "TBD2", "TBD248", and "TBD24" in {{tab-iana-coap-option-numbers}} with the assigned option numbers. Then please delete this paragraph and the following text within the present {{iana-coap-options}}.
 
 For all the three requested options, it is preferred to assign an option number from the value range 0-255.
 
@@ -1511,6 +1517,8 @@ C                               P                      S1           S2
   * Representing the option value 0.
 
 * Avoided unnecessary normative language.
+
+* Use suggested CoAP option numbers in the placeholders.
 
 * Updated references.
 
