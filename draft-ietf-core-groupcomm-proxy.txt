@@ -593,7 +593,9 @@ Table of Contents
 
    2.  The proxy identifies the client and verifies that the client is
        in fact allowed-listed to have its requests proxied to CoAP group
-       URIs.
+       URIs.  In particular, the proxy verifies that the client is
+       allowed-listed to have its requests proxied to the group URI
+       specified in the present request.
 
        If the verification fails, the proxy MUST stop processing the
        request and MUST reply to the client with a 4.01 (Unauthorized)
@@ -2997,6 +2999,8 @@ B.1.  Version -06 to -07
    *  Clarifications:
 
       -  Representing the option value 0.
+
+      -  Checks at the proxy about the client being allowed-listed.
 
    *  Avoided unnecessary normative language.
 

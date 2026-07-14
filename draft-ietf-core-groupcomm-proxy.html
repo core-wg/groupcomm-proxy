@@ -1767,7 +1767,7 @@ After sending the Early Stop Request, the client frees up its local Token value 
               <p id="section-5.2.1-2.1.1">The proxy decrypts and verifies the request, according to the security association that it has with the client.<a href="#section-5.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.2.1-2.2">
-              <p id="section-5.2.1-2.2.1">The proxy identifies the client and verifies that the client is in fact allowed-listed to have its requests proxied to CoAP group URIs.<a href="#section-5.2.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-5.2.1-2.2.1">The proxy identifies the client and verifies that the client is in fact allowed-listed to have its requests proxied to CoAP group URIs. In particular, the proxy verifies that the client is allowed-listed to have its requests proxied to the group URI specified in the present request.<a href="#section-5.2.1-2.2.1" class="pilcrow">¶</a></p>
 <p id="section-5.2.1-2.2.2">
 If the verification fails, the proxy <span class="bcp14">MUST</span> stop processing the request and <span class="bcp14">MUST</span> reply to the client with a 4.01 (Unauthorized) response. The proxy protects the response according to the security association that it has with the client.<a href="#section-5.2.1-2.2.2" class="pilcrow">¶</a></p>
 </li>
@@ -3796,6 +3796,9 @@ Based on this information, P composes the group request and sends it to the CoAP
 <ul class="normal">
 <li class="normal" id="appendix-B.1-1.1.2.1">
                 <p id="appendix-B.1-1.1.2.1.1">Representing the option value 0.<a href="#appendix-B.1-1.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="appendix-B.1-1.1.2.2">
+                <p id="appendix-B.1-1.1.2.2.1">Checks at the proxy about the client being allowed-listed.<a href="#appendix-B.1-1.1.2.2.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </li>
