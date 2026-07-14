@@ -35,6 +35,7 @@ normative:
   I-D.ietf-core-groupcomm-bis:
   I-D.ietf-core-oscore-groupcomm:
   I-D.ietf-core-href:
+  I-D.ietf-core-uri-path-abbrev:
   RFC2046:
   RFC4648:
   RFC5234:
@@ -216,6 +217,8 @@ The client proceeds according to the following steps.
 
    Alternatively, the client can rely on the analogous options defined in {{I-D.ietf-core-href}}, i.e., the Proxy-Cri Option conveying a CRI equivalent to the group URI, or the Proxy-Scheme-Number Option together with the Uri-* options.
 
+   When applicable, the client can specify the URI path of the group URI by using the Uri-Path-Abbrev Option {{I-D.ietf-core-uri-path-abbrev}}, consistent with the restrictions defined in {{Section 2.4 of I-D.ietf-core-uri-path-abbrev}}.
+
 2. The client MUST retain the Token value used for this original unicast request beyond the reception of a first CoAP response matching with the request. To this end, the client follows the same rules for Token retention that are defined for multicast CoAP requests in {{Section 3.1.5 of I-D.ietf-core-groupcomm-bis}}.
 
    In particular, the client picks an amount of time T that it is fine to wait for before freeing up the Token value. Specifically, the value of T MUST be such that:
@@ -266,7 +269,7 @@ To this end, the client can rely on one of the following two approaches:
 
   * It MUST include the Multicast-Timeout Option, specifying 0 as option value. As per {{Section 3.2 of RFC7252}}, the option value 0 is represented with an empty option value (a zero-length sequence of bytes). This explicitly indicates the client's wish to stop receiving further responses to the original unicast request.
 
-  * It MUST NOT include any of the following: the Proxy-Uri Option or the Proxy-Cri Option; the Proxy-Scheme Option or the Proxy-Scheme-Number Option, together with the Uri-* options. This explicitly indicates the proxy to not forward the Early Stop Request.
+  * It MUST NOT include any of the following: the Proxy-Uri Option or the Proxy-Cri Option; the Proxy-Scheme Option or the Proxy-Scheme-Number Option, together with the Uri-* options (also comprising the Uri-Path-Abbrev Option {{I-D.ietf-core-uri-path-abbrev}}). This explicitly indicates the proxy to not forward the Early Stop Request.
 
   After sending the Early Stop Request, the client frees up its local Token value associated with the original unicast request sent to the proxy.
 
@@ -386,9 +389,9 @@ Upon receiving from the proxy a response matching with the original unicast requ
 
    Optionally, the client can contact one or more of those servers individually, i.e., directly (bypassing the proxy) or instead indirectly (via a proxied unicast request). To this end, the client composes the correct URI for the individual request to the origin server, by using the information specified in the CRI retrieved from the Reply-From Option.
 
-   In order to individually reach the origin server again through the proxy, the client is not required to support the transport protocol indicated by the CRI and used between the proxy and the origin server.
+   In order to individually reach the origin server again through the proxy, the client is not required to support the transport protocol indicated by the CRI and used between the proxy and the origin server. That is, the client uses the transport protocol that it supports and has used before to send the unicast request to the proxy.
 
-   That is, the client simply specifies the URI for the individual request in the unicast request to the proxy. To this end, the client can specify the URI as a string in the Proxy-Uri Option, or by using the Proxy-Scheme Option together with the Uri-* options. Alternatively, the client can rely on the analogous options defined in {{I-D.ietf-core-href}}, i.e., on the Proxy-Cri Option conveying a CRI equivalent to the URI, or on the Proxy-Scheme-Number Option together with the Uri-* options. In either case, the client uses the transport protocol that it supports, and has used before, to send the unicast request to the proxy.
+   In particular, the client simply specifies the URI for the individual request in the unicast request to the proxy. To this end, the client can specify the URI as a string in the Proxy-Uri Option, or by using the Proxy-Scheme Option together with the Uri-* options. Alternatively, the client can rely on the analogous options defined in {{I-D.ietf-core-href}}, i.e., on the Proxy-Cri Option conveying a CRI equivalent to the URI, or on the Proxy-Scheme-Number Option together with the Uri-* options. When applicable, the client can specify the URI path for the individual request by using the Uri-Path-Abbrev Option {{I-D.ietf-core-uri-path-abbrev}}, consistent with the restrictions defined in {{Section 2.4 of I-D.ietf-core-uri-path-abbrev}}.
 
 As discussed in {{Section 3.1.6 of I-D.ietf-core-groupcomm-bis}}, it is possible that the client receives multiple responses to the same group request (i.e., conveying the same Token) from the same origin server. The specific client implementation determines at which layer deduplication of responses is performed, or whether it is necessary in an application at all. If the processing of a response succeeds, then the client delivers the response to the application as usual. Depending on its available context information, the application itself can be in a good position to decide how to handle such responses.
 
@@ -498,7 +501,7 @@ The proxy processes the CoAP responses forwarded back to the client as defined i
 
   * The CRI that is present as the first element of the CBOR sequence specifies an addressing information TARGET_1, such that a unicast request reaches the proxy if it is sent according to TARGET_1.
 
-  * A CRI reference MUST be present as the second element of the CBOR sequence if, upon receiving a unicast request that has been sent according to TARGET_1, the proxy forwards the request based on further information than TARGET_1 and relying on what is specified by the Uri-Host, Uri-Port, and Uri-Path Options included in the request. The CRI reference specifies the same information that the proxy expects to be specified in the Uri-Host, Uri-Port, and Uri-Path Options of such a unicast request.
+  * A CRI reference MUST be present as the second element of the CBOR sequence if, upon receiving a unicast request that has been sent according to TARGET_1, the proxy forwards the request based on further information than TARGET_1 and relying on what is specified by the options Uri-Host, Uri-Port, and Uri-Path or Uri-Path-Abbrev {{I-D.ietf-core-uri-path-abbrev}} included in the request. The CRI reference specifies the same information that the proxy expects to be specified in the options Uri-Host, Uri-Port, and Uri-Path or Uri-Path-Abbrev of such a unicast request.
 
     Otherwise, the second element of the CBOR sequence MUST NOT be present, in which case the proxy forwards the unicast request solely based on the addressing information TARGET_1 according to which the request has been sent to.
 
@@ -524,7 +527,7 @@ The client processes the CoAP responses forwarded back by the proxy as defined i
 
    Effectively, the client sends the unicast request either directly to the origin server (in the case that the proxy stands in only for the whole group of servers, but not for the individual servers in the group), or to the proxy (in the case that the proxy stands in for both the whole group of servers and the individual servers in the group).
 
-   If the value of the Reply-From Option specifies also a CRI reference as the second element of the CBOR sequence, then the client includes the Uri-Host, Uri-Port, and Uri-Path Options in the unicast request, according to what is specified by the corresponding elements of the CRI reference. When doing so, the following applies:
+   If the value of the Reply-From Option specifies also a CRI reference as the second element of the CBOR sequence, then the client includes the options Uri-Host, Uri-Port, and Uri-Path or Uri-Path-Abbrev {{I-D.ietf-core-uri-path-abbrev}} in the unicast request, according to what is specified by the corresponding elements of the CRI reference. When doing so, the following applies:
 
    * If 'authority' is given in the CRI reference and it does not include 'port', this in itself MUST NOT result in the client including the Uri-Port Option in the unicast request.
 
@@ -1517,6 +1520,8 @@ C                               P                      S1           S2
   * Representing the option value 0.
 
   * Checks at the proxy about the client being allowed-listed.
+
+* Mentioned the possible use of the Uri-Path-Abbrev Option.
 
 * Avoided unnecessary normative language.
 
