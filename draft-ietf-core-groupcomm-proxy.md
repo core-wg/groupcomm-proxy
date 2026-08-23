@@ -417,7 +417,7 @@ The origin servers are members of a CoAP group with IP multicast address G_ADDR 
 
 The communication between C and P is based on CoAP over UDP, as per {{RFC7252}}. The communication between P and the origin servers is based on CoAP over UDP and IP multicast, as per {{I-D.ietf-core-groupcomm-bis}}.
 
-Finally, cri'X' denotes a CRI corresponding to the URI X.
+Finally, cri'X' denotes a CRI corresponding to the URI X, i.e., a CRI that can be converted to the URI X using the procedure defined in {{Section 6.1 of I-D.ietf-core-href}}.
 
 ~~~~~~~~~~~ aasvg
 C                               P                      S1           S2
@@ -1006,7 +1006,7 @@ Body: Do that!
 
 The following is an example of HTTP batch response sent by P to C, as a reply to the client's original unicast group request.
 
-For readability, base64url(cri'X') denotes the base64url encoding of cri'X' without padding (see {{Section 5 of RFC4648}}), and cri'X' denotes the byte serialization of a CRI corresponding to the URI X.
+For readability, base64url(cri'X') denotes the base64url encoding of cri'X' without padding (see {{Section 5 of RFC4648}}) and cri'X' denotes the byte serialization of a CRI corresponding to the URI X, i.e., of a CRI that can be converted to the URI X using the procedure defined in {{Section 6.1 of I-D.ietf-core-href}}.
 
 ~~~~~~~~~~~
 HTTP/1.1 200 OK
@@ -1202,7 +1202,7 @@ The origin servers are members of a CoAP group with IP multicast address G_ADDR 
 
 The communication between C and P is based on CoAP over TCP, as per {{RFC8323}}. The group communication between P and the origin servers is based on CoAP over UDP/IP multicast, as per {{I-D.ietf-core-groupcomm-bis}}.
 
-Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI reference X.
+Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI reference X, i.e., a CRI or CRI reference that can be converted to the URI or URI reference X using the procedure defined in {{Section 6.1 of I-D.ietf-core-href}}.
 
 ## Example 1  ## {#sec-reverse-proxies-examples-ex1}
 
