@@ -6,7 +6,7 @@ CoRE Working Group                                             M. Tiloca
 Internet-Draft                                                   RISE AB
 Updates: 7252 (if approved)                                      E. Dijk
 Intended status: Standards Track                       IoTconsultancy.nl
-Expires: 15 January 2027                                    14 July 2026
+Expires: 24 February 2027                                 23 August 2026
 
 
 Proxy Operations in Group Communication for the Constrained Application
@@ -53,7 +53,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 January 2027.
+   This Internet-Draft will expire on 24 February 2027.
 
 Copyright Notice
 
@@ -895,7 +895,9 @@ Table of Contents
    based on CoAP over UDP and IP multicast, as per
    [I-D.ietf-core-groupcomm-bis].
 
-   Finally, cri'X' denotes a CRI corresponding to the URI X.
+   Finally, cri'X' denotes a CRI corresponding to the URI X, i.e., a CRI
+   that can be converted to the URI X using the procedure defined in
+   Section 6.1 of [I-D.ietf-core-href].
 
   C                               P                      S1           S2
   |                               |                      |             |
@@ -2112,8 +2114,10 @@ Table of Contents
    a reply to the client's original unicast group request.
 
    For readability, base64url(cri'X') denotes the base64url encoding of
-   cri'X' without padding (see Section 5 of [RFC4648]), and cri'X'
-   denotes the byte serialization of a CRI corresponding to the URI X.
+   cri'X' without padding (see Section 5 of [RFC4648]) and cri'X'
+   denotes the byte serialization of a CRI corresponding to the URI X,
+   i.e., of a CRI that can be converted to the URI X using the procedure
+   defined in Section 6.1 of [I-D.ietf-core-href].
 
    HTTP/1.1 200 OK
    Content-Length: <BATCH_RESPONSE_TOTAL_CONTENT_LENGTH>
@@ -2661,7 +2665,9 @@ Appendix A.  Examples with a Reverse-Proxy
    [I-D.ietf-core-groupcomm-bis].
 
    Finally, cri'X' denotes a CRI or CRI reference corresponding to the
-   URI or URI reference X.
+   URI or URI reference X, i.e., a CRI or CRI reference that can be
+   converted to the URI or URI reference X using the procedure defined
+   in Section 6.1 of [I-D.ietf-core-href].
 
 A.1.  Example 1
 

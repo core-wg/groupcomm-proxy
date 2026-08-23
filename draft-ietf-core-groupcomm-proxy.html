@@ -15,14 +15,14 @@
 <meta content="draft-ietf-core-groupcomm-proxy-latest" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.34.0
-    Python 3.14.5
+    Python 3.14.7
     ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
     intervaltree 3.2.1
     Jinja2 3.1.6
     lxml 6.1.1
     natsort 8.4.0
-    platformdirs 4.10.0
+    platformdirs 4.11.3
     pycountry 24.6.1
     PyYAML 6.0.3
     requests 2.33.1
@@ -62,7 +62,6 @@
   src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: italic;
@@ -111,7 +110,6 @@
   src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
 @font-face {
   font-family: 'Lora';
   font-style: normal;
@@ -176,7 +174,6 @@
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 }
 
 @font-face {
@@ -1045,11 +1042,11 @@ svg {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Proxy Operations for Group Communication</td>
-<td class="right">July 2026</td>
+<td class="right">August 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Tiloca &amp; Dijk</td>
-<td class="center">Expires 15 January 2027</td>
+<td class="center">Expires 24 February 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1065,12 +1062,12 @@ svg {
 <a href="https://www.rfc-editor.org/rfc/rfc7252" class="eref">7252</a> (if approved)</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2026-07-14" class="published">14 July 2026</time>
+<time datetime="2026-08-23" class="published">23 August 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2027-01-15">15 January 2027</time></dd>
+<dd class="expires"><time datetime="2027-02-24">24 February 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1119,7 +1116,7 @@ svg {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 24 February 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1969,7 +1966,7 @@ In particular, the client simply specifies the URI for the individual request in
         </ul>
 <p id="section-5.6-3">The origin servers are members of a CoAP group with IP multicast address G_ADDR and port number G_PORT. Also, the origin servers are members of the same application group and share the same resource at /r.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
 <p id="section-5.6-4">The communication between C and P is based on CoAP over UDP, as per <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>. The communication between P and the origin servers is based on CoAP over UDP and IP multicast, as per <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#section-5.6-4" class="pilcrow">¶</a></p>
-<p id="section-5.6-5">Finally, cri'X' denotes a CRI corresponding to the URI X.<a href="#section-5.6-5" class="pilcrow">¶</a></p>
+<p id="section-5.6-5">Finally, cri'X' denotes a CRI corresponding to the URI X, i.e., a CRI that can be converted to the URI X using the procedure defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-30#section-6.1" class="relref">Section 6.1</a> of [<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>.<a href="#section-5.6-5" class="pilcrow">¶</a></p>
 <span id="name-workflow-example-with-a-for"></span><div id="workflow-example">
 <figure id="figure-1">
           <div id="section-5.6-6.1">
@@ -2790,7 +2787,7 @@ Body: Do that!
 </div>
 <p id="section-9.8-4"><br></p>
 <p id="section-9.8-5">The following is an example of HTTP batch response sent by P to C, as a reply to the client's original unicast group request.<a href="#section-9.8-5" class="pilcrow">¶</a></p>
-<p id="section-9.8-6">For readability, base64url(cri'X') denotes the base64url encoding of cri'X' without padding (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>), and cri'X' denotes the byte serialization of a CRI corresponding to the URI X.<a href="#section-9.8-6" class="pilcrow">¶</a></p>
+<p id="section-9.8-6">For readability, base64url(cri'X') denotes the base64url encoding of cri'X' without padding (see <span><a href="https://rfc-editor.org/rfc/rfc4648#section-5" class="relref">Section 5</a> of [<a href="#RFC4648" class="cite xref">RFC4648</a>]</span>) and cri'X' denotes the byte serialization of a CRI corresponding to the URI X, i.e., of a CRI that can be converted to the URI X using the procedure defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-30#section-6.1" class="relref">Section 6.1</a> of [<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>.<a href="#section-9.8-6" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9.8-7">
 <pre>
 HTTP/1.1 200 OK
@@ -3199,7 +3196,7 @@ Body: More than done!
       </ul>
 <p id="appendix-A-3">The origin servers are members of a CoAP group with IP multicast address G_ADDR and port number G_PORT. Also, the origin servers are members of the same application group and share the same resource at /r.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
 <p id="appendix-A-4">The communication between C and P is based on CoAP over TCP, as per <span>[<a href="#RFC8323" class="cite xref">RFC8323</a>]</span>. The group communication between P and the origin servers is based on CoAP over UDP/IP multicast, as per <span>[<a href="#I-D.ietf-core-groupcomm-bis" class="cite xref">I-D.ietf-core-groupcomm-bis</a>]</span>.<a href="#appendix-A-4" class="pilcrow">¶</a></p>
-<p id="appendix-A-5">Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI reference X.<a href="#appendix-A-5" class="pilcrow">¶</a></p>
+<p id="appendix-A-5">Finally, cri'X' denotes a CRI or CRI reference corresponding to the URI or URI reference X, i.e., a CRI or CRI reference that can be converted to the URI or URI reference X using the procedure defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-core-href-30#section-6.1" class="relref">Section 6.1</a> of [<a href="#I-D.ietf-core-href" class="cite xref">I-D.ietf-core-href</a>]</span>.<a href="#appendix-A-5" class="pilcrow">¶</a></p>
 <div id="sec-reverse-proxies-examples-ex1">
 <section id="appendix-A.1">
         <h3 id="name-example-1">
